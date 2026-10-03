@@ -45,6 +45,10 @@ public sealed class BondingNitro : ModCardTemplate, IExtensionCard
         new CardsVar(1),
     ];
 
+    /// <summary>延拓牌带「延拓」卡牌关键字（悬浮提示由 RitsuLib 补丁提供）。</summary>
+    public override IEnumerable<CardKeyword> CanonicalKeywords =>
+        [IndiumStarKeywords.ExtensionKeyword];
+
     public override CardAssetProfile AssetProfile => new(
         PortraitPath: "res://images/packed/card_portraits/ironclad/strike_ironclad.png");
 

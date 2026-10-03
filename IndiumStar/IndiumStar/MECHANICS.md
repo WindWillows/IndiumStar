@@ -9,6 +9,7 @@
 公共基类提供0费、状态牌、保留、消耗，以及所有变体共用的手动额度。
 需要增加关键字时覆写 `CanonicalKeywords`；需要额外手动条件时覆写
 `CanPlayCrystallization`，不要自行替换公共限额。
+晶化Pb保留公共的晶化词条、保留和消耗，额外具有虚无。
 
 ```csharp
 public sealed class MyCrystal : CrystallizationCard
@@ -81,7 +82,7 @@ public override CrystalBranch AvailableCrystalBranches => CrystalBranch.Both;
 | `Both` | 两个方法都实现；通常仍只按能量选择一个 |
 
 `Both` 声明表示牌具备两种效果，不意味着每次都执行两种。
-特殊能力通过修改选择结果实现同时执行。已有17张带分支卡牌已显式迁移，
+特殊能力通过修改选择结果实现同时执行。已有18张带分支卡牌已显式迁移，
 测试脚本检查声明与覆写方法对应，避免漏掉旧牌或给空方法计数。
 
 `CrystalBranchContext` 保存本次牌、`CardPlay`、主效果返回值、主效果后的能量，
@@ -123,23 +124,69 @@ public override CrystalBranch AvailableCrystalBranches => CrystalBranch.Both;
 晶流和运用-Th 的晶逆「重放」走本体出牌系列：`ApplicationCard.ModifyCardPlayCount`
 在出牌次数生成时按当前能量预测分支，预测到晶逆就延长本次系列
 `CrystalReversalReplayCount` 段（与复制药水同路径，每段都过出牌钩子和历史）。
-`ResolveEffect` 在非 `IsFirstInSeries` 的段上只执行主效果，实现「重放不触发晶抗/晶逆」。
+晶流和运用-Th 显式设置 `SuppressCrystalBranchesOnReplay`，在系列重放段只执行主效果。
+该开关默认关闭，其他牌由复制药水、附魔等产生的本体重放仍完整执行晶抗/晶逆与通知。
 声明重放的牌，主效果不得改变能量（预测在结算前读取能量）。
 审查报告 F04 已通过此方式处理。
+
+量子点根据出牌历史中当前系列的序号判断前两张牌：预测阶段把下一次系列计为已开始系列数+1，
+实际阶段在当前 `CardPlay` 的历史位置停止，不把主效果中的嵌套出牌算进外层牌的位置。
+本体系列重放沿用该牌最近一次系列开始的序号。
+
+## 新能力的结算
+
+污染H的 `Progress` 与能力的 `Amount` 分开，初始进度为0。普通版在第4次晶抗后奖励，
+升级版在第3次后奖励，奖励后扣除阈值。重复施加不赠送进度，已有升级阈值不被普通版覆盖。
+能力栏的 `DisplayAmount` 显示进度。
+
+运用-Nb在 `AfterCardPlayed` 扣除当前活力至多2层，不使用出牌前快照。
+`VigorRetentionPatch` 只在拥有者具有Nb时跳过原版 `VigorPower.AfterAttack` 的全量消耗，
+并重置原版攻击缓存，使下一张牌和同一牌的后续攻击能继续使用保留的活力。
+补丁在 `Entry.Init` 注册；回归测试使用实际游戏的Harmony，另外校验实际游戏DLL的目标方法和缓存字段。
+
+升级崩碎之歌通过 `CrystallizationRules.TryAutoPlay` 检查自动打出的历史记录，
+只有真正开始出牌的晶化计入伤害段数；被待发等钩子阻止的晶化不计入。
+
+## 手牌力量与敏捷光环
+
+晶化Hs和密铺形态通过隐藏的 `CrystalHandAuraPower` 同步真正的 `StrengthPower` / `DexterityPower`。
+Hs对所有存活角色提供每张1力量，密铺形态对拥有者提供每张晶化2力量/2敏捷，两个效果可相加。
+卡牌移动、变化、移除以及新角色加入战斗后更新贡献；控制器持续存在，不依赖最后一张Hs留在监听列表。
+每个控制器单独记录各角色的贡献，克隆时重置字典。离手只移除本光环的贡献，保留其他来源的层数。
+
+“在手中具有”使用本体可变能力和能力变更通知提供精确临时层数，
+不作为一次可受倍率修改的力量/敏捷获得指令，也不重复执行伤害/格挡修正，避免双重加成。
+能力栏、查询层数与原版力量/敏捷修正共用相同状态。
+敌人的力量贡献变化后同步刷新其伤害意图。
+
+## 规则词条的悬浮提示
+
+`Entry.Init` 通过 `IndiumStarKeywords.RegisterAll` 注册晶化、延拓、晶抗、晶逆。
+注册先于卡牌模型初始化；重复调用保留已有定义。
+RitsuLib 0.6.2 的 `RegisterCardKeywordOwnedByLocNamespace` 使用完整的模组限定ID，
+双语 `card_keywords.json` 必须使用 `INDIUM_STAR_KEYWORD_CRYSTALLIZATION`、
+`INDIUM_STAR_KEYWORD_EXTENSION`、`INDIUM_STAR_KEYWORD_CRYSTAL_RESISTANCE`、
+`INDIUM_STAR_KEYWORD_CRYSTAL_REVERSAL`，分别追加 `.title` / `.description`。
+依据：[RitsuLib 0.6.2 关键词说明](https://github.com/BAKAOLC/STS2-RitsuLib/blob/v0.6.2/docs/pages/guide/localization-and-keywords.md)。
+
+`ApplicationCard` 根据实际声明的分支与 `IExtensionCard` 标记添加词条，
+晶化基类另加晶化词条。覆写 `CanonicalKeywords` 的变体应保留公共词条，
+再增删自身的保留、消耗或虚无。词条只提供提示，玩法仍由公共机制实现。
 
 ## 验证与尚待处理的部分
 
 工作区 `卡牌开发/机制验证/Run-Tests.ps1` 将这份公共机制的真实源码链接到
-小型本体替身，检查规则选择、额度、事件顺序和延拓指令路由。
-这些测试不加载游戏，也不证明 Godot、多人同步或本体能量兑现流程已实机通过。
+小型本体替身，检查规则选择、额度、事件顺序、延拓以及新能力组合。
+还检查规则词条身份、变体关键字和双语本地化是否与注册ID对应。
+Harmony补丁安装使用游戏实际的 `0Harmony.dll`；API契约测试只加载游戏程序集读取目标方法/字段。
+这些测试不启动游戏，也不证明 Godot、多人同步或本体能量兑现流程已实机通过。
 
 `Compile-Mod.ps1 -GameDir '游戏根目录'` 使用实际游戏程序集和指定的RitsuLib程序集
 直接进行C#编译。默认RitsuLib引用为团队交付的 `.godot/mono/temp/bin/Release` 文件；
 可以用 `-RitsuLibDir` 指定其他引用目录。它只输出验证DLL，不运行项目的自动部署目标。
 这不是完整Godot工程构建，不执行源生成器、PCK导出或游戏安装。
 
-本轮未改变卡牌数值或补全新卡。动态追加晶化词条的侵蚀槽冲突、晶化Hs完整力量语义、
-原版重放联动等问题仍需后续处理。
+本轮不补全新卡。新增能力重复施加的完整叠加规则、完整Godot/PCK构建与实机交互仍需单独验收。
 
 后续已完成：表征的延迟力量区分已发放与待发放（审查报告 F02），晶币的永久递减
 改用 RitsuLib `SavedAttachedState<CardModel, int>` 随牌组原件进存档（F03）。

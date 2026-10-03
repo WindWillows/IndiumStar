@@ -40,7 +40,8 @@ namespace IndiumStar.Cards;
 [RegisterCard(typeof(IndiumStarCardPool))]
 public sealed class ApplicationHs : ApplicationCard, IApplicationCard
 {
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+    public override IEnumerable<CardKeyword> CanonicalKeywords =>
+        base.CanonicalKeywords.Concat([CardKeyword.Exhaust]);
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [

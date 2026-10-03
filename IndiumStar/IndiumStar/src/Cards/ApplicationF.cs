@@ -32,7 +32,8 @@ public sealed class ApplicationF : ApplicationCard, IApplicationCard
     public override CrystalBranch AvailableCrystalBranches => CrystalBranch.Reversal;
 
     /// <summary>消耗：打出后进入消耗堆。</summary>
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+    public override IEnumerable<CardKeyword> CanonicalKeywords =>
+        base.CanonicalKeywords.Concat([CardKeyword.Exhaust]);
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [

@@ -40,6 +40,16 @@ public static class CrystallizationRules
     public static int CountCrystallizationInHand(CardModel owner) =>
         PileType.Hand.GetPile(owner.Owner).Cards.Count(IsCrystallizationCard);
 
+    /// <summary>自动打出可能被本体钩子拒绝，以历史确认实际开始了结算。</summary>
+    public static async Task<bool> TryAutoPlay(PlayerChoiceContext choiceContext, CardModel crystal)
+    {
+        int historyCount = CombatManager.Instance.History.CardPlaysStarted.Count();
+        await CardCmd.AutoPlay(choiceContext, crystal, null);
+        return CombatManager.Instance.History.CardPlaysStarted
+            .Skip(historyCount)
+            .Any(entry => entry.CardPlay.Card == crystal && entry.CardPlay.IsFirstInSeries);
+    }
+
     /// <summary>空括号的晶化 n：生成普通晶化。</summary>
     public static Task AddToHand(
         PlayerChoiceContext choiceContext,

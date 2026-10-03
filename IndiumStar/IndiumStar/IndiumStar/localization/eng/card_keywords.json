@@ -14,8 +14,12 @@
   "SLY.title": "Sly",
   "UNPLAYABLE.description": "Unplayable cards cannot be played.",
   "UNPLAYABLE.title": "Unplayable",
-  "CRYSTAL_RESISTANCE.description": "After you play this card, if you have any Energy left, this effect triggers.",
-  "CRYSTAL_RESISTANCE.title": "Resistance",
-  "CRYSTAL_REVERSAL.description": "After you play this card, if you have no Energy left, this effect triggers.",
-  "CRYSTAL_REVERSAL.title": "Reversal"
+  "INDIUM_STAR_KEYWORD_CRYSTAL_RESISTANCE.description": "After this card's base effects resolve, if you have any Energy left, this effect triggers.",
+  "INDIUM_STAR_KEYWORD_CRYSTAL_RESISTANCE.title": "Resistance",
+  "INDIUM_STAR_KEYWORD_CRYSTAL_REVERSAL.description": "After this card's base effects resolve, if you have no Energy left, this effect triggers.",
+  "INDIUM_STAR_KEYWORD_CRYSTAL_REVERSAL.title": "Reversal",
+  "INDIUM_STAR_KEYWORD_CRYSTALLIZATION.description": "\"Crystallize N\": add N Crystallization cards to your hand. Crystallization cards are normally 0-cost Status cards with Retain and Exhaust; you may manually play at most 1 per turn (automatic plays do not count).",
+  "INDIUM_STAR_KEYWORD_CRYSTALLIZATION.title": "Crystallize",
+  "INDIUM_STAR_KEYWORD_EXTENSION.description": "For each stack of Extension, gain 1 Energy at the start of your next turn, then remove all Extension.",
+  "INDIUM_STAR_KEYWORD_EXTENSION.title": "Extension"
 }

@@ -1,5 +1,7 @@
-﻿param([string]$ProjectDir = (Join-Path $PSScriptRoot '..\..\IndiumStar\IndiumStar'))
+﻿param([string]$ProjectDir = (Join-Path $PSScriptRoot '..\..\IndiumStar\IndiumStar'),
+    [string]$GameDir = $env:STS2_DIR)
 $ErrorActionPreference = 'Stop'
+if (!$GameDir) { throw '请用 -GameDir 或 STS2_DIR 指定游戏根目录。' }
 $ProjectDir = (Resolve-Path -LiteralPath $ProjectDir).Path
 $dotnetRoot = 'C:\Program Files\dotnet'
 $sdkDir = Get-ChildItem -LiteralPath (Join-Path $dotnetRoot 'sdk') -Directory |
@@ -14,13 +16,22 @@ $usingsPath = Join-Path $outputDir 'TestUsings.cs'
 $sourcePaths = @('Cards\ApplicationCard.cs', 'Cards\ApplicationRules.cs', 'Cards\CrystalCoin.cs', 'Cards\CrystallizationCard.cs',
     'Cards\Crystallization.cs', 'Cards\CrystallizationRules.cs', 'Cards\ICardFamilies.cs',
     'Mechanics\CrystalBranch.cs', 'Mechanics\CrystalBranchRules.cs', 'Mechanics\ExtensionRules.cs',
-    'Powers\CharacterizationStrengthPower.cs') |
+    'Mechanics\IndiumStarKeywords.cs',
+    'Powers\CharacterizationStrengthPower.cs', 'Powers\QuantumDotPower.cs',
+    'Cards\ReminiscencePollutionH.cs', 'Powers\ReminiscencePollutionHPower.cs',
+    'Powers\ApplicationNbPower.cs', 'Patches\VigorRetentionPatch.cs',
+    'Cards\ShatterSong.cs', 'Cards\CrystallizationNb.cs', 'Cards\CrystallizationHs.cs', 'Cards\CrystallizationPb.cs',
+    'Powers\OnlyAttacksThisTurnPower.cs', 'Powers\TilingFormPower.cs', 'Powers\CrystalHandAuraPower.cs') |
     ForEach-Object { Join-Path (Join-Path $ProjectDir 'src') $_ }
 $sourcePaths += @($usingsPath, (Join-Path $PSScriptRoot 'GameStubs.cs'), (Join-Path $PSScriptRoot 'MechanismTests.cs'))
 $arguments = @('/nostdlib+', '/target:exe', '/langversion:13.0', '/nullable:enable', '/utf8output',
     ('/out:"' + (Join-Path $outputDir 'MechanismTests.dll') + '"'))
 $arguments += Get-ChildItem -LiteralPath (Join-Path $refDir.FullName 'ref\net9.0') -Filter '*.dll' |
     ForEach-Object { '/reference:"' + $_.FullName + '"' }
+$harmonyPath = Join-Path $GameDir 'data_sts2_windows_x86_64\0Harmony.dll'
+if (!(Test-Path -LiteralPath $harmonyPath)) { throw "缺少本体 Harmony 引用：$harmonyPath" }
+$arguments += '/reference:"' + $harmonyPath + '"'
+Copy-Item -LiteralPath $harmonyPath -Destination $outputDir -Force
 $arguments += $sourcePaths | ForEach-Object { '"' + $_ + '"' }
 $responseFile = Join-Path $outputDir 'tests.rsp'
 [System.IO.File]::WriteAllLines($responseFile, $arguments, [System.Text.UTF8Encoding]::new($false))
@@ -29,7 +40,7 @@ $dotnetExe = Join-Path $dotnetRoot 'dotnet.exe'
 if ($LASTEXITCODE -ne 0) { throw "测试源码编译失败：$LASTEXITCODE" }
 [System.IO.File]::WriteAllText((Join-Path $outputDir 'MechanismTests.runtimeconfig.json'),
     '{"runtimeOptions":{"tfm":"net9.0","framework":{"name":"Microsoft.NETCore.App","version":"9.0.0"}}}', [System.Text.UTF8Encoding]::new($false))
-& $dotnetExe (Join-Path $outputDir 'MechanismTests.dll') | Tee-Object -FilePath (Join-Path $outputDir 'test-results.txt')
+& $dotnetExe (Join-Path $outputDir 'MechanismTests.dll') $GameDir $ProjectDir | Tee-Object -FilePath (Join-Path $outputDir 'test-results.txt')
 if ($LASTEXITCODE -ne 0) { throw "机制测试失败：$LASTEXITCODE" }
 
 # 迁移完整性检查：已有牌的声明不能漏掉实际分支，也不能漏掉运用牌族标记。

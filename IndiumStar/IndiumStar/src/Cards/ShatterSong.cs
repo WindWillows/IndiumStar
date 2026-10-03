@@ -58,26 +58,31 @@ public sealed class ShatterSong : ModCardTemplate
             .Where(CrystallizationRules.IsCrystallizationCard)
             .ToList();
 
+        int processedCount = 0;
         foreach (CardModel crystal in crystals)
         {
             if (IsUpgraded)
             {
                 // 升级版：自动打出（不占手动额度，晶化自身效果照常触发）。
-                await CardCmd.AutoPlay(choiceContext, crystal, null);
+                if (await CrystallizationRules.TryAutoPlay(choiceContext, crystal))
+                {
+                    processedCount++;
+                }
             }
             else
             {
                 await CardCmd.Exhaust(choiceContext, crystal);
+                processedCount++;
             }
         }
 
-        if (crystals.Count == 0)
+        if (processedCount == 0)
         {
             return;
         }
 
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
-            .WithHitCount(crystals.Count)
+            .WithHitCount(processedCount)
             .FromCard(this, cardPlay)
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_attack_slash")

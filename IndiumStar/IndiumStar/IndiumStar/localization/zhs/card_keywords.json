@@ -14,8 +14,12 @@
   "SLY.title": "奇巧",
   "UNPLAYABLE.description": "不能被打出的牌无法被打出。",
   "UNPLAYABLE.title": "不能被打出",
-  "CRYSTAL_RESISTANCE.description": "打出这张牌后，若你的能量不为0，则触发此效果。",
-  "CRYSTAL_RESISTANCE.title": "晶抗",
-  "CRYSTAL_REVERSAL.description": "打出这张牌后，若你的能量为0，则触发此效果。",
-  "CRYSTAL_REVERSAL.title": "晶逆"
+  "INDIUM_STAR_KEYWORD_CRYSTAL_RESISTANCE.description": "这张牌的基础效果结算后，若你的能量不为0，则触发此效果。",
+  "INDIUM_STAR_KEYWORD_CRYSTAL_RESISTANCE.title": "晶抗",
+  "INDIUM_STAR_KEYWORD_CRYSTAL_REVERSAL.description": "这张牌的基础效果结算后，若你的能量为0，则触发此效果。",
+  "INDIUM_STAR_KEYWORD_CRYSTAL_REVERSAL.title": "晶逆",
+  "INDIUM_STAR_KEYWORD_CRYSTALLIZATION.description": "「晶化N」：将N张晶化牌加入手牌。晶化牌通常是0费状态牌，具有保留、消耗，每回合至多手动打出1张（自动打出不计入）。",
+  "INDIUM_STAR_KEYWORD_CRYSTALLIZATION.title": "晶化",
+  "INDIUM_STAR_KEYWORD_EXTENSION.description": "每拥有1层延拓，在下回合开始时获得1点能量，随后移除全部延拓。",
+  "INDIUM_STAR_KEYWORD_EXTENSION.title": "延拓"
 }

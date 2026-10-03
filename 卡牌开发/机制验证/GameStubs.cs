@@ -7,6 +7,15 @@ namespace MegaCrit.Sts2.Core.Models
         public void InvokeExecutionFinished() => FinishedCount++;
         public virtual int ModifyCardPlayCount(CardModel card,
             MegaCrit.Sts2.Core.Entities.Creatures.Creature? target, int playCount) => playCount;
+        public virtual Task AfterCardChangedPiles(CardModel card, MegaCrit.Sts2.Core.Entities.Cards.PileType oldPile,
+            AbstractModel? clonedBy) => Task.CompletedTask;
+        public virtual Task AfterCreatureAddedToCombat(MegaCrit.Sts2.Core.Entities.Creatures.Creature creature) => Task.CompletedTask;
+        public virtual Task AfterPowerAmountChanged(MegaCrit.Sts2.Core.GameActions.Multiplayer.PlayerChoiceContext context,
+            PowerModel power, decimal amount, MegaCrit.Sts2.Core.Entities.Creatures.Creature? applier, CardModel? source) => Task.CompletedTask;
+        public virtual Task AfterCardPlayed(MegaCrit.Sts2.Core.GameActions.Multiplayer.PlayerChoiceContext context,
+            MegaCrit.Sts2.Core.Entities.Cards.CardPlay play) => Task.CompletedTask;
+        public virtual Task AfterApplied(MegaCrit.Sts2.Core.Entities.Creatures.Creature? applier, CardModel? source) => Task.CompletedTask;
+        public virtual bool ShouldPlay(CardModel card, MegaCrit.Sts2.Core.Entities.Cards.AutoPlayType type) => true;
     }
 
     public abstract class CardModel : AbstractModel
@@ -16,6 +25,9 @@ namespace MegaCrit.Sts2.Core.Models
         public MegaCrit.Sts2.Core.Combat.ICombatState? CombatState { get; set; }
         public CardModel? DeckVersion { get; set; }
         public string Title { get; set; } = "";
+        public MegaCrit.Sts2.Core.Entities.Cards.CardType Type { get; protected set; }
+        public MegaCrit.Sts2.Core.Entities.Cards.CardPile? Pile { get; set; }
+        public bool IsUpgraded { get; private set; }
         public virtual IEnumerable<MegaCrit.Sts2.Core.Entities.Cards.CardKeyword> CanonicalKeywords => [];
         protected virtual IEnumerable<MegaCrit.Sts2.Core.Localization.DynamicVars.DynamicVar> CanonicalVars => [];
         public MegaCrit.Sts2.Core.Localization.DynamicVars.DynamicVarSet DynamicVars =>
@@ -23,8 +35,11 @@ namespace MegaCrit.Sts2.Core.Models
         public virtual STS2RitsuLib.Scaffolding.Content.CardAssetProfile AssetProfile => new("");
         protected virtual bool IsPlayable => true;
         public bool CanPlayManually => IsPlayable;
+        public virtual bool HasTurnEndInHandEffect => false;
+        protected virtual Task OnTurnEndInHand(MegaCrit.Sts2.Core.GameActions.Multiplayer.PlayerChoiceContext context) => Task.CompletedTask;
+        public void GiveSingleTurnRetain() { }
         protected virtual void OnUpgrade() { }
-        public void Upgrade() => OnUpgrade();
+        public void Upgrade() { IsUpgraded = true; OnUpgrade(); }
         public CardModel Clone() => (CardModel)MemberwiseClone();
         protected virtual void AddExtraArgsToDescription(MegaCrit.Sts2.Core.Localization.LocString description) { }
         protected abstract Task OnPlay(
@@ -36,8 +51,20 @@ namespace MegaCrit.Sts2.Core.Models
 
     public class PowerModel : AbstractModel
     {
+        private object? _internalData;
+        public PowerModel() { _internalData = InitInternalData(); }
+        protected virtual object? InitInternalData() => null;
+        protected T GetInternalData<T>() => (T)_internalData!;
         public MegaCrit.Sts2.Core.Entities.Creatures.Creature Owner { get; set; } = null!;
         public int Amount { get; set; }
+        public virtual int DisplayAmount => Amount;
+        protected void InvokeDisplayAmountChanged() { }
+        public virtual STS2RitsuLib.Scaffolding.Content.PowerAssetProfile AssetProfile => new("");
+        protected virtual bool IsVisibleInternal => true;
+        protected virtual void DeepCloneFields() { }
+        public PowerModel ToMutable() { var clone = (PowerModel)MemberwiseClone(); clone.DeepCloneFields(); return clone; }
+        public void ApplyInternal(MegaCrit.Sts2.Core.Entities.Creatures.Creature owner, decimal amount, bool silent = false)
+        { Owner = owner; Amount = (int)amount; owner.Powers.Add(this); }
         public virtual MegaCrit.Sts2.Core.Entities.Powers.PowerType Type => MegaCrit.Sts2.Core.Entities.Powers.PowerType.Buff;
         public virtual MegaCrit.Sts2.Core.Entities.Powers.PowerStackType StackType => MegaCrit.Sts2.Core.Entities.Powers.PowerStackType.Counter;
         public void SetAmount(int amount, bool silent = false) => Amount = amount;
@@ -48,18 +75,41 @@ namespace MegaCrit.Sts2.Core.Models
             MegaCrit.Sts2.Core.Combat.CombatSide side,
             IEnumerable<MegaCrit.Sts2.Core.Entities.Creatures.Creature> participants) => Task.CompletedTask;
     }
+
+    public static class ModelDb
+    {
+        public static T Power<T>() where T : PowerModel => Activator.CreateInstance<T>();
+    }
 }
 
 namespace MegaCrit.Sts2.Core.Models.Powers
 {
     public class EnergyNextTurnPower : MegaCrit.Sts2.Core.Models.PowerModel { }
     public class StrengthPower : MegaCrit.Sts2.Core.Models.PowerModel { }
+    public class DexterityPower : MegaCrit.Sts2.Core.Models.PowerModel { }
+    public class VigorPower : MegaCrit.Sts2.Core.Models.PowerModel
+    {
+        private class Data { public object? Command; public int AmountAtStart; }
+        protected override object InitInternalData() => new Data();
+        public bool HasAttackCache => GetInternalData<Data>().Command != null;
+        public Task BeforeAttack(MegaCrit.Sts2.Core.Commands.Builders.AttackCommand command)
+        { var data = GetInternalData<Data>(); if (data.Command == null) { data.Command = command; data.AmountAtStart = Amount; } return Task.CompletedTask; }
+        public async Task AfterAttack(MegaCrit.Sts2.Core.GameActions.Multiplayer.PlayerChoiceContext context,
+            MegaCrit.Sts2.Core.Commands.Builders.AttackCommand command)
+        { var data = GetInternalData<Data>(); if (ReferenceEquals(data.Command, command))
+            await MegaCrit.Sts2.Core.Commands.PowerCmd.ModifyAmount(context, this, -data.AmountAtStart, null, null); }
+    }
 }
 
 namespace MegaCrit.Sts2.Core.Entities.Creatures
 {
     public class Creature
     {
+        public MegaCrit.Sts2.Core.Combat.ICombatState? CombatState { get; set; }
+        public MegaCrit.Sts2.Core.Entities.Players.Player? Player { get; set; }
+        public bool IsAlive { get; set; } = true;
+        public bool IsMonster => Player == null;
+        public bool CanReceivePowers { get; set; } = true;
         public List<MegaCrit.Sts2.Core.Models.PowerModel> Powers { get; } = [];
         public T? GetPower<T>() where T : MegaCrit.Sts2.Core.Models.PowerModel => Powers.OfType<T>().FirstOrDefault();
         public int GetPowerAmount<T>() where T : MegaCrit.Sts2.Core.Models.PowerModel => GetPower<T>()?.Amount ?? 0;
@@ -70,9 +120,14 @@ namespace MegaCrit.Sts2.Core.Entities.Players
 {
     public class Player
     {
+        public Player() { Creature.Player = this; }
         public PlayerCombatState? PlayerCombatState { get; set; } = new();
         public MegaCrit.Sts2.Core.Entities.Creatures.Creature Creature { get; } = new();
+        public FakeRunState RunState { get; } = new();
     }
+
+    public class FakeRunState { public FakeRng Rng { get; } = new(); }
+    public class FakeRng { public object CombatCardSelection { get; } = new(); }
 
     public class PlayerCombatState
     {
@@ -83,12 +138,13 @@ namespace MegaCrit.Sts2.Core.Entities.Players
 
 namespace MegaCrit.Sts2.Core.Entities.Cards
 {
-    public enum CardType { Skill, Status }
-    public enum CardRarity { Common, Basic, Uncommon }
-    public enum TargetType { Self }
+    public enum CardType { Skill, Status, Attack, Power }
+    public enum CardRarity { Common, Basic, Uncommon, Rare }
+    public enum TargetType { Self, AnyEnemy }
     public enum CardKeyword { Retain, Exhaust, Ethereal }
-    public enum PileType { Hand }
-    public class CardPile { public List<MegaCrit.Sts2.Core.Models.CardModel> Cards { get; } = []; }
+    public enum PileType { Hand, Play, Exhaust, Discard, None }
+    public enum AutoPlayType { Default }
+    public class CardPile { public PileType Type { get; set; } = PileType.Hand; public List<MegaCrit.Sts2.Core.Models.CardModel> Cards { get; } = []; }
     public static class PileExtensions
     {
         public static CardPile GetPile(this PileType type, MegaCrit.Sts2.Core.Entities.Players.Player player) =>
@@ -100,6 +156,7 @@ namespace MegaCrit.Sts2.Core.Entities.Cards
         public MegaCrit.Sts2.Core.Models.CardModel Card { get; init; } = null!;
         public MegaCrit.Sts2.Core.Entities.Players.Player Player => Card.Owner;
         public bool IsAutoPlay { get; init; }
+        public MegaCrit.Sts2.Core.Entities.Creatures.Creature? Target { get; init; }
         public int PlayIndex { get; init; }
         public bool IsFirstInSeries => PlayIndex == 0;
     }
@@ -124,6 +181,8 @@ namespace MegaCrit.Sts2.Core.Combat
     public interface ICombatState
     {
         int Turn { get; }
+        IReadOnlyList<MegaCrit.Sts2.Core.Entities.Creatures.Creature> Creatures { get; }
+        IReadOnlyList<MegaCrit.Sts2.Core.Entities.Creatures.Creature> Allies { get; }
         IEnumerable<MegaCrit.Sts2.Core.Models.AbstractModel> IterateHookListeners();
         T CreateCard<T>(MegaCrit.Sts2.Core.Entities.Players.Player owner) where T : MegaCrit.Sts2.Core.Models.CardModel;
     }
@@ -147,11 +206,16 @@ namespace MegaCrit.Sts2.Core.Commands
 {
     public static class CardPileCmd
     {
-        public static Task AddGeneratedCardToCombat(MegaCrit.Sts2.Core.Models.CardModel card,
+        public static int DrawCount { get; set; }
+        public static Task Draw(MegaCrit.Sts2.Core.GameActions.Multiplayer.PlayerChoiceContext context, int count,
+            MegaCrit.Sts2.Core.Entities.Players.Player owner) { DrawCount += count; return Task.CompletedTask; }
+        public static async Task AddGeneratedCardToCombat(MegaCrit.Sts2.Core.Models.CardModel card,
             MegaCrit.Sts2.Core.Entities.Cards.PileType pile, MegaCrit.Sts2.Core.Entities.Players.Player owner)
         {
             owner.PlayerCombatState!.Hand.Cards.Add(card);
-            return Task.CompletedTask;
+            card.Pile = owner.PlayerCombatState.Hand;
+            foreach (var listener in card.CombatState!.IterateHookListeners().ToArray())
+                await listener.AfterCardChangedPiles(card, MegaCrit.Sts2.Core.Entities.Cards.PileType.None, null);
         }
     }
 
@@ -160,9 +224,9 @@ namespace MegaCrit.Sts2.Core.Commands
         public static MegaCrit.Sts2.Core.Models.CardModel? LastSource { get; private set; }
         public static MegaCrit.Sts2.Core.Entities.Creatures.Creature? LastApplier { get; private set; }
         public static int ApplyCount { get; set; }
-        public static Task<T> Apply<T>(MegaCrit.Sts2.Core.GameActions.Multiplayer.PlayerChoiceContext context,
-            MegaCrit.Sts2.Core.Entities.Creatures.Creature recipient, int amount,
-            MegaCrit.Sts2.Core.Entities.Creatures.Creature applier, MegaCrit.Sts2.Core.Models.CardModel? source,
+        public static async Task<T> Apply<T>(MegaCrit.Sts2.Core.GameActions.Multiplayer.PlayerChoiceContext context,
+            MegaCrit.Sts2.Core.Entities.Creatures.Creature recipient, decimal amount,
+            MegaCrit.Sts2.Core.Entities.Creatures.Creature? applier, MegaCrit.Sts2.Core.Models.CardModel? source,
             bool silent = false)
             where T : MegaCrit.Sts2.Core.Models.PowerModel, new()
         {
@@ -170,10 +234,18 @@ namespace MegaCrit.Sts2.Core.Commands
             LastSource = source;
             LastApplier = applier;
             T? power = recipient.GetPower<T>();
+            bool newlyApplied = power == null;
             if (power == null) { power = new T { Owner = recipient }; recipient.Powers.Add(power); }
-            power.Amount += amount;
-            return Task.FromResult(power);
+            power.Amount += (int)amount;
+            if (newlyApplied) await power.AfterApplied(applier, source);
+            if (recipient.CombatState != null) foreach (var listener in recipient.CombatState.IterateHookListeners().ToArray())
+                await listener.AfterPowerAmountChanged(context, power, amount, applier, source);
+            return power;
         }
+        public static async Task<int> ModifyAmount(MegaCrit.Sts2.Core.GameActions.Multiplayer.PlayerChoiceContext context,
+            MegaCrit.Sts2.Core.Models.PowerModel power, decimal amount,
+            MegaCrit.Sts2.Core.Entities.Creatures.Creature? applier, MegaCrit.Sts2.Core.Models.CardModel? source)
+        { power.SetAmount(power.Amount + (int)amount); if (power.Amount == 0) await Remove(power); return power.Amount; }
         public static Task Remove(MegaCrit.Sts2.Core.Models.PowerModel power)
         {
             power.Owner.Powers.Remove(power);
@@ -198,11 +270,13 @@ namespace STS2RitsuLib.Scaffolding.Content
     public abstract class ModCardTemplate : MegaCrit.Sts2.Core.Models.CardModel
     {
         public int BaseCost { get; }
-        public MegaCrit.Sts2.Core.Entities.Cards.CardType Type { get; }
         protected ModCardTemplate(int cost, MegaCrit.Sts2.Core.Entities.Cards.CardType type,
             MegaCrit.Sts2.Core.Entities.Cards.CardRarity rarity, MegaCrit.Sts2.Core.Entities.Cards.TargetType target)
         { BaseCost = cost; Type = type; }
     }
+    public record PowerAssetProfile(string Path);
+    public abstract class ModPowerTemplate : MegaCrit.Sts2.Core.Models.PowerModel { }
+    public static class ContentAssetProfiles { public static PowerAssetProfile Power(string path) => new(path); }
 }
 
 namespace MegaCrit.Sts2.Core.Localization
@@ -216,6 +290,7 @@ namespace MegaCrit.Sts2.Core.Localization.DynamicVars
     {
         public string Name { get; }
         public decimal BaseValue { get; set; }
+        public int IntValue => (int)BaseValue;
         public decimal PreviewValue { get; set; }
         public DynamicVar(string name, decimal baseValue)
         {
@@ -231,7 +306,11 @@ namespace MegaCrit.Sts2.Core.Localization.DynamicVars
         private readonly Dictionary<string, DynamicVar> _vars;
         public DynamicVarSet(IEnumerable<DynamicVar> vars) { _vars = vars.ToDictionary(v => v.Name); }
         public DynamicVar this[string name] => _vars[name];
+        public DamageVar Damage => (DamageVar)_vars["Damage"];
     }
+    public class DamageVar(decimal amount, MegaCrit.Sts2.Core.ValueProps.ValueProp props) : DynamicVar("Damage", amount)
+    { public MegaCrit.Sts2.Core.ValueProps.ValueProp Props { get; } = props; }
+    public class PowerVar<T>(decimal amount) : DynamicVar(typeof(T).Name, amount) { }
 }
 
 namespace STS2RitsuLib.Utils
@@ -243,6 +322,48 @@ namespace STS2RitsuLib.Utils
         public TValue GetValueOrDefault(TKey key, TValue defaultValue) =>
             _values.TryGetValue(key, out var value) ? value : defaultValue;
         public TValue Set(TKey key, TValue value) { _values[key] = value; return value; }
+    }
+}
+
+namespace STS2RitsuLib.Keywords
+{
+    public enum ModKeywordCardDescriptionPlacement { None, BeforeCardDescription, AfterCardDescription }
+
+    public class ModKeywordDefinition
+    {
+        public string Id { get; set; } = "";
+        public MegaCrit.Sts2.Core.Entities.Cards.CardKeyword CardKeywordValue { get; set; }
+    }
+
+    public class ModKeywordRegistry
+    {
+        private static readonly Dictionary<string, ModKeywordRegistry> Registries = [];
+        private static int _nextValue = 100;
+        private readonly Dictionary<string, ModKeywordDefinition> _definitions = [];
+        private string _modId = "";
+        public static ModKeywordRegistry For(string modId) {
+            if (!Registries.TryGetValue(modId, out var registry)) {
+                registry = new() { _modId = modId }; Registries[modId] = registry;
+            }
+            return registry;
+        }
+        public ModKeywordDefinition RegisterCardKeywordOwnedByLocNamespace(string localKeywordStem,
+            string? iconPath, ModKeywordCardDescriptionPlacement cardDescriptionPlacement, bool includeInCardHoverTip) {
+            if (_definitions.TryGetValue(localKeywordStem, out var existing)) return existing;
+            var prefix = System.Text.RegularExpressions.Regex.Replace(_modId, "([a-z0-9])([A-Z])", "$1_$2").ToUpperInvariant();
+            var definition = new ModKeywordDefinition { Id = prefix + "_KEYWORD_" + localKeywordStem.ToUpperInvariant(),
+                CardKeywordValue = (MegaCrit.Sts2.Core.Entities.Cards.CardKeyword)_nextValue++ };
+            _definitions.Add(localKeywordStem, definition); return definition;
+        }
+    }
+}
+
+namespace MegaCrit.Sts2.Core.Extensions
+{
+    public static class SelectionExtensions
+    {
+        // Pb的关键字回归不执行随机选牌；这里仅提供其源码需要的签名。
+        public static IEnumerable<T> TakeRandom<T>(this IEnumerable<T> values, int count, object rng) => values.Take(count);
     }
 }
 
@@ -259,3 +380,69 @@ namespace STS2RitsuLib.Interop.AutoRegistration
 }
 
 namespace IndiumStar.CardPools { public class IndiumStarCardPool { } }
+
+namespace MegaCrit.Sts2.Core.ValueProps
+{
+    public enum ValueProp { Move }
+}
+namespace MegaCrit.Sts2.Core.Commands
+{
+    public static class CardCmd
+    {
+        public static Func<MegaCrit.Sts2.Core.Models.CardModel, bool> ShouldAutoPlay { get; set; } = _ => true;
+        public static async Task AutoPlay(MegaCrit.Sts2.Core.GameActions.Multiplayer.PlayerChoiceContext context,
+            MegaCrit.Sts2.Core.Models.CardModel card, MegaCrit.Sts2.Core.Entities.Creatures.Creature? target)
+        {
+            card.Owner.PlayerCombatState!.Hand.Cards.Remove(card);
+            card.Pile = new() { Type = MegaCrit.Sts2.Core.Entities.Cards.PileType.Play };
+            if (!ShouldAutoPlay(card) || MegaCrit.Sts2.Core.Combat.CombatManager.Instance.IsOverOrEnding) return;
+            var play = new MegaCrit.Sts2.Core.Entities.Cards.CardPlay { Card = card, Target = target, IsAutoPlay = true };
+            var state = card.CombatState!;
+            MegaCrit.Sts2.Core.Combat.CombatManager.Instance.History.CardPlaysStarted.Add(new(state, state.Turn, play));
+            await card.Play(context, play);
+            foreach (var power in card.Owner.Creature.Powers.ToArray()) await power.AfterCardPlayed(context, play);
+        }
+        public static Task Exhaust(MegaCrit.Sts2.Core.GameActions.Multiplayer.PlayerChoiceContext context, MegaCrit.Sts2.Core.Models.CardModel card)
+        { card.Owner.PlayerCombatState!.Hand.Cards.Remove(card); card.Pile = new() { Type = MegaCrit.Sts2.Core.Entities.Cards.PileType.Exhaust }; return Task.CompletedTask; }
+    }
+    public static class DamageCmd
+    {
+        public static List<int> HitCounts { get; } = [];
+        public static Builders.AttackCommand Attack(decimal amount) => new();
+    }
+}
+namespace MegaCrit.Sts2.Core.Commands.Builders
+{
+    public class AttackCommand
+    {
+        public MegaCrit.Sts2.Core.Entities.Creatures.Creature Attacker { get; private set; } = null!;
+        private int _hits = 1;
+        public AttackCommand WithHitCount(int count) { _hits = count; return this; }
+        public AttackCommand FromCard(MegaCrit.Sts2.Core.Models.CardModel card, MegaCrit.Sts2.Core.Entities.Cards.CardPlay play)
+        { Attacker = card.Owner.Creature; return this; }
+        public AttackCommand Targeting(MegaCrit.Sts2.Core.Entities.Creatures.Creature target) => this;
+        public AttackCommand WithHitFx(string path) => this;
+        public async Task Execute(MegaCrit.Sts2.Core.GameActions.Multiplayer.PlayerChoiceContext context)
+        {
+            MegaCrit.Sts2.Core.Commands.DamageCmd.HitCounts.Add(_hits);
+            var vigor = Attacker.GetPower<MegaCrit.Sts2.Core.Models.Powers.VigorPower>();
+            if (vigor != null) { await vigor.BeforeAttack(this); await vigor.AfterAttack(context, this); }
+        }
+    }
+}
+
+namespace MegaCrit.Sts2.Core.Nodes.Rooms
+{
+    public class NCombatRoom
+    {
+        public static NCombatRoom? Instance { get; set; }
+        public FakeCreatureNode Node { get; } = new();
+        public FakeCreatureNode GetCreatureNode(MegaCrit.Sts2.Core.Entities.Creatures.Creature creature) => Node;
+    }
+    public class FakeCreatureNode
+    {
+        public int RefreshCount { get; private set; }
+        public Task UpdateIntent(IEnumerable<MegaCrit.Sts2.Core.Entities.Creatures.Creature> targets)
+        { RefreshCount++; return Task.CompletedTask; }
+    }
+}

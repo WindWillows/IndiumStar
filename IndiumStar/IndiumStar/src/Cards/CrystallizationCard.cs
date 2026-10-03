@@ -1,6 +1,7 @@
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
+using IndiumStar.Mechanics;
 
 namespace IndiumStar.Cards;
 
@@ -16,7 +17,7 @@ public abstract class CrystallizationCard : ApplicationCard, ICrystallizationCar
     }
 
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
-        [CardKeyword.Retain, CardKeyword.Exhaust];
+        base.CanonicalKeywords.Concat([CardKeyword.Retain, CardKeyword.Exhaust, IndiumStarKeywords.CrystallizationKeyword]);
 
     /// <summary>变体的额外手动出牌条件；本体自动出牌会绕过 IsPlayable。</summary>
     protected virtual bool CanPlayCrystallization => true;

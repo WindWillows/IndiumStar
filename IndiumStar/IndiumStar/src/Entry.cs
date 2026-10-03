@@ -1,4 +1,5 @@
 using System.Reflection;
+using HarmonyLib;
 using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Modding;
 using MegaCrit.Sts2.Core.Models.Relics;
@@ -26,6 +27,8 @@ public static class Entry
     {
         var assembly = Assembly.GetExecutingAssembly();
 
+        new Harmony(ModId).PatchAll(assembly);
+
         // 1) 让 RitsuLib 接管本程序集里的 Godot 脚本（本模组没有自定义场景，调用只是保险）。
         RitsuLibFramework.EnsureGodotScriptsRegistered(assembly, Logger);
 
@@ -33,7 +36,10 @@ public static class Entry
         //    特性才会被自动处理。
         ModTypeDiscoveryHub.RegisterModAssembly(ModId, assembly);
 
-        // 3) 初始遗物：暂时借用原版「铁甲战士」的初始遗物——燃烧之血（BurningBlood）。
+        // 3) 规则关键字：晶化、延拓、晶抗、晶逆（悬浮提示用；卡面金色由描述里的 [gold] 负责）。
+        IndiumStar.Mechanics.IndiumStarKeywords.RegisterAll();
+
+        // 4) 初始遗物：暂时借用原版「铁甲战士」的初始遗物——燃烧之血（BurningBlood）。
         //    想换成别的原版初始遗物，只需替换下面 BurningBlood 的类型：
         //      RingOfTheSnake（静默猎手）/ CrackedCore（故障机器人）/
         //      DivineRight（储君）/ BoundPhylactery（缚骨者）

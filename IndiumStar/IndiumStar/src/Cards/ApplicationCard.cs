@@ -36,6 +36,40 @@ public abstract class ApplicationCard : ModCardTemplate
     public virtual CrystalBranch AvailableCrystalBranches => CrystalBranch.None;
 
     /// <summary>
+    /// 晶抗/晶逆与延拓的卡牌关键字：有对应分支的牌挂对应关键字（悬浮提示由 RitsuLib 对
+    /// <c>CardModel.HoverTips</c> 的补丁提供）；延拓牌（<see cref="IExtensionCard" />）
+    /// 额外挂延拓关键字。卡面文字的金色由描述里的 <c>[gold]</c> 负责。
+    /// 覆写本属性的子类必须拼接 <c>base.CanonicalKeywords</c>。
+    /// </summary>
+    public override IEnumerable<CardKeyword> CanonicalKeywords
+    {
+        get
+        {
+            foreach (var keyword in base.CanonicalKeywords)
+            {
+                yield return keyword;
+            }
+            if ((AvailableCrystalBranches & CrystalBranch.Resistance) != 0)
+            {
+                yield return IndiumStarKeywords.CrystalResistanceKeyword;
+            }
+
+            if ((AvailableCrystalBranches & CrystalBranch.Reversal) != 0)
+            {
+                yield return IndiumStarKeywords.CrystalReversalKeyword;
+            }
+
+            if (this is IExtensionCard)
+            {
+                yield return IndiumStarKeywords.ExtensionKeyword;
+            }
+        }
+    }
+
+    /// <summary>仅文本限制分支的牌抑制系列重放，普通本体重放默认完整结算。</summary>
+    protected virtual bool SuppressCrystalBranchesOnReplay => false;
+
+    /// <summary>
     /// 牌自身的效果。
     /// <para>
     /// 返回值会原样传给 <see cref="CrystalResistance" /> 与 <see cref="CrystalReversal" />，
@@ -79,10 +113,7 @@ public abstract class ApplicationCard : ModCardTemplate
         // 牌自身的效果。返回值留给晶抗/晶逆用。
         CardModel? playResult = await PlayEffect(choiceContext, cardPlay);
 
-        // 重放段（PlayIndex > 0）只重复主效果，不触发晶抗/晶逆——卡牌文本明确
-        // 「重放不会触发晶抗/晶逆的效果」。这对本体系列重放（复制药水、附魔）
-        // 和本模组自己的晶逆重放（见 CrystalReversalReplayCount）同样成立。
-        if (!cardPlay.IsFirstInSeries)
+        if (!cardPlay.IsFirstInSeries && SuppressCrystalBranchesOnReplay)
         {
             return;
         }

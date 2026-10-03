@@ -40,6 +40,8 @@ public sealed class CrystalFlow : ApplicationCard
     /// <summary>晶逆的重放次数：通过延长本次出牌系列交付，重放段不再触发分支。</summary>
     protected override int CrystalReversalReplayCount => 1;
 
+    protected override bool SuppressCrystalBranchesOnReplay => true;
+
     public override bool GainsBlock => true;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>

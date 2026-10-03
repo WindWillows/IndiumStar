@@ -15,7 +15,7 @@ namespace IndiumStar.Powers;
 /// <remarks>
 /// <para>
 /// 计数走公共机制 <see cref="ICrystalBranchListener" />：只有已声明并实际完成的
-/// 晶抗分支才会通知，没有晶抗的牌不会产生空计数。<c>Amount</c> 就是当前进度，
+/// 晶抗分支才会通知，没有晶抗的牌不会产生空计数。进度独立于能力施加的层数，
 /// 达到阈值就扣掉阈值并结算，余数保留。
 /// </para>
 /// <para>
@@ -31,17 +31,21 @@ public sealed class ReminiscencePollutionHPower : ModPowerTemplate, ICrystalBran
     /// <summary>每触发多少次晶抗结算一次。</summary>
     private int _threshold = 4;
 
+    public int Progress { get; private set; }
+
+    public override int DisplayAmount => Progress;
+
     public override PowerType Type => PowerType.Buff;
 
-    /// <summary>Counter：层数显示当前已累计的晶抗次数。</summary>
+    /// <summary>Counter的显示数值由独立进度提供。</summary>
     public override PowerStackType StackType => PowerStackType.Counter;
 
     public override PowerAssetProfile AssetProfile => ContentAssetProfiles.Power("strength_power");
 
-    /// <summary>由卡牌在施加时设置阈值（升级会降低阈值）。</summary>
+    /// <summary>保留最低阈值；重复施加不改变进度。</summary>
     public void Configure(int threshold)
     {
-        _threshold = Math.Max(1, threshold);
+        _threshold = Math.Min(_threshold, Math.Max(1, threshold));
     }
 
     public async Task AfterCrystalBranchTriggered(
@@ -54,11 +58,13 @@ public sealed class ReminiscencePollutionHPower : ModPowerTemplate, ICrystalBran
             return;
         }
 
-        SetAmount(base.Amount + 1);
+        Progress++;
+        InvokeDisplayAmountChanged();
 
-        while (base.Amount >= _threshold)
+        while (Progress >= _threshold)
         {
-            SetAmount(base.Amount - _threshold);
+            Progress -= _threshold;
+            InvokeDisplayAmountChanged();
             await ExtensionRules.Gain(choiceContext, base.Owner.Player!, 1, context.Card);
             await CardPileCmd.Draw(choiceContext, 1, base.Owner.Player!);
         }

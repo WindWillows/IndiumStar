@@ -21,7 +21,7 @@ namespace IndiumStar.Powers;
 /// </para>
 /// <para>
 /// 出牌次数预测阶段（<c>ModifyCardPlayCount</c>）当前这张牌还没进历史，
-/// 实际结算阶段已经进了，两种时点用同一个「不超过 2 张」判断，结论一致。
+/// 实际结算阶段已经进了。统一计算本次系列的序号；嵌套出牌不改变外层牌的位置。
 /// </para>
 /// <para>
 /// 图标暂时借用原版「力量」的能力图标。
@@ -54,16 +54,28 @@ public sealed class QuantumDotPower : ModPowerTemplate, ICrystalBranchModifier
             return selectedBranches;
         }
 
-        // 本回合本玩家已经打出的牌（系列第一段算一张）。实际结算时当前这张牌
-        // 已经在历史里，预测时还没进历史——「不超过 2」在两种时点等价。
-        int playedThisTurn = CombatManager.Instance.History.CardPlaysStarted
+        int seriesCount = 0;
+        int currentOrdinal = 0;
+        foreach (var entry in CombatManager.Instance.History.CardPlaysStarted
             .Where(entry => entry.HappenedThisTurn(combatState)
-                && entry.CardPlay.Player == context.Card.Owner
-                && entry.CardPlay.IsFirstInSeries)
-            .Take(AffectedCardsPerTurn)
-            .Count();
+                && entry.CardPlay.Player == context.Card.Owner))
+        {
+            if (entry.CardPlay.IsFirstInSeries)
+            {
+                seriesCount++;
+                if (entry.CardPlay.Card == context.Card)
+                {
+                    currentOrdinal = seriesCount;
+                }
+            }
+            if (ReferenceEquals(entry.CardPlay, context.CardPlay))
+            {
+                break;
+            }
+        }
 
-        return playedThisTurn < AffectedCardsPerTurn
+        int ordinal = context.CardPlay == null ? seriesCount + 1 : currentOrdinal;
+        return ordinal > 0 && ordinal <= AffectedCardsPerTurn
             ? CrystalBranch.Both
             : selectedBranches;
     }

@@ -15,7 +15,7 @@ public sealed class CrystallizationPb : CrystallizationCard
     private const int RetainCount = 1;
 
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
-        [CardKeyword.Retain, CardKeyword.Exhaust, CardKeyword.Ethereal];
+        base.CanonicalKeywords.Concat([CardKeyword.Ethereal]);
 
     public override CardAssetProfile AssetProfile => new(
         PortraitPath: "res://images/packed/card_portraits/ironclad/defend_ironclad.png");

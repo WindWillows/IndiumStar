@@ -49,6 +49,8 @@ public sealed class ApplicationTh : ApplicationCard, IApplicationCard
     /// <summary>重放次数：主效果额外再执行这么多次，通过出牌系列延长交付。</summary>
     protected override int CrystalReversalReplayCount => 2;
 
+    protected override bool SuppressCrystalBranchesOnReplay => true;
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         // 主效果「失去的生命」= 晶抗「等量伤害」的那个「量」。

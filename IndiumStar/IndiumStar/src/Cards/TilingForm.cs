@@ -16,7 +16,7 @@ namespace IndiumStar.Cards;
 /// </summary>
 /// <remarks>
 /// <para>
-/// 持续效果由 <see cref="TilingFormPower" /> 承担（修正钩子实现，晶化离手即失效）。
+/// 持续效果由 <see cref="TilingFormPower" /> 和手牌光环控制器提供真正的力量/敏捷。
 /// 这张牌自身没有晶抗/晶逆，所以是普通 <see cref="ModCardTemplate" />。
 /// </para>
 /// <para>
