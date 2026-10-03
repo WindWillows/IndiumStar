@@ -53,18 +53,18 @@ await CrystallizationRules.AddToHand<CrystallizationMg>(choiceContext, Owner, Co
 分支或监听者随后改变能量不会重新选择。特殊规则可选择双分支，固定先晶抗后晶逆。
 
 新牌须用 `AvailableCrystalBranches` 显式声明 `None / Resistance / Reversal / Both`，
-并实现相应方法。已有17张带分支的牌已迁移。主效果返回的 `CardModel?`
+并实现相应方法。当前有19张带分支的牌。主效果返回的 `CardModel?`
 继续传递给分支，避免用卡牌实例字段保存本次选牌结果。
 
 当前战斗中的模型可实现 `ICrystalBranchModifier` 修改分支选择，或实现
 `ICrystalBranchListener` 在已声明分支完成后计数。默认空分支不会产生通知。
 每个监听者须自己过滤适用玩家、牌堆和回合；不使用跨战斗的全局事件订阅。
-接口已经准备好，量子点和污染H卡牌本身仍待实现。
+量子点和污染H已接入这些接口，并有历史序号、重复施加和计数阈值回归测试。
 
 ### 运用牌族
 
 `ApplicationCard` 是通用效果基类，不代表运用牌族。
-运用牌须额外实现 `IApplicationCard`；已有13张运用牌全部标记，包括不继承该基类的运用-Co。
+运用牌须额外实现 `IApplicationCard`；已有15张运用牌全部标记，包括不继承该基类的运用-Co。
 `ApplicationRules.IsApplicationCard` 使用此标记，溯源猛击的免费效果不再依赖卡名。
 
 ### 隐藏效果（控制负面能力的持续时长）

@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "source": "用户2026-10-04消息；本文件优先于旧DOCX对同名卡的记录",
+  "cards": [
+    { "name": "宏枝晶", "class": "MacroDendrite", "cost": 1, "rarity": "罕见", "type": "攻击", "damage": 3, "hits": 3, "crystal_resistance": "晶化1，本场战斗内伤害+1（2）", "crystal_reversal": "晶化1，本场战斗内伤害次数+1（2）" },
+    { "name": "成环", "class": "Cyclization", "cost": 1, "rarity": "罕见", "type": "技能", "effect": "消耗一张牌；下回合多抽2（3）张；若实际消耗非晶化牌，获得5（8）格挡" },
+    { "name": "分影连气", "class": "ShadowChainBreath", "cost": 0, "rarity": "罕见", "type": "技能", "effect": "抽取时加入本牌复制；每张剩余手牌中的分影连气分别获得3（4）格挡；消耗", "interpretation": "出牌后本牌已离手，不计入剩余手牌数量" },
+    { "name": "复沓", "class": "Reiteration", "cost": 1, "upgraded_cost": 0, "rarity": "稀有", "type": "技能", "effect": "抽1张；本回合下一张自己打出的牌在基础效果前生成复制，置于抽牌堆顶部", "interpretation": "自动出牌算下一张；同一次出牌的系列重放不重复消费预约" },
+    { "name": "反演", "class": "Inversion", "cost": 1, "rarity": "稀有", "type": "攻击", "damage": 6, "upgraded_damage": 8, "effect": "你执行目标敌人的意图", "implementation_status": "普通动作借用框架已实现；特殊召唤、玩家牌组操作、怪物专属身体/能力尚未适配，预检拒绝后仅结算基础伤害；详见卡牌问题单" },
+    { "name": "邻基参与", "class": "NeighboringGroupParticipation", "cost": 0, "rarity": "罕见", "type": "技能", "effect": "实际抽1张；能力牌再抽2张；技能牌获得3（5）格挡；攻击牌获得3（4）临时力量" }
+  ]
+}
