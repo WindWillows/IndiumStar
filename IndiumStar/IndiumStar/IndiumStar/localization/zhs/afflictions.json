@@ -1,0 +1,8 @@
+{
+  "INDIUM_STAR_AFFLICTION_CRYSTALLIZE_AFFLICTION.title": "晶化",
+  "INDIUM_STAR_AFFLICTION_CRYSTALLIZE_AFFLICTION.description": "这张牌被打出时，向手牌加入{Amount}张[gold]晶化[/gold]。",
+  "INDIUM_STAR_AFFLICTION_CRYSTALLIZE_AFFLICTION.extraCardText": "[gold]晶化{Amount}[/gold]",
+  "INDIUM_STAR_AFFLICTION_CRYSTALLIZE_U_AFFLICTION.title": "晶化（U）",
+  "INDIUM_STAR_AFFLICTION_CRYSTALLIZE_U_AFFLICTION.description": "这张牌被打出时，向手牌加入{Amount}张[gold]晶化U[/gold]。",
+  "INDIUM_STAR_AFFLICTION_CRYSTALLIZE_U_AFFLICTION.extraCardText": "[gold]晶化（U）{Amount}[/gold]"
+}

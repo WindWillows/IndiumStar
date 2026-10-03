@@ -1,0 +1,17 @@
+{
+  "INDIUM_STAR_CHARACTER_INDIUM_STAR_CHARACTER.title": "铟星",
+  "INDIUM_STAR_CHARACTER_INDIUM_STAR_CHARACTER.titleObject": "铟星",
+  "INDIUM_STAR_CHARACTER_INDIUM_STAR_CHARACTER.description": "从“晶塔”穿越而来的旅人，为找回记忆攀爬尖塔。\n元素的力量护佑他周身，而记忆能激起他原有的力量。",
+  "INDIUM_STAR_CHARACTER_INDIUM_STAR_CHARACTER.cardsModifierTitle": "铟星卡牌",
+  "INDIUM_STAR_CHARACTER_INDIUM_STAR_CHARACTER.cardsModifierDescription": "铟星的卡牌现在会出现在奖励和商店中。",
+  "INDIUM_STAR_CHARACTER_INDIUM_STAR_CHARACTER.possessiveAdjective": "其",
+  "INDIUM_STAR_CHARACTER_INDIUM_STAR_CHARACTER.pronounObject": "其",
+  "INDIUM_STAR_CHARACTER_INDIUM_STAR_CHARACTER.pronounPossessive": "其",
+  "INDIUM_STAR_CHARACTER_INDIUM_STAR_CHARACTER.pronounSubject": "其",
+  "INDIUM_STAR_CHARACTER_INDIUM_STAR_CHARACTER.unlockText": "使用[pink]{Prerequisite}[/pink]进行一局游戏来解锁这个角色。",
+  "INDIUM_STAR_CHARACTER_INDIUM_STAR_CHARACTER.banter.alive.endTurnPing": "稍等，让我再看看。",
+  "INDIUM_STAR_CHARACTER_INDIUM_STAR_CHARACTER.banter.dead.endTurnPing": "...",
+  "INDIUM_STAR_CHARACTER_INDIUM_STAR_CHARACTER.bestiaryQuote": "还没解决掉这只东西。",
+  "INDIUM_STAR_CHARACTER_INDIUM_STAR_CHARACTER.eventDeathPrevention": "我还不能倒在这里。",
+  "INDIUM_STAR_CHARACTER_INDIUM_STAR_CHARACTER.goldMonologue": "[sine]这些金币够换不少东西了...[/sine]"
+}

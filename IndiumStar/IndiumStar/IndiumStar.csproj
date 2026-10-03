@@ -1,0 +1,155 @@
+<Project Sdk="Godot.NET.Sdk/4.5.1">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>true</ImplicitUsings>
+    <LangVersion>13.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+    <Deterministic>true</Deterministic>
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+    <PathMap>$(MSBuildProjectDirectory)=/_/IndiumStar,$(USERPROFILE)=/_/User</PathMap>
+
+    <AssemblyName>IndiumStar</AssemblyName>
+    <RootNamespace>IndiumStar</RootNamespace>
+
+    <ModId>IndiumStar</ModId>
+
+    <!--
+      游戏目录解析顺序：
+        1. 命令行 /p:Sts2Dir=...
+        2. 环境变量 STS2_DIR
+        3. local.props 里的 <Sts2Dir>...</Sts2Dir>（见 local.props.template）
+    -->
+    <Sts2Dir Condition="'$(Sts2Dir)' == '' and '$(STS2_DIR)' != ''">$(STS2_DIR)</Sts2Dir>
+
+    <GodotExe Condition="'$(GodotExe)' == ''">$(GODOT_EXE)</GodotExe>
+    <GodotExe Condition="'$(GodotExe)' == ''">godot</GodotExe>
+    <GodotProjectPath>$(MSBuildProjectDirectory)</GodotProjectPath>
+  </PropertyGroup>
+
+  <!-- 本机路径覆盖（可选，已被 .gitignore 忽略） -->
+  <Import Project="$(MSBuildProjectDirectory)\local.props" Condition="Exists('$(MSBuildProjectDirectory)\local.props')" />
+
+  <PropertyGroup>
+    <Sts2DataDir>$(Sts2Dir)\data_sts2_windows_x86_64</Sts2DataDir>
+    <ModDeployDir>$(Sts2Dir)\mods\$(ModId)</ModDeployDir>
+    <!-- 让 STS2.RitsuLib 包在构建后自动把运行期前置装进 游戏目录\mods\STS2-RitsuLib。
+         如果你手动管理 RitsuLib 的安装，把这一行删掉或留空即可。 -->
+    <RitsuLibDeployDir>$(Sts2Dir)\mods\STS2-RitsuLib</RitsuLibDeployDir>
+
+    <!--
+      构建与部署拆分（审查报告 F12）：所有产物先落到项目内的暂存目录，
+      C# 编译、本地化复制、PCK 导出全部成功后才允许整体复制进游戏目录。
+      导出失败不会再留下"新 DLL + 旧 PCK"的混合安装。
+    -->
+    <ModStagingDir>$(MSBuildProjectDirectory)\build\staging</ModStagingDir>
+
+    <!-- 默认导出 PCK；临时跳过用 -p:ExportPck=false（见下方 Export Pck 的说明）。 -->
+    <ExportPck Condition="'$(ExportPck)' == ''">true</ExportPck>
+
+    <!--
+      默认只在完整产物（含 PCK）就绪后才部署。
+      -p:ExportPck=false 时默认不部署（避免没 PCK 的不完整安装）；
+      要强制部署再加 -p:DeployMod=true，要完整构建但不碰游戏目录用 -p:DeployMod=false。
+    -->
+    <DeployMod Condition="'$(DeployMod)' == ''">$(ExportPck)</DeployMod>
+    <DeployAfterTargets Condition="'$(ExportPck)' == 'true'">Export Pck</DeployAfterTargets>
+    <DeployAfterTargets Condition="'$(ExportPck)' != 'true'">Stage Mod</DeployAfterTargets>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- 编译期引用 RitsuLib；运行期前置由上面的 RitsuLibDeployDir 自动部署 -->
+    <PackageReference Include="STS2.RitsuLib" Version="0.6.2" />
+
+    <Reference Include="sts2">
+      <HintPath>$(Sts2DataDir)\sts2.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+
+    <Reference Include="0Harmony">
+      <HintPath>$(Sts2DataDir)\0Harmony.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+
+    <Reference Include="SmartFormat">
+      <HintPath>$(Sts2DataDir)\SmartFormat.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <!--
+    没有配置好游戏目录时直接报错退出，而不是丢出上百条「找不到 MegaCrit 命名空间」的误导性错误。
+    条件只看 sts2.dll 到底存不存在，所以路径写错、盘符不对、游戏装在别处都能被抓住。
+  -->
+  <Target Name="ValidateLocalPaths" BeforeTargets="ResolveAssemblyReferences;ResolveReferences"
+          Condition="!Exists('$(Sts2DataDir)\sts2.dll')">
+    <Error Text="找不到游戏程序集：$(Sts2DataDir)\sts2.dll（当前 Sts2Dir = '$(Sts2Dir)'）。请把「游戏目录」配置成《杀戮尖塔2》的安装目录，三种方式任选其一： (1) 编辑工作区根目录的 Directory.Build.props 里的 Sts2Dir； (2) dotnet build -p:Sts2Dir=&quot;C:\Program Files (x86)\Steam\steamapps\common\Slay the Spire 2&quot;； (3) 设置环境变量 STS2_DIR。注意：要填的是游戏根目录（里面能看到 sts2.dll 和 data_sts2_windows_x86_64 文件夹），不是 data_sts2_windows_x86_64 本身。" />
+  </Target>
+
+  <!--
+    第一步：把 dll、清单和本地化复制到项目内的暂存目录，不碰游戏目录。
+    本地化必须落在 IndiumStar\localization\{语言}\{表}.json：
+    游戏按 res://{清单id}/localization/{语言}/{表}.json 查找，清单 id 是 IndiumStar，
+    所以要再套一层同名目录。少了这一步，角色名和描述就会显示不出来。
+  -->
+  <ItemGroup>
+    <ModLocalizationFiles Include="$(ProjectDir)$(ModId)\localization\**\*.json" />
+  </ItemGroup>
+
+  <Target Name="Stage Mod" AfterTargets="Build">
+    <Message Text="Staging IndiumStar mod into $(ModStagingDir) ..." Importance="high" />
+    <RemoveDir Directories="$(ModStagingDir)" />
+    <MakeDir Directories="$(ModStagingDir)" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ModStagingDir)" />
+    <Copy SourceFiles="$(ProjectDir)$(ModId).json" DestinationFolder="$(ModStagingDir)" />
+    <Copy SourceFiles="@(ModLocalizationFiles)"
+          DestinationFiles="@(ModLocalizationFiles->'$(ModStagingDir)\$(ModId)\localization\%(RecursiveDir)%(Filename)%(Extension)')" />
+  </Target>
+
+  <!--
+    第二步：导出 .pck 到暂存目录。本地化 JSON 必须打进 pck 才能在游戏里生效：
+    游戏是用 res://IndiumStar/localization/{语言}/{表}.json 去读的，而 res:// 只认 pck，
+    mods 目录下的散装文件不在 Godot 工程内，读不到。
+    所以清单里 has_pck=true，这个 pck 是必需品，不是可选项。
+
+    默认开启；要临时跳过用 -p:ExportPck=false（那样默认不会部署到游戏目录）。
+    需要 Godot 4.5.1（与游戏同版本）：https://godotengine.org/download/archive/4.5.1/
+  -->
+  <Target Name="Export Pck" AfterTargets="Stage Mod" Condition="'$(ExportPck)' == 'true'">
+    <!-- 先单独检查 exe 存不存在，这样报错能说人话，而不是只丢一个 9009 -->
+    <Error Condition="!Exists('$(GodotExe)')"
+           Text="找不到 Godot 可执行文件：$(GodotExe)&#xD;&#xA;（如果你没写过 GodotExe，默认值就是上面这个路径。）&#xD;&#xA;&#xD;&#xA;本地化文本必须打进 .pck 才能在游戏里显示，所以这一步不能省。请：&#xD;&#xA;  1) 下载 Godot 4.5.1 的 Mono/.NET 版：https://godotengine.org/download/archive/4.5.1/&#xD;&#xA;     （必须带 mono，标准版没有 C# 支持；版本号要和游戏一致 4.5.1）&#xD;&#xA;  2) 解压到任意目录，把 exe 完整路径填进 IndiumStar\local.props 的 GodotExe&#xD;&#xA;     或临时用：dotnet build -c Release -p:GodotExe=&quot;D:\godot\Godot_v4.5.1-stable_mono_win64.exe&quot;&#xD;&#xA;&#xD;&#xA;只想验证 C# 能不能编译、暂时不要 pck，可以加 -p:ExportPck=false（默认不会部署到游戏目录）。" />
+
+    <Message Text="Exporting IndiumStar PCK with $(GodotExe) ..." Importance="high" />
+    <Exec Command="&quot;$(GodotExe)&quot; --headless --path &quot;$(GodotProjectPath)&quot; --export-pack &quot;Windows Desktop&quot; &quot;$(ModStagingDir)\$(ModId).pck&quot;"
+          EnvironmentVariables="STS2_DIR=$(Sts2Dir)"
+          IgnoreStandardErrorWarningFormat="true"
+          ContinueOnError="true">
+      <Output TaskParameter="ExitCode" PropertyName="GodotExitCode" />
+    </Exec>
+    <Error Condition="'$(GodotExitCode)' != '0'"
+           Text="导出 .pck 失败（Godot 退出码 $(GodotExitCode)）。游戏目录未被改动，修好后再构建即可。常见原因：&#xD;&#xA;  - 版本不对：必须是 4.5.1（和游戏一致）&#xD;&#xA;  - 下成了标准版而不是 Mono/.NET 版：文件名里要有 mono，否则没有 C# 支持&#xD;&#xA;  - 工程还没导入过：先手动跑一次 &quot;$(GodotExe)&quot; --headless --path &quot;$(GodotProjectPath)&quot; --import&#xD;&#xA;  - 缺少导出模板：在 Godot 编辑器里 编辑器 → 管理导出模板 → 下载并安装&#xD;&#xA;完整命令：&quot;$(GodotExe)&quot; --headless --path &quot;$(GodotProjectPath)&quot; --export-pack &quot;Windows Desktop&quot; &quot;$(ModStagingDir)\$(ModId).pck&quot;" />
+  </Target>
+
+  <!--
+    第三步：全部就绪后整体部署到 游戏目录\mods\IndiumStar\。
+    先清空目标目录再复制，避免残留旧文件形成混合安装。
+  -->
+  <Target Name="Deploy Mod" AfterTargets="$(DeployAfterTargets)" Condition="'$(DeployMod)' == 'true'">
+    <Error Condition="'$(ExportPck)' == 'true' and !Exists('$(ModStagingDir)\$(ModId).pck')"
+           Text="暂存目录缺少 .pck，拒绝部署（避免把不完整的模组装进游戏）：$(ModStagingDir)\$(ModId).pck" />
+    <ItemGroup>
+      <StagedModFiles Include="$(ModStagingDir)\**\*" />
+    </ItemGroup>
+    <Message Text="Deploying IndiumStar mod to $(ModDeployDir) ..." Importance="high" />
+    <RemoveDir Directories="$(ModDeployDir)" />
+    <MakeDir Directories="$(ModDeployDir)" />
+    <Copy SourceFiles="@(StagedModFiles)"
+          DestinationFiles="@(StagedModFiles->'$(ModDeployDir)\%(RecursiveDir)%(Filename)%(Extension)')" />
+  </Target>
+
+  <Target Name="Report Skip Deploy" AfterTargets="$(DeployAfterTargets)" Condition="'$(DeployMod)' != 'true'">
+    <Message Text="Built into $(ModStagingDir) only; game directory untouched (DeployMod=false)." Importance="high" />
+  </Target>
+</Project>

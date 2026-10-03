@@ -1,0 +1,409 @@
+{
+  "date": "2026-10-02",
+  "project": "C:\\Users\\34773\\Desktop\\神秘想法\\sts2改造\\IndiumStar\\IndiumStar",
+  "source_file_count": 63,
+  "registered_card_count": 41,
+  "review_method": "源码阅读与静态审查；未确认重新编译及实机结果",
+  "files": [
+    {
+      "path": "export_presets.cfg",
+      "sha256": "9a53d867cbe82ff03968a4470c8d67de5b446b1e6d5a0225f12d3084f1478a5c",
+      "bytes": 756
+    },
+    {
+      "path": "IndiumStar/localization/eng/afflictions.json",
+      "sha256": "0817e90b13cab3370c50cf2f21fcbfdf63434d05a448811bb738650501703c25",
+      "bytes": 325
+    },
+    {
+      "path": "IndiumStar/localization/eng/card_keywords.json",
+      "sha256": "6a3d89349019355f4f7402b1ec15a50e97c5668e5824e437bbbcdceb43729cc1",
+      "bytes": 1168
+    },
+    {
+      "path": "IndiumStar/localization/eng/cards.json",
+      "sha256": "fcf01631d94b73b64dbac44846ea274ea62ae31aca6a9dfe9ff4dbbfe62377e0",
+      "bytes": 11475
+    },
+    {
+      "path": "IndiumStar/localization/eng/characters.json",
+      "sha256": "e33cfc59de28f2bf0b193e7e40154b241d9a2208b3168138d531fe98e396af89",
+      "bytes": 1544
+    },
+    {
+      "path": "IndiumStar/localization/eng/powers.json",
+      "sha256": "f114d3e9caf0a659ebcba533e64e1c20eaf7dc5786ec8cb49747f4c09b9db03d",
+      "bytes": 1977
+    },
+    {
+      "path": "IndiumStar/localization/zhs/afflictions.json",
+      "sha256": "027de4b02f720d1a5c3cc13f46d097f8ab16d931ad2edf490e838340728a1d99",
+      "bytes": 305
+    },
+    {
+      "path": "IndiumStar/localization/zhs/card_keywords.json",
+      "sha256": "180db6632f0d05f333018aec680b89db76241e206dc1046c76c48197b97e98bb",
+      "bytes": 1172
+    },
+    {
+      "path": "IndiumStar/localization/zhs/cards.json",
+      "sha256": "44ae87a33a0be6f73c787bd5e8aa7888218fd94a30c49c8eeb80325ae77e8d46",
+      "bytes": 11026
+    },
+    {
+      "path": "IndiumStar/localization/zhs/characters.json",
+      "sha256": "730d25d4175794f89563b2c20c318f7e275650b68aa3548ea94c52f149e9a585",
+      "bytes": 1492
+    },
+    {
+      "path": "IndiumStar/localization/zhs/powers.json",
+      "sha256": "d7b141c08802e400c30c728e09144b2ecbd2ba6bf78125890b78727d44766c33",
+      "bytes": 1904
+    },
+    {
+      "path": "IndiumStar.csproj",
+      "sha256": "799111f575867489f30317c351ae606ae201e5bbfd038aec5b027e634668d720",
+      "bytes": 7829
+    },
+    {
+      "path": "IndiumStar.json",
+      "sha256": "60c8a8866234b7aaaf97787c8afb86075f05e328cfcf9a92e069f4891950fe75",
+      "bytes": 406
+    },
+    {
+      "path": "IndiumStar.sln",
+      "sha256": "0d08791db4f98fd162e1a39dedb1aad73413804975b0563eef1e299239e2d44d",
+      "bytes": 970
+    },
+    {
+      "path": "local.props.template",
+      "sha256": "c2958ad66b6cd264fa01025d79958af5e62dde23534b96a3513cfa44c23c599e",
+      "bytes": 402
+    },
+    {
+      "path": "project.godot",
+      "sha256": "b34346fabb54c4c1c01798332799288c639775f14e7d82c2cbac6597d42b29b2",
+      "bytes": 471
+    },
+    {
+      "path": "README.md",
+      "sha256": "1adb02c774414ff34cc28908e1c843c8b0e0850472eb1e8ee4c64568f59cf5d7",
+      "bytes": 55570
+    },
+    {
+      "path": "src/Afflictions/CrystallizeAffliction.cs",
+      "sha256": "7520472c338c3b85088252c4134095077212a0ab9cd8c9b70b7c5a01c762f6c5",
+      "bytes": 3317
+    },
+    {
+      "path": "src/CardPools/IndiumStarCardPool.cs",
+      "sha256": "ca7d4f6557ebe7409359f1d3636e6ca9eb12fdd52383008c8cd57ee2e1e210b9",
+      "bytes": 1303
+    },
+    {
+      "path": "src/CardPools/IndiumStarPotionPool.cs",
+      "sha256": "6f9db101ea32416f513689be6d25e6c264b01a6dcf5a0891619a579586515bb9",
+      "bytes": 686
+    },
+    {
+      "path": "src/CardPools/IndiumStarRelicPool.cs",
+      "sha256": "0df890d856f24455a41e7cd6a6f32465ad78484916846e26966354f8006a43a6",
+      "bytes": 717
+    },
+    {
+      "path": "src/Cards/Analyze.cs",
+      "sha256": "71755a9d159a54cba502c5217e91f4587a6a79689b23f26390985f90d155eb1e",
+      "bytes": 4528
+    },
+    {
+      "path": "src/Cards/ApplicationAs.cs",
+      "sha256": "82333e4e222edcfbf566d505a0fde1c6864f399de4e3ce2633f6cab06e9b8d02",
+      "bytes": 2693
+    },
+    {
+      "path": "src/Cards/ApplicationCa.cs",
+      "sha256": "6e0e359289c6841b87c7467d7fcce646755d2914942744b5f65c771491d63394",
+      "bytes": 2323
+    },
+    {
+      "path": "src/Cards/ApplicationCard.cs",
+      "sha256": "1692a45ee7c48a1390ee248adde346ed8a6992c48ce51c928ea1feef7da9ba0b",
+      "bytes": 4284
+    },
+    {
+      "path": "src/Cards/ApplicationCo.cs",
+      "sha256": "00a8a4249a449bbe28349083f83b455dd05717f4c21571241e3161fb77a1fe86",
+      "bytes": 4100
+    },
+    {
+      "path": "src/Cards/ApplicationCu.cs",
+      "sha256": "f2f89afafc77e1d3d4fb4de1909a15213757d8178f17c876d647c6bd0fa156b0",
+      "bytes": 3301
+    },
+    {
+      "path": "src/Cards/ApplicationEffectKeys.cs",
+      "sha256": "4373c10f2f20dc41e1342e679b3f8b21b529f4e3f2904b7754423417de84c085",
+      "bytes": 504
+    },
+    {
+      "path": "src/Cards/ApplicationF.cs",
+      "sha256": "2047a1eb5cf942ff76dd7f93dd53ae34756236253804ddc6a338ae1441323e01",
+      "bytes": 2809
+    },
+    {
+      "path": "src/Cards/ApplicationH.cs",
+      "sha256": "69a1124866084b05dd29c04cb44e6ed811fc7e82af83845bf83862134a36e60f",
+      "bytes": 8934
+    },
+    {
+      "path": "src/Cards/ApplicationHs.cs",
+      "sha256": "9cc5b06d35a49ec5e9ec6612b4f508c7ad8bdc51d765b24007d8f87b43ba1fce",
+      "bytes": 3652
+    },
+    {
+      "path": "src/Cards/ApplicationIn.cs",
+      "sha256": "d7ef5ed353e33af05c163a1d78fc8ab5fe5a424e8b00a1ba8be283215070ae95",
+      "bytes": 3009
+    },
+    {
+      "path": "src/Cards/ApplicationMg.cs",
+      "sha256": "76fd95117780b91a85babfbbea27416c2f996b2f2137548402d39cc73229a275",
+      "bytes": 3144
+    },
+    {
+      "path": "src/Cards/ApplicationNeutron.cs",
+      "sha256": "610f9b51f27f36f5738c271409a0851dae3cc374a6c1cca0f134980df74db284",
+      "bytes": 4612
+    },
+    {
+      "path": "src/Cards/ApplicationPb.cs",
+      "sha256": "30b8c569dfe5a60b97b98d6f70657335338c42b5af1d0bd836dde523f5b1f511",
+      "bytes": 3830
+    },
+    {
+      "path": "src/Cards/ApplicationRules.cs",
+      "sha256": "e3c76a29374f0d0010c8d7a68f3ea33b2d1b243272b0433037bf5bb9542bfe22",
+      "bytes": 1344
+    },
+    {
+      "path": "src/Cards/ApplicationTh.cs",
+      "sha256": "dfab0b580070656f91b8e0a634b73a2b07173ed85bc99673ee2440cc832bec99",
+      "bytes": 4834
+    },
+    {
+      "path": "src/Cards/ApplicationZn.cs",
+      "sha256": "c18e75b10e706eb9fc019075838cb67072ab63aa071dbee7d648670ed5987b91",
+      "bytes": 3434
+    },
+    {
+      "path": "src/Cards/BondingEster.cs",
+      "sha256": "3605effa66c110cac99464cbb3d6a210a956849037c4118cd9fea50df9f1405a",
+      "bytes": 3664
+    },
+    {
+      "path": "src/Cards/BondingImidogen.cs",
+      "sha256": "9bc6ce5629afa1d466b3d4a78bfb4fb4c40741bd6752664fa47fdc863cdb5bed",
+      "bytes": 4339
+    },
+    {
+      "path": "src/Cards/BondingNitro.cs",
+      "sha256": "4d639ac9ea631a25113f83fcca31b48ec864ca671e62d099e672658d53a1a413",
+      "bytes": 3120
+    },
+    {
+      "path": "src/Cards/Characterization.cs",
+      "sha256": "f15d2dad818ac8dcc64d6154e0507514946bf079e696ffac604fcfa06a26c4e1",
+      "bytes": 3303
+    },
+    {
+      "path": "src/Cards/Collapse.cs",
+      "sha256": "cfd7fd1c39064b5a369f2f4b3f2a1e5dfd434e1ac90a5664b10ab70ac6c51e21",
+      "bytes": 3388
+    },
+    {
+      "path": "src/Cards/ConformationBlow.cs",
+      "sha256": "e4a7888236ba40e6122d209f74bb0ae4329f657b8e8ced7958bed2b155c5b908",
+      "bytes": 4902
+    },
+    {
+      "path": "src/Cards/CrystalCoin.cs",
+      "sha256": "29bfd8d67730cd135ffc6d634e8712e1cec28b0295521ad58ae01ea5a5670d33",
+      "bytes": 6026
+    },
+    {
+      "path": "src/Cards/CrystalFlow.cs",
+      "sha256": "18b645007514bf6a6a307f12807e77f40d7ff9fcd976791ac74d082016008ef3",
+      "bytes": 4007
+    },
+    {
+      "path": "src/Cards/Crystallization.cs",
+      "sha256": "0f4494df80e8550d2feb8049b1f69552fc49564a74afd269a5b26f596276518d",
+      "bytes": 2673
+    },
+    {
+      "path": "src/Cards/CrystallizationHs.cs",
+      "sha256": "9b957834e1b8e0107969a908bf5d3ad694df243c235cedb8be4054cd505b01d5",
+      "bytes": 3955
+    },
+    {
+      "path": "src/Cards/CrystallizationMg.cs",
+      "sha256": "8bedceabaf65af2d2b723e4f3af175eb7f71aeeab86edc2ef60acf616d4daef5",
+      "bytes": 3258
+    },
+    {
+      "path": "src/Cards/CrystallizationPb.cs",
+      "sha256": "e504b58ecd99755f96b09c2a7655faff137068af728dd82c12053e95c6b3bdb0",
+      "bytes": 3780
+    },
+    {
+      "path": "src/Cards/CrystallizationRules.cs",
+      "sha256": "4814dd8a9f6fd3a1ff276872bb9b50019ad759041d50f5f73faf5e102ff3925e",
+      "bytes": 6154
+    },
+    {
+      "path": "src/Cards/DefendIndiumStar.cs",
+      "sha256": "32666e26e4e1cf0df6c00cf29a1d3c40538e44761ab3b64762a39508f042c4b3",
+      "bytes": 1651
+    },
+    {
+      "path": "src/Cards/ExploitAdvantage.cs",
+      "sha256": "f6e088b03f6435eaa361404431002dadbfd885dd59ca76c122fda2f8a76c1a8c",
+      "bytes": 3818
+    },
+    {
+      "path": "src/Cards/GasPhaseSurge.cs",
+      "sha256": "69db6e5d033596c1361f34b9849736a66a6c2e26df398f44c0ba0b3fac9d5978",
+      "bytes": 5978
+    },
+    {
+      "path": "src/Cards/GroupMigration.cs",
+      "sha256": "ba30f59aec263fafeb541483d9860e90153c4802f7704ee515d1d8b91198e205",
+      "bytes": 5975
+    },
+    {
+      "path": "src/Cards/OrigionStrike.cs",
+      "sha256": "45829f5da6e5f9418f3b72ecd252c9232fccc96bdda0df292734f15ca7f9eef7",
+      "bytes": 2731
+    },
+    {
+      "path": "src/Cards/Primed.cs",
+      "sha256": "6f46ebdd33683be94ca2206634fda2848a950809401e4bdd95d4809226908c23",
+      "bytes": 2198
+    },
+    {
+      "path": "src/Cards/PrimordialPierce.cs",
+      "sha256": "1a084ec74ba297414824aa176d761d5666c3d0fbb25395d483ffa7ea9960ca04",
+      "bytes": 4440
+    },
+    {
+      "path": "src/Cards/ReminiscenceVanadiumEternal.cs",
+      "sha256": "254ade5459f86208660e5ba1f66720bce9710e66541321885bef244970612e0c",
+      "bytes": 2869
+    },
+    {
+      "path": "src/Cards/RustEdge.cs",
+      "sha256": "0c1c530418fb6593b267ee41bc5b866c180132159230f250aa1c0f069831c052",
+      "bytes": 3054
+    },
+    {
+      "path": "src/Cards/Segregation.cs",
+      "sha256": "870d2c619cc75989573d431a80d53f28d553ed5f85e68ef81cd8146d8679b8b6",
+      "bytes": 2866
+    },
+    {
+      "path": "src/Cards/ShatterCrystalRain.cs",
+      "sha256": "4f92778194dccc0bb0145e1a982be0cf606de0942150aa9852465a785334a166",
+      "bytes": 6123
+    },
+    {
+      "path": "src/Cards/Slash.cs",
+      "sha256": "3f5afd3412365ed93cf97db274f481a82d528623f35b106c72a9ceb8b35c3374",
+      "bytes": 2170
+    },
+    {
+      "path": "src/Cards/SpinKick.cs",
+      "sha256": "b3befe613fe6126b35c21791fdfb307f11a99781a71fa010f40a099841ca368f",
+      "bytes": 3231
+    },
+    {
+      "path": "src/Cards/StrikeIndiumStar.cs",
+      "sha256": "c47d1310210ae911f6ca8f7ead60c4022965dfbc4dff262aa9a9eb7dc0e839eb",
+      "bytes": 1839
+    },
+    {
+      "path": "src/Cards/ThermobaricField.cs",
+      "sha256": "5102320def991c76849ccc1ef7fd384c0ba9060055ecddad7aa76b308c22f96b",
+      "bytes": 3516
+    },
+    {
+      "path": "src/Characters/IndiumStarCharacter.cs",
+      "sha256": "2e3dbb4859189fdbd7f6005a41d1f4d6d0ade7770cbcf9a913e93dc6d440c8c7",
+      "bytes": 2714
+    },
+    {
+      "path": "src/Entry.cs",
+      "sha256": "bca49ce6c7da789657df306d34196fa4ba402d698042ee4b2f0dc136f9289361",
+      "bytes": 2043
+    },
+    {
+      "path": "src/Powers/ApplicationCaBlockPower.cs",
+      "sha256": "01dd1d79962ad9f622dab07b1eab2dc22df4ea1e754b3a2b60ad4b014a72cc2f",
+      "bytes": 2848
+    },
+    {
+      "path": "src/Powers/ApplicationCoPower.cs",
+      "sha256": "514da3bf91fe0944c247e8b7fa66ece35aba2f8f5e1b2b3a190b163d39cb4c21",
+      "bytes": 4868
+    },
+    {
+      "path": "src/Powers/ApplicationCuPower.cs",
+      "sha256": "52fe9e5fef86d4c3d6860973dee2dca1fd26701dd6adbf9a5a8be88f9dc14576",
+      "bytes": 4932
+    },
+    {
+      "path": "src/Powers/ApplicationHsStrengthDownPower.cs",
+      "sha256": "f8160ce254d9f80749a637e585deb3babc4a3b1fc47ba2ecb89445689dd13ed4",
+      "bytes": 1150
+    },
+    {
+      "path": "src/Powers/BondingImidogenDexterityPower.cs",
+      "sha256": "badb6a7d462e5d336830be802f9b7dfc11788d8ac0f7abfa24558be59b0fa618",
+      "bytes": 1116
+    },
+    {
+      "path": "src/Powers/CharacterizationStrengthPower.cs",
+      "sha256": "04d84f1c42108b32eb1f1a6f3944590bf22377f2934540e36499d4d1a3c8e4e3",
+      "bytes": 4106
+    },
+    {
+      "path": "src/Powers/FreeApplicationPower.cs",
+      "sha256": "9959ea32a090b1f135be15056312fe3609fd798dc43dd0797050362a3083b87a",
+      "bytes": 2802
+    },
+    {
+      "path": "src/Powers/LoseVulnerableAtTurnStartPower.cs",
+      "sha256": "36dbc8d4b38dc645ce62b389ca59d26c9d7abf94809c4f9dcc6c76171b5b9010",
+      "bytes": 2349
+    },
+    {
+      "path": "src/Powers/LoseWeakAtTurnEndPower.cs",
+      "sha256": "5e160ba73e50016a1b94ba8a8b57000e2b4ab3bca3a3fbc7eac7a6f83db1deb0",
+      "bytes": 2436
+    },
+    {
+      "path": "src/Powers/OnlyAttacksThisTurnPower.cs",
+      "sha256": "ea7daa0654006bd05552d84be0563666dae75166cb7ffa8832c7d6d405d684ff",
+      "bytes": 2312
+    },
+    {
+      "path": "src/Powers/ReminiscenceDrawPower.cs",
+      "sha256": "1e77ac14084ba54010a0a57f0524c951db297bb12ae08b2ee086a82bb4d5be0f",
+      "bytes": 5837
+    },
+    {
+      "path": "src/Powers/ThermobaricFieldStrengthPower.cs",
+      "sha256": "f1bf12a2a14c67890a5ae172f4b60fb482adf4c487f3dcfef70e0145542dae08",
+      "bytes": 871
+    }
+  ]
+}

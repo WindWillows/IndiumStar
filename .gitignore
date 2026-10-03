@@ -1,0 +1,13 @@
+# 归档：旧任务与游戏本体源码快照（含专有代码，不进入仓库）
+归档_2026-10-02_STS2旧任务/
+
+# 修改备份与验证产物
+卡牌开发/修改备份/
+卡牌开发/机制验证/output/
+卡牌开发/机制验证/apidump/ApiDump.dll
+卡牌开发/机制验证/apidump/ApiDump.pdb
+卡牌开发/机制验证/apidump/ApiDump.runtimeconfig.json
+卡牌开发/机制验证/apidump/dump.rsp
+
+# 系统杂项
+Thumbs.db

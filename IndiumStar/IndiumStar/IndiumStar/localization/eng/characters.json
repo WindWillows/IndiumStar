@@ -1,0 +1,17 @@
+{
+  "INDIUM_STAR_CHARACTER_INDIUM_STAR_CHARACTER.title": "Indium Star",
+  "INDIUM_STAR_CHARACTER_INDIUM_STAR_CHARACTER.titleObject": "Indium Star",
+  "INDIUM_STAR_CHARACTER_INDIUM_STAR_CHARACTER.description": "A traveler who crossed over from crysta is climbing the spire to get his memories back.\nElemental power surrounds and shields him, and memory stirs the strength he once had.",
+  "INDIUM_STAR_CHARACTER_INDIUM_STAR_CHARACTER.cardsModifierTitle": "Indium Star Cards",
+  "INDIUM_STAR_CHARACTER_INDIUM_STAR_CHARACTER.cardsModifierDescription": "Indium Star cards will now appear in rewards and shops.",
+  "INDIUM_STAR_CHARACTER_INDIUM_STAR_CHARACTER.possessiveAdjective": "their",
+  "INDIUM_STAR_CHARACTER_INDIUM_STAR_CHARACTER.pronounObject": "them",
+  "INDIUM_STAR_CHARACTER_INDIUM_STAR_CHARACTER.pronounPossessive": "theirs",
+  "INDIUM_STAR_CHARACTER_INDIUM_STAR_CHARACTER.pronounSubject": "they",
+  "INDIUM_STAR_CHARACTER_INDIUM_STAR_CHARACTER.unlockText": "Play a run with [pink]{Prerequisite}[/pink] to unlock this character.",
+  "INDIUM_STAR_CHARACTER_INDIUM_STAR_CHARACTER.banter.alive.endTurnPing": "One moment, let me look again.",
+  "INDIUM_STAR_CHARACTER_INDIUM_STAR_CHARACTER.banter.dead.endTurnPing": "...",
+  "INDIUM_STAR_CHARACTER_INDIUM_STAR_CHARACTER.bestiaryQuote": "I have not dealt with this thing yet.",
+  "INDIUM_STAR_CHARACTER_INDIUM_STAR_CHARACTER.eventDeathPrevention": "I cannot fall here yet.",
+  "INDIUM_STAR_CHARACTER_INDIUM_STAR_CHARACTER.goldMonologue": "[sine]This gold could buy quite a lot...[/sine]"
+}

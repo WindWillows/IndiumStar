@@ -1,0 +1,7 @@
+bin/
+obj/
+build/
+.godot/
+.godot-user-data/
+local.props
+*.user

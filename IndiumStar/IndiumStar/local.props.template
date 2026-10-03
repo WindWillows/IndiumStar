@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  复制本文件为 local.props，并按自己的安装位置修改 Sts2Dir。
+  local.props 已被 .gitignore 忽略，不会提交。
+-->
+<Project>
+  <PropertyGroup>
+    <Sts2Dir>C:\Program Files (x86)\Steam\steamapps\common\Slay the Spire 2</Sts2Dir>
+    <GodotExe>C:\megadot\MegaDot_v4.5.1-stable_mono_win64.exe</GodotExe>
+  </PropertyGroup>
+</Project>

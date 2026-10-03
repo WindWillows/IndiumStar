@@ -1,0 +1,52 @@
+﻿param([string]$ProjectDir = (Join-Path $PSScriptRoot '..\..\IndiumStar\IndiumStar'))
+$ErrorActionPreference = 'Stop'
+$ProjectDir = (Resolve-Path -LiteralPath $ProjectDir).Path
+$dotnetRoot = 'C:\Program Files\dotnet'
+$sdkDir = Get-ChildItem -LiteralPath (Join-Path $dotnetRoot 'sdk') -Directory |
+    Where-Object { $_.Name -like '9.*' } | Sort-Object { [version]$_.Name } -Descending | Select-Object -First 1
+$refDir = Get-ChildItem -LiteralPath (Join-Path $dotnetRoot 'packs\Microsoft.NETCore.App.Ref') -Directory |
+    Where-Object { $_.Name -like '9.*' } | Sort-Object { [version]$_.Name } -Descending | Select-Object -First 1
+if (!$sdkDir -or !$refDir) { throw '需要 .NET 9 SDK 和引用程序集。' }
+$outputDir = Join-Path $PSScriptRoot 'output\tests'
+New-Item -ItemType Directory -Path $outputDir -Force | Out-Null
+$usingsPath = Join-Path $outputDir 'TestUsings.cs'
+[System.IO.File]::WriteAllText($usingsPath, "global using System;`nglobal using System.Collections.Generic;`nglobal using System.Linq;`nglobal using System.Threading.Tasks;`n", [System.Text.UTF8Encoding]::new($false))
+$sourcePaths = @('Cards\ApplicationCard.cs', 'Cards\ApplicationRules.cs', 'Cards\CrystalCoin.cs', 'Cards\CrystallizationCard.cs',
+    'Cards\Crystallization.cs', 'Cards\CrystallizationRules.cs', 'Cards\ICardFamilies.cs',
+    'Mechanics\CrystalBranch.cs', 'Mechanics\CrystalBranchRules.cs', 'Mechanics\ExtensionRules.cs',
+    'Powers\CharacterizationStrengthPower.cs') |
+    ForEach-Object { Join-Path (Join-Path $ProjectDir 'src') $_ }
+$sourcePaths += @($usingsPath, (Join-Path $PSScriptRoot 'GameStubs.cs'), (Join-Path $PSScriptRoot 'MechanismTests.cs'))
+$arguments = @('/nostdlib+', '/target:exe', '/langversion:13.0', '/nullable:enable', '/utf8output',
+    ('/out:"' + (Join-Path $outputDir 'MechanismTests.dll') + '"'))
+$arguments += Get-ChildItem -LiteralPath (Join-Path $refDir.FullName 'ref\net9.0') -Filter '*.dll' |
+    ForEach-Object { '/reference:"' + $_.FullName + '"' }
+$arguments += $sourcePaths | ForEach-Object { '"' + $_ + '"' }
+$responseFile = Join-Path $outputDir 'tests.rsp'
+[System.IO.File]::WriteAllLines($responseFile, $arguments, [System.Text.UTF8Encoding]::new($false))
+$dotnetExe = Join-Path $dotnetRoot 'dotnet.exe'
+& $dotnetExe (Join-Path $sdkDir.FullName 'Roslyn\bincore\csc.dll') '/noconfig' ('@' + $responseFile)
+if ($LASTEXITCODE -ne 0) { throw "测试源码编译失败：$LASTEXITCODE" }
+[System.IO.File]::WriteAllText((Join-Path $outputDir 'MechanismTests.runtimeconfig.json'),
+    '{"runtimeOptions":{"tfm":"net9.0","framework":{"name":"Microsoft.NETCore.App","version":"9.0.0"}}}', [System.Text.UTF8Encoding]::new($false))
+& $dotnetExe (Join-Path $outputDir 'MechanismTests.dll') | Tee-Object -FilePath (Join-Path $outputDir 'test-results.txt')
+if ($LASTEXITCODE -ne 0) { throw "机制测试失败：$LASTEXITCODE" }
+
+# 迁移完整性检查：已有牌的声明不能漏掉实际分支，也不能漏掉运用牌族标记。
+$branchCards = 0
+$applicationCards = 0
+Get-ChildItem -LiteralPath (Join-Path $ProjectDir 'src\Cards') -Filter '*.cs' | ForEach-Object {
+    $source = [System.IO.File]::ReadAllText($_.FullName)
+    if ($source -match 'public sealed class Application\w+ : (ApplicationCard|ModCardTemplate)') {
+        if ($source -notmatch 'public sealed class Application\w+ : [^\r\n]+, IApplicationCard') { throw "运用牌缺少标记：$($_.Name)" }
+        $applicationCards++
+    }
+    $hasResistance = $source -match 'protected override (async )?Task CrystalResistance\('
+    $hasReversal = $source -match 'protected override (async )?Task CrystalReversal\('
+    if ($hasResistance -or $hasReversal) {
+        $expected = if ($hasResistance -and $hasReversal) { 'Both' } elseif ($hasResistance) { 'Resistance' } else { 'Reversal' }
+        if ($source -notmatch ('AvailableCrystalBranches => CrystalBranch\.' + $expected + ';')) { throw "分支声明不完整：$($_.Name)" }
+        $branchCards++
+    }
+}
+Write-Output "Metadata audit passed: $applicationCards application cards, $branchCards cards with branches."

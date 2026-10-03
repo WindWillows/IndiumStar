@@ -1,0 +1,21 @@
+{
+  "ETERNAL.description": "Cannot be removed from or transformed in your [gold]deck[/gold].",
+  "ETERNAL.title": "Eternal",
+  "ETHEREAL.description": "If this card is in your [gold]hand[/gold] at the end of this turn, [gold]Exhaust[/gold] it.",
+  "ETHEREAL.title": "Ethereal",
+  "EXHAUST.description": "Removed until the end of combat.",
+  "EXHAUST.title": "Exhaust",
+  "INNATE.description": "This card starts each combat in your [gold]hand[/gold].",
+  "INNATE.title": "Innate",
+  "PERIOD": ".",
+  "RETAIN.description": "Retained cards are not discarded at the end of turn.",
+  "RETAIN.title": "Retain",
+  "SLY.description": "If this card is discarded from your [gold]hand[/gold] before the end of your turn, play it for free.",
+  "SLY.title": "Sly",
+  "UNPLAYABLE.description": "Unplayable cards cannot be played.",
+  "UNPLAYABLE.title": "Unplayable",
+  "CRYSTAL_RESISTANCE.description": "After you play this card, if you have any Energy left, this effect triggers.",
+  "CRYSTAL_RESISTANCE.title": "Resistance",
+  "CRYSTAL_REVERSAL.description": "After you play this card, if you have no Energy left, this effect triggers.",
+  "CRYSTAL_REVERSAL.title": "Reversal"
+}

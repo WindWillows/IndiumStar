@@ -1,0 +1,146 @@
+# 公共机制开发约定
+
+本轮改动建立晶化、延拓、晶抗/晶逆的公共入口，保留现有卡牌的数值与一般结算。
+量子点、污染O/H、硬钙石、磷语等卡牌已接入这些接口。
+
+## 晶化
+
+新增晶化应继承 `CrystallizationCard`，并照常使用 `RegisterCard` 注册。
+公共基类提供0费、状态牌、保留、消耗，以及所有变体共用的手动额度。
+需要增加关键字时覆写 `CanonicalKeywords`；需要额外手动条件时覆写
+`CanPlayCrystallization`，不要自行替换公共限额。
+
+```csharp
+public sealed class MyCrystal : CrystallizationCard
+{
+    protected override async Task<CardModel?> PlayEffect(
+        PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    {
+        // 使用本体指令实现变体效果。
+        return null;
+    }
+}
+```
+
+该示例省略注册和资源配置，只展示效果入口。空效果变体可以直接使用基类默认实现。
+
+`ICrystallizationCard` 是牌族身份，和显示名称、语言、卡牌稀有度无关。
+外部模型也可实现此标记，但手动额度由公共基类负责，单独声明标记不自动限制出牌。
+选牌与计数使用 `CrystallizationRules.IsCrystallizationCard` 和
+`CountCrystallizationInHand`，生成使用普通或泛型 `AddToHand`。
+泛型入口要求目标模型同时是 `CardModel` 和 `ICrystallizationCard`。
+
+手动额度从本体 `CardPlaysStarted` 读取：同玩家、本回合、非自动、系列第一段。
+自动打出不占额度；一次手动出牌的原版重放不额外占额度。
+下一回合不需维护自定义重置字段。自动出牌仍遵守本体的其他出牌限制。
+
+## 运用牌族
+
+`ApplicationCard` 是通用效果基类，分析、表征等非运用牌也继承它。
+真正的运用牌必须另外声明 `IApplicationCard`。不继承该基类的运用-Co
+同样声明接口。`ApplicationRules.IsApplicationCard` 和免费效果只识别这个标记。
+
+## 延拓
+
+所有业务牌通过 `ExtensionRules` 操作延拓：
+
+| 方法 | 行为 |
+| --- | --- |
+| `Gain(context, player, amount, source)` | 通过本体 `PowerCmd.Apply` 获得层数，保留来源卡与施加方 |
+| `GetAmount(player)` | 查询层数，无能力时返回0 |
+| `RemoveAll(player)` | 移除全部层数，无能力时无操作 |
+| `TryConsumeAll(player, minimum)` | 达到正数阈值才清空全部层数，并返回是否消耗 |
+
+当前继续使用原版 `EnergyNextTurnPower`：各来源合并，能量重置后发放，
+然后移除能力。清空延拓也会清空其他来源的下回合能量。
+这是保留现有实现的兼容选择，不表示已经决定延拓必须永远共享原版资源。
+若设计要求独立资源，未来只更换公共入口的底层能力和兑现钩子。
+
+本轮迁移了运用-In、键合-酯基、键合-亚胺基、键合-硝基、基团迁移的获得逻辑，
+以及坍缩的消耗和构象打击的查询。其他临时或延迟力量能力不属于延拓。
+
+获得拦截：实现 `IExtensionGainInterceptor` 的模型（回忆-磷语）可在 `Gain` 里
+把每回合第一次延拓换成等量能量。接口与公共入口同文件，入口不认识具体能力。
+
+## 晶抗与晶逆
+
+结算顺序固定为：支付费用 → 等待完整基础效果 → 读取一次能量 → 选择分支 → 执行分支。
+默认非0能量选择晶抗，0能量选择晶逆。分支及通知改变能量不重做本次选择。
+
+牌须显式声明 `AvailableCrystalBranches`：
+
+```csharp
+public override CrystalBranch AvailableCrystalBranches => CrystalBranch.Both;
+```
+
+| 声明 | 对应方法 |
+| --- | --- |
+| `None`（默认） | 没有分支，不产生空触发 |
+| `Resistance` | `CrystalResistance` |
+| `Reversal` | `CrystalReversal` |
+| `Both` | 两个方法都实现；通常仍只按能量选择一个 |
+
+`Both` 声明表示牌具备两种效果，不意味着每次都执行两种。
+特殊能力通过修改选择结果实现同时执行。已有17张带分支卡牌已显式迁移，
+测试脚本检查声明与覆写方法对应，避免漏掉旧牌或给空方法计数。
+
+`CrystalBranchContext` 保存本次牌、`CardPlay`、主效果返回值、主效果后的能量，
+以及可用分支。主效果选牌结果继续通过局部返回值传递，不放在跨次出牌字段中。
+出牌次数预测阶段（`ModifyCardPlayCount`）没有 `CardPlay` 和主效果返回值，
+这两个字段为 null，修改规则必须容忍。
+
+### 修改分支
+
+战斗中的模型实现 `ICrystalBranchModifier`，其方法按本体监听顺序调用。
+默认结果来自能量快照，修改结果最终与牌的可用分支取交集。
+可以选择 `None`、一个分支或 `Both`，不能凭空为无相应效果的牌制造触发。
+
+例如量子点在自身适用的前两张牌上返回 `Both`。它的玩家范围、计数口径、
+回合重置应由量子点模型根据本体出牌历史处理。没有分支的牌仍可能占用
+“前两张牌”的位置，不能只按修改接口被调用的次数统计。
+
+修改方法应仅计算结果，不抽牌、不获得能量、不修改计数。选择一旦完成，
+双分支固定先晶抗后晶逆，即使第一分支或其通知改变能量也不改判。
+
+### 监听触发
+
+战斗中的模型实现 `ICrystalBranchListener.AfterCrystalBranchTriggered`。
+通知在对应分支完成后立即执行并等待完成；双分支的顺序是：
+
+晶抗 → 晶抗通知 → 晶逆 → 晶逆通知。
+
+污染H可以在自身玩家的晶抗通知中累计触发次数，达到阈值后获得延拓并抽牌。
+接口只报告已声明并完成执行的分支；没有该分支的卡不通知，抛异常的分支不发送完成通知。
+分支已执行但因目标、层数或收益为0而没有数值变化，仍按一次逻辑触发报告。
+自动出牌及本体重放在完整分支结算时也报告；具体能力可按 `CardPlay` 自行筛选。
+
+监听者应检查 `context.Card.Owner` 或其生物是否为自身主人，并检查所需牌堆、回合范围。
+框架从当前战斗的 `IterateHookListeners()` 发现模型，不保留全局订阅。
+战斗已结束或正在结束时停止附加规则和通知，初始化阶段遵循本体钩子例外。
+
+## 晶逆重放的实现
+
+晶流和运用-Th 的晶逆「重放」走本体出牌系列：`ApplicationCard.ModifyCardPlayCount`
+在出牌次数生成时按当前能量预测分支，预测到晶逆就延长本次系列
+`CrystalReversalReplayCount` 段（与复制药水同路径，每段都过出牌钩子和历史）。
+`ResolveEffect` 在非 `IsFirstInSeries` 的段上只执行主效果，实现「重放不触发晶抗/晶逆」。
+声明重放的牌，主效果不得改变能量（预测在结算前读取能量）。
+审查报告 F04 已通过此方式处理。
+
+## 验证与尚待处理的部分
+
+工作区 `卡牌开发/机制验证/Run-Tests.ps1` 将这份公共机制的真实源码链接到
+小型本体替身，检查规则选择、额度、事件顺序和延拓指令路由。
+这些测试不加载游戏，也不证明 Godot、多人同步或本体能量兑现流程已实机通过。
+
+`Compile-Mod.ps1 -GameDir '游戏根目录'` 使用实际游戏程序集和指定的RitsuLib程序集
+直接进行C#编译。默认RitsuLib引用为团队交付的 `.godot/mono/temp/bin/Release` 文件；
+可以用 `-RitsuLibDir` 指定其他引用目录。它只输出验证DLL，不运行项目的自动部署目标。
+这不是完整Godot工程构建，不执行源生成器、PCK导出或游戏安装。
+
+本轮未改变卡牌数值或补全新卡。动态追加晶化词条的侵蚀槽冲突、晶化Hs完整力量语义、
+原版重放联动等问题仍需后续处理。
+
+后续已完成：表征的延迟力量区分已发放与待发放（审查报告 F02），晶币的永久递减
+改用 RitsuLib `SavedAttachedState<CardModel, int>` 随牌组原件进存档（F03）。
+`Run-Tests.ps1` 已加入这两项的回归测试。

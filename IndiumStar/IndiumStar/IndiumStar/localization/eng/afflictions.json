@@ -1,0 +1,8 @@
+{
+  "INDIUM_STAR_AFFLICTION_CRYSTALLIZE_AFFLICTION.title": "Crystallize",
+  "INDIUM_STAR_AFFLICTION_CRYSTALLIZE_AFFLICTION.description": "When this card is played, add {Amount} [gold]Crystallization[/gold] to your hand.",
+  "INDIUM_STAR_AFFLICTION_CRYSTALLIZE_AFFLICTION.extraCardText": "[gold]Crystallize {Amount}[/gold]",
+  "INDIUM_STAR_AFFLICTION_CRYSTALLIZE_U_AFFLICTION.title": "Crystallize (U)",
+  "INDIUM_STAR_AFFLICTION_CRYSTALLIZE_U_AFFLICTION.description": "When this card is played, add {Amount} [gold]Crystallization-U[/gold] to your hand.",
+  "INDIUM_STAR_AFFLICTION_CRYSTALLIZE_U_AFFLICTION.extraCardText": "[gold]Crystallize (U) {Amount}[/gold]"
+}

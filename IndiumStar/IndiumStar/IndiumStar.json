@@ -1,0 +1,17 @@
+{
+  "id": "IndiumStar",
+  "name": "铟星 IndiumStar",
+  "author": "you",
+  "description": "《杀戮尖塔2》角色模组：铟星。初始牌组只包含「打击」与「防御」。",
+  "version": "0.1.0",
+  "min_game_version": "0.111.0",
+  "has_pck": true,
+  "has_dll": true,
+  "affects_gameplay": true,
+  "dependencies": [
+    {
+      "id": "STS2-RitsuLib",
+      "min_version": "0.6.2"
+    }
+  ]
+}

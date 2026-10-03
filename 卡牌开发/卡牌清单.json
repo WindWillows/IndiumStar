@@ -1,0 +1,2774 @@
+{
+  "schema_version": 1,
+  "source_file": "C:\\Users\\34773\\Desktop\\神秘想法\\sts2改造\\晶塔世界角色.docx",
+  "source_sha256": "31953759827928d5b9da37c984423bda57979f8c7d21d6a16f49be35ea2fd9c4",
+  "scope": "卡牌与卡牌机制；遗物和药水不在本次实现准备范围内。",
+  "rules": {
+    "延拓": {
+      "confirmed": "每获得1层延拓，在下回合开始时获得1点能量；一次性效果，不是永久增益；打出延拓n的卡牌时获得n层。",
+      "implementation_interpretation": "下一回合兑现后移除已兑现层数；战斗内保存于对应玩家。"
+    },
+    "晶化词条": {
+      "confirmed": "打出晶化（）n卡牌时，将n张对应晶化加入手牌；括号空白时为普通晶化。"
+    },
+    "晶化牌": {
+      "confirmed": "一类衍生状态牌，一般为0费、保留、消耗；每回合手动打出至多1张晶化，自动打出晶化不计入次数；变体可具有额外效果。",
+      "manual_play_limit_per_player_turn": 1,
+      "automatic_play_counts_toward_limit": false,
+      "implementation_interpretation": "所有晶化种类共享手动次数；自动打出不占用该次数，不受已用手动次数限制；下个玩家回合恢复额度。"
+    },
+    "晶抗和晶逆": {
+      "confirmed": "打出牌并完成基础效果后，读取剩余能量：不为0时触发晶抗，为0时触发晶逆。",
+      "crystal_resistance_condition": "remaining_energy != 0",
+      "crystal_inverse_condition": "remaining_energy == 0",
+      "default_mutually_exclusive": true,
+      "implementation_interpretation": "在基础效果结束后读取一次能量并选定分支；分支效果改变能量后，不自动追加另一个分支。",
+      "card_defined_override": "量子点使每回合前2张牌同时触发晶抗和晶逆效果。",
+      "energy_check_timing": "after_base_effects",
+      "resolution_order": [
+        "支付本次打牌费用",
+        "结算基础效果",
+        "读取一次当前剩余能量",
+        "按能量选择晶抗或晶逆；卡牌特例可使两者同时触发",
+        "结算选定分支效果"
+      ]
+    }
+  },
+  "counts": {
+    "初始": 4,
+    "普通": 19,
+    "罕见": 23,
+    "稀有": 6
+  },
+  "cards": [
+    {
+      "record_id": "card_001",
+      "name": "打击",
+      "rarity": "初始",
+      "card_type": "攻击",
+      "cost_source": "1",
+      "source_paragraphs": [
+        160,
+        161,
+        162
+      ],
+      "source_text": "打击\n1c 初始 攻击\n造成6（9）点伤害。",
+      "upgrade_annotations": [
+        {
+          "paragraph": 162,
+          "text": "（9）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        }
+      ],
+      "notes": [],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 160,
+          "start": 0,
+          "end": 2,
+          "text": "打击"
+        },
+        {
+          "paragraph": 161,
+          "start": 0,
+          "end": 8,
+          "text": "1c 初始 攻击"
+        },
+        {
+          "paragraph": 162,
+          "start": 0,
+          "end": 10,
+          "text": "造成6（9）点伤害。"
+        }
+      ],
+      "mechanics_mentions": []
+    },
+    {
+      "record_id": "card_002",
+      "name": "防御",
+      "rarity": "初始",
+      "card_type": "技能",
+      "cost_source": "1",
+      "source_paragraphs": [
+        164,
+        165,
+        166
+      ],
+      "source_text": "防御\n1c 初始 技能\n获得5（8）点格挡。",
+      "upgrade_annotations": [
+        {
+          "paragraph": 166,
+          "text": "（8）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        }
+      ],
+      "notes": [],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 164,
+          "start": 0,
+          "end": 2,
+          "text": "防御"
+        },
+        {
+          "paragraph": 165,
+          "start": 0,
+          "end": 8,
+          "text": "1c 初始 技能"
+        },
+        {
+          "paragraph": 166,
+          "start": 0,
+          "end": 10,
+          "text": "获得5（8）点格挡。"
+        }
+      ],
+      "mechanics_mentions": []
+    },
+    {
+      "record_id": "card_003",
+      "name": "运用-中子",
+      "rarity": "初始",
+      "card_type": "技能",
+      "cost_source": "1（0）",
+      "source_paragraphs": [
+        168,
+        169,
+        170,
+        171,
+        172
+      ],
+      "source_text": "运用-中子\n1（0）c  初始 技能\n造成 10（14）点伤害\n晶抗：获得一层虚弱。\n晶逆：获得一层易伤。",
+      "upgrade_annotations": [
+        {
+          "paragraph": 169,
+          "text": "（0）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        },
+        {
+          "paragraph": 170,
+          "text": "（14）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        }
+      ],
+      "notes": [],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 168,
+          "start": 0,
+          "end": 5,
+          "text": "运用-中子"
+        },
+        {
+          "paragraph": 169,
+          "start": 0,
+          "end": 12,
+          "text": "1（0）c  初始 技能"
+        },
+        {
+          "paragraph": 170,
+          "start": 0,
+          "end": 12,
+          "text": "造成 10（14）点伤害"
+        },
+        {
+          "paragraph": 171,
+          "start": 0,
+          "end": 10,
+          "text": "晶抗：获得一层虚弱。"
+        },
+        {
+          "paragraph": 172,
+          "start": 0,
+          "end": 10,
+          "text": "晶逆：获得一层易伤。"
+        }
+      ],
+      "mechanics_mentions": [
+        "晶抗",
+        "晶逆"
+      ]
+    },
+    {
+      "record_id": "card_004",
+      "name": "运用-In",
+      "rarity": "初始",
+      "card_type": "技能",
+      "cost_source": "1",
+      "source_paragraphs": [
+        174,
+        175,
+        176,
+        177
+      ],
+      "source_text": "运用-In\n1c 初始 技能\n（保留）·\n晶化1。延拓2。",
+      "upgrade_annotations": [
+        {
+          "paragraph": 176,
+          "text": "（保留）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        },
+        {
+          "paragraph": 176,
+          "text": "·",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        }
+      ],
+      "notes": [],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 174,
+          "start": 0,
+          "end": 5,
+          "text": "运用-In"
+        },
+        {
+          "paragraph": 175,
+          "start": 0,
+          "end": 8,
+          "text": "1c 初始 技能"
+        },
+        {
+          "paragraph": 176,
+          "start": 0,
+          "end": 5,
+          "text": "（保留）·"
+        },
+        {
+          "paragraph": 177,
+          "start": 0,
+          "end": 8,
+          "text": "晶化1。延拓2。"
+        }
+      ],
+      "mechanics_mentions": [
+        "延拓",
+        "晶化"
+      ]
+    },
+    {
+      "record_id": "card_005",
+      "name": "运用-F",
+      "rarity": "普通",
+      "card_type": "攻击",
+      "cost_source": "0",
+      "source_paragraphs": [
+        182,
+        183,
+        184,
+        185,
+        186
+      ],
+      "source_text": "运用-F\n0c 普通 攻击\n造成6(8)点伤害。消耗。\n晶逆：晶化2。\n将1张本牌的复制加入手牌。",
+      "upgrade_annotations": [
+        {
+          "paragraph": 184,
+          "text": "(8)",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        }
+      ],
+      "notes": [],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 182,
+          "start": 0,
+          "end": 4,
+          "text": "运用-F"
+        },
+        {
+          "paragraph": 183,
+          "start": 0,
+          "end": 8,
+          "text": "0c 普通 攻击"
+        },
+        {
+          "paragraph": 184,
+          "start": 0,
+          "end": 13,
+          "text": "造成6(8)点伤害。消耗。"
+        },
+        {
+          "paragraph": 185,
+          "start": 0,
+          "end": 7,
+          "text": "晶逆：晶化2。"
+        },
+        {
+          "paragraph": 186,
+          "start": 0,
+          "end": 13,
+          "text": "将1张本牌的复制加入手牌。"
+        }
+      ],
+      "mechanics_mentions": [
+        "晶化",
+        "晶逆"
+      ]
+    },
+    {
+      "record_id": "card_006",
+      "name": "回身踢",
+      "rarity": "普通",
+      "card_type": "攻击",
+      "cost_source": "1",
+      "source_paragraphs": [
+        188,
+        189,
+        190
+      ],
+      "source_text": "回身踢\n1c 普通 攻击\n造成2点伤害2（3）次。将弃牌堆中的1张牌加入手牌。（不）消耗。晶逆：使其本回合具有保留。",
+      "upgrade_annotations": [
+        {
+          "paragraph": 190,
+          "text": "（3）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        },
+        {
+          "paragraph": 190,
+          "text": "（不）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        }
+      ],
+      "notes": [],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 188,
+          "start": 0,
+          "end": 3,
+          "text": "回身踢"
+        },
+        {
+          "paragraph": 189,
+          "start": 0,
+          "end": 8,
+          "text": "1c 普通 攻击"
+        },
+        {
+          "paragraph": 190,
+          "start": 0,
+          "end": 45,
+          "text": "造成2点伤害2（3）次。将弃牌堆中的1张牌加入手牌。（不）消耗。晶逆：使其本回合具有保留。"
+        }
+      ],
+      "mechanics_mentions": [
+        "晶逆"
+      ]
+    },
+    {
+      "record_id": "card_007",
+      "name": "因势利导",
+      "rarity": "普通",
+      "card_type": "攻击",
+      "cost_source": "1",
+      "source_paragraphs": [
+        191,
+        192,
+        193,
+        194,
+        195
+      ],
+      "source_text": "因势利导\n1c 普通 攻击\n造成7（10）点伤害。\n晶抗：对同一目标造成3（5）点伤害，给予1层易伤。\n晶逆：给予1层虚弱。-----------------------------------------------",
+      "upgrade_annotations": [
+        {
+          "paragraph": 193,
+          "text": "（10）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        }
+      ],
+      "notes": [],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 191,
+          "start": 0,
+          "end": 4,
+          "text": "因势利导"
+        },
+        {
+          "paragraph": 192,
+          "start": 0,
+          "end": 8,
+          "text": "1c 普通 攻击"
+        },
+        {
+          "paragraph": 193,
+          "start": 0,
+          "end": 11,
+          "text": "造成7（10）点伤害。"
+        },
+        {
+          "paragraph": 194,
+          "start": 0,
+          "end": 25,
+          "text": "晶抗：对同一目标造成3（5）点伤害，给予1层易伤。"
+        },
+        {
+          "paragraph": 195,
+          "start": 0,
+          "end": 57,
+          "text": "晶逆：给予1层虚弱。-----------------------------------------------"
+        }
+      ],
+      "mechanics_mentions": [
+        "晶抗",
+        "晶逆"
+      ]
+    },
+    {
+      "record_id": "card_008",
+      "name": "键合-硝基",
+      "rarity": "普通",
+      "card_type": "攻击",
+      "cost_source": "1",
+      "source_paragraphs": [
+        197,
+        198,
+        199,
+        200
+      ],
+      "source_text": "键合-硝基\n1c 普通 攻击\n（保留）\n造成6点伤害，延拓1。抽1张牌。",
+      "upgrade_annotations": [
+        {
+          "paragraph": 199,
+          "text": "（保留）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        }
+      ],
+      "notes": [],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 197,
+          "start": 0,
+          "end": 5,
+          "text": "键合-硝基"
+        },
+        {
+          "paragraph": 198,
+          "start": 0,
+          "end": 8,
+          "text": "1c 普通 攻击"
+        },
+        {
+          "paragraph": 199,
+          "start": 0,
+          "end": 4,
+          "text": "（保留）"
+        },
+        {
+          "paragraph": 200,
+          "start": 0,
+          "end": 16,
+          "text": "造成6点伤害，延拓1。抽1张牌。"
+        }
+      ],
+      "mechanics_mentions": [
+        "延拓"
+      ]
+    },
+    {
+      "record_id": "card_009",
+      "name": "原波穿刺",
+      "rarity": "普通",
+      "card_type": "攻击",
+      "cost_source": "2",
+      "source_paragraphs": [
+        202,
+        203,
+        204
+      ],
+      "source_text": "原波穿刺\n2c 普通 攻击\n造成11点伤害，目标每有一种负面状态，伤害+3（4）",
+      "upgrade_annotations": [
+        {
+          "paragraph": 204,
+          "text": "（4）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        }
+      ],
+      "notes": [],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 202,
+          "start": 0,
+          "end": 4,
+          "text": "原波穿刺"
+        },
+        {
+          "paragraph": 203,
+          "start": 0,
+          "end": 8,
+          "text": "2c 普通 攻击"
+        },
+        {
+          "paragraph": 204,
+          "start": 0,
+          "end": 26,
+          "text": "造成11点伤害，目标每有一种负面状态，伤害+3（4）"
+        }
+      ],
+      "mechanics_mentions": []
+    },
+    {
+      "record_id": "card_010",
+      "name": "运用-Mg",
+      "rarity": "普通",
+      "card_type": "攻击",
+      "cost_source": "1",
+      "source_paragraphs": [
+        206,
+        207,
+        208
+      ],
+      "source_text": "运用-Mg\n1c 普通 攻击\n造成8（11）点伤害.晶化（Mg）2。",
+      "upgrade_annotations": [
+        {
+          "paragraph": 208,
+          "text": "（11）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        }
+      ],
+      "notes": [],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 206,
+          "start": 0,
+          "end": 5,
+          "text": "运用-Mg"
+        },
+        {
+          "paragraph": 207,
+          "start": 0,
+          "end": 8,
+          "text": "1c 普通 攻击"
+        },
+        {
+          "paragraph": 208,
+          "start": 0,
+          "end": 19,
+          "text": "造成8（11）点伤害.晶化（Mg）2。"
+        }
+      ],
+      "mechanics_mentions": [
+        "晶化"
+      ]
+    },
+    {
+      "record_id": "card_011",
+      "name": "合斩",
+      "rarity": "普通",
+      "card_type": "攻击",
+      "cost_source": "0",
+      "source_paragraphs": [
+        212,
+        213,
+        214
+      ],
+      "source_text": "合斩\n0c 普通 攻击\n对所有敌人造成5（7）点伤害。",
+      "upgrade_annotations": [
+        {
+          "paragraph": 214,
+          "text": "（7）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        }
+      ],
+      "notes": [],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 212,
+          "start": 0,
+          "end": 2,
+          "text": "合斩"
+        },
+        {
+          "paragraph": 213,
+          "start": 0,
+          "end": 8,
+          "text": "0c 普通 攻击"
+        },
+        {
+          "paragraph": 214,
+          "start": 0,
+          "end": 15,
+          "text": "对所有敌人造成5（7）点伤害。"
+        }
+      ],
+      "mechanics_mentions": []
+    },
+    {
+      "record_id": "card_012",
+      "name": "运用-As",
+      "rarity": "普通",
+      "card_type": "攻击",
+      "cost_source": "2",
+      "source_paragraphs": [
+        216,
+        217,
+        218
+      ],
+      "source_text": "运用-As\n2c 普通 攻击\n造成23（27）点伤害，晶化2。",
+      "upgrade_annotations": [
+        {
+          "paragraph": 218,
+          "text": "（27）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        }
+      ],
+      "notes": [],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 216,
+          "start": 0,
+          "end": 5,
+          "text": "运用-As"
+        },
+        {
+          "paragraph": 217,
+          "start": 0,
+          "end": 8,
+          "text": "2c 普通 攻击"
+        },
+        {
+          "paragraph": 218,
+          "start": 0,
+          "end": 16,
+          "text": "造成23（27）点伤害，晶化2。"
+        }
+      ],
+      "mechanics_mentions": [
+        "晶化"
+      ]
+    },
+    {
+      "record_id": "card_013",
+      "name": "碎晶雨",
+      "rarity": "普通",
+      "card_type": "攻击",
+      "cost_source": "1",
+      "source_paragraphs": [
+        220,
+        221,
+        222,
+        223,
+        224
+      ],
+      "source_text": "碎晶雨\n1c 普通 攻击\n造成3点伤害3（4）次。\n晶抗：手牌中每有一张晶化多造成一次3（4）点伤害。\n晶逆：对其他敌人造成等量伤害。",
+      "upgrade_annotations": [
+        {
+          "paragraph": 222,
+          "text": "（4）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        },
+        {
+          "paragraph": 223,
+          "text": "（",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        },
+        {
+          "paragraph": 223,
+          "text": "4",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        },
+        {
+          "paragraph": 223,
+          "text": "）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        }
+      ],
+      "notes": [],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 220,
+          "start": 0,
+          "end": 3,
+          "text": "碎晶雨"
+        },
+        {
+          "paragraph": 221,
+          "start": 0,
+          "end": 8,
+          "text": "1c 普通 攻击"
+        },
+        {
+          "paragraph": 222,
+          "start": 0,
+          "end": 12,
+          "text": "造成3点伤害3（4）次。"
+        },
+        {
+          "paragraph": 223,
+          "start": 0,
+          "end": 25,
+          "text": "晶抗：手牌中每有一张晶化多造成一次3（4）点伤害。"
+        },
+        {
+          "paragraph": 224,
+          "start": 0,
+          "end": 15,
+          "text": "晶逆：对其他敌人造成等量伤害。"
+        }
+      ],
+      "mechanics_mentions": [
+        "晶化",
+        "晶抗",
+        "晶逆"
+      ]
+    },
+    {
+      "record_id": "card_014",
+      "name": "锈蚀之刃",
+      "rarity": "普通",
+      "card_type": "攻击",
+      "cost_source": "1",
+      "source_paragraphs": [
+        226,
+        227,
+        228
+      ],
+      "source_text": "锈蚀之刃\n1c 普通 攻击\n造成10（14）点伤害，将其虚弱层数翻倍。消耗。",
+      "upgrade_annotations": [
+        {
+          "paragraph": 228,
+          "text": "（14）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        }
+      ],
+      "notes": [],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 226,
+          "start": 0,
+          "end": 4,
+          "text": "锈蚀之刃"
+        },
+        {
+          "paragraph": 227,
+          "start": 0,
+          "end": 8,
+          "text": "1c 普通 攻击"
+        },
+        {
+          "paragraph": 228,
+          "start": 0,
+          "end": 24,
+          "text": "造成10（14）点伤害，将其虚弱层数翻倍。消耗。"
+        }
+      ],
+      "mechanics_mentions": []
+    },
+    {
+      "record_id": "card_015",
+      "name": "运用-Zn",
+      "rarity": "普通",
+      "card_type": "技能",
+      "cost_source": "1",
+      "source_paragraphs": [
+        232,
+        233,
+        234,
+        235,
+        236
+      ],
+      "source_text": "运用-Zn\n1c 普通 技能\n获得12（15）点格挡。\n晶抗：失去一点能量。\n晶逆：消耗。",
+      "upgrade_annotations": [
+        {
+          "paragraph": 234,
+          "text": "（15）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        }
+      ],
+      "notes": [],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 232,
+          "start": 0,
+          "end": 5,
+          "text": "运用-Zn"
+        },
+        {
+          "paragraph": 233,
+          "start": 0,
+          "end": 8,
+          "text": "1c 普通 技能"
+        },
+        {
+          "paragraph": 234,
+          "start": 0,
+          "end": 12,
+          "text": "获得12（15）点格挡。"
+        },
+        {
+          "paragraph": 235,
+          "start": 0,
+          "end": 10,
+          "text": "晶抗：失去一点能量。"
+        },
+        {
+          "paragraph": 236,
+          "start": 0,
+          "end": 6,
+          "text": "晶逆：消耗。"
+        }
+      ],
+      "mechanics_mentions": [
+        "晶抗",
+        "晶逆"
+      ]
+    },
+    {
+      "record_id": "card_016",
+      "name": "离析",
+      "rarity": "普通",
+      "card_type": "技能",
+      "cost_source": "1",
+      "source_paragraphs": [
+        238,
+        239,
+        240,
+        241
+      ],
+      "source_text": "离析\n1c 普通 技能\n打出1（2）张晶化。\n抽2张牌。",
+      "upgrade_annotations": [
+        {
+          "paragraph": 240,
+          "text": "（2）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        }
+      ],
+      "notes": [],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 238,
+          "start": 0,
+          "end": 2,
+          "text": "离析"
+        },
+        {
+          "paragraph": 239,
+          "start": 0,
+          "end": 8,
+          "text": "1c 普通 技能"
+        },
+        {
+          "paragraph": 240,
+          "start": 0,
+          "end": 10,
+          "text": "打出1（2）张晶化。"
+        },
+        {
+          "paragraph": 241,
+          "start": 0,
+          "end": 5,
+          "text": "抽2张牌。"
+        }
+      ],
+      "mechanics_mentions": [
+        "晶化"
+      ]
+    },
+    {
+      "record_id": "card_017",
+      "name": "待发",
+      "rarity": "普通",
+      "card_type": "技能",
+      "cost_source": "0",
+      "source_paragraphs": [
+        243,
+        244,
+        245,
+        246,
+        247
+      ],
+      "source_text": "待发\n0c 普通 技能\n获得1c。\n抽1（2）张牌。\n本回合只能打出攻击牌。",
+      "upgrade_annotations": [
+        {
+          "paragraph": 246,
+          "text": "（2）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        }
+      ],
+      "notes": [],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 243,
+          "start": 0,
+          "end": 2,
+          "text": "待发"
+        },
+        {
+          "paragraph": 244,
+          "start": 0,
+          "end": 8,
+          "text": "0c 普通 技能"
+        },
+        {
+          "paragraph": 245,
+          "start": 0,
+          "end": 5,
+          "text": "获得1c。"
+        },
+        {
+          "paragraph": 246,
+          "start": 0,
+          "end": 8,
+          "text": "抽1（2）张牌。"
+        },
+        {
+          "paragraph": 247,
+          "start": 0,
+          "end": 11,
+          "text": "本回合只能打出攻击牌。"
+        }
+      ],
+      "mechanics_mentions": []
+    },
+    {
+      "record_id": "card_018",
+      "name": "键合-亚胺基",
+      "rarity": "普通",
+      "card_type": "技能",
+      "cost_source": "2",
+      "source_paragraphs": [
+        249,
+        250,
+        251,
+        252,
+        253,
+        254
+      ],
+      "source_text": "键合-亚胺基\n2c 普通 技能\n（保留）\n消耗（打出）手牌中至多2张晶化。\n获得3点临时敏捷。\n延拓2。",
+      "upgrade_annotations": [
+        {
+          "paragraph": 251,
+          "text": "（保留）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        },
+        {
+          "paragraph": 252,
+          "text": "（打出）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        }
+      ],
+      "notes": [],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 249,
+          "start": 0,
+          "end": 6,
+          "text": "键合-亚胺基"
+        },
+        {
+          "paragraph": 250,
+          "start": 0,
+          "end": 8,
+          "text": "2c 普通 技能"
+        },
+        {
+          "paragraph": 251,
+          "start": 0,
+          "end": 4,
+          "text": "（保留）"
+        },
+        {
+          "paragraph": 252,
+          "start": 0,
+          "end": 16,
+          "text": "消耗（打出）手牌中至多2张晶化。"
+        },
+        {
+          "paragraph": 253,
+          "start": 0,
+          "end": 9,
+          "text": "获得3点临时敏捷。"
+        },
+        {
+          "paragraph": 254,
+          "start": 0,
+          "end": 4,
+          "text": "延拓2。"
+        }
+      ],
+      "mechanics_mentions": [
+        "延拓",
+        "晶化"
+      ]
+    },
+    {
+      "record_id": "card_019",
+      "name": "表征",
+      "rarity": "普通",
+      "card_type": "技能",
+      "cost_source": "1",
+      "source_paragraphs": [
+        256,
+        257,
+        258,
+        259,
+        260
+      ],
+      "source_text": "表征\n1c 普通 技能\n获得7（9）点格挡。\n晶抗：下回合获得3（4）点临时力量。\n晶逆：下回合抽2（3）张牌。",
+      "upgrade_annotations": [
+        {
+          "paragraph": 258,
+          "text": "（",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        },
+        {
+          "paragraph": 258,
+          "text": "9",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        },
+        {
+          "paragraph": 258,
+          "text": "）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        },
+        {
+          "paragraph": 259,
+          "text": "（4）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        },
+        {
+          "paragraph": 260,
+          "text": "（3）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        }
+      ],
+      "notes": [],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 256,
+          "start": 0,
+          "end": 2,
+          "text": "表征"
+        },
+        {
+          "paragraph": 257,
+          "start": 0,
+          "end": 8,
+          "text": "1c 普通 技能"
+        },
+        {
+          "paragraph": 258,
+          "start": 0,
+          "end": 10,
+          "text": "获得7（9）点格挡。"
+        },
+        {
+          "paragraph": 259,
+          "start": 0,
+          "end": 18,
+          "text": "晶抗：下回合获得3（4）点临时力量。"
+        },
+        {
+          "paragraph": 260,
+          "start": 0,
+          "end": 14,
+          "text": "晶逆：下回合抽2（3）张牌。"
+        }
+      ],
+      "mechanics_mentions": [
+        "晶抗",
+        "晶逆"
+      ]
+    },
+    {
+      "record_id": "card_020",
+      "name": "晶流",
+      "rarity": "普通",
+      "card_type": "技能",
+      "cost_source": "1",
+      "source_paragraphs": [
+        262,
+        263,
+        264,
+        265,
+        266
+      ],
+      "source_text": "晶流\n1c 普通 技能\n获得5（6）点格挡。\n晶抗：给予1（2）层虚弱。\n晶逆：重放1，不会触发晶抗/晶逆的效果。",
+      "upgrade_annotations": [
+        {
+          "paragraph": 264,
+          "text": "（6）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        },
+        {
+          "paragraph": 265,
+          "text": "（2）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        }
+      ],
+      "notes": [],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 262,
+          "start": 0,
+          "end": 2,
+          "text": "晶流"
+        },
+        {
+          "paragraph": 263,
+          "start": 0,
+          "end": 8,
+          "text": "1c 普通 技能"
+        },
+        {
+          "paragraph": 264,
+          "start": 0,
+          "end": 10,
+          "text": "获得5（6）点格挡。"
+        },
+        {
+          "paragraph": 265,
+          "start": 0,
+          "end": 13,
+          "text": "晶抗：给予1（2）层虚弱。"
+        },
+        {
+          "paragraph": 266,
+          "start": 0,
+          "end": 20,
+          "text": "晶逆：重放1，不会触发晶抗/晶逆的效果。"
+        }
+      ],
+      "mechanics_mentions": [
+        "晶抗",
+        "晶逆",
+        "重放"
+      ]
+    },
+    {
+      "record_id": "card_021",
+      "name": "键合-酯基",
+      "rarity": "普通",
+      "card_type": "技能",
+      "cost_source": "1",
+      "source_paragraphs": [
+        268,
+        269
+      ],
+      "source_text": "键合-酯基\n1c 普通 技能获得6（8）点格挡，为手牌中的1张非攻击牌添加保留。晶逆：延拓1。",
+      "upgrade_annotations": [
+        {
+          "paragraph": 269,
+          "text": "（8）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        }
+      ],
+      "notes": [],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 268,
+          "start": 0,
+          "end": 5,
+          "text": "键合-酯基"
+        },
+        {
+          "paragraph": 269,
+          "start": 0,
+          "end": 41,
+          "text": "1c 普通 技能获得6（8）点格挡，为手牌中的1张非攻击牌添加保留。晶逆：延拓1。"
+        }
+      ],
+      "mechanics_mentions": [
+        "延拓",
+        "晶逆"
+      ]
+    },
+    {
+      "record_id": "card_022",
+      "name": "运用-Hs",
+      "rarity": "普通",
+      "card_type": "技能",
+      "cost_source": "0",
+      "source_paragraphs": [
+        269,
+        270
+      ],
+      "source_text": "运用-Hs\n0c 普通 技能使所有敌人失去7（10）点临时力量。晶化（Hs）2。消耗。",
+      "upgrade_annotations": [
+        {
+          "paragraph": 270,
+          "text": "（10）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        }
+      ],
+      "notes": [],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 269,
+          "start": 41,
+          "end": 46,
+          "text": "运用-Hs"
+        },
+        {
+          "paragraph": 270,
+          "start": 0,
+          "end": 37,
+          "text": "0c 普通 技能使所有敌人失去7（10）点临时力量。晶化（Hs）2。消耗。"
+        }
+      ],
+      "mechanics_mentions": [
+        "晶化"
+      ]
+    },
+    {
+      "record_id": "card_023",
+      "name": "未命名普通技能",
+      "rarity": "普通",
+      "card_type": "技能",
+      "cost_source": "1",
+      "source_paragraphs": [
+        273,
+        274
+      ],
+      "source_text": "1c 普通 技能\n（保留）消耗1张牌。下个回合开始时，将其打出。",
+      "upgrade_annotations": [
+        {
+          "paragraph": 274,
+          "text": "（保留）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        }
+      ],
+      "notes": [
+        "原文没有提供名称，暂用清单占位名；不用于游戏注册。"
+      ],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 273,
+          "start": 0,
+          "end": 8,
+          "text": "1c 普通 技能"
+        },
+        {
+          "paragraph": 274,
+          "start": 0,
+          "end": 23,
+          "text": "（保留）消耗1张牌。下个回合开始时，将其打出。"
+        }
+      ],
+      "mechanics_mentions": []
+    },
+    {
+      "record_id": "card_024",
+      "name": "运用-Th",
+      "rarity": "罕见",
+      "card_type": "攻击",
+      "cost_source": "1",
+      "source_paragraphs": [
+        278,
+        279,
+        280,
+        281,
+        282
+      ],
+      "source_text": "运用-Th\n1c 罕见 攻击\n晶化1。使一名敌人失去4（5）点生命。\n晶抗：造成等量伤害2次。\n晶逆：重放2。",
+      "upgrade_annotations": [
+        {
+          "paragraph": 280,
+          "text": "（5）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        }
+      ],
+      "notes": [],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 278,
+          "start": 0,
+          "end": 5,
+          "text": "运用-Th"
+        },
+        {
+          "paragraph": 279,
+          "start": 0,
+          "end": 8,
+          "text": "1c 罕见 攻击"
+        },
+        {
+          "paragraph": 280,
+          "start": 0,
+          "end": 19,
+          "text": "晶化1。使一名敌人失去4（5）点生命。"
+        },
+        {
+          "paragraph": 281,
+          "start": 0,
+          "end": 12,
+          "text": "晶抗：造成等量伤害2次。"
+        },
+        {
+          "paragraph": 282,
+          "start": 0,
+          "end": 7,
+          "text": "晶逆：重放2。"
+        }
+      ],
+      "mechanics_mentions": [
+        "晶化",
+        "晶抗",
+        "晶逆",
+        "重放"
+      ]
+    },
+    {
+      "record_id": "card_025",
+      "name": "运用-Cu",
+      "rarity": "罕见",
+      "card_type": "攻击",
+      "cost_source": "2",
+      "source_paragraphs": [
+        284,
+        285,
+        286,
+        287
+      ],
+      "source_text": "运用-Cu\n2c 罕见 攻击\n造成13点伤害。\n本回合，这名敌人每受到7（6）点攻击伤害，获得2层中毒。",
+      "upgrade_annotations": [
+        {
+          "paragraph": 287,
+          "text": "（6）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        }
+      ],
+      "notes": [],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 284,
+          "start": 0,
+          "end": 5,
+          "text": "运用-Cu"
+        },
+        {
+          "paragraph": 285,
+          "start": 0,
+          "end": 8,
+          "text": "2c 罕见 攻击"
+        },
+        {
+          "paragraph": 286,
+          "start": 0,
+          "end": 8,
+          "text": "造成13点伤害。"
+        },
+        {
+          "paragraph": 287,
+          "start": 0,
+          "end": 28,
+          "text": "本回合，这名敌人每受到7（6）点攻击伤害，获得2层中毒。"
+        }
+      ],
+      "mechanics_mentions": []
+    },
+    {
+      "record_id": "card_026",
+      "name": "溯源猛击",
+      "rarity": "罕见",
+      "card_type": "攻击",
+      "cost_source": "2",
+      "source_paragraphs": [
+        287,
+        288
+      ],
+      "source_text": "溯源猛击\n2c 罕见 攻击造成14（20）点伤害。你的下一张“运用”牌可以免费打出。",
+      "upgrade_annotations": [
+        {
+          "paragraph": 288,
+          "text": "（20）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        }
+      ],
+      "notes": [],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 287,
+          "start": 28,
+          "end": 32,
+          "text": "溯源猛击"
+        },
+        {
+          "paragraph": 288,
+          "start": 0,
+          "end": 37,
+          "text": "2c 罕见 攻击造成14（20）点伤害。你的下一张“运用”牌可以免费打出。"
+        }
+      ],
+      "mechanics_mentions": []
+    },
+    {
+      "record_id": "card_027",
+      "name": "构象打击",
+      "rarity": "罕见",
+      "card_type": "攻击",
+      "cost_source": "0",
+      "source_paragraphs": [
+        288,
+        289
+      ],
+      "source_text": "构象打击\n0c 罕见 攻击造成4点伤害。晶抗：失去1c。你每拥有1层延拓，额外造成5（7）点伤害。晶逆：手牌中每有1张晶化，额外造成3（4）点伤害。",
+      "upgrade_annotations": [
+        {
+          "paragraph": 289,
+          "text": "（7）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        },
+        {
+          "paragraph": 289,
+          "text": "（4）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        }
+      ],
+      "notes": [],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 288,
+          "start": 37,
+          "end": 41,
+          "text": "构象打击"
+        },
+        {
+          "paragraph": 289,
+          "start": 0,
+          "end": 69,
+          "text": "0c 罕见 攻击造成4点伤害。晶抗：失去1c。你每拥有1层延拓，额外造成5（7）点伤害。晶逆：手牌中每有1张晶化，额外造成3（4）点伤害。"
+        }
+      ],
+      "mechanics_mentions": [
+        "延拓",
+        "晶化",
+        "晶抗",
+        "晶逆"
+      ]
+    },
+    {
+      "record_id": "card_028",
+      "name": "温压领域",
+      "rarity": "罕见",
+      "card_type": "攻击",
+      "cost_source": "X",
+      "source_paragraphs": [
+        290
+      ],
+      "source_text": "温压领域Xc 罕见 攻击获得等同于晶化数量的临时力量。造成7（9）点伤害X次。",
+      "upgrade_annotations": [
+        {
+          "paragraph": 290,
+          "text": "（9）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        }
+      ],
+      "notes": [],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 290,
+          "start": 0,
+          "end": 39,
+          "text": "温压领域Xc 罕见 攻击获得等同于晶化数量的临时力量。造成7（9）点伤害X次。"
+        }
+      ],
+      "mechanics_mentions": [
+        "晶化"
+      ]
+    },
+    {
+      "record_id": "card_029",
+      "name": "气相涌流",
+      "rarity": "罕见",
+      "card_type": "攻击",
+      "cost_source": "1",
+      "source_paragraphs": [
+        290,
+        291
+      ],
+      "source_text": "气相涌流1c 罕见 攻击\n造成6点伤害。每当你保留这张牌时，在本场战斗中其伤害增加6（9）。晶抗：回合开始时，返回手牌。晶逆：获得保留。",
+      "upgrade_annotations": [
+        {
+          "paragraph": 291,
+          "text": "（9）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        }
+      ],
+      "notes": [],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 290,
+          "start": 39,
+          "end": 51,
+          "text": "气相涌流1c 罕见 攻击"
+        },
+        {
+          "paragraph": 291,
+          "start": 0,
+          "end": 55,
+          "text": "造成6点伤害。每当你保留这张牌时，在本场战斗中其伤害增加6（9）。晶抗：回合开始时，返回手牌。晶逆：获得保留。"
+        }
+      ],
+      "mechanics_mentions": [
+        "晶抗",
+        "晶逆"
+      ]
+    },
+    {
+      "record_id": "card_030",
+      "name": "坍缩",
+      "rarity": "罕见",
+      "card_type": "攻击",
+      "cost_source": "3",
+      "source_paragraphs": [
+        291,
+        292
+      ],
+      "source_text": "坍缩\n3c 罕见 攻击造成27（33）点伤害。若有不少于3（2）层延拓，失去所有延拓，获得2c。",
+      "upgrade_annotations": [
+        {
+          "paragraph": 292,
+          "text": "（33）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        },
+        {
+          "paragraph": 292,
+          "text": "（2）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        }
+      ],
+      "notes": [],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 291,
+          "start": 55,
+          "end": 57,
+          "text": "坍缩"
+        },
+        {
+          "paragraph": 292,
+          "start": 0,
+          "end": 45,
+          "text": "3c 罕见 攻击造成27（33）点伤害。若有不少于3（2）层延拓，失去所有延拓，获得2c。"
+        }
+      ],
+      "mechanics_mentions": [
+        "延拓"
+      ]
+    },
+    {
+      "record_id": "card_031",
+      "name": "运用-Pb",
+      "rarity": "罕见",
+      "card_type": "攻击",
+      "cost_source": "1",
+      "source_paragraphs": [
+        293,
+        294,
+        295
+      ],
+      "source_text": "运用-Pb\n1c 罕见 攻击\n造成9（11）点伤害。将至多1（2）张状态牌变化为晶化-Pb。晶抗：晶化1。",
+      "upgrade_annotations": [
+        {
+          "paragraph": 295,
+          "text": "（11）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        },
+        {
+          "paragraph": 295,
+          "text": "（2）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        }
+      ],
+      "notes": [],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 293,
+          "start": 0,
+          "end": 5,
+          "text": "运用-Pb"
+        },
+        {
+          "paragraph": 294,
+          "start": 0,
+          "end": 8,
+          "text": "1c 罕见 攻击"
+        },
+        {
+          "paragraph": 295,
+          "start": 0,
+          "end": 38,
+          "text": "造成9（11）点伤害。将至多1（2）张状态牌变化为晶化-Pb。晶抗：晶化1。"
+        }
+      ],
+      "mechanics_mentions": [
+        "晶化",
+        "晶抗"
+      ]
+    },
+    {
+      "record_id": "card_032",
+      "name": "晶簇枪",
+      "rarity": "罕见",
+      "card_type": "攻击",
+      "cost_source": "0",
+      "source_paragraphs": [
+        299,
+        300,
+        301
+      ],
+      "source_text": "晶簇枪\n0c 罕见 攻击\n造成6（8）点伤害。若你没有晶化，晶化1，抽1张牌。",
+      "upgrade_annotations": [
+        {
+          "paragraph": 301,
+          "text": "（8）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        }
+      ],
+      "notes": [],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 299,
+          "start": 0,
+          "end": 3,
+          "text": "晶簇枪"
+        },
+        {
+          "paragraph": 300,
+          "start": 0,
+          "end": 8,
+          "text": "0c 罕见 攻击"
+        },
+        {
+          "paragraph": 301,
+          "start": 0,
+          "end": 26,
+          "text": "造成6（8）点伤害。若你没有晶化，晶化1，抽1张牌。"
+        }
+      ],
+      "mechanics_mentions": [
+        "晶化"
+      ]
+    },
+    {
+      "record_id": "card_033",
+      "name": "宏枝晶",
+      "rarity": "罕见",
+      "card_type": "攻击",
+      "cost_source": "1",
+      "source_paragraphs": [
+        303,
+        304
+      ],
+      "source_text": "宏枝晶\n1c 罕见 攻击",
+      "upgrade_annotations": [],
+      "notes": [
+        "原文只给出名称、费用和类别，卡牌效果缺失。"
+      ],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 303,
+          "start": 0,
+          "end": 3,
+          "text": "宏枝晶"
+        },
+        {
+          "paragraph": 304,
+          "start": 0,
+          "end": 8,
+          "text": "1c 罕见 攻击"
+        }
+      ],
+      "mechanics_mentions": []
+    },
+    {
+      "record_id": "card_034",
+      "name": "运用-H",
+      "rarity": "罕见",
+      "card_type": "技能",
+      "cost_source": "0",
+      "source_paragraphs": [
+        309,
+        310,
+        311,
+        312,
+        313
+      ],
+      "source_text": "运用-H\n0c 罕见 技能\n失去1（2）层易伤/虚弱/脆弱。\n晶抗：切换到下一个效果。\n晶逆：切换到上一个效果。",
+      "upgrade_annotations": [
+        {
+          "paragraph": 311,
+          "text": "（2）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        }
+      ],
+      "notes": [],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 309,
+          "start": 0,
+          "end": 4,
+          "text": "运用-H"
+        },
+        {
+          "paragraph": 310,
+          "start": 0,
+          "end": 8,
+          "text": "0c 罕见 技能"
+        },
+        {
+          "paragraph": 311,
+          "start": 0,
+          "end": 16,
+          "text": "失去1（2）层易伤/虚弱/脆弱。"
+        },
+        {
+          "paragraph": 312,
+          "start": 0,
+          "end": 12,
+          "text": "晶抗：切换到下一个效果。"
+        },
+        {
+          "paragraph": 313,
+          "start": 0,
+          "end": 12,
+          "text": "晶逆：切换到上一个效果。"
+        }
+      ],
+      "mechanics_mentions": [
+        "晶抗",
+        "晶逆"
+      ]
+    },
+    {
+      "record_id": "card_035",
+      "name": "分析",
+      "rarity": "罕见",
+      "card_type": "技能",
+      "cost_source": "1（0）",
+      "source_paragraphs": [
+        315,
+        316,
+        317,
+        318,
+        319
+      ],
+      "source_text": "分析\n1（0）c罕见 技能\n你每有一种效果，获得2点格挡，敌人每有一种效果，失去2点生命。\n晶抗：失去1c。\n晶逆：消耗。",
+      "upgrade_annotations": [
+        {
+          "paragraph": 316,
+          "text": "（0）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        }
+      ],
+      "notes": [],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 315,
+          "start": 0,
+          "end": 2,
+          "text": "分析"
+        },
+        {
+          "paragraph": 316,
+          "start": 0,
+          "end": 10,
+          "text": "1（0）c罕见 技能"
+        },
+        {
+          "paragraph": 317,
+          "start": 0,
+          "end": 31,
+          "text": "你每有一种效果，获得2点格挡，敌人每有一种效果，失去2点生命。"
+        },
+        {
+          "paragraph": 318,
+          "start": 0,
+          "end": 8,
+          "text": "晶抗：失去1c。"
+        },
+        {
+          "paragraph": 319,
+          "start": 0,
+          "end": 6,
+          "text": "晶逆：消耗。"
+        }
+      ],
+      "mechanics_mentions": [
+        "晶抗",
+        "晶逆"
+      ]
+    },
+    {
+      "record_id": "card_036",
+      "name": "运用-Ca",
+      "rarity": "罕见",
+      "card_type": "技能",
+      "cost_source": "0",
+      "source_paragraphs": [
+        321,
+        322,
+        323,
+        324,
+        325
+      ],
+      "source_text": "运用-Ca\n0c 罕见 技能\n获得3（5）点格挡。\n晶抗：失去1c。\n下一次从卡牌中获得的格挡翻倍。",
+      "upgrade_annotations": [
+        {
+          "paragraph": 323,
+          "text": "（5）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        }
+      ],
+      "notes": [],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 321,
+          "start": 0,
+          "end": 5,
+          "text": "运用-Ca"
+        },
+        {
+          "paragraph": 322,
+          "start": 0,
+          "end": 8,
+          "text": "0c 罕见 技能"
+        },
+        {
+          "paragraph": 323,
+          "start": 0,
+          "end": 10,
+          "text": "获得3（5）点格挡。"
+        },
+        {
+          "paragraph": 324,
+          "start": 0,
+          "end": 8,
+          "text": "晶抗：失去1c。"
+        },
+        {
+          "paragraph": 325,
+          "start": 0,
+          "end": 15,
+          "text": "下一次从卡牌中获得的格挡翻倍。"
+        }
+      ],
+      "mechanics_mentions": [
+        "晶抗"
+      ]
+    },
+    {
+      "record_id": "card_037",
+      "name": "晶币",
+      "rarity": "罕见",
+      "card_type": "技能",
+      "cost_source": "1",
+      "source_paragraphs": [
+        327,
+        328,
+        329,
+        330,
+        331
+      ],
+      "source_text": "晶币\n1c 罕见 技能\n获得18（24）金币。\n此牌在本场游戏中给予的金币永久-3\n虚无。",
+      "upgrade_annotations": [
+        {
+          "paragraph": 329,
+          "text": "（24）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        }
+      ],
+      "notes": [],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 327,
+          "start": 0,
+          "end": 2,
+          "text": "晶币"
+        },
+        {
+          "paragraph": 328,
+          "start": 0,
+          "end": 8,
+          "text": "1c 罕见 技能"
+        },
+        {
+          "paragraph": 329,
+          "start": 0,
+          "end": 11,
+          "text": "获得18（24）金币。"
+        },
+        {
+          "paragraph": 330,
+          "start": 0,
+          "end": 17,
+          "text": "此牌在本场游戏中给予的金币永久-3"
+        },
+        {
+          "paragraph": 331,
+          "start": 0,
+          "end": 3,
+          "text": "虚无。"
+        }
+      ],
+      "mechanics_mentions": []
+    },
+    {
+      "record_id": "card_038",
+      "name": "基团迁移",
+      "rarity": "罕见",
+      "card_type": "技能",
+      "cost_source": "1",
+      "source_paragraphs": [
+        333,
+        334,
+        335,
+        336,
+        337
+      ],
+      "source_text": "基团迁移\n1c 罕见 技能\n延拓2（3）。\n晶抗：打出1张“晶化”。\n晶逆：将手牌中的1（任意）张牌放在抽牌堆顶。",
+      "upgrade_annotations": [
+        {
+          "paragraph": 335,
+          "text": "（3）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        },
+        {
+          "paragraph": 337,
+          "text": "（任意）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        }
+      ],
+      "notes": [],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 333,
+          "start": 0,
+          "end": 4,
+          "text": "基团迁移"
+        },
+        {
+          "paragraph": 334,
+          "start": 0,
+          "end": 8,
+          "text": "1c 罕见 技能"
+        },
+        {
+          "paragraph": 335,
+          "start": 0,
+          "end": 7,
+          "text": "延拓2（3）。"
+        },
+        {
+          "paragraph": 336,
+          "start": 0,
+          "end": 12,
+          "text": "晶抗：打出1张“晶化”。"
+        },
+        {
+          "paragraph": 337,
+          "start": 0,
+          "end": 22,
+          "text": "晶逆：将手牌中的1（任意）张牌放在抽牌堆顶。"
+        }
+      ],
+      "mechanics_mentions": [
+        "延拓",
+        "晶化",
+        "晶抗",
+        "晶逆"
+      ]
+    },
+    {
+      "record_id": "card_039",
+      "name": "运用-Co",
+      "rarity": "罕见",
+      "card_type": "技能",
+      "cost_source": "1",
+      "source_paragraphs": [
+        339,
+        340,
+        341,
+        342,
+        343
+      ],
+      "source_text": "运用-Co\n1c 罕见 技能\n抽3（4）张牌。\n抽到的第1张牌在本回合具有\n晶化2和保留。",
+      "upgrade_annotations": [
+        {
+          "paragraph": 341,
+          "text": "（4）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        }
+      ],
+      "notes": [],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 339,
+          "start": 0,
+          "end": 5,
+          "text": "运用-Co"
+        },
+        {
+          "paragraph": 340,
+          "start": 0,
+          "end": 8,
+          "text": "1c 罕见 技能"
+        },
+        {
+          "paragraph": 341,
+          "start": 0,
+          "end": 8,
+          "text": "抽3（4）张牌。"
+        },
+        {
+          "paragraph": 342,
+          "start": 0,
+          "end": 13,
+          "text": "抽到的第1张牌在本回合具有"
+        },
+        {
+          "paragraph": 343,
+          "start": 0,
+          "end": 7,
+          "text": "晶化2和保留。"
+        }
+      ],
+      "mechanics_mentions": [
+        "晶化"
+      ]
+    },
+    {
+      "record_id": "card_040",
+      "name": "回忆-钒永",
+      "rarity": "罕见",
+      "card_type": "技能",
+      "cost_source": "1",
+      "source_paragraphs": [
+        344,
+        345,
+        346
+      ],
+      "source_text": "回忆-钒永\n1c 罕见 技能\n本回合每当你抽牌时，下回合开始时抽等量牌。抽1（2）张牌。",
+      "upgrade_annotations": [
+        {
+          "paragraph": 346,
+          "text": "（2）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        }
+      ],
+      "notes": [],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 344,
+          "start": 0,
+          "end": 5,
+          "text": "回忆-钒永"
+        },
+        {
+          "paragraph": 345,
+          "start": 0,
+          "end": 8,
+          "text": "1c 罕见 技能"
+        },
+        {
+          "paragraph": 346,
+          "start": 0,
+          "end": 29,
+          "text": "本回合每当你抽牌时，下回合开始时抽等量牌。抽1（2）张牌。"
+        }
+      ],
+      "mechanics_mentions": []
+    },
+    {
+      "record_id": "card_041",
+      "name": "运用-Nb",
+      "rarity": "罕见",
+      "card_type": "能力",
+      "cost_source": "1",
+      "source_paragraphs": [
+        350,
+        351,
+        352
+      ],
+      "source_text": "运用-Nb\n1c 罕见 能力\n活力改为在打出攻击牌后减少2层。（获得2层活力。）晶化2（Nb）。",
+      "upgrade_annotations": [
+        {
+          "paragraph": 352,
+          "text": "（获得2层活力。）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        }
+      ],
+      "notes": [],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 350,
+          "start": 0,
+          "end": 5,
+          "text": "运用-Nb"
+        },
+        {
+          "paragraph": 351,
+          "start": 0,
+          "end": 8,
+          "text": "1c 罕见 能力"
+        },
+        {
+          "paragraph": 352,
+          "start": 0,
+          "end": 33,
+          "text": "活力改为在打出攻击牌后减少2层。（获得2层活力。）晶化2（Nb）。"
+        }
+      ],
+      "mechanics_mentions": [
+        "晶化"
+      ]
+    },
+    {
+      "record_id": "card_042",
+      "name": "回忆-污染O",
+      "rarity": "罕见",
+      "card_type": "能力",
+      "cost_source": "1",
+      "source_paragraphs": [
+        359,
+        360,
+        361,
+        362,
+        363
+      ],
+      "source_text": "回忆-污染O\n1c 罕见 能力\n（固有）\n晶抗：打出“晶化”时，获得4点格挡。\n晶逆：打出“晶化”时，获得3点活力。",
+      "upgrade_annotations": [
+        {
+          "paragraph": 361,
+          "text": "（固有）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        }
+      ],
+      "notes": [],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 359,
+          "start": 0,
+          "end": 6,
+          "text": "回忆-污染O"
+        },
+        {
+          "paragraph": 360,
+          "start": 0,
+          "end": 8,
+          "text": "1c 罕见 能力"
+        },
+        {
+          "paragraph": 361,
+          "start": 0,
+          "end": 4,
+          "text": "（固有）"
+        },
+        {
+          "paragraph": 362,
+          "start": 0,
+          "end": 18,
+          "text": "晶抗：打出“晶化”时，获得4点格挡。"
+        },
+        {
+          "paragraph": 363,
+          "start": 0,
+          "end": 18,
+          "text": "晶逆：打出“晶化”时，获得3点活力。"
+        }
+      ],
+      "mechanics_mentions": [
+        "晶化",
+        "晶抗",
+        "晶逆"
+      ]
+    },
+    {
+      "record_id": "card_043",
+      "name": "回忆-污染H",
+      "rarity": "罕见",
+      "card_type": "能力",
+      "cost_source": "1",
+      "source_paragraphs": [
+        365,
+        366,
+        367
+      ],
+      "source_text": "回忆-污染H\n1c 罕见 能力\n你每触发4（3）次晶抗，延拓1并抽1张牌。",
+      "upgrade_annotations": [
+        {
+          "paragraph": 367,
+          "text": "（3）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        }
+      ],
+      "notes": [],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 365,
+          "start": 0,
+          "end": 6,
+          "text": "回忆-污染H"
+        },
+        {
+          "paragraph": 366,
+          "start": 0,
+          "end": 8,
+          "text": "1c 罕见 能力"
+        },
+        {
+          "paragraph": 367,
+          "start": 0,
+          "end": 21,
+          "text": "你每触发4（3）次晶抗，延拓1并抽1张牌。"
+        }
+      ],
+      "mechanics_mentions": [
+        "延拓",
+        "晶抗"
+      ]
+    },
+    {
+      "record_id": "card_044",
+      "name": "回忆-硬钙石",
+      "rarity": "罕见",
+      "card_type": "能力",
+      "cost_source": "1",
+      "source_paragraphs": [
+        369,
+        370,
+        371
+      ],
+      "source_text": "回忆-硬钙石\n1c 罕见 能力\n回合结束时，若你本回合消耗过牌，则对所有敌人造成3（4）倍晶化数的伤害。",
+      "upgrade_annotations": [
+        {
+          "paragraph": 371,
+          "text": "（4）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        }
+      ],
+      "notes": [],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 369,
+          "start": 0,
+          "end": 6,
+          "text": "回忆-硬钙石"
+        },
+        {
+          "paragraph": 370,
+          "start": 0,
+          "end": 8,
+          "text": "1c 罕见 能力"
+        },
+        {
+          "paragraph": 371,
+          "start": 0,
+          "end": 36,
+          "text": "回合结束时，若你本回合消耗过牌，则对所有敌人造成3（4）倍晶化数的伤害。"
+        }
+      ],
+      "mechanics_mentions": [
+        "晶化"
+      ]
+    },
+    {
+      "record_id": "card_045",
+      "name": "量子点",
+      "rarity": "罕见",
+      "card_type": "能力",
+      "cost_source": "2（1）",
+      "source_paragraphs": [
+        373,
+        374,
+        375
+      ],
+      "source_text": "量子点\n2（1）c 罕见 能力\n你每回合打出的前2张牌会同时触发晶抗和晶逆效果。",
+      "upgrade_annotations": [
+        {
+          "paragraph": 374,
+          "text": "（1）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        }
+      ],
+      "notes": [],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 373,
+          "start": 0,
+          "end": 3,
+          "text": "量子点"
+        },
+        {
+          "paragraph": 374,
+          "start": 0,
+          "end": 11,
+          "text": "2（1）c 罕见 能力"
+        },
+        {
+          "paragraph": 375,
+          "start": 0,
+          "end": 24,
+          "text": "你每回合打出的前2张牌会同时触发晶抗和晶逆效果。"
+        }
+      ],
+      "mechanics_mentions": [
+        "晶抗",
+        "晶逆"
+      ]
+    },
+    {
+      "record_id": "card_046",
+      "name": "延拓展延",
+      "rarity": "罕见",
+      "card_type": "能力",
+      "cost_source": "1（0）",
+      "source_paragraphs": [
+        375
+      ],
+      "source_text": "延拓展延1（0）c 罕见 能力回合结束时，你每拥有1层延拓，获得3点格挡。",
+      "upgrade_annotations": [
+        {
+          "paragraph": 375,
+          "text": "（0）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        }
+      ],
+      "notes": [],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 375,
+          "start": 24,
+          "end": 61,
+          "text": "延拓展延1（0）c 罕见 能力回合结束时，你每拥有1层延拓，获得3点格挡。"
+        }
+      ],
+      "mechanics_mentions": [
+        "延拓"
+      ]
+    },
+    {
+      "record_id": "card_047",
+      "name": "崩碎之歌",
+      "rarity": "稀有",
+      "card_type": "攻击",
+      "cost_source": "2",
+      "source_paragraphs": [
+        378
+      ],
+      "source_text": "崩碎之歌2c 稀有 攻击消耗（打出）所有晶化，每张被打出的晶化造成9（11）点伤害。消耗。",
+      "upgrade_annotations": [
+        {
+          "paragraph": 378,
+          "text": "（打出）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        },
+        {
+          "paragraph": 378,
+          "text": "（11）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        }
+      ],
+      "notes": [
+        "未升级版本为消耗晶化，但后半句以被打出的晶化计数；伤害计数口径待确认。"
+      ],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 378,
+          "start": 0,
+          "end": 45,
+          "text": "崩碎之歌2c 稀有 攻击消耗（打出）所有晶化，每张被打出的晶化造成9（11）点伤害。消耗。"
+        }
+      ],
+      "mechanics_mentions": [
+        "晶化"
+      ]
+    },
+    {
+      "record_id": "card_048",
+      "name": "运用-U",
+      "rarity": "稀有",
+      "card_type": "技能",
+      "cost_source": "3（2）",
+      "source_paragraphs": [
+        380,
+        381,
+        382
+      ],
+      "source_text": "运用-U\n3（2）c 稀有 技能\n将3张具有晶化（U）1的“运用-中子+”加入手牌。消耗。",
+      "upgrade_annotations": [],
+      "notes": [],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 380,
+          "start": 0,
+          "end": 4,
+          "text": "运用-U"
+        },
+        {
+          "paragraph": 381,
+          "start": 0,
+          "end": 11,
+          "text": "3（2）c 稀有 技能"
+        },
+        {
+          "paragraph": 382,
+          "start": 0,
+          "end": 28,
+          "text": "将3张具有晶化（U）1的“运用-中子+”加入手牌。消耗。"
+        }
+      ],
+      "mechanics_mentions": [
+        "晶化"
+      ]
+    },
+    {
+      "record_id": "card_049",
+      "name": "密铺形态",
+      "rarity": "稀有",
+      "card_type": "能力",
+      "cost_source": "3",
+      "source_paragraphs": [
+        390,
+        391,
+        392,
+        393
+      ],
+      "source_text": "密铺形态\n3c 稀有 能力\n晶化3。（保留）\n所有晶化牌具有“在手中时，你具有2点力量和2点敏捷”。",
+      "upgrade_annotations": [
+        {
+          "paragraph": 392,
+          "text": "（保留）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        }
+      ],
+      "notes": [],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 390,
+          "start": 0,
+          "end": 4,
+          "text": "密铺形态"
+        },
+        {
+          "paragraph": 391,
+          "start": 0,
+          "end": 8,
+          "text": "3c 稀有 能力"
+        },
+        {
+          "paragraph": 392,
+          "start": 0,
+          "end": 8,
+          "text": "晶化3。（保留）"
+        },
+        {
+          "paragraph": 393,
+          "start": 0,
+          "end": 27,
+          "text": "所有晶化牌具有“在手中时，你具有2点力量和2点敏捷”。"
+        }
+      ],
+      "mechanics_mentions": [
+        "晶化"
+      ]
+    },
+    {
+      "record_id": "card_050",
+      "name": "回忆-锡疑",
+      "rarity": "稀有",
+      "card_type": "能力",
+      "cost_source": "9",
+      "source_paragraphs": [
+        395,
+        396,
+        397,
+        398
+      ],
+      "source_text": "回忆-锡疑\n9c 稀有 能力\n回合内，你每打出一张牌，就交替获得1点临时力量/临时敏捷。\n每当你打出延拓牌时，此牌花费-2（3）",
+      "upgrade_annotations": [
+        {
+          "paragraph": 398,
+          "text": "（3）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        }
+      ],
+      "notes": [],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 395,
+          "start": 0,
+          "end": 5,
+          "text": "回忆-锡疑"
+        },
+        {
+          "paragraph": 396,
+          "start": 0,
+          "end": 8,
+          "text": "9c 稀有 能力"
+        },
+        {
+          "paragraph": 397,
+          "start": 0,
+          "end": 29,
+          "text": "回合内，你每打出一张牌，就交替获得1点临时力量/临时敏捷。"
+        },
+        {
+          "paragraph": 398,
+          "start": 0,
+          "end": 19,
+          "text": "每当你打出延拓牌时，此牌花费-2（3）"
+        }
+      ],
+      "mechanics_mentions": [
+        "延拓"
+      ]
+    },
+    {
+      "record_id": "card_051",
+      "name": "嬗变",
+      "rarity": "稀有",
+      "card_type": "能力",
+      "cost_source": "1",
+      "source_paragraphs": [
+        400,
+        401,
+        402
+      ],
+      "source_text": "嬗变\n1c 稀有 能力\n（固有）回合开始时，将一张晶化变化为抽牌堆顶的牌。",
+      "upgrade_annotations": [
+        {
+          "paragraph": 402,
+          "text": "（固有）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        }
+      ],
+      "notes": [],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 400,
+          "start": 0,
+          "end": 2,
+          "text": "嬗变"
+        },
+        {
+          "paragraph": 401,
+          "start": 0,
+          "end": 8,
+          "text": "1c 稀有 能力"
+        },
+        {
+          "paragraph": 402,
+          "start": 0,
+          "end": 25,
+          "text": "（固有）回合开始时，将一张晶化变化为抽牌堆顶的牌。"
+        }
+      ],
+      "mechanics_mentions": [
+        "晶化"
+      ]
+    },
+    {
+      "record_id": "card_052",
+      "name": "回忆-磷语",
+      "rarity": "稀有",
+      "card_type": "能力",
+      "cost_source": "1",
+      "source_paragraphs": [
+        404,
+        405,
+        406
+      ],
+      "source_text": "回忆-磷语\n1c 稀有 能力\n每回合第一次获得延拓时，改为（同时）获得等量能量。",
+      "upgrade_annotations": [
+        {
+          "paragraph": 406,
+          "text": "（同时）",
+          "meaning": "绿色格式，通常表示升级变化；以原文为准"
+        }
+      ],
+      "notes": [],
+      "implementation_status": "未实现",
+      "source_fragments": [
+        {
+          "paragraph": 404,
+          "start": 0,
+          "end": 5,
+          "text": "回忆-磷语"
+        },
+        {
+          "paragraph": 405,
+          "start": 0,
+          "end": 8,
+          "text": "1c 稀有 能力"
+        },
+        {
+          "paragraph": 406,
+          "start": 0,
+          "end": 25,
+          "text": "每回合第一次获得延拓时，改为（同时）获得等量能量。"
+        }
+      ],
+      "mechanics_mentions": [
+        "延拓"
+      ]
+    }
+  ],
+  "crystallization_variants": [
+    {
+      "name": "晶化",
+      "source": "用户补充规则",
+      "effect": "通常无额外效果"
+    },
+    {
+      "name": "晶化Mg",
+      "source_paragraphs": [
+        210,
+        211
+      ],
+      "effect": "*晶化Mg0c 状态保留，消耗每回合至多打出1张晶化。\n获得4点格挡。"
+    },
+    {
+      "name": "晶化Hs",
+      "source_paragraphs": [
+        271,
+        272
+      ],
+      "effect": "*晶化Hs0c 状态\n每回合至多打出1张晶化。在手中时，所有人具有1点力量。",
+      "notes": [
+        "原文未重复写保留和消耗；暂按用户的一般规则理解，特殊例外待确认。"
+      ]
+    },
+    {
+      "name": "晶化-Pb",
+      "source_paragraphs": [
+        296,
+        297
+      ],
+      "effect": "*晶化-Pb\n0c 状态保留，消耗，虚无每回合最多只能打出1张晶化。回合结束时，若在手中，随机保留1张非状态牌。---------------------------------------------",
+      "notes": [
+        "同时出现保留和虚无，回合结束时的触发顺序需确认。"
+      ]
+    },
+    {
+      "name": "晶化Nb",
+      "source_paragraphs": [
+        354,
+        357
+      ],
+      "effect": "*晶化Nb\n0c 状态\n保留。消耗。\n每回合至多打出一张“晶化”牌，获得4层活力。"
+    },
+    {
+      "name": "晶化U",
+      "source_paragraphs": [
+        384,
+        386
+      ],
+      "effect": "*晶化U\n0c 保留 消耗\n不论何处，将1张“运用-中子+”放回你的手牌，使其获得消耗。",
+      "notes": [
+        "原文未注明状态类别；一般类别按用户补充规则，特殊例外待确认。"
+      ]
+    }
+  ],
+  "pending_details": [
+    "宏枝晶缺少效果。",
+    "一张1费普通技能缺少名称：消耗1张牌，下个回合开始时将其打出，升级获得保留。",
+    "崩碎之歌未升级的伤害计数口径。",
+    "晶化数量未明确时，统计手牌还是所有牌堆。",
+    "重放1和重放2的次数定义，以及晶抗/晶逆的重放触发规则。",
+    "手中光环的叠加与离手移除规则，以及晶化-Pb的回合结束顺序。",
+    "下一回合开始时打出的牌与延拓结算的先后顺序。",
+    "初始卡组各卡数量，以及晶币的永久递减下限和跨存档持续方式。"
+  ],
+  "format_notes": [
+    "相关运行属性w:strike的值为0，表示关闭删除线；未据此删除卡牌。",
+    "同一Word段落中的多张卡牌已按名称和费用拆分。",
+    "保留原文和升级格式标记；未补写未提供的卡牌效果。",
+    "渲染器无法找到依赖包中的LibreOffice，本次读取依据完整OOXML正文、格式和内嵌图片，未核验排版页码。"
+  ],
+  "mechanic_acceptance_cases": [
+    {
+      "case": "基础效果结束后剩余能量为1",
+      "expected": "晶抗生效，默认不触发晶逆。"
+    },
+    {
+      "case": "基础效果结束后剩余能量为0",
+      "expected": "晶逆生效，默认不触发晶抗。"
+    },
+    {
+      "case": "晶抗分支使剩余能量从1变成0",
+      "expected": "同次判定不额外追加晶逆；此项为实现解释。"
+    },
+    {
+      "case": "量子点覆盖当前卡牌",
+      "expected": "该牌具有的晶抗和晶逆效果同时触发。"
+    },
+    {
+      "case": "自动打出若干晶化，再手动打出晶化",
+      "expected": "自动打出后手动额度仍为1；成功手动打出后额度用完。"
+    },
+    {
+      "case": "手动打出1张晶化后再自动打出晶化",
+      "expected": "仍可自动打出；不能再手动打出第2张晶化。"
+    },
+    {
+      "case": "手中有不同种类晶化",
+      "expected": "手动次数由所有晶化共享。"
+    },
+    {
+      "case": "进入下一玩家回合",
+      "expected": "手动晶化额度恢复为1。"
+    },
+    {
+      "case": "支付费用后剩余能量为0，基础效果获得1点能量",
+      "expected": "基础效果结束后能量为1，触发晶抗。",
+      "source": "用户明确确认"
+    },
+    {
+      "case": "支付费用后剩余能量为1，基础效果失去1点能量",
+      "expected": "基础效果结束后能量为0，触发晶逆。",
+      "source": "已确认规则的直接推论"
+    }
+  ]
+}
