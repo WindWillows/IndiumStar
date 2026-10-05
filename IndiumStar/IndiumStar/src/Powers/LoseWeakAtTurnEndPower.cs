@@ -12,14 +12,13 @@ using STS2RitsuLib.Scaffolding.Content;
 namespace IndiumStar.Powers;
 
 /// <summary>
-/// 隐藏效果：<strong>在本回合结束时，失去 1 层虚弱</strong>。
+/// 旧版本隐藏清除器：本回合结束时失去1层虚弱。
+/// 当前运用-中子已不再施加；类型保留用于旧数据兼容。
 /// </summary>
 /// <remarks>
 /// <para>
-/// 「运用-中子」晶抗给自己上虚弱时，会额外挂上这个能力，用来把虚弱限制在<strong>本回合</strong>内。
-/// 虚弱是「减少自己造成的伤害」，而它是在<strong>敌人回合</strong>才生效的
-/// （<see cref="WeakPower.AfterSideTurnEnd" /> 只在 <c>CombatSide.Enemy</c> 时递减），
-/// 所以本回合结束时主动摘掉，就能让这次虚弱只影响「敌人下一次行动前你自己打出的伤害」。
+/// 虚弱会立即降低攻击伤害；原版在敌人回合结束时递减不代表它只在敌人回合生效。
+/// 旧版额外清除规则没有卡牌文档依据，且不能区分新施加与既有层数，故不再使用。
 /// </para>
 /// <para>
 /// 用 <see cref="PowerStackType.Single" /> 让层数恒为 1、不显示数字，

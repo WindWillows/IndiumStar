@@ -71,8 +71,8 @@ public sealed class ShatterSong : ModCardTemplate
             }
             else
             {
-                await CardCmd.Exhaust(choiceContext, crystal);
-                processedCount++;
+                var exhausted = await CardCmd.Exhaust(choiceContext, crystal);
+                if (exhausted is { success: true, targetPile: PileType.Exhaust }) processedCount++;
             }
         }
 

@@ -21,9 +21,15 @@ namespace MegaCrit.Sts2.Core.Commands {
     }
     public static class CreatureCmd {
         public static List<int> BlockGains { get; } = [];
-        public static Task GainBlock(Creature creature, BlockVar block, CardPlay play) {
+        public static async Task GainBlock(Creature creature, BlockVar block, CardPlay play) {
             int amount = Math.Max(0, block.IntValue + creature.GetPowerAmount<Models.Powers.DexterityPower>());
-            BlockGains.Add(amount); creature.Block += amount; return Task.CompletedTask;
+            var modifiers = new List<PowerModel>();
+            foreach (var power in creature.Powers.ToArray()) {
+                decimal multiplier = power.ModifyBlockMultiplicative(creature, amount, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move, play.Card, play);
+                if (multiplier != 1m) { amount = (int)(amount * multiplier); modifiers.Add(power); }
+            }
+            BlockGains.Add(amount); creature.Block += amount;
+            foreach (var power in modifiers) await power.AfterModifyingBlockAmount(amount, play.Card, play);
         }
         public static string? LastAnimation { get; set; }
         public static Task TriggerAnim(Creature creature, string triggerName, float waitTime) {
@@ -35,17 +41,28 @@ namespace MegaCrit.Sts2.Core.Models {
     public record TestModelId(string Entry);
     public abstract class MonsterModel : AbstractModel {
         private Creature _creature = null!;
+        public MegaCrit.Sts2.Core.Random.Rng Rng { get; set; } = new(42);
         public Creature Creature { get => _creature; set => _creature = value; }
         public TestModelId Id { get; } = new("PROBE_MONSTER");
         public MonsterMoveStateMachine? MoveStateMachine { get; private set; }
         public MoveState NextMove { get; private set; } = null!;
-        public AbstractModel MutableClone() => (MonsterModel)MemberwiseClone();
         public void ResetStateMachine() => MoveStateMachine = null;
         protected abstract MonsterMoveStateMachine GenerateMoveStateMachine();
         public void SetUpForCombat() {
             MoveStateMachine = GenerateMoveStateMachine(); NextMove = MoveStateMachine.States.Values.OfType<MoveState>().First();
         }
         public void SetMoveImmediate(MoveState move, bool forceTransition = false) => NextMove = move;
+    }
+}
+namespace MegaCrit.Sts2.Core.Random {
+    public sealed record SerializableRng(ulong State, int Counter);
+    public sealed class Rng {
+        private ulong _state;
+        public int Counter { get; private set; }
+        public Rng(ulong seed) { _state = seed; }
+        public Rng(SerializableRng snapshot) { _state = snapshot.State; Counter = snapshot.Counter; }
+        public int NextInt() { Counter++; _state = unchecked(_state * 6364136223846793005UL + 1); return (int)(_state >> 33); }
+        public SerializableRng ToSerializable() => new(_state, Counter);
     }
 }
 namespace MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine {
@@ -65,7 +82,7 @@ namespace MegaCrit.Sts2.Core.Logging {
 }
 
 public class ProbeEnemy : MonsterModel {
-    public enum Mode { Attack, Buff, Debuff, Animation, Fail }
+    public enum Mode { Attack, Buff, Debuff, Animation, RandomAttack, Fail }
     public Mode Intent { get; set; }
     public int ExecutionCount { get; private set; }
     protected override MonsterMoveStateMachine GenerateMoveStateMachine() => new(
@@ -80,6 +97,8 @@ public class ProbeEnemy : MonsterModel {
                     await MegaCrit.Sts2.Core.Commands.PowerCmd.Apply<Models.Powers.DexterityPower>(new(), targets[0], -2, Creature, null); break;
                 case Mode.Animation:
                     await MegaCrit.Sts2.Core.Commands.CreatureCmd.TriggerAnim(Creature, "MonsterSpecial", 1f); break;
+                case Mode.RandomAttack:
+                    await MegaCrit.Sts2.Core.Commands.DamageCmd.Attack(Rng.NextInt() % 5 + 1).FromMonster(this).Execute(null); break;
                 case Mode.Fail: throw new InvalidOperationException("probe failure");
             }
         }));

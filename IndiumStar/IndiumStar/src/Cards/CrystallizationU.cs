@@ -4,7 +4,6 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Extensions;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Nodes.CommonUi;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 using IndiumStar.CardPools;
@@ -21,7 +20,7 @@ namespace IndiumStar.Cards;
 /// 多张候选时用游戏 RNG 随机取一张（和「晶化-Pb」的随机保留同一口径）。
 /// </para>
 /// <para>
-/// 「运用-中子+」是升级版的运用-中子：取到的牌若未升级就现场升级，然后赋予「消耗」。
+/// 仅选择已经升级的运用-中子；这个效果不会额外升级普通中子。
 /// </para>
 /// <para>
 /// 卡图暂时借用原版铁甲战士的「防御」卡图。
@@ -37,7 +36,7 @@ public sealed class CrystallizationU : CrystallizationCard
     {
         var candidates = new[] { PileType.Draw, PileType.Discard, PileType.Exhaust }
             .SelectMany(pile => pile.GetPile(Owner).Cards)
-            .Where(card => card is ApplicationNeutron)
+            .Where(card => card is ApplicationNeutron && card.IsUpgraded)
             .ToList();
 
         CardModel? picked = candidates
@@ -46,11 +45,6 @@ public sealed class CrystallizationU : CrystallizationCard
         if (picked == null)
         {
             return null;
-        }
-
-        if (!picked.IsUpgraded)
-        {
-            CardCmd.Upgrade(picked, CardPreviewStyle.None);
         }
 
         picked.AddKeyword(CardKeyword.Exhaust);

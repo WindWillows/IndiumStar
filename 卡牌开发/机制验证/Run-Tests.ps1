@@ -25,10 +25,16 @@ $sourcePaths = @('Cards\ApplicationCard.cs', 'Cards\ApplicationRules.cs', 'Cards
     'Cards\MacroDendrite.cs', 'Cards\Cyclization.cs', 'Cards\ShadowChainBreath.cs', 'Cards\Reiteration.cs',
     'Cards\NeighboringGroupParticipation.cs', 'Cards\Inversion.cs', 'Powers\ReiterationPower.cs',
     'Powers\NeighboringGroupStrengthPower.cs', 'Mechanics\IntentExecutionRules.cs',
-    'Mechanics\BorrowedIntentCompatibility.cs', 'Patches\BorrowedIntentPatches.cs') |
+    'Mechanics\BorrowedIntentCompatibility.cs', 'Patches\BorrowedIntentPatches.cs',
+    'Patches\CrystallizeMarkClonePatch.cs', 'Powers\ApplicationCoPower.cs', 'Powers\ApplicationUCrystallizePower.cs',
+    'Powers\FreeApplicationPower.cs', 'Powers\ApplicationCaBlockPower.cs', 'Cards\ApplicationCa.cs',
+    'Cards\ReminiscenceTinDoubt.cs', 'Powers\ReminiscenceTinDoubtPower.cs', 'Powers\TinDoubtTemporaryPowers.cs',
+    'Cards\ShatterCrystalRain.cs', 'Cards\CrystallizationU.cs', 'Cards\ApplicationNeutron.cs',
+    'Powers\LoseWeakAtTurnEndPower.cs', 'Powers\LoseVulnerableAtTurnStartPower.cs') |
     ForEach-Object { Join-Path (Join-Path $ProjectDir 'src') $_ }
 $sourcePaths += @($usingsPath, (Join-Path $PSScriptRoot 'GameStubs.cs'), (Join-Path $PSScriptRoot 'NewCardStubs.cs'),
-    (Join-Path $PSScriptRoot 'NewCardTests.cs'), (Join-Path $PSScriptRoot 'MechanismTests.cs'))
+    (Join-Path $PSScriptRoot 'NewCardTests.cs'), (Join-Path $PSScriptRoot 'SemanticAuditTests.cs'),
+    (Join-Path $PSScriptRoot 'MechanismTests.cs'))
 $arguments = @('/nostdlib+', '/target:exe', '/langversion:13.0', '/nullable:enable', '/utf8output',
     ('/out:"' + (Join-Path $outputDir 'MechanismTests.dll') + '"'))
 $arguments += Get-ChildItem -LiteralPath (Join-Path $refDir.FullName 'ref\net9.0') -Filter '*.dll' |

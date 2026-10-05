@@ -8,6 +8,7 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
+using MegaCrit.Sts2.Core.Random;
 
 namespace IndiumStar.Mechanics;
 
@@ -46,6 +47,8 @@ public static class IntentExecutionRules
         string moveId = original.NextMove.Id;
         // MutableClone保留当前怪物的战斗数值；仅修改克隆的行动者和状态机。
         var borrowed = (MonsterModel)original.MutableClone();
+        // 原版的MutableClone会浅复制怪物Rng；借用动作不能推进敌人后续动作的随机序列。
+        borrowed.Rng = new Rng(original.Rng.ToSerializable());
         CreatureField.SetValue(borrowed, source.Owner.Creature);
         borrowed.ResetStateMachine();
         borrowed.SetUpForCombat();

@@ -72,6 +72,12 @@ public sealed class ApplicationCoPower : ModPowerTemplate
         CrystallizeMarks.Set(card, Math.Clamp(count, 0, MaxCrystallizationPerPlay));
     }
 
+    public static void CopyMark(CardModel source, CardModel copy)
+    {
+        int count = CrystallizeMarks.GetValueOrDefault(source, 0);
+        if (count > 0) CrystallizeMarks.Set(copy, count);
+    }
+
     /// <summary>那张牌被打出时，结算「晶化 N」。</summary>
     public override async Task BeforeCardPlayed(CardPlay cardPlay)
     {

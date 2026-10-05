@@ -49,6 +49,12 @@ public sealed class ApplicationUCrystallizePower : ModPowerTemplate
         CrystallizeUMarks.Set(card, Math.Clamp(count, 0, MaxCrystallizationPerPlay));
     }
 
+    public static void CopyMark(CardModel source, CardModel copy)
+    {
+        int count = CrystallizeUMarks.GetValueOrDefault(source, 0);
+        if (count > 0) CrystallizeUMarks.Set(copy, count);
+    }
+
     public override async Task BeforeCardPlayed(CardPlay cardPlay)
     {
         CardModel card = cardPlay.Card;

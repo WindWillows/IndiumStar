@@ -125,6 +125,7 @@
     <Exec Command="&quot;$(GodotExe)&quot; --headless --path &quot;$(GodotProjectPath)&quot; --export-pack &quot;Windows Desktop&quot; &quot;$(ModStagingDir)\$(ModId).pck&quot;"
           EnvironmentVariables="STS2_DIR=$(Sts2Dir)"
           IgnoreStandardErrorWarningFormat="true"
+          CustomErrorRegularExpression="^ERROR: Export"
           ContinueOnError="true">
       <Output TaskParameter="ExitCode" PropertyName="GodotExitCode" />
     </Exec>

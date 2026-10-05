@@ -63,7 +63,7 @@ public sealed class ReminiscenceTinDoubt : ModCardTemplate
     /// <summary>在手牌中时，自己玩家每打出一张延拓牌，此牌本场战斗花费 -N。</summary>
     public override Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        if (Pile?.Type != PileType.Hand
+        if (Pile?.IsCombatPile != true
             || cardPlay.Card.Owner != Owner
             || !cardPlay.IsFirstInSeries
             || cardPlay.Card is not IExtensionCard)

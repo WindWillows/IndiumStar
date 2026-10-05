@@ -54,9 +54,8 @@ public sealed class ApplicationCaBlockPower : ModPowerTemplate
             return 1m;
         }
 
-        // 每层翻一倍。
-        // Math.Pow 返回 double，必须显式转成 decimal（原版 ShadowmeldPower 也是这么转的）。
-        return (decimal)Math.Pow(2.0, base.Amount);
+        // 每层是一份“下一次”额度；每次只消费一份，并把该次格挡翻倍。
+        return 2m;
     }
 
     /// <summary>用掉一次：这个钩子只对真正改了数值的能力触发。</summary>

@@ -102,6 +102,8 @@ public static class BorrowedIntentCompatibility
         if (method == null) return "Unresolved action dependency";
         string type = method.DeclaringType?.FullName ?? "";
         string name = method.Name;
+        if (type.EndsWith(".MonsterModel") && name == "get_RunRng")
+            return "Action consumes run-scoped RNG and needs a dedicated adapter";
         if (type.EndsWith(".Creature") && name is "get_Player" or "get_PetOwner" or "get_Monster")
             return "Action depends on a player/monster-specific target: " + name;
         if (type.EndsWith(".CreatureCmd") && name is "Add" or "Kill" or "Escape" or "SetMaxHp" or "SetCurrentHp" or "Revive")

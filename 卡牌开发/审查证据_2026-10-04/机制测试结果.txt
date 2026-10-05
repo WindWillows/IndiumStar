@@ -1,0 +1,162 @@
+PASS 晶化身份不依赖名称或语言
+PASS 通用基类不会被当成运用牌族
+PASS 晶化基类提供默认属性
+PASS 四个规则词条独立且重复初始化不替换定义
+PASS 卡牌词条与声明分支一致：None
+PASS 卡牌词条与声明分支一致：Resistance
+PASS 卡牌词条与声明分支一致：Reversal
+PASS 卡牌词条与声明分支一致：Both
+PASS 延拓牌族具有延拓词条
+PASS 晶化Pb保留公共晶化属性并额外具有虚无
+PASS 注册词条在eng本地化中均可查到标题与描述
+PASS 注册词条在zhs本地化中均可查到标题与描述
+PASS 尚未手动打出时额度可用
+PASS 自动打出多张后仍有一次手动额度
+PASS 不同晶化共用手动额度
+PASS 手动之后的自动记录不改变额度
+PASS 系列重放不作为新的手动出牌
+PASS 新回合恢复手动额度
+PASS 不同玩家额度独立
+PASS 另一场战斗历史不占额度
+PASS 手牌计数只包含稳定标记
+PASS 晶化生成普通牌和指定变体
+PASS 零数量不生成晶化
+PASS 基础效果结束后能量0选择正确分支
+PASS 基础效果结束后能量1选择正确分支
+PASS 基础效果结束后能量3选择正确分支
+PASS 基础效果结束后能量-1选择正确分支
+PASS 扣费后0能量但基础效果返还1能量触发晶抗
+PASS 基础效果花掉最后能量触发晶逆
+PASS 晶抗花掉最后能量不追加晶逆
+PASS 双分支固定顺序并保持能量快照
+PASS 无分支卡牌不产生空触发
+PASS 双分支规则只执行卡牌实际具备的分支
+PASS 未满足唯一分支条件时没有触发
+PASS 修改规则按本体监听顺序组合
+PASS 修改规则可抑制全部分支
+PASS 异步监听完成后才执行第二分支
+PASS 分支选择不接受未定义标记
+PASS 基础效果中的嵌套出牌完成后再判断能量
+PASS 基础效果返回值传给两分支及通知
+PASS 普通本体重放段仍触发晶抗晶逆和通知
+PASS 卡牌显式限制时重放段只执行主效果
+PASS 晶逆重放预测延长出牌系列
+PASS 非晶逆能量不延长出牌系列
+PASS 重放预测只作用于牌自身
+PASS 修改规则参与重放预测
+PASS 未声明重放的牌不延长出牌系列
+PASS 每次完整结算重新读取能量
+PASS 自动出牌同样可以触发已声明分支
+PASS 基础效果失败不选择分支或通知
+PASS 分支失败不发送完成通知
+PASS 战斗结束后停止附加规则及通知
+PASS 监听者只从当前战斗发现
+PASS 监听者可以正确过滤适用玩家
+PASS 延拓获得走原版能力且保留来源
+PASS 多次延拓通过同一原版计数能力累加
+PASS 零延拓不创建能力
+PASS 延拓不足阈值时不消耗
+PASS 达到阈值时消耗全部延拓
+PASS 清空延拓可重复调用且不影响其他玩家
+PASS 非法延拓数量及阈值不会改变状态
+PASS 表征打出回合结束不发放也不收回
+PASS 表征下回合开始发放并在结束时收回
+PASS 发放回合再次预约只扣回已发放部分
+PASS 同回合多张表征合并为一次预约
+PASS 非本人回合不触发表征发放与收回
+PASS 晶币跨战斗递减写回牌组原件
+PASS 晶币收益下限为0
+PASS 晶币升级抬高基础值且不清除递减
+PASS 多张晶币各自独立递减
+PASS 量子点第1张牌预测与实际结算一致
+PASS 量子点第2张牌预测与实际结算一致
+PASS 量子点第3张牌预测与实际结算一致
+PASS 量子点第4张牌预测与实际结算一致
+PASS 量子点不把基础效果的嵌套出牌计入外层序号
+PASS 量子点第三张牌的预测不会额外生成晶逆重放
+PASS 量子点第二张牌的预测包含晶逆重放
+PASS 量子点原生重放保持该系列的序号
+PASS 量子点过滤其他玩家并在新回合重新计数
+PASS 污染H普通版从零进度到准确阈值才奖励
+PASS 污染H升级版从零进度到准确阈值才奖励
+PASS 污染H重复施加不赠送进度且普通版不覆盖升级阈值
+PASS 污染H忽略晶逆和其他玩家的晶抗
+PASS Nb与崩碎之歌加的自动晶化Nb组合保留2活力
+PASS Nb保留同张牌后续伤害段的活力并清理原版攻击缓存
+PASS 没有Nb时保持本体攻击后消耗全部活力
+PASS Nb只扣本玩家攻击且不会把活力扣为负数
+PASS 待发禁止自动晶化时崩碎之歌加不产生伤害
+PASS 崩碎之歌加只计算实际打出的晶化
+PASS 崩碎之歌普通版按实际消耗数量造成伤害
+PASS 晶化Hs提供真正的全体力量并在离手后保留其他来源
+PASS 密铺形态真实力量敏捷随晶化离手变化且不会重复叠加
+PASS Hs与密铺形态相加并覆盖后加入战斗的敌人
+PASS 光环抵消负力量为零时离手会恢复原有负力量
+PASS 光环控制器克隆后不会共享贡献字典
+SentryGodotInitializer: Sentry GDExtension not loaded in this process; skipping. If you see this in a running game (not during project export or IDE script analysis), check Godot's log for extension load failures.
+PASS 实际游戏程序集的Nb补丁目标与内部缓存字段兼容
+PASS Hs光环改变敌人力量时同步刷新伤害意图
+PASS 宏枝晶先伤害后按能量成长 e=0 upgraded=False
+PASS 宏枝晶先伤害后按能量成长 e=0 upgraded=True
+PASS 宏枝晶先伤害后按能量成长 e=1 upgraded=False
+PASS 宏枝晶先伤害后按能量成长 e=1 upgraded=True
+PASS 宏枝晶量子点双分支各生成1晶化并各成长一次
+PASS 宏枝晶成长复制继承当前值但不共享状态或写回牌组
+PASS 成环消耗实际选择牌并延后抽牌 skill upgraded=False
+PASS 成环消耗实际选择牌并延后抽牌 skill upgraded=True
+PASS 成环消耗实际选择牌并延后抽牌 crystal upgraded=False
+PASS 成环消耗实际选择牌并延后抽牌 crystal upgraded=True
+PASS 成环消耗实际选择牌并延后抽牌 empty upgraded=False
+PASS 成环消耗实际选择牌并延后抽牌 empty upgraded=True
+PASS 成环消耗实际选择牌并延后抽牌 blocked upgraded=False
+PASS 成环消耗实际选择牌并延后抽牌 blocked upgraded=True
+PASS 分影连气仅真正抽到本牌时复制且保留升级
+PASS 分影连气生成复制不会递归且满手溢出进入弃牌堆
+PASS 分影连气按剩余手牌分次获得格挡 count=0 upgraded=False
+PASS 分影连气按剩余手牌分次获得格挡 count=0 upgraded=True
+PASS 分影连气按剩余手牌分次获得格挡 count=1 upgraded=False
+PASS 分影连气按剩余手牌分次获得格挡 count=1 upgraded=True
+PASS 分影连气按剩余手牌分次获得格挡 count=3 upgraded=False
+PASS 分影连气按剩余手牌分次获得格挡 count=3 upgraded=True
+PASS 复沓不复制自身而在下一牌结算前置顶独立升级复制
+PASS 复沓可复制自动打出牌但不再次复制系列重放
+PASS 复沓叠加生成多个复制并在本人回合结束清除
+PASS 复沓不响应另一玩家出牌和非首次重放
+PASS 邻基参与按第一张实际抽到牌判断 Skill upgraded=False
+PASS 邻基参与按第一张实际抽到牌判断 Skill upgraded=True
+PASS 邻基参与按第一张实际抽到牌判断 Status upgraded=False
+PASS 邻基参与按第一张实际抽到牌判断 Status upgraded=True
+PASS 邻基参与按第一张实际抽到牌判断 Attack upgraded=False
+PASS 邻基参与按第一张实际抽到牌判断 Attack upgraded=True
+PASS 邻基参与按第一张实际抽到牌判断 Power upgraded=False
+PASS 邻基参与按第一张实际抽到牌判断 Power upgraded=True
+PASS 邻基参与抽牌受阻和空牌堆都不触发类型奖励
+PASS 邻基参与多次临时力量回收保留原有永久力量
+PASS 反演借用意图且不推进原敌人 Attack
+PASS 反演借用意图且不推进原敌人 Buff
+PASS 反演借用意图且不推进原敌人 Debuff
+PASS 反演借用意图且不推进原敌人 Animation
+PASS 反演借用意图且不推进原敌人 RandomAttack
+PASS 反演借用意图且不推进原敌人 Fail
+PASS 反演升级8伤且死亡目标不借用意图
+PASS 反演补丁在借用范围外不改原怪物攻击与动画
+PASS 六张新卡中英文标题描述均存在
+PASS 实际游戏反演反射字段和Harmony目标参数契约
+PASS 中子重复施加只使用原版状态，无隐藏清除器 energy=0
+PASS 中子重复施加只使用原版状态，无隐藏清除器 energy=1
+PASS 反演借用随机攻击不推进原敌人的RNG
+PASS Co标记复制继承且回合结束清除原件与复制
+PASS U标记复制生成晶化U且不会修改未标记牌
+PASS 免费运用两份额度不会被一张牌的系列重放耗尽
+PASS Ca两份翻倍额度分别作用于分影连气的前两次格挡
+PASS 锡疑在Hand也获得延拓牌费用减免且不重复计算重放
+PASS 锡疑在Draw也获得延拓牌费用减免且不重复计算重放
+PASS 锡疑在Discard也获得延拓牌费用减免且不重复计算重放
+PASS 锡疑在Exhaust也获得延拓牌费用减免且不重复计算重放
+PASS 碎晶雨晶逆保留主伤害的多段模式 upgraded=False
+PASS 碎晶雨晶逆保留主伤害的多段模式 upgraded=True
+PASS 崩碎之歌不把失败消耗计入伤害段数
+PASS 晶化U只回收已升级中子，不额外升级普通中子
+PASS Hs光环不扣回未发放给不能接收能力单位的贡献
+PASS Hs光环能在单位恢复可接收能力后补发与正确收回
+160/160 passed; scope: real mod source, command/history stubs, real Harmony patching and game API contract.

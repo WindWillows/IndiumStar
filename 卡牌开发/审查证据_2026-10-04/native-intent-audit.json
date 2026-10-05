@@ -1,0 +1,1953 @@
+{
+  "scope": "Native game DLL method IL preflight only; candidate action methods, not an in-game execution test or guaranteed intent support",
+  "generated_at_utc": "2026-10-03T19:52:57.1386381Z",
+  "game_dll_sha256": "0861BFA1DF347538D932F22D580E75420F08082792EB914E53B4882764ACDBE9",
+  "accepted": 254,
+  "rejected": 70,
+  "candidates": [
+    {
+      "monster": "Aeonglass",
+      "action": "EbbMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Aeonglass",
+      "action": "EyeLasersMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Aeonglass",
+      "action": "IncreasingIntensityMove",
+      "passes_preflight": false,
+      "reason": "Action depends on a player/monster-specific target: get_Player"
+    },
+    {
+      "monster": "AssassinRubyRaider",
+      "action": "KillshotMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Axebot",
+      "action": "BootUpMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Axebot",
+      "action": "OneTwoMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Axebot",
+      "action": "HammerUppercutMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "AxeRubyRaider",
+      "action": "SwingMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "AxeRubyRaider",
+      "action": "BigSwingMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "BigDummy",
+      "action": "NothingMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "BowlbugEgg",
+      "action": "BiteMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "BowlbugNectar",
+      "action": "ThrashMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "BowlbugNectar",
+      "action": "BuffMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "BowlbugRock",
+      "action": "HeadbuttMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "BowlbugRock",
+      "action": "DizzyMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "BowlbugSilk",
+      "action": "ThrashMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "BowlbugSilk",
+      "action": "SpitMove",
+      "passes_preflight": false,
+      "reason": "Action requires a monster-specific visual: GetSpecialNode"
+    },
+    {
+      "monster": "BruteRubyRaider",
+      "action": "BeatMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "BruteRubyRaider",
+      "action": "RoarMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "BygoneEffigy",
+      "action": "InitialSleepMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "BygoneEffigy",
+      "action": "SleepMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "BygoneEffigy",
+      "action": "WakeMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "BygoneEffigy",
+      "action": "SlashMove",
+      "passes_preflight": false,
+      "reason": "Action requires a monster-specific visual: GetSpecialNode"
+    },
+    {
+      "monster": "Byrdonis",
+      "action": "PeckMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Byrdonis",
+      "action": "SwoopMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "CalcifiedCultist",
+      "action": "IncantationMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "CalcifiedCultist",
+      "action": "DarkStrikeMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "CeremonialBeast",
+      "action": "StampMove",
+      "passes_preflight": false,
+      "reason": "Monster-specific power needs an adapter: PlowPower"
+    },
+    {
+      "monster": "CeremonialBeast",
+      "action": "PlowMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "CeremonialBeast",
+      "action": "StunnedMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "CeremonialBeast",
+      "action": "BeastCryMove",
+      "passes_preflight": false,
+      "reason": "Monster-specific power needs an adapter: RingingPower"
+    },
+    {
+      "monster": "CeremonialBeast",
+      "action": "StompMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "CeremonialBeast",
+      "action": "CrushMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Chomper",
+      "action": "ClampMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Chomper",
+      "action": "ScreechMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "CorpseSlug",
+      "action": "WhipSlapMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "CorpseSlug",
+      "action": "GlompMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "CorpseSlug",
+      "action": "GoopMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "CrossbowRubyRaider",
+      "action": "FireMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "CrossbowRubyRaider",
+      "action": "ReloadMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Crusher",
+      "action": "BeforeDeath",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Crusher",
+      "action": "ThrashMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Crusher",
+      "action": "BugStingMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Crusher",
+      "action": "AdaptMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Crusher",
+      "action": "EnlargingStrikeMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Crusher",
+      "action": "GuardedStrikeMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "CubexConstruct",
+      "action": "ChargeUpMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "CubexConstruct",
+      "action": "RepeaterBlastMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "CubexConstruct",
+      "action": "ExpelBlastMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "DampCultist",
+      "action": "IncantationMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "DampCultist",
+      "action": "DarkStrikeMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "DevotedSculptor",
+      "action": "ForbiddenIncantationMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "DevotedSculptor",
+      "action": "SavageMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Entomancer",
+      "action": "SpitMove",
+      "passes_preflight": false,
+      "reason": "Monster-specific power needs an adapter: PersonalHivePower"
+    },
+    {
+      "monster": "Entomancer",
+      "action": "BeesMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Entomancer",
+      "action": "SpearMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Exoskeleton",
+      "action": "SkitterMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Exoskeleton",
+      "action": "MandiblesMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Exoskeleton",
+      "action": "EnrageMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "EyeWithTeeth",
+      "action": "DistractMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Fabricator",
+      "action": "FabricateMove",
+      "passes_preflight": false,
+      "reason": "Action consumes run-scoped RNG and needs a dedicated adapter"
+    },
+    {
+      "monster": "Fabricator",
+      "action": "FabricatingStrikeMove",
+      "passes_preflight": false,
+      "reason": "Action consumes run-scoped RNG and needs a dedicated adapter"
+    },
+    {
+      "monster": "Fabricator",
+      "action": "DisintegrateMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "FakeMerchantMonster",
+      "action": "SwipeMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "FakeMerchantMonster",
+      "action": "SpewCoinsMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "FakeMerchantMonster",
+      "action": "ThrowRelicMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "FakeMerchantMonster",
+      "action": "EnrageMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "FatGremlin",
+      "action": "SpawnedMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "FatGremlin",
+      "action": "FleeMove",
+      "passes_preflight": false,
+      "reason": "Body/summon action needs a dedicated adapter: Escape"
+    },
+    {
+      "monster": "FlailKnight",
+      "action": "WarChantMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "FlailKnight",
+      "action": "FlailMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "FlailKnight",
+      "action": "RamMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Flyconid",
+      "action": "VulnerableSporesMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Flyconid",
+      "action": "FrailSporesMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Flyconid",
+      "action": "SmashMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Fogmog",
+      "action": "IllusionMove",
+      "passes_preflight": false,
+      "reason": "Body/summon action needs a dedicated adapter: Add"
+    },
+    {
+      "monster": "Fogmog",
+      "action": "SwipeMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Fogmog",
+      "action": "HeadbuttMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "FossilStalker",
+      "action": "TackleMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "FossilStalker",
+      "action": "LatchMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "FossilStalker",
+      "action": "LashAttack",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "FrogKnight",
+      "action": "ForTheQueenMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "FrogKnight",
+      "action": "StrikeDownEvilMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "FrogKnight",
+      "action": "TongueLashMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "FrogKnight",
+      "action": "BeetleChargeMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "FuzzyWurmCrawler",
+      "action": "AcidGoop",
+      "passes_preflight": false,
+      "reason": "Action requires a monster-specific visual: GetSpecialNode"
+    },
+    {
+      "monster": "FuzzyWurmCrawler",
+      "action": "Inhale",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "GasBomb",
+      "action": "ExplodeMove",
+      "passes_preflight": false,
+      "reason": "Body/summon action needs a dedicated adapter: Kill"
+    },
+    {
+      "monster": "GlobeHead",
+      "action": "ThunderStrike",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "GlobeHead",
+      "action": "ShockingSlap",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "GlobeHead",
+      "action": "GalvanicBurstMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "GremlinMerc",
+      "action": "GimmeMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "GremlinMerc",
+      "action": "DoubleSmashMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "GremlinMerc",
+      "action": "HeheMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Guardbot",
+      "action": "GuardMove",
+      "passes_preflight": false,
+      "reason": "Action hard-codes a combat side: get_Enemies"
+    },
+    {
+      "monster": "HauntedShip",
+      "action": "SwipeMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "HauntedShip",
+      "action": "StompMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "HauntedShip",
+      "action": "HauntMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "HunterKiller",
+      "action": "GoopMove",
+      "passes_preflight": false,
+      "reason": "Monster-specific power needs an adapter: TenderPower"
+    },
+    {
+      "monster": "HunterKiller",
+      "action": "BiteMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "HunterKiller",
+      "action": "PunctureMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "InfestedPrism",
+      "action": "JabMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "InfestedPrism",
+      "action": "RadiateMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "InfestedPrism",
+      "action": "WhirlwindMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "InfestedPrism",
+      "action": "PulsateMove",
+      "passes_preflight": false,
+      "reason": "Monster-specific power needs an adapter: VitalSparkPower"
+    },
+    {
+      "monster": "Inklet",
+      "action": "JabMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Inklet",
+      "action": "WhirlwindMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Inklet",
+      "action": "PiercingGazeMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "KinFollower",
+      "action": "QuickSlashMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "KinFollower",
+      "action": "PowerDanceMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "KinFollower",
+      "action": "BoomerangMove",
+      "passes_preflight": false,
+      "reason": "Action requires a monster-specific visual: GetSpecialNode"
+    },
+    {
+      "monster": "KinPriest",
+      "action": "OrbOfFrailtyMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "KinPriest",
+      "action": "OrbOfWeaknessMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "KinPriest",
+      "action": "BeamMove",
+      "passes_preflight": false,
+      "reason": "Action requires a monster-specific visual: GetSpecialNode"
+    },
+    {
+      "monster": "KinPriest",
+      "action": "RitualMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "KnowledgeDemon",
+      "action": "CurseOfKnowledgeMove",
+      "passes_preflight": false,
+      "reason": "Action depends on a player/monster-specific target: get_Player"
+    },
+    {
+      "monster": "KnowledgeDemon",
+      "action": "ChooseCurse",
+      "passes_preflight": false,
+      "reason": "Action depends on a player/monster-specific target: get_Player"
+    },
+    {
+      "monster": "KnowledgeDemon",
+      "action": "SlapMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "KnowledgeDemon",
+      "action": "KnowledgeOverwhelmingMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "KnowledgeDemon",
+      "action": "PonderMove",
+      "passes_preflight": false,
+      "reason": "Action hard-codes a combat side: get_Players"
+    },
+    {
+      "monster": "LagavulinMatriarch",
+      "action": "SleepMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "LagavulinMatriarch",
+      "action": "WakeUpMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "LagavulinMatriarch",
+      "action": "SlashMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "LagavulinMatriarch",
+      "action": "Slash2Move",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "LagavulinMatriarch",
+      "action": "DisembowelMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "LagavulinMatriarch",
+      "action": "SoulSiphonMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "LeafSlimeM",
+      "action": "ClumpShotMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "LeafSlimeM",
+      "action": "StickyShotMove",
+      "passes_preflight": false,
+      "reason": "Action requires a monster-specific visual: GetSpecialNode"
+    },
+    {
+      "monster": "LeafSlimeS",
+      "action": "TackleMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "LeafSlimeS",
+      "action": "GoopMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "LivingFog",
+      "action": "AdvancedGasMove",
+      "passes_preflight": false,
+      "reason": "Monster-specific power needs an adapter: SmoggyPower"
+    },
+    {
+      "monster": "LivingFog",
+      "action": "BloatMove",
+      "passes_preflight": false,
+      "reason": "Body/summon action needs a dedicated adapter: Add"
+    },
+    {
+      "monster": "LivingFog",
+      "action": "SuperGasBlastMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "LivingShield",
+      "action": "ShieldSlamMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "LivingShield",
+      "action": "SmashMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "LouseProgenitor",
+      "action": "WebMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "LouseProgenitor",
+      "action": "CurlAndGrowMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "LouseProgenitor",
+      "action": "PounceMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "MagiKnight",
+      "action": "DampenMove",
+      "passes_preflight": false,
+      "reason": "Monster-specific power needs an adapter: DampenPower"
+    },
+    {
+      "monster": "MagiKnight",
+      "action": "PowerShieldMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "MagiKnight",
+      "action": "PrepMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "MagiKnight",
+      "action": "MagicBombMove",
+      "passes_preflight": false,
+      "reason": "Action requires a monster-specific visual: GetSpecialNode"
+    },
+    {
+      "monster": "MagiKnight",
+      "action": "SpearMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Mawler",
+      "action": "RipAndTearMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Mawler",
+      "action": "RoarMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Mawler",
+      "action": "ClawMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "MechaKnight",
+      "action": "ChargeMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "MechaKnight",
+      "action": "HeavyCleaveMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "MechaKnight",
+      "action": "WindupMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "MechaKnight",
+      "action": "FlamethrowerMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "MockArtifactMonster",
+      "action": "NothingMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "MockAttackAndSummonMinionMonster",
+      "action": "AttackAndSummonMinionMove",
+      "passes_preflight": false,
+      "reason": "Body/summon action needs a dedicated adapter: Add"
+    },
+    {
+      "monster": "MockAttackMonster",
+      "action": "AttackMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "MockIntangibleMonster",
+      "action": "IntangibleMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "MockIntangibleMonster",
+      "action": "NothingMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "MockPlatingMonster",
+      "action": "NothingMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "MockReattachMonster",
+      "action": "NothingMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "MockReattachMonster",
+      "action": "ReattachMove",
+      "passes_preflight": false,
+      "reason": "Monster-specific power needs an adapter: ReattachPower"
+    },
+    {
+      "monster": "MultiAttackMoveMonster",
+      "action": "PokeMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Myte",
+      "action": "ToxicMove",
+      "passes_preflight": false,
+      "reason": "Action requires a monster-specific visual: GetSpecialNode"
+    },
+    {
+      "monster": "Myte",
+      "action": "BiteMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Myte",
+      "action": "SuckMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Nibbit",
+      "action": "ButtMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Nibbit",
+      "action": "SliceMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Nibbit",
+      "action": "HissMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Noisebot",
+      "action": "NoiseMove",
+      "passes_preflight": false,
+      "reason": "Action depends on a player/monster-specific target: get_Player"
+    },
+    {
+      "monster": "OneHpMonster",
+      "action": "NothingMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Ovicopter",
+      "action": "LayEggsMove",
+      "passes_preflight": false,
+      "reason": "Action hard-codes a combat side: get_Enemies"
+    },
+    {
+      "monster": "Ovicopter",
+      "action": "NutritionalPasteMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Ovicopter",
+      "action": "SmashMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Ovicopter",
+      "action": "TenderizerMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "OwlMagistrate",
+      "action": "MagistrateScrutinyMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "OwlMagistrate",
+      "action": "PeckAssaultMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "OwlMagistrate",
+      "action": "JudicialFlightMove",
+      "passes_preflight": false,
+      "reason": "Monster-specific power needs an adapter: SoarPower"
+    },
+    {
+      "monster": "OwlMagistrate",
+      "action": "VerdictMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Parafright",
+      "action": "SlamMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "PhantasmalGardener",
+      "action": "BiteMove",
+      "passes_preflight": false,
+      "reason": "Action requires a monster-specific visual: SetDefaultScaleTo"
+    },
+    {
+      "monster": "PhantasmalGardener",
+      "action": "LashMove",
+      "passes_preflight": false,
+      "reason": "Action requires a monster-specific visual: SetDefaultScaleTo"
+    },
+    {
+      "monster": "PhantasmalGardener",
+      "action": "FlailMove",
+      "passes_preflight": false,
+      "reason": "Action requires a monster-specific visual: SetDefaultScaleTo"
+    },
+    {
+      "monster": "PhantasmalGardener",
+      "action": "EnlargeMove",
+      "passes_preflight": false,
+      "reason": "Action requires a monster-specific visual: SetDefaultScaleTo"
+    },
+    {
+      "monster": "PhrogParasite",
+      "action": "LashMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "PhrogParasite",
+      "action": "InfectMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "PunchConstruct",
+      "action": "ReadyMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "PunchConstruct",
+      "action": "StrongPunchMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "PunchConstruct",
+      "action": "FastPunchMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Queen",
+      "action": "PuppetStringsMove",
+      "passes_preflight": false,
+      "reason": "Monster-specific power needs an adapter: ChainsOfBindingPower"
+    },
+    {
+      "monster": "Queen",
+      "action": "YoureMineMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Queen",
+      "action": "BurnBrightForMeMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Queen",
+      "action": "OffWithYourHeadMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Queen",
+      "action": "ExecutionMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Queen",
+      "action": "EnrageMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Rocket",
+      "action": "BeforeDeath",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Rocket",
+      "action": "TargetingReticleMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Rocket",
+      "action": "PrecisionBeamMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Rocket",
+      "action": "ChargeUpMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Rocket",
+      "action": "LaserMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Rocket",
+      "action": "RechargeMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "ScrollOfBiting",
+      "action": "ChompMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "ScrollOfBiting",
+      "action": "ChewState",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "ScrollOfBiting",
+      "action": "MoreTeethMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Seapunk",
+      "action": "SeaKickMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Seapunk",
+      "action": "SpinningKickMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Seapunk",
+      "action": "BubbleBurpMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "SewerClam",
+      "action": "PressurizeMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "SewerClam",
+      "action": "JetMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "ShrinkerBeetle",
+      "action": "ShrinkMove",
+      "passes_preflight": false,
+      "reason": "Monster-specific power needs an adapter: ShrinkPower"
+    },
+    {
+      "monster": "ShrinkerBeetle",
+      "action": "ChompMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "ShrinkerBeetle",
+      "action": "StompMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "SingleAttackMoveMonster",
+      "action": "PokeMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "SkulkingColony",
+      "action": "InertiaMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "SkulkingColony",
+      "action": "PiercingStabsMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "SkulkingColony",
+      "action": "ZoomMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "SlimedBerserker",
+      "action": "VomitIchorMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "SlimedBerserker",
+      "action": "LeechingHugMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "SlimedBerserker",
+      "action": "FuriousPummelingMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "SlimedBerserker",
+      "action": "SmotherMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "SlitheringStrangler",
+      "action": "ConstrictMove",
+      "passes_preflight": false,
+      "reason": "Monster-specific power needs an adapter: ConstrictPower"
+    },
+    {
+      "monster": "SlitheringStrangler",
+      "action": "ThwackMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "SlitheringStrangler",
+      "action": "LashMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "SludgeSpinner",
+      "action": "OilSprayMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "SludgeSpinner",
+      "action": "SlamMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "SludgeSpinner",
+      "action": "RageMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "SlumberingBeetle",
+      "action": "WakeUpMove",
+      "passes_preflight": false,
+      "reason": "Monster-specific power needs an adapter: PlatingPower"
+    },
+    {
+      "monster": "SlumberingBeetle",
+      "action": "SnoreMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "SlumberingBeetle",
+      "action": "RolloutMove",
+      "passes_preflight": false,
+      "reason": "Action requires a monster-specific visual: GetSpecialNode"
+    },
+    {
+      "monster": "SnappingJaxfruit",
+      "action": "EnergyOrb",
+      "passes_preflight": false,
+      "reason": "Action requires a monster-specific visual: GetSpecialNode"
+    },
+    {
+      "monster": "SneakyGremlin",
+      "action": "SpawnedMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "SneakyGremlin",
+      "action": "TackleMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "SoulFysh",
+      "action": "BeckonMove",
+      "passes_preflight": false,
+      "reason": "Action depends on a player/monster-specific target: get_Player"
+    },
+    {
+      "monster": "SoulFysh",
+      "action": "GazeMove",
+      "passes_preflight": false,
+      "reason": "Action depends on a player/monster-specific target: get_Player"
+    },
+    {
+      "monster": "SoulFysh",
+      "action": "DeGasMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "SoulFysh",
+      "action": "ScreamMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "SoulFysh",
+      "action": "FadeMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "SoulNexus",
+      "action": "SoulBurnMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "SoulNexus",
+      "action": "MaelstromMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "SoulNexus",
+      "action": "DrainLifeMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "SpectralKnight",
+      "action": "HexMove",
+      "passes_preflight": false,
+      "reason": "Monster-specific power needs an adapter: HexPower"
+    },
+    {
+      "monster": "SpectralKnight",
+      "action": "SoulSlashMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "SpectralKnight",
+      "action": "SoulFlameMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "SpinyToad",
+      "action": "SpikesMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "SpinyToad",
+      "action": "ExplosionMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "SpinyToad",
+      "action": "LashMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Stabbot",
+      "action": "StabMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "TenHpMonster",
+      "action": "NothingMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "TerrorEel",
+      "action": "CrashMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "TerrorEel",
+      "action": "ThrashMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "TerrorEel",
+      "action": "StunMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "TerrorEel",
+      "action": "TerrorMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "TestSubject",
+      "action": "RespawnMove",
+      "passes_preflight": false,
+      "reason": "Action requires a monster-specific visual: SetDefaultScaleTo"
+    },
+    {
+      "monster": "TestSubject",
+      "action": "BiteMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "TestSubject",
+      "action": "SkullBashMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "TestSubject",
+      "action": "MultiClawMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "TestSubject",
+      "action": "Phase3LacerateMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "TestSubject",
+      "action": "BigPounceMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "TestSubject",
+      "action": "BurningGrowlMove",
+      "passes_preflight": false,
+      "reason": "Action requires a monster-specific visual: GetSpecialNode"
+    },
+    {
+      "monster": "TheAdversaryMkOne",
+      "action": "SmashMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "TheAdversaryMkOne",
+      "action": "BeamMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "TheAdversaryMkOne",
+      "action": "BarrageMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "TheAdversaryMkThree",
+      "action": "CrashMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "TheAdversaryMkThree",
+      "action": "FlameBeamMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "TheAdversaryMkThree",
+      "action": "BarrageMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "TheAdversaryMkTwo",
+      "action": "BashMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "TheAdversaryMkTwo",
+      "action": "FlameBeamMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "TheAdversaryMkTwo",
+      "action": "BarrageMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "TheForgotten",
+      "action": "MiasmaMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "TheForgotten",
+      "action": "DreadMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "TheInsatiable",
+      "action": "LiquifyMove",
+      "passes_preflight": false,
+      "reason": "Action depends on a player/monster-specific target: get_Player"
+    },
+    {
+      "monster": "TheInsatiable",
+      "action": "ThrashMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "TheInsatiable",
+      "action": "BiteMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "TheInsatiable",
+      "action": "SalivateMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "TheLost",
+      "action": "DebilitatingSmogMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "TheLost",
+      "action": "EyeLasersMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "TheObscura",
+      "action": "IllusionMove",
+      "passes_preflight": false,
+      "reason": "Body/summon action needs a dedicated adapter: Add"
+    },
+    {
+      "monster": "TheObscura",
+      "action": "PiercingGazeMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "TheObscura",
+      "action": "WailMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "TheObscura",
+      "action": "HardeningStrikeMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "ThievingHopper",
+      "action": "ThieveryMove",
+      "passes_preflight": false,
+      "reason": "Action requires a monster-specific visual: GetSpecialNode"
+    },
+    {
+      "monster": "ThievingHopper",
+      "action": "NabMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "ThievingHopper",
+      "action": "HatTrickMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "ThievingHopper",
+      "action": "FlutterMove",
+      "passes_preflight": false,
+      "reason": "Monster-specific power needs an adapter: FlutterPower"
+    },
+    {
+      "monster": "ThievingHopper",
+      "action": "EscapeMove",
+      "passes_preflight": false,
+      "reason": "Body/summon action needs a dedicated adapter: Escape"
+    },
+    {
+      "monster": "Toadpole",
+      "action": "SpikeSpitMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Toadpole",
+      "action": "WhirlMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Toadpole",
+      "action": "SpikenMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "TorchHeadAmalgam",
+      "action": "StrongTackleMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "TorchHeadAmalgam",
+      "action": "TackleMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "TorchHeadAmalgam",
+      "action": "WeakTackleMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "TorchHeadAmalgam",
+      "action": "SoulBeamMove",
+      "passes_preflight": false,
+      "reason": "Action requires a monster-specific visual: GetSpecialNode"
+    },
+    {
+      "monster": "ToughEgg",
+      "action": "HatchMove",
+      "passes_preflight": false,
+      "reason": "Action consumes run-scoped RNG and needs a dedicated adapter"
+    },
+    {
+      "monster": "ToughEgg",
+      "action": "NibbleMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "TrackerRubyRaider",
+      "action": "TrackMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "TrackerRubyRaider",
+      "action": "HoundsMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Tunneler",
+      "action": "BiteMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Tunneler",
+      "action": "BurrowMove",
+      "passes_preflight": false,
+      "reason": "Monster-specific power needs an adapter: BurrowedPower"
+    },
+    {
+      "monster": "Tunneler",
+      "action": "BelowMove",
+      "passes_preflight": false,
+      "reason": "Action requires a monster-specific visual: GetSpecialNode"
+    },
+    {
+      "monster": "Tunneler",
+      "action": "StillDizzyMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "TurretOperator",
+      "action": "ReloadMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "TurretOperator",
+      "action": "UnloadMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "TwigSlimeM",
+      "action": "ClumpShotMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "TwigSlimeM",
+      "action": "StickyShotMove",
+      "passes_preflight": false,
+      "reason": "Action requires a monster-specific visual: GetSpecialNode"
+    },
+    {
+      "monster": "TwigSlimeS",
+      "action": "TackleMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "TwoTailedRat",
+      "action": "ScratchMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "TwoTailedRat",
+      "action": "DiseaseBiteMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "TwoTailedRat",
+      "action": "ScreechMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "TwoTailedRat",
+      "action": "CallForBackup",
+      "passes_preflight": false,
+      "reason": "Action hard-codes a combat side: get_Enemies"
+    },
+    {
+      "monster": "Vantom",
+      "action": "InkBlotMove",
+      "passes_preflight": false,
+      "reason": "Action requires a monster-specific visual: get_SpineAnimation"
+    },
+    {
+      "monster": "Vantom",
+      "action": "InkyLanceMove",
+      "passes_preflight": false,
+      "reason": "Action requires a monster-specific visual: get_SpineAnimation"
+    },
+    {
+      "monster": "Vantom",
+      "action": "DismemberMove",
+      "passes_preflight": false,
+      "reason": "Action requires a monster-specific visual: get_SpineAnimation"
+    },
+    {
+      "monster": "Vantom",
+      "action": "PrepareMove",
+      "passes_preflight": false,
+      "reason": "Action requires a monster-specific visual: get_SpineAnimation"
+    },
+    {
+      "monster": "VineShambler",
+      "action": "GraspingVinesMove",
+      "passes_preflight": false,
+      "reason": "Monster-specific power needs an adapter: TangledPower"
+    },
+    {
+      "monster": "VineShambler",
+      "action": "SwipeMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "VineShambler",
+      "action": "ChompMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "WaterfallGiant",
+      "action": "PressurizeMove",
+      "passes_preflight": false,
+      "reason": "Monster-specific power needs an adapter: SteamEruptionPower"
+    },
+    {
+      "monster": "WaterfallGiant",
+      "action": "PressureUpMove",
+      "passes_preflight": false,
+      "reason": "Monster-specific power needs an adapter: SteamEruptionPower"
+    },
+    {
+      "monster": "WaterfallGiant",
+      "action": "StompMove",
+      "passes_preflight": false,
+      "reason": "Monster-specific power needs an adapter: SteamEruptionPower"
+    },
+    {
+      "monster": "WaterfallGiant",
+      "action": "RamMove",
+      "passes_preflight": false,
+      "reason": "Monster-specific power needs an adapter: SteamEruptionPower"
+    },
+    {
+      "monster": "WaterfallGiant",
+      "action": "SiphonMove",
+      "passes_preflight": false,
+      "reason": "Action hard-codes a combat side: get_Players"
+    },
+    {
+      "monster": "WaterfallGiant",
+      "action": "PressureGunMove",
+      "passes_preflight": false,
+      "reason": "Monster-specific power needs an adapter: SteamEruptionPower"
+    },
+    {
+      "monster": "WaterfallGiant",
+      "action": "AboutToBlowMove",
+      "passes_preflight": false,
+      "reason": "Monster-specific power needs an adapter: SteamEruptionPower"
+    },
+    {
+      "monster": "WaterfallGiant",
+      "action": "ExplodeMove",
+      "passes_preflight": false,
+      "reason": "Body/summon action needs a dedicated adapter: Kill"
+    },
+    {
+      "monster": "Wriggler",
+      "action": "SpawnedMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Wriggler",
+      "action": "BiteMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Wriggler",
+      "action": "WriggleMove",
+      "passes_preflight": true,
+      "reason": null
+    },
+    {
+      "monster": "Zapbot",
+      "action": "ZapMove",
+      "passes_preflight": true,
+      "reason": null
+    }
+  ]
+}

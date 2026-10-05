@@ -1,0 +1,67 @@
+// 在托管测试模式下直接运行游戏DLL的模型注册、升级、深克隆与Harmony补丁。
+// 不启动游戏循环，不调用UI、伤害指令或存档；不能代替实机战斗验证。
+using System.Reflection;
+using System.Text.Json;
+using HarmonyLib;
+using IndiumStar.Cards;
+using IndiumStar.Patches;
+using IndiumStar.Powers;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.TestSupport;
+using STS2RitsuLib.Utils;
+using STS2RitsuLib.Keywords;
+
+TestMode.IsOn = true;
+// 关键字注册会启动Godot日志器；此托管探针仅注入定义，不测试注册器或引擎启动。
+// 卡牌仍通过实际CardModel.DeepCloneFields复制这些枚举值。
+int keywordValue = 100000;
+foreach (string name in new[] { "Crystallization", "Extension", "CrystalResistance", "CrystalReversal" }) {
+    var definition = new ModKeywordDefinition("IndiumStar", name, "card_keywords", name,
+        "card_keywords", name);
+    typeof(ModKeywordDefinition).GetProperty("CardKeywordValue")!.SetValue(definition, (CardKeyword)keywordValue++);
+    typeof(IndiumStar.Mechanics.IndiumStarKeywords).GetProperty(name)!.SetValue(null, definition);
+}
+var cardTypes = typeof(MacroDendrite).Assembly.GetTypes().Where(t =>
+    typeof(CardModel).IsAssignableFrom(t) && !t.IsAbstract &&
+    t.CustomAttributes.Any(a => a.AttributeType.Name == "RegisterCardAttribute"))
+    .OrderBy(t => t.Name).ToArray();
+ModelDb.Init(cardTypes);
+var harmony = new Harmony("IndiumStar.NativeModelSmoke");
+harmony.CreateClassProcessor(typeof(CrystallizeMarkClonePatch)).Patch();
+var rows = new List<object>();
+int passed = 0;
+foreach (Type type in cardTypes)
+{
+    CardModel canonical = ModelDb.GetById<CardModel>(ModelDb.GetId(type));
+    CardModel mutable = canonical.ToMutable();
+    bool upgraded = mutable.Type != CardType.Status;
+    if (upgraded) { mutable.UpgradeInternal(); mutable.FinalizeUpgradeInternal(); }
+    var copy = (CardModel)mutable.MutableClone();
+    if (!copy.IsMutable || ReferenceEquals(copy.DynamicVars, mutable.DynamicVars)
+        || ReferenceEquals(copy.EnergyCost, mutable.EnergyCost)
+        || copy.IsUpgraded != mutable.IsUpgraded || copy.DeckVersion != null)
+        throw new Exception("Native clone contract failed: " + type.Name);
+    rows.Add(new { type = type.Name, id = canonical.Id.Entry, upgraded, mutable_clone = "pass" });
+    passed++;
+}
+var macro = (MacroDendrite)ModelDb.GetById<CardModel>(ModelDb.GetId(typeof(MacroDendrite))).MutableClone();
+macro.DynamicVars.Damage.BaseValue += 2;
+var macroCopy = (MacroDendrite)macro.MutableClone();
+macroCopy.DynamicVars.Damage.BaseValue++;
+if (macro.DynamicVars.Damage.IntValue != 5 || macroCopy.DynamicVars.Damage.IntValue != 6)
+    throw new Exception("Native macro growth independence failed");
+ApplicationCoPower.MarkForCrystallize(macro, 2);
+ApplicationUCrystallizePower.MarkForCrystallizeU(macro, 1);
+var markedCopy = (CardModel)macro.MutableClone();
+int Mark(Type power, string field) => ((AttachedState<CardModel, int>)power.GetField(field,
+    BindingFlags.Static | BindingFlags.NonPublic)!.GetValue(null)!).GetValueOrDefault(markedCopy, 0);
+if (Mark(typeof(ApplicationCoPower), "CrystallizeMarks") != 2
+    || Mark(typeof(ApplicationUCrystallizePower), "CrystallizeUMarks") != 1)
+    throw new Exception("Native Harmony copy-mark contract failed");
+harmony.UnpatchAll(harmony.Id);
+Console.WriteLine($"PASS native model smoke: {passed} registrations/upgrades/deep clones; macro independence; Co/U Harmony marks");
+File.WriteAllText(args[0], JsonSerializer.Serialize(new {
+    scope = "Actual game DLL managed TestMode: model constructors/upgrades/MutableClone/Harmony; keyword definitions seeded without registry startup; no live combat, UI, CreateClone card-scope path, or save test",
+    generated_at_utc = DateTime.UtcNow, passed, macro_independence = "pass", co_u_clone_marks = "pass", cards = rows
+}, new JsonSerializerOptions { WriteIndented = true }));

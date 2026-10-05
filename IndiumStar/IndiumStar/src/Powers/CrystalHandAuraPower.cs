@@ -67,10 +67,11 @@ public sealed class CrystalHandAuraPower : ModPowerTemplate
             var previous = _contributions.GetValueOrDefault(recipient);
             int strength = recipient.IsAlive ? hsStrength + (recipient == Owner ? tiling : 0) : 0;
             int dexterity = recipient.IsAlive && recipient == Owner ? tiling : 0;
-            _contributions[recipient] = (strength, dexterity);
-            await Adjust<StrengthPower>(recipient, strength - previous.Strength);
-            await Adjust<DexterityPower>(recipient, dexterity - previous.Dexterity);
-            if (recipient.IsMonster && recipient.IsAlive && strength != previous.Strength)
+            int strengthChange = await Adjust<StrengthPower>(recipient, strength - previous.Strength);
+            int dexterityChange = await Adjust<DexterityPower>(recipient, dexterity - previous.Dexterity);
+            // 未发放的贡献不能在离手时扣回；恢复可接收能力后仍允许补发。
+            _contributions[recipient] = (previous.Strength + strengthChange, previous.Dexterity + dexterityChange);
+            if (recipient.IsMonster && recipient.IsAlive && strengthChange != 0)
             {
                 var node = NCombatRoom.Instance?.GetCreatureNode(recipient);
                 if (node != null)
@@ -81,11 +82,11 @@ public sealed class CrystalHandAuraPower : ModPowerTemplate
         }
     }
 
-    private static async Task Adjust<TPower>(Creature recipient, int difference) where TPower : PowerModel
+    private static async Task<int> Adjust<TPower>(Creature recipient, int difference) where TPower : PowerModel
     {
         if (difference == 0 || !recipient.CanReceivePowers)
         {
-            return;
+            return 0;
         }
         TPower? power = recipient.GetPower<TPower>();
         if (power == null)
@@ -103,6 +104,7 @@ public sealed class CrystalHandAuraPower : ModPowerTemplate
                 await PowerCmd.Remove(power);
             }
         }
+        return difference;
     }
 
     public override Task AfterCardChangedPiles(CardModel card, PileType oldPileType, AbstractModel? clonedBy) =>

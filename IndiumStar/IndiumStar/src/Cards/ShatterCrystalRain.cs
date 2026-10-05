@@ -150,11 +150,11 @@ public sealed class ShatterCrystalRain : ApplicationCard
             return;
         }
 
-        decimal totalDamage = DynamicVars.Damage.BaseValue * DynamicVars.Repeat.IntValue;
-
         foreach (Creature enemy in others)
         {
-            await DamageCmd.Attack(totalDamage)
+            // 保留主伤害的段数，力量、活力、虚弱及受击钩子才会与原目标一致。
+            await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
+                .WithHitCount(DynamicVars.Repeat.IntValue)
                 .FromCard(this, cardPlay)
                 .Targeting(enemy)
                 .WithHitFx("vfx/vfx_attack_slash")

@@ -32,6 +32,7 @@ namespace IndiumStar.Cards;
 public sealed class ApplicationCa : ApplicationCard, IApplicationCard
 {
     public override CrystalBranch AvailableCrystalBranches => CrystalBranch.Resistance;
+    public override bool GainsBlock => true;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [

@@ -3,6 +3,7 @@ namespace MegaCrit.Sts2.Core.Models
 {
     public abstract class AbstractModel
     {
+        public AbstractModel MutableClone() => (AbstractModel)MemberwiseClone();
         public int FinishedCount { get; private set; }
         public void InvokeExecutionFinished() => FinishedCount++;
         public virtual int ModifyCardPlayCount(CardModel card,
@@ -15,6 +16,15 @@ namespace MegaCrit.Sts2.Core.Models
         public virtual Task AfterCardPlayed(MegaCrit.Sts2.Core.GameActions.Multiplayer.PlayerChoiceContext context,
             MegaCrit.Sts2.Core.Entities.Cards.CardPlay play) => Task.CompletedTask;
         public virtual Task BeforeCardPlayed(MegaCrit.Sts2.Core.Entities.Cards.CardPlay play) => Task.CompletedTask;
+        public virtual Task BeforeSideTurnEnd(MegaCrit.Sts2.Core.GameActions.Multiplayer.PlayerChoiceContext context,
+            MegaCrit.Sts2.Core.Combat.CombatSide side, IEnumerable<MegaCrit.Sts2.Core.Entities.Creatures.Creature> participants) => Task.CompletedTask;
+        public virtual Task BeforeSideTurnStart(MegaCrit.Sts2.Core.GameActions.Multiplayer.PlayerChoiceContext context,
+            MegaCrit.Sts2.Core.Combat.CombatSide side, IReadOnlyList<MegaCrit.Sts2.Core.Entities.Creatures.Creature> participants,
+            MegaCrit.Sts2.Core.Combat.ICombatState combatState) => Task.CompletedTask;
+        public virtual bool TryModifyEnergyCostInCombatLate(CardModel card, decimal original, out decimal modified) { modified = original; return false; }
+        public virtual decimal ModifyBlockMultiplicative(MegaCrit.Sts2.Core.Entities.Creatures.Creature target, decimal block,
+            MegaCrit.Sts2.Core.ValueProps.ValueProp props, CardModel? cardSource, MegaCrit.Sts2.Core.Entities.Cards.CardPlay? play) => 1m;
+        public virtual Task AfterModifyingBlockAmount(decimal amount, CardModel? cardSource, MegaCrit.Sts2.Core.Entities.Cards.CardPlay? play) => Task.CompletedTask;
         public virtual Task AfterCardDrawn(MegaCrit.Sts2.Core.GameActions.Multiplayer.PlayerChoiceContext context,
             CardModel card, bool fromHandDraw) => Task.CompletedTask;
         public virtual Task AfterApplied(MegaCrit.Sts2.Core.Entities.Creatures.Creature? applier, CardModel? source) => Task.CompletedTask;
@@ -31,6 +41,8 @@ namespace MegaCrit.Sts2.Core.Models
         public MegaCrit.Sts2.Core.Entities.Cards.CardType Type { get; protected set; }
         public MegaCrit.Sts2.Core.Entities.Cards.CardPile? Pile { get; set; }
         public bool IsUpgraded { get; private set; }
+        public bool IsDupe { get; set; }
+        public AfflictionModel? Affliction { get; set; }
         public virtual bool GainsBlock => false;
         public TestEnergyCost EnergyCost { get; } = new();
         public virtual IEnumerable<MegaCrit.Sts2.Core.Entities.Cards.CardKeyword> CanonicalKeywords => [];
@@ -43,9 +55,10 @@ namespace MegaCrit.Sts2.Core.Models
         public virtual bool HasTurnEndInHandEffect => false;
         protected virtual Task OnTurnEndInHand(MegaCrit.Sts2.Core.GameActions.Multiplayer.PlayerChoiceContext context) => Task.CompletedTask;
         public void GiveSingleTurnRetain() { }
+        public void AddKeyword(MegaCrit.Sts2.Core.Entities.Cards.CardKeyword keyword) { }
         protected virtual void OnUpgrade() { }
         public void Upgrade() { IsUpgraded = true; OnUpgrade(); }
-        public CardModel Clone() => (CardModel)MemberwiseClone();
+        public CardModel Clone() => (CardModel)MutableClone();
         public CardModel CreateClone() {
             var clone = Clone(); clone.DeckVersion = null; clone.Pile = null;
             clone._dynamicVars = DynamicVars.Clone(); return clone;
@@ -92,7 +105,8 @@ namespace MegaCrit.Sts2.Core.Models
         public static T Power<T>() where T : PowerModel => Activator.CreateInstance<T>();
         public static T Card<T>() where T : CardModel => Activator.CreateInstance<T>();
     }
-    public class TestEnergyCost { public int Value { get; set; } public void UpgradeBy(int amount) => Value += amount; }
+    public class TestEnergyCost { public int Value { get; set; } public void UpgradeBy(int amount) => Value += amount; public void AddThisCombat(int amount) => Value = Math.Max(0, Value + amount); }
+    public class AfflictionModel : AbstractModel { }
 }
 
 namespace MegaCrit.Sts2.Core.Models.Powers
@@ -101,6 +115,11 @@ namespace MegaCrit.Sts2.Core.Models.Powers
     public class StrengthPower : MegaCrit.Sts2.Core.Models.PowerModel { }
     public class DexterityPower : MegaCrit.Sts2.Core.Models.PowerModel { }
     public class DrawCardsNextTurnPower : MegaCrit.Sts2.Core.Models.PowerModel { }
+    public class WeakPower : MegaCrit.Sts2.Core.Models.PowerModel { }
+    public class VulnerablePower : MegaCrit.Sts2.Core.Models.PowerModel { }
+    public abstract class TemporaryDexterityPower : MegaCrit.Sts2.Core.Models.PowerModel {
+        public abstract MegaCrit.Sts2.Core.Models.AbstractModel OriginModel { get; }
+    }
     // 按本体TemporaryStrengthPower的授予、追加与本回合回收顺序模拟。
     public abstract class TemporaryStrengthPower : MegaCrit.Sts2.Core.Models.PowerModel {
         public abstract MegaCrit.Sts2.Core.Models.AbstractModel OriginModel { get; }
@@ -142,6 +161,7 @@ namespace MegaCrit.Sts2.Core.Entities.Creatures
         public MegaCrit.Sts2.Core.Models.MonsterModel? Monster { get; set; }
         public int Block { get; set; }
         public bool IsMonster => Player == null;
+        public MegaCrit.Sts2.Core.Combat.CombatSide Side => Player == null ? MegaCrit.Sts2.Core.Combat.CombatSide.Enemy : MegaCrit.Sts2.Core.Combat.CombatSide.Player;
         public bool CanReceivePowers { get; set; } = true;
         public List<MegaCrit.Sts2.Core.Models.PowerModel> Powers { get; } = [];
         public T? GetPower<T>() where T : MegaCrit.Sts2.Core.Models.PowerModel => Powers.OfType<T>().FirstOrDefault();
@@ -169,6 +189,7 @@ namespace MegaCrit.Sts2.Core.Entities.Players
         public MegaCrit.Sts2.Core.Entities.Cards.CardPile DrawPile { get; } = new() { Type = MegaCrit.Sts2.Core.Entities.Cards.PileType.Draw };
         public MegaCrit.Sts2.Core.Entities.Cards.CardPile DiscardPile { get; } = new() { Type = MegaCrit.Sts2.Core.Entities.Cards.PileType.Discard };
         public MegaCrit.Sts2.Core.Entities.Cards.CardPile ExhaustPile { get; } = new() { Type = MegaCrit.Sts2.Core.Entities.Cards.PileType.Exhaust };
+        public IEnumerable<MegaCrit.Sts2.Core.Models.CardModel> AllCards => Hand.Cards.Concat(DrawPile.Cards).Concat(DiscardPile.Cards).Concat(ExhaustPile.Cards);
     }
 }
 
@@ -176,13 +197,13 @@ namespace MegaCrit.Sts2.Core.Entities.Cards
 {
     public enum CardType { Skill, Status, Attack, Power }
     public enum CardRarity { Common, Basic, Uncommon, Rare }
-    public enum TargetType { Self, AnyEnemy }
+    public enum TargetType { Self, AnyEnemy, AllEnemies }
     public enum CardKeyword { Retain, Exhaust, Ethereal }
     public enum PileType { Hand, Play, Exhaust, Discard, None, Draw }
     public enum CardPilePosition { Top, Bottom }
     public struct CardPileAddResult { public bool success; public PileType targetPile; }
     public enum AutoPlayType { Default }
-    public class CardPile { public PileType Type { get; set; } = PileType.Hand; public List<MegaCrit.Sts2.Core.Models.CardModel> Cards { get; } = []; }
+    public class CardPile { public PileType Type { get; set; } = PileType.Hand; public bool IsCombatPile => Type != PileType.None; public List<MegaCrit.Sts2.Core.Models.CardModel> Cards { get; } = []; }
     public static class PileExtensions
     {
         public static CardPile GetPile(this PileType type, MegaCrit.Sts2.Core.Entities.Players.Player player) =>
@@ -226,6 +247,7 @@ namespace MegaCrit.Sts2.Core.Combat
         int Turn { get; }
         IReadOnlyList<MegaCrit.Sts2.Core.Entities.Creatures.Creature> Creatures { get; }
         IReadOnlyList<MegaCrit.Sts2.Core.Entities.Creatures.Creature> Allies { get; }
+        IReadOnlyList<MegaCrit.Sts2.Core.Entities.Creatures.Creature> Enemies { get; }
         IEnumerable<MegaCrit.Sts2.Core.Models.AbstractModel> IterateHookListeners();
         T CreateCard<T>(MegaCrit.Sts2.Core.Entities.Players.Player owner) where T : MegaCrit.Sts2.Core.Models.CardModel;
     }
@@ -252,6 +274,10 @@ namespace MegaCrit.Sts2.Core.Commands
         public static int DrawCount { get; set; }
         public static int HandCapacity { get; set; } = 10;
         public static bool DrawBlocked { get; set; }
+        public static Task<MegaCrit.Sts2.Core.Entities.Cards.CardPileAddResult> Add(MegaCrit.Sts2.Core.Models.CardModel card,
+            MegaCrit.Sts2.Core.Entities.Cards.PileType pile) {
+            card.Pile?.Cards.Remove(card); return AddGeneratedCardToCombat(card, pile, card.Owner);
+        }
         public static async Task<IEnumerable<MegaCrit.Sts2.Core.Models.CardModel>> Draw(
             MegaCrit.Sts2.Core.GameActions.Multiplayer.PlayerChoiceContext context, decimal count,
             MegaCrit.Sts2.Core.Entities.Players.Player owner) {
@@ -311,6 +337,7 @@ namespace MegaCrit.Sts2.Core.Commands
             MegaCrit.Sts2.Core.Models.PowerModel power, decimal amount,
             MegaCrit.Sts2.Core.Entities.Creatures.Creature? applier, MegaCrit.Sts2.Core.Models.CardModel? source)
         { power.SetAmount(power.Amount + (int)amount); if (power.Amount == 0) await Remove(power); return power.Amount; }
+        public static Task<int> Decrement(MegaCrit.Sts2.Core.Models.PowerModel power) => ModifyAmount(new(), power, -1, null, null);
         public static Task Remove(MegaCrit.Sts2.Core.Models.PowerModel power)
         {
             power.Owner.Powers.Remove(power);
@@ -320,6 +347,7 @@ namespace MegaCrit.Sts2.Core.Commands
 
     public static class PlayerCmd
     {
+        public static Task LoseEnergy(decimal amount, MegaCrit.Sts2.Core.Entities.Players.Player player) { player.PlayerCombatState!.Energy -= (int)amount; return Task.CompletedTask; }
         public static List<decimal> GoldGranted { get; } = [];
         public static Task GainGold(decimal amount, MegaCrit.Sts2.Core.Entities.Players.Player player)
         {
@@ -376,17 +404,31 @@ namespace MegaCrit.Sts2.Core.Localization.DynamicVars
         public BlockVar Block => (BlockVar)_vars["Block"];
         public CardsVar Cards => (CardsVar)_vars["Cards"];
         public DynamicVar Strength => _vars["StrengthPower"];
+        public DynamicVar Weak => _vars["WeakPower"];
+        public DynamicVar Vulnerable => _vars["VulnerablePower"];
+        public RepeatVar Repeat => (RepeatVar)_vars["Repeat"];
         public DynamicVarSet Clone() => new(_vars.Values.Select(v => v.Clone()));
     }
-    public class DamageVar(decimal amount, MegaCrit.Sts2.Core.ValueProps.ValueProp props) : DynamicVar("Damage", amount)
-    { public MegaCrit.Sts2.Core.ValueProps.ValueProp Props { get; } = props; }
+    public class DamageVar : DynamicVar {
+        public DamageVar(decimal amount, MegaCrit.Sts2.Core.ValueProps.ValueProp props) : this("Damage", amount, props) { }
+        public DamageVar(string name, decimal amount, MegaCrit.Sts2.Core.ValueProps.ValueProp props) : base(name, amount) { Props = props; }
+        public MegaCrit.Sts2.Core.ValueProps.ValueProp Props { get; }
+    }
     public class PowerVar<T>(decimal amount) : DynamicVar(typeof(T).Name, amount) { }
     public class BlockVar(decimal amount, MegaCrit.Sts2.Core.ValueProps.ValueProp props) : DynamicVar("Block", amount) { }
     public class CardsVar(decimal amount) : DynamicVar("Cards", amount) { }
+    public class RepeatVar(decimal amount) : DynamicVar("Repeat", amount) { }
 }
 
 namespace STS2RitsuLib.Utils
 {
+    public class AttachedState<TKey, TValue> where TKey : notnull {
+        private readonly Dictionary<TKey, TValue> _values = [];
+        public AttachedState(Func<TValue>? factory = null) { }
+        public TValue GetValueOrDefault(TKey key, TValue fallback) => _values.GetValueOrDefault(key, fallback);
+        public void Set(TKey key, TValue value) => _values[key] = value;
+        public void Remove(TKey key) => _values.Remove(key);
+    }
     public class SavedAttachedState<TKey, TValue> where TKey : notnull
     {
         private readonly Dictionary<TKey, TValue> _values = [];
@@ -449,19 +491,25 @@ namespace STS2RitsuLib.Interop.AutoRegistration
 
     [AttributeUsage(AttributeTargets.Class)]
     public class RegisterPowerAttribute : Attribute { }
+    [AttributeUsage(AttributeTargets.Class)]
+    public class RegisterCharacterStarterCardAttribute(Type character, int count) : Attribute { public int Order { get; set; } }
 }
 
 namespace IndiumStar.CardPools { public class IndiumStarCardPool { } }
+namespace IndiumStar.Characters { public class IndiumStarCharacter { } }
+namespace IndiumStar.Afflictions { public class CrystallizeAffliction : MegaCrit.Sts2.Core.Models.AfflictionModel { } }
 
 namespace MegaCrit.Sts2.Core.ValueProps
 {
     public enum ValueProp { Move }
+    public static class ValuePropExtensions { public static bool IsPoweredCardOrMonsterMoveBlock(this ValueProp props) => true; }
 }
 namespace MegaCrit.Sts2.Core.Commands
 {
     public static class CardCmd
     {
         public static Func<MegaCrit.Sts2.Core.Models.CardModel, bool> ShouldAutoPlay { get; set; } = _ => true;
+        public static void ClearAffliction(MegaCrit.Sts2.Core.Models.CardModel card) => card.Affliction = null;
         public static async Task AutoPlay(MegaCrit.Sts2.Core.GameActions.Multiplayer.PlayerChoiceContext context,
             MegaCrit.Sts2.Core.Models.CardModel card, MegaCrit.Sts2.Core.Entities.Creatures.Creature? target)
         {

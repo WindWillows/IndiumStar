@@ -81,7 +81,7 @@
   "INDIUM_STAR_CARD_BONDING_ESTER.description": "Gain {Block:diff()} [gold]Block[/gold]. Give 1 non-Attack card in your hand [gold]Retain[/gold].\n[gold]Reversal[/gold]: [gold]Extend[/gold] {Energy:diff()}.",
   "INDIUM_STAR_CARD_BONDING_ESTER.selectionScreenPrompt": "Choose 1 non-Attack card to give Retain.",
   "INDIUM_STAR_CARD_APPLICATION_HS.title": "Application-Hs",
-  "INDIUM_STAR_CARD_APPLICATION_HS.description": "ALL enemies lose {StrengthLoss:diff()} [gold]Strength[/gold] (restored at the end of this turn).\n[gold]Crystallize[/gold] (Hs) {Cards:diff()}.",
+  "INDIUM_STAR_CARD_APPLICATION_HS.description": "ALL enemies lose {StrengthLoss:diff()} [gold]Strength[/gold] (restored at the end of their turn).\n[gold]Crystallize[/gold] (Hs) {Cards:diff()}.",
   "INDIUM_STAR_CARD_CRYSTALLIZATION_HS.title": "Crystallization-Hs",
   "INDIUM_STAR_CARD_CRYSTALLIZATION_HS.description": "While this is in your hand, ALL characters have 1 [gold]Strength[/gold].\nYou may manually play at most 1 Crystallization per turn. Automatic plays do not count.",
   "INDIUM_STAR_CARD_APPLICATION_TH.title": "Application-Th",

@@ -18,8 +18,7 @@ namespace IndiumStar.Powers;
 /// </summary>
 /// <remarks>
 /// <para>
-/// 时点是 <c>BeforeSideTurnStart</c>（回合开始、抽牌之前），与隐藏能力
-/// 「晶逆·易伤消退」的回合开始处理同一个钩子。被变化的晶化从手牌里随机取
+/// 时点是 <c>BeforeSideTurnStart</c>（回合开始、抽牌之前）。被变化的晶化从手牌里随机取
 /// （游戏 RNG，同晶化-Pb 的随机保留）；抽牌堆顶是 <c>Cards[0]</c>
 /// （本体 <c>MoveToTopInternal</c> 插到 0 号位）。
 /// </para>

@@ -10,7 +10,6 @@ using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 using IndiumStar.CardPools;
 using IndiumStar.Characters;
-using IndiumStar.Powers;
 
 namespace IndiumStar.Cards;
 
@@ -66,13 +65,10 @@ public sealed class ApplicationNeutron : ApplicationCard, IApplicationCard
     }
 
     /// <summary>
-    /// 晶抗：给<strong>自己</strong> 1 层虚弱，并挂上隐藏效果
-    /// <see cref="LoseWeakAtTurnEndPower" />（本回合结束时失去 1 层虚弱）。
+    /// 晶抗：自己获得原版1层虚弱，持续与衰减均遵循原版规则。
     /// </summary>
     /// <remarks>
-    /// 虚弱是「减少自己造成的伤害」，而它只在<strong>敌人回合</strong>才真正生效。
-    /// 原版的虚弱是在敌人回合结束时递减的，那样会多持续一整个回合；
-    /// 挂上隐藏效果后，本回合结束时就把虚弱摘掉。
+    /// 文档没有额外的提前清除规则；不创建隐藏清除器，避免抵扣既有状态或重复衰减。
     /// </remarks>
     protected override async Task CrystalResistance(
         PlayerChoiceContext choiceContext,
@@ -86,21 +82,13 @@ public sealed class ApplicationNeutron : ApplicationCard, IApplicationCard
             Owner.Creature,
             this);
 
-        await PowerCmd.Apply<LoseWeakAtTurnEndPower>(
-            choiceContext,
-            Owner.Creature,
-            1m,
-            Owner.Creature,
-            this);
     }
 
     /// <summary>
-    /// 晶逆：给<strong>自己</strong> 1 层易伤，并挂上隐藏效果
-    /// <see cref="LoseVulnerableAtTurnStartPower" />（下个回合开始时失去 1 层易伤）。
+    /// 晶逆：自己获得原版1层易伤，持续与衰减均遵循原版规则。
     /// </summary>
     /// <remarks>
-    /// 易伤是「受到的伤害增加」，要留到敌人行动时才产生影响，
-    /// 所以等到你的下个回合开始才摘掉。
+    /// 原版易伤会自行衰减；不在下一回合额外扣减既有易伤。
     /// </remarks>
     protected override async Task CrystalReversal(
         PlayerChoiceContext choiceContext,
@@ -114,12 +102,6 @@ public sealed class ApplicationNeutron : ApplicationCard, IApplicationCard
             Owner.Creature,
             this);
 
-        await PowerCmd.Apply<LoseVulnerableAtTurnStartPower>(
-            choiceContext,
-            Owner.Creature,
-            1m,
-            Owner.Creature,
-            this);
     }
 
     /// <summary>

@@ -12,13 +12,12 @@ using STS2RitsuLib.Scaffolding.Content;
 namespace IndiumStar.Powers;
 
 /// <summary>
-/// 隐藏效果：<strong>下个回合开始时，失去 1 层易伤</strong>。
+/// 旧版本隐藏清除器：下个回合开始时失去1层易伤。
+/// 当前运用-中子已不再施加；类型保留用于旧数据兼容。
 /// </summary>
 /// <remarks>
 /// <para>
-/// 「运用-中子」晶逆给自己上易伤时，会额外挂上这个能力，用来把易伤限制在<strong>一个敌人回合</strong>内。
-/// 易伤是「受到的伤害增加」，所以留到敌人行动时才真正产生影响；
-/// 等到你的下个回合开始，就把它摘掉。
+/// 原版易伤本身会衰减；该额外清除器可能再次扣除既有易伤，故新出牌不再使用。
 /// </para>
 /// <para>
 /// 用 <see cref="PowerStackType.Single" /> 让层数恒为 1、不显示数字，

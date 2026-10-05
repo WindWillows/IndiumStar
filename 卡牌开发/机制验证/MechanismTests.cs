@@ -586,6 +586,7 @@ Test("Hs光环改变敌人力量时同步刷新伤害意图", async () => {
 });
 
 NewCardTests.Register(tests, args);
+SemanticAuditTests.Register(tests);
 int failed = 0;
 foreach (var test in tests) {
     try { await test.Run(); Console.WriteLine("PASS " + test.Name); }
@@ -601,9 +602,10 @@ public class FakeCombat : ICombatState
     public List<MegaCrit.Sts2.Core.Entities.Creatures.Creature> CreatureList { get; } = [];
     public IReadOnlyList<MegaCrit.Sts2.Core.Entities.Creatures.Creature> Creatures => CreatureList;
     public IReadOnlyList<MegaCrit.Sts2.Core.Entities.Creatures.Creature> Allies => CreatureList.Where(c => c.Player != null).ToList();
+    public IReadOnlyList<MegaCrit.Sts2.Core.Entities.Creatures.Creature> Enemies => CreatureList.Where(c => c.Player == null).ToList();
     public IEnumerable<AbstractModel> IterateHookListeners() => Listeners
         .Concat(Creatures.SelectMany(c => c.Powers))
-        .Concat(Creatures.Where(c => c.Player != null).SelectMany(c => c.Player!.PlayerCombatState!.Hand.Cards))
+        .Concat(Creatures.Where(c => c.Player != null).SelectMany(c => c.Player!.PlayerCombatState!.AllCards))
         .Distinct().ToArray();
     public T CreateCard<T>(Player owner) where T : CardModel {
         var card = Activator.CreateInstance<T>(); card.Owner = owner; card.CombatState = this; return card;

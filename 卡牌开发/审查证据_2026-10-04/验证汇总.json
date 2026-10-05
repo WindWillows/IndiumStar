@@ -1,0 +1,27 @@
+{
+  "scope": "Release cached SDK build plus native JSON PCK roundtrip; no game deployment",
+  "generated_at": "2026-10-04T04:17:40.3828249+08:00",
+  "artifacts": [
+    {
+      "name": "IndiumStar.dll",
+      "length": 177152,
+      "sha256": "5D4A64F2CE98E4B744C88629791E352D6207CFBB06BCC507963B6538034AF121"
+    },
+    {
+      "name": "IndiumStar.json",
+      "length": 406,
+      "sha256": "60C8A8866234B7AAAF97787C8AFB86075F05E328CFCF9A92E069F4891950FE75"
+    },
+    {
+      "name": "IndiumStar.pck",
+      "length": 53660,
+      "sha256": "E447B63862E1C5A9772A31D412CB08A6500E09FF1C3F95A9F1E7ECFC41F3714B"
+    }
+  ],
+  "mechanism_cases": 160,
+  "native_model_cases": 62,
+  "native_intent_candidates": 324,
+  "locale_keysets": "all paired JSON tables match",
+  "live_combat": "not tested",
+  "standard_export": "initial build passed; latest standard export blocked by user-settings access; fallback cached SDK + PCKPacker verified"
+}

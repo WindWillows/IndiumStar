@@ -60,7 +60,7 @@ public sealed class FreeApplicationPower : ModPowerTemplate
 
     public override async Task BeforeCardPlayed(CardPlay cardPlay)
     {
-        if (!Applies(cardPlay.Card))
+        if (!cardPlay.IsFirstInSeries || !Applies(cardPlay.Card))
         {
             return;
         }
