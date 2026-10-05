@@ -39,6 +39,7 @@ short_names = {
 }
 anchors = []
 records = []
+native_by_class = {card["type"]: card for card in model_probe["cards"]}
 for native in model_probe["cards"]:
     cls = native["type"]
     key = "INDIUM_STAR_CARD_" + native["id"]
@@ -66,6 +67,8 @@ for index, (start, cls) in enumerate(anchors):
     span_by_class[cls] = body[start:end].strip()
 for row in records:
     cls = row["class"]
+    key = row["model_id"]
+    native = native_by_class[cls]
     if cls in span_by_class:
         row.update(specification_source="当前DOCX正文；括号升级以该文档格式和原文核对",
                    specification_text=span_by_class[cls])

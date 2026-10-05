@@ -9,15 +9,20 @@ using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
 using Models = MegaCrit.Sts2.Core.Models;
 
 namespace MegaCrit.Sts2.Core.CardSelection {
-    public record CardSelectorPrefs(object Prompt, int Count) {
+    public record CardSelectorPrefs(object Prompt, int MinCount, int MaxCount) {
+        public CardSelectorPrefs(object prompt, int count) : this(prompt, count, count) { }
+        public int Count => MaxCount;
         public static object ExhaustSelectionPrompt { get; } = new();
     }
 }
 namespace MegaCrit.Sts2.Core.Commands {
     public static class CardSelectCmd {
+        public static Func<PlayerChoiceContext, Player, MegaCrit.Sts2.Core.CardSelection.CardSelectorPrefs,
+            Func<CardModel, bool>?, CardModel, Task<IEnumerable<CardModel>>>? SelectionOverride { get; set; }
         public static Task<IEnumerable<CardModel>> FromHand(PlayerChoiceContext context, Player player,
-            MegaCrit.Sts2.Core.CardSelection.CardSelectorPrefs prefs, object? filter, CardModel source) =>
-            Task.FromResult<IEnumerable<CardModel>>(player.PlayerCombatState!.Hand.Cards.Where(c => c != source).Take(prefs.Count).ToArray());
+            MegaCrit.Sts2.Core.CardSelection.CardSelectorPrefs prefs, Func<CardModel, bool>? filter, CardModel source) =>
+            SelectionOverride != null ? SelectionOverride(context, player, prefs, filter, source)
+            : Task.FromResult<IEnumerable<CardModel>>(player.PlayerCombatState!.Hand.Cards.Where(c => c != source && (filter == null || filter(c))).Take(prefs.Count).ToArray());
     }
     public static class CreatureCmd {
         public static List<(decimal Amount, MegaCrit.Sts2.Core.ValueProps.ValueProp Props, CardModel Source, CardPlay Play)> DirectDamages { get; } = [];

@@ -312,4 +312,85 @@ PASS 气相涌流拒绝敌方或其他战斗的开始回调
 PASS 气相涌流晶逆获得战斗内保留而不是自带保留
 PASS 气相涌流成长克隆继承数值但不写回牌组或共享动态变量
 PASS 新增回合钩子与当前游戏DLL契约一致
-311/311 passed; scope: real mod source, command/history stubs, real Harmony patching and game API contract.
+PASS 运用-As伤害和晶化种类、满手溢出 n=0 upgraded=False
+PASS 运用-As伤害和晶化种类、满手溢出 n=9 upgraded=False
+PASS 运用-As伤害和晶化种类、满手溢出 n=10 upgraded=False
+PASS 运用-Mg伤害和晶化种类、满手溢出 n=0 upgraded=False
+PASS 运用-Mg伤害和晶化种类、满手溢出 n=9 upgraded=False
+PASS 运用-Mg伤害和晶化种类、满手溢出 n=10 upgraded=False
+PASS 运用-F先晶化再复制，手动/自动和溢出 slots=0 auto=False upgraded=False
+PASS 运用-F先晶化再复制，手动/自动和溢出 slots=0 auto=True upgraded=False
+PASS 运用-F先晶化再复制，手动/自动和溢出 slots=1 auto=False upgraded=False
+PASS 运用-F先晶化再复制，手动/自动和溢出 slots=1 auto=True upgraded=False
+PASS 运用-F先晶化再复制，手动/自动和溢出 slots=2 auto=False upgraded=False
+PASS 运用-F先晶化再复制，手动/自动和溢出 slots=2 auto=True upgraded=False
+PASS 运用-F先晶化再复制，手动/自动和溢出 slots=3 auto=False upgraded=False
+PASS 运用-F先晶化再复制，手动/自动和溢出 slots=3 auto=True upgraded=False
+PASS 运用-In先晶化再延拓，升级只添加保留 upgraded=False
+PASS 运用-Nb直接授予能力、升级活力及两张晶化Nb upgraded=False
+PASS 运用-Zn基础格挡之后只选择一次分支 energy=0 upgraded=False
+PASS 运用-Zn基础格挡之后只选择一次分支 energy=1 upgraded=False
+PASS 运用-Zn基础格挡之后只选择一次分支 energy=2 upgraded=False
+PASS 运用-H按易伤虚弱脆弱循环，升级去除上限 upgraded=False
+PASS 运用-Hs只削弱存活敌人，敌人回合末恢复 upgraded=False
+PASS 运用-Co标记实际抽到的首牌并保留 n=0 upgraded=False
+PASS 运用-Co标记实际抽到的首牌并保留 n=1 upgraded=False
+PASS 运用-Co标记实际抽到的首牌并保留 n=5 upgraded=False
+PASS 运用-U三张中子升级并各具有晶化U，溢出仍保留标记 n=0 upgraded=False
+PASS 运用-U三张中子升级并各具有晶化U，溢出仍保留标记 n=9 upgraded=False
+PASS 运用-U三张中子升级并各具有晶化U，溢出仍保留标记 n=10 upgraded=False
+PASS 运用-Pb只变化状态牌并晶抗生成普通晶化 upgraded=False
+PASS 运用-Cu伤害之后生效，累计余数及升级阈值 upgraded=False
+PASS 运用-Cu首次施加后的连锁攻击立即使用当前配置 upgraded=False
+PASS 运用-As伤害和晶化种类、满手溢出 n=0 upgraded=True
+PASS 运用-As伤害和晶化种类、满手溢出 n=9 upgraded=True
+PASS 运用-As伤害和晶化种类、满手溢出 n=10 upgraded=True
+PASS 运用-Mg伤害和晶化种类、满手溢出 n=0 upgraded=True
+PASS 运用-Mg伤害和晶化种类、满手溢出 n=9 upgraded=True
+PASS 运用-Mg伤害和晶化种类、满手溢出 n=10 upgraded=True
+PASS 运用-F先晶化再复制，手动/自动和溢出 slots=0 auto=False upgraded=True
+PASS 运用-F先晶化再复制，手动/自动和溢出 slots=0 auto=True upgraded=True
+PASS 运用-F先晶化再复制，手动/自动和溢出 slots=1 auto=False upgraded=True
+PASS 运用-F先晶化再复制，手动/自动和溢出 slots=1 auto=True upgraded=True
+PASS 运用-F先晶化再复制，手动/自动和溢出 slots=2 auto=False upgraded=True
+PASS 运用-F先晶化再复制，手动/自动和溢出 slots=2 auto=True upgraded=True
+PASS 运用-F先晶化再复制，手动/自动和溢出 slots=3 auto=False upgraded=True
+PASS 运用-F先晶化再复制，手动/自动和溢出 slots=3 auto=True upgraded=True
+PASS 运用-In先晶化再延拓，升级只添加保留 upgraded=True
+PASS 运用-Nb直接授予能力、升级活力及两张晶化Nb upgraded=True
+PASS 运用-Zn基础格挡之后只选择一次分支 energy=0 upgraded=True
+PASS 运用-Zn基础格挡之后只选择一次分支 energy=1 upgraded=True
+PASS 运用-Zn基础格挡之后只选择一次分支 energy=2 upgraded=True
+PASS 运用-H按易伤虚弱脆弱循环，升级去除上限 upgraded=True
+PASS 运用-Hs只削弱存活敌人，敌人回合末恢复 upgraded=True
+PASS 运用-Co标记实际抽到的首牌并保留 n=0 upgraded=True
+PASS 运用-Co标记实际抽到的首牌并保留 n=1 upgraded=True
+PASS 运用-Co标记实际抽到的首牌并保留 n=5 upgraded=True
+PASS 运用-U三张中子升级并各具有晶化U，溢出仍保留标记 n=0 upgraded=True
+PASS 运用-U三张中子升级并各具有晶化U，溢出仍保留标记 n=9 upgraded=True
+PASS 运用-U三张中子升级并各具有晶化U，溢出仍保留标记 n=10 upgraded=True
+PASS 运用-Pb只变化状态牌并晶抗生成普通晶化 upgraded=True
+PASS 运用-Cu伤害之后生效，累计余数及升级阈值 upgraded=True
+PASS 运用-Cu首次施加后的连锁攻击立即使用当前配置 upgraded=True
+PASS 运用-F基础攻击钩子之后读取能量 final=0
+PASS 运用-Zn基础格挡钩子之后读取能量 final=0
+PASS 运用-Pb选牌暂停恢复后读取能量且允许不选 final=0
+PASS 运用-F基础攻击钩子之后读取能量 final=1
+PASS 运用-Zn基础格挡钩子之后读取能量 final=1
+PASS 运用-Pb选牌暂停恢复后读取能量且允许不选 final=1
+PASS 运用-H无对应减益仍切换，克隆保持独立模式，新战斗重置
+PASS 运用-Hs重复施加累计扣除并仅在敌人回合末返还
+PASS 运用-Co首牌已侵蚀仍保留原侵蚀并获得晶化，满手/禁止抽牌不造假
+PASS 运用-Cu过滤非攻击、格挡、其他目标，单击可以多次触发
+PASS 运用-Cu他人同阵营回合末不移除，本人回合末移除
+PASS 运用-Cu预约不跨新战斗或本人回合，目标不能获得能力时不强行配置
+PASS 运用-Cu同本人回合重施保留余数，下一本人回合不带入旧余数
+PASS 运用-Cu混合升级重施的连锁攻击在施加返回前使用新阈值
+PASS 运用-Cu嵌套打出升级牌后外层返回不能回滚最新配置
+PASS 运用-F基础伤害后结束阶段或主人死亡时分支牌不进入战斗牌堆 ended=False
+PASS 运用-F基础伤害后结束阶段或主人死亡时分支牌不进入战斗牌堆 ended=True
+PASS 晶化Mg实际衍生牌0费保留消耗并获得4格挡
+PASS 运用-Zn双分支固定先失能量再消耗，不重新读取分支
+PASS 运用-As基础攻击失败不生成后续晶化
+PASS 运用-Mg基础攻击失败不生成后续晶化
+392/392 passed; scope: real mod source, command/history stubs, real Harmony patching and game API contract.

@@ -35,7 +35,7 @@ namespace IndiumStar.Cards;
 public sealed class ApplicationCu : ApplicationCard, IApplicationCard
 {
     /// <summary>每次触发给几层中毒。</summary>
-    private const int PoisonPerTrigger = 2;
+    internal const int PoisonPerTrigger = 2;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
@@ -64,17 +64,15 @@ public sealed class ApplicationCu : ApplicationCard, IApplicationCard
             .Execute(choiceContext);
 
         // 再挂上「每累计 N 点伤害就中毒」的能力。
-        // 阈值要传进去：卡牌升级会改它，能力自己不知道。
+        // 能力在BeforeApplied/BeforePowerAmountChanged读取本牌阈值，先配置后进入施加连锁。
         // 同时传入施加方，能力在它的回合结束时清除（而不是挂载对象的回合）。
         // 持续时长由能力自己清理（自定义能力不会自动减层）。
-        ApplicationCuPower? power = await PowerCmd.Apply<ApplicationCuPower>(
+        await PowerCmd.Apply<ApplicationCuPower>(
             choiceContext,
             cardPlay.Target,
             1m,
             Owner.Creature,
             this);
-
-        power?.Configure(Owner.Creature, DynamicVars["DamageThreshold"].IntValue, PoisonPerTrigger);
 
         return null;
     }

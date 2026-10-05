@@ -13,7 +13,7 @@ namespace IndiumStar.Cards;
 
 /// <summary>
 /// 运用-F：造成 6 点伤害，消耗。
-/// <para>晶逆（结算后能量为 0）：将 1 张本牌的复制加入手牌，并晶化 2。</para>
+/// <para>晶逆（结算后能量为 0）：先晶化 2，再将 1 张本牌的复制加入手牌。</para>
 /// </summary>
 /// <remarks>
 /// <para>
@@ -69,16 +69,16 @@ public sealed class ApplicationF : ApplicationCard, IApplicationCard
         CardPlay cardPlay,
         CardModel? playResult)
     {
-        // 将 1 张本牌的复制加入手牌（同原版「愤怒」的自我复制写法）。
-        CardModel copy = CreateClone();
-        await CardPileCmd.AddGeneratedCardToCombat(copy, PileType.Hand, Owner);
-
+        // 先晶化，再加入复制；满手时由本体按生成顺序处理溢出。
         await CrystallizationRules.AddToHand(
             choiceContext,
             Owner,
             CombatState!,
             DynamicVars.Cards.IntValue,
             this);
+
+        CardModel copy = CreateClone();
+        await CardPileCmd.AddGeneratedCardToCombat(copy, PileType.Hand, Owner);
     }
 
     protected override void OnUpgrade()

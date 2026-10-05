@@ -1,0 +1,56 @@
+{
+  "scope": "Compile exact original committed sources in ignored output only; Cu card and power restored together; production and normal test assembly untouched",
+  "generated_at_utc": "2026-10-05T09:20:21.4470527Z",
+  "variants": [
+    {
+      "variant": "baseline-fluorine-order",
+      "source": "Cards/ApplicationF.cs",
+      "baseline": "c309cbf",
+      "source_snapshots": [
+        {
+          "source": "Cards/ApplicationF.cs",
+          "sha256": "C30FC454D0D5C27D5707508C15F95C58BD9B493970130938F8D3B7764B7BACC1"
+        }
+      ],
+      "result": "detected",
+      "exit_code": 1,
+      "failures": [
+        "FAIL 运用-F先晶化再复制，手动/自动和溢出 slots=1 auto=False upgraded=False: Application effect assertion failed",
+        "FAIL 运用-F先晶化再复制，手动/自动和溢出 slots=1 auto=True upgraded=False: Application effect assertion failed",
+        "FAIL 运用-F先晶化再复制，手动/自动和溢出 slots=2 auto=False upgraded=False: Application effect assertion failed",
+        "FAIL 运用-F先晶化再复制，手动/自动和溢出 slots=2 auto=True upgraded=False: Application effect assertion failed",
+        "FAIL 运用-F先晶化再复制，手动/自动和溢出 slots=1 auto=False upgraded=True: Application effect assertion failed",
+        "FAIL 运用-F先晶化再复制，手动/自动和溢出 slots=1 auto=True upgraded=True: Application effect assertion failed",
+        "FAIL 运用-F先晶化再复制，手动/自动和溢出 slots=2 auto=False upgraded=True: Application effect assertion failed",
+        "FAIL 运用-F先晶化再复制，手动/自动和溢出 slots=2 auto=True upgraded=True: Application effect assertion failed"
+      ]
+    },
+    {
+      "variant": "baseline-copper-turn",
+      "source": "Powers/ApplicationCuPower.cs",
+      "baseline": "c309cbf",
+      "source_snapshots": [
+        {
+          "source": "Powers/ApplicationCuPower.cs",
+          "sha256": "2F3515760246E15B189E47F7AAA412A2BCA7DF4C0A3B221BBBFCF21197405C9B"
+        },
+        {
+          "source": "Cards/ApplicationCu.cs",
+          "sha256": "EF560EAF7F8526901DD1BB2A8628ED121E75B1466ACA9F2A047C0A253C3BC74C"
+        }
+      ],
+      "result": "detected",
+      "exit_code": 1,
+      "failures": [
+        "FAIL 运用-Cu伤害之后生效，累计余数及升级阈值 upgraded=False: Poison must be attributed to Cu's player",
+        "FAIL 运用-Cu伤害之后生效，累计余数及升级阈值 upgraded=True: Poison must be attributed to Cu's player",
+        "FAIL 运用-Cu首次施加后的连锁攻击立即使用当前配置 upgraded=True: Application effect assertion failed",
+        "FAIL 运用-Cu他人同阵营回合末不移除，本人回合末移除: Application effect assertion failed",
+        "FAIL 运用-Cu预约不跨新战斗或本人回合，目标不能获得能力时不强行配置: Application effect assertion failed",
+        "FAIL 运用-Cu同本人回合重施保留余数，下一本人回合不带入旧余数: Application effect assertion failed",
+        "FAIL 运用-Cu混合升级重施的连锁攻击在施加返回前使用新阈值: Application effect assertion failed",
+        "FAIL 运用-Cu嵌套打出升级牌后外层返回不能回滚最新配置: Application effect assertion failed"
+      ]
+    }
+  ]
+}

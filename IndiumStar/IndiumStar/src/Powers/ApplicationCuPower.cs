@@ -8,6 +8,7 @@ using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
+using IndiumStar.Cards;
 
 namespace IndiumStar.Powers;
 
@@ -20,8 +21,8 @@ namespace IndiumStar.Powers;
 /// 每次受伤后累加，然后用 <c>while</c> 把够整份的都结算掉，<strong>余数保留</strong>到下一次累计。
 /// </para>
 /// <para>
-/// 举例（阈值 7）：连续受到 4、4、4 点伤害 → 累计 4、8、12，
-/// 在第 2 次时触发 1 次中毒（余 1），第 3 次累计到 13 时再触发 1 次（余 6）。
+/// 举例（阈值 7）：连续受到 4、4、4 点伤害，第二次触发一次中毒；
+/// 第三次后余数为 5，总计只触发一次。
 /// </para>
 /// <para>
 /// <b>只算实际掉血</b>（<c>UnblockedDamage</c>）：打在格挡上的部分不算进累计。
@@ -58,8 +59,9 @@ public sealed class ApplicationCuPower : ModPowerTemplate
     /// <summary>每次触发给几层中毒。</summary>
     private int _poisonPerTrigger = 2;
 
-    /// <summary>施加方（打出「运用-Cu」的玩家）的阵营；为 null 时回退到单人游戏的玩家阵营。</summary>
-    private CombatSide? _applierSide;
+    private Creature? _applier;
+    private ICombatState? _configuredCombat;
+    private int? _applierTurn;
 
     public override PowerType Type => PowerType.Debuff;
 
@@ -75,8 +77,36 @@ public sealed class ApplicationCuPower : ModPowerTemplate
     /// </summary>
     /// <param name="applier">打出「运用-Cu」的玩家；用于确定「本回合」的结束时机。</param>
     public void Configure(Creature applier, int damageThreshold, int poisonPerTrigger)
+        => ConfigureForTarget(Owner, applier, damageThreshold, poisonPerTrigger);
+
+    // 首次施加先配置再进入AfterApplied/AfterPowerAmountChanged，连锁伤害不能看到默认或空配置。
+    public override Task BeforeApplied(Creature target, decimal amount, Creature? applier, CardModel? cardSource)
     {
-        _applierSide = applier.Side;
+        ConfigureFromCard(target, applier, cardSource);
+        return Task.CompletedTask;
+    }
+
+    public override Task BeforePowerAmountChanged(PowerModel power, decimal amount,
+        Creature target, Creature? applier, CardModel? cardSource)
+    {
+        if (power == this && target == Owner) ConfigureFromCard(target, applier, cardSource);
+        return Task.CompletedTask;
+    }
+
+    private void ConfigureFromCard(Creature target, Creature? applier, CardModel? cardSource)
+    {
+        if (applier != null && cardSource is ApplicationCu card)
+            ConfigureForTarget(target, applier, card.DynamicVars["DamageThreshold"].IntValue, ApplicationCu.PoisonPerTrigger);
+    }
+
+    private void ConfigureForTarget(Creature target, Creature applier, int damageThreshold, int poisonPerTrigger)
+    {
+        int? turn = applier.Player?.PlayerCombatState?.TurnNumber;
+        if (_configuredCombat != target.CombatState || (_applier == applier && _applierTurn != turn))
+            _accumulatedDamage = 0;
+        _applier = applier;
+        _configuredCombat = target.CombatState;
+        _applierTurn = turn;
         _damageThreshold = Math.Max(1, damageThreshold);
         _poisonPerTrigger = poisonPerTrigger;
     }
@@ -90,7 +120,9 @@ public sealed class ApplicationCuPower : ModPowerTemplate
         CardModel? cardSource)
     {
         // 只统计打在这名敌人身上的「吃力量的攻击」伤害。
-        if (target != base.Owner || !props.IsPoweredAttack())
+        if (target != base.Owner || !props.IsPoweredAttack() || _applier == null
+            || Owner.CombatState != _configuredCombat || _applier.CombatState != _configuredCombat
+            || _applier.Player?.PlayerCombatState?.TurnNumber != _applierTurn)
         {
             return;
         }
@@ -113,7 +145,7 @@ public sealed class ApplicationCuPower : ModPowerTemplate
                 choiceContext,
                 base.Owner,
                 _poisonPerTrigger,
-                base.Owner,
+                _applier,
                 null);
         }
     }
@@ -122,7 +154,7 @@ public sealed class ApplicationCuPower : ModPowerTemplate
     /// 施加方（玩家）回合结束时移除自己，让效果正好持续「本回合」。
     /// <para>
     /// 自定义能力不会自动减层，所以要手动清理（见类文档的说明）。
-    /// 判断依据是施加方的阵营，不是挂载对象（敌人）的阵营。
+    /// 只在施加方参与的回合结束时清理；同阵营其他玩家的额外回合不清理。
     /// </para>
     /// </summary>
     public override async Task AfterSideTurnEnd(
@@ -130,7 +162,8 @@ public sealed class ApplicationCuPower : ModPowerTemplate
         CombatSide side,
         IEnumerable<Creature> participants)
     {
-        if (side != (_applierSide ?? CombatSide.Player))
+        if (_applier == null || side != _applier.Side || !participants.Contains(_applier)
+            || Owner.CombatState != _configuredCombat || _applier.CombatState != _configuredCombat)
         {
             return;
         }

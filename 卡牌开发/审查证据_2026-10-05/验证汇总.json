@@ -1,8 +1,8 @@
 {
-  "scope": "Official Godot SDK Release, 311 real-source regressions with command/history stubs and actual Harmony; TaskCompletionSource callback pause simulation; 64 native model probes and native replay patch/metadata; PCK roundtrip; no deployment or live engine/combat/UI/save/multiplayer execution",
+  "scope": "Official Godot SDK Release, 392 real-source regressions with command/history/selection stubs and actual Harmony; TaskCompletionSource callback pause simulation; 64 native model probes and native replay patch/metadata; PCK roundtrip; no deployment or live engine/combat/UI/save/multiplayer execution",
   "source_document_sha256": "85920BC38DF934ABA98B755D7181B375134859692DB6B65FE36436ACBD9A2438",
-  "baseline": "d3b34cf",
-  "mechanism_cases": 311,
+  "baseline": "c309cbf",
+  "mechanism_cases": 392,
   "native_model_cases": 64,
   "production_sources": 116,
   "release_errors": 0,
@@ -11,8 +11,8 @@
   "artifacts": [
     {
       "name": "IndiumStar.dll",
-      "length": 192512,
-      "sha256": "4D3E269DB740FD0CFBD19C2326F41568061375CC9DB3082F287A6BD7BA63F567"
+      "length": 193024,
+      "sha256": "DC40245D08E2A8139A40B3EB9A08C3E584969C7CC486538E5849E75E2BE4EADE"
     },
     {
       "name": "IndiumStar.pck",
@@ -68,7 +68,7 @@
     },
     {
       "path": "src/Cards/ApplicationCu.cs",
-      "sha256": "EF560EAF7F8526901DD1BB2A8628ED121E75B1466ACA9F2A047C0A253C3BC74C"
+      "sha256": "687C532B6E7BCD179023C813361248C5581E250EC5E0ADDF483725EA1B3920AE"
     },
     {
       "path": "src/Cards/ApplicationEffectKeys.cs",
@@ -76,7 +76,7 @@
     },
     {
       "path": "src/Cards/ApplicationF.cs",
-      "sha256": "C30FC454D0D5C27D5707508C15F95C58BD9B493970130938F8D3B7764B7BACC1"
+      "sha256": "7F1B1679004349E07930C9E544B1DB969D3DFC9FBB016338FD99B49C1DD58CB3"
     },
     {
       "path": "src/Cards/ApplicationH.cs",
@@ -388,7 +388,7 @@
     },
     {
       "path": "src/Powers/ApplicationCuPower.cs",
-      "sha256": "2F3515760246E15B189E47F7AAA412A2BCA7DF4C0A3B221BBBFCF21197405C9B"
+      "sha256": "0F8244CDF963442DA5EDF852E4AA84F6A012FEB25F2EE8B8D74C7A9488F090F6"
     },
     {
       "path": "src/Powers/ApplicationHsStrengthDownPower.cs",
@@ -500,7 +500,7 @@
     "all enemy intent adapters",
     "live conditional replay with enchantments/afflictions and multiplayer pause/resume"
   ],
-  "generated_at_utc": "2026-10-05T07:35:36.242445+00:00",
+  "generated_at_utc": "2026-10-05T09:21:45.638227+00:00",
   "replay_mutation_variants_detected": 3,
   "native_replay_patch": {
     "status": "pass",
@@ -529,9 +529,23 @@
   },
   "matrix": {
     "registered_cards": 64,
-    "direct_card_sources_linked": 24,
-    "card_sources_still_not_linked": 40,
+    "direct_card_sources_linked": 37,
+    "card_sources_still_not_linked": 27,
     "complete_effect_acceptances": 0,
     "scope": "traceability/work matrix; named-case matching is not full acceptance"
+  },
+  "application_cases_added": 81,
+  "application_card_sources_added": 13,
+  "application_original_defects_detected": {
+    "baseline": "c309cbf",
+    "fluorine_order_failed_cases": 8,
+    "copper_turn_failed_cases": 8,
+    "copper_card_and_power_restored_together": true
+  },
+  "matrix_integrity": {
+    "baseline": "c309cbf",
+    "baseline_description_mismatches": 63,
+    "current_identity_title_description_clone_matches": 64,
+    "scope": "Independent row-to-localization/native-ID cross-check; not live card rendering or full effect acceptance"
   }
 }
