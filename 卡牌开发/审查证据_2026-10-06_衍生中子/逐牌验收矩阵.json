@@ -1,0 +1,3035 @@
+{
+  "schema_version": 2,
+  "document_sha256": "2a25e6905b35511fed4d97c27a55ace5f521f572c78b69cbe7cc595b9117bbf1",
+  "rule_decisions_sha256": "8fd9b3dcff90de658e9a860cdcc09d3d52a7b4161e2738d05c80f2e93e2a902a",
+  "precedence": "最新用户指令优先于DOCX和旧问题单；DOCX保留原样",
+  "scope": "65张注册卡牌与3张尚未实现文档卡牌的规格/源码/现有证据工作矩阵；命名用例和源码链接仅定位证据，不自动认定完整验收",
+  "cards": [
+    {
+      "class": "Analyze",
+      "title": "分析",
+      "model_id": "INDIUM_STAR_CARD_ANALYZE",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/Analyze.cs",
+      "document_anchor": 1825,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对；最新用户规则补充优先",
+      "specification_text": "分析 \n1（0）c罕见 技能\n你每有一种效果，获得2点格挡，敌人每有一种效果，失去2点生命。 \n晶抗：失去1c。\n晶逆：消耗。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "latest_user_rule": "同类型的多个独立能力实例只算一种，隐藏能力仍排除。",
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "1",
+        "type": "Skill",
+        "rarity": "Uncommon",
+        "target": "AnyEnemy",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "你每有一种可见效果，获得{PerEffect:diff()}点[gold]格挡[/gold]；敌人每有一种可见效果，失去{PerEffect:diff()}点生命。\n[gold]晶抗[/gold]：失去1点能量。\n[gold]晶逆[/gold]：[gold]消耗[/gold]。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "分析可见效果计数、无视格挡及固定分支 energy=0 upgraded=False",
+        "分析可见效果计数、无视格挡及固定分支 energy=1 upgraded=False",
+        "分析可见效果计数、无视格挡及固定分支 energy=0 upgraded=True",
+        "分析可见效果计数、无视格挡及固定分支 energy=1 upgraded=True",
+        "分析同类型多个实例只计一种、仍排除隐藏效果 upgraded=False",
+        "分析同类型多个实例只计一种、仍排除隐藏效果 upgraded=True"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "45bbd09b32a8b161a05bcd770dbca5810f6c4e603114bc345e88b3b1e899c838"
+    },
+    {
+      "class": "ApplicationAs",
+      "title": "运用-As",
+      "model_id": "INDIUM_STAR_CARD_APPLICATION_AS",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/ApplicationAs.cs",
+      "document_anchor": 516,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_text": "运用-As \n2c 普通 攻击\n造成23（27）点伤害，晶化2。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "2",
+        "type": "Attack",
+        "rarity": "Common",
+        "target": "AnyEnemy",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "造成{Damage:diff()}点伤害。\n[gold]晶化[/gold]{Cards:diff()}。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "运用-As伤害和晶化种类、满手溢出 n=0 upgraded=False",
+        "运用-As伤害和晶化种类、满手溢出 n=9 upgraded=False",
+        "运用-As伤害和晶化种类、满手溢出 n=10 upgraded=False",
+        "运用-As伤害和晶化种类、满手溢出 n=0 upgraded=True",
+        "运用-As伤害和晶化种类、满手溢出 n=9 upgraded=True",
+        "运用-As伤害和晶化种类、满手溢出 n=10 upgraded=True",
+        "运用-As基础攻击失败不生成后续晶化"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "5ecc9953d642c995c3b0e62db5891d74ac2f2770a1809b7d251dac13eb98dfd9"
+    },
+    {
+      "class": "ApplicationCa",
+      "title": "运用-Ca",
+      "model_id": "INDIUM_STAR_CARD_APPLICATION_CA",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/ApplicationCa.cs",
+      "document_anchor": 1890,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对；最新用户规则补充优先",
+      "specification_text": "运用-Ca\n0c 罕见 技能\n获得3（5）点格挡。\n晶抗：失去1c。\n下一次从卡牌中获得的格挡翻倍。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "latest_user_rule": "下一次从卡牌中获得的格挡翻倍属于晶抗。",
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "0",
+        "type": "Skill",
+        "rarity": "Uncommon",
+        "target": "Self",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "获得{Block:diff()}点[gold]格挡[/gold]。\n[gold]晶抗[/gold]：失去1点能量。下一次从卡牌中获得的格挡翻倍。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "Ca两份翻倍额度分别作用于分影连气的前两次格挡"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "611c946f948e47b353a1a7df12ca8b5e2db2c7245cf8604f9b90e79d45230452"
+    },
+    {
+      "class": "ApplicationCo",
+      "title": "运用-Co",
+      "model_id": "INDIUM_STAR_CARD_APPLICATION_CO",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/ApplicationCo.cs",
+      "document_anchor": 2052,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_text": "运用-Co \n1c 罕见 技能\n抽3（4）张牌。\n抽到的第1张牌在本回合具有\n晶化2和保留。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "1",
+        "type": "Skill",
+        "rarity": "Uncommon",
+        "target": "Self",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "抽{Cards:diff()}张牌。\n抽到的第1张牌在本回合获得「[gold]晶化[/gold]2」和[gold]保留[/gold]。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "Co标记复制继承且回合结束清除原件与复制",
+        "运用-Co标记实际抽到的首牌并保留 n=0 upgraded=False",
+        "运用-Co标记实际抽到的首牌并保留 n=1 upgraded=False",
+        "运用-Co标记实际抽到的首牌并保留 n=5 upgraded=False",
+        "运用-Co标记实际抽到的首牌并保留 n=0 upgraded=True",
+        "运用-Co标记实际抽到的首牌并保留 n=1 upgraded=True",
+        "运用-Co标记实际抽到的首牌并保留 n=5 upgraded=True",
+        "运用-Co首牌已侵蚀仍保留原侵蚀并获得晶化，满手/禁止抽牌不造假"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "a1cc68d6721591df2d9215909153711e90a206b2a47c526c42dbb7f54ca9f55b"
+    },
+    {
+      "class": "ApplicationCu",
+      "title": "运用-Cu",
+      "model_id": "INDIUM_STAR_CARD_APPLICATION_CU",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/ApplicationCu.cs",
+      "document_anchor": 1200,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_text": "运用-Cu\n2c 罕见 攻击\n造成13点伤害。\n本回合，这名敌人每受到7（6）点攻击伤害，获得2层中毒。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "2",
+        "type": "Attack",
+        "rarity": "Uncommon",
+        "target": "AnyEnemy",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "造成{Damage:diff()}点伤害。\n本回合，这名敌人每受到{DamageThreshold:diff()}点攻击伤害，获得2层[gold]中毒[/gold]。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "运用-Cu伤害之后生效，累计余数及升级阈值 upgraded=False",
+        "运用-Cu首次施加后的连锁攻击立即使用当前配置 upgraded=False",
+        "运用-Cu伤害之后生效，累计余数及升级阈值 upgraded=True",
+        "运用-Cu首次施加后的连锁攻击立即使用当前配置 upgraded=True",
+        "运用-Cu过滤非攻击、格挡、其他目标，单击可以多次触发",
+        "运用-Cu他人同阵营回合末不移除，本人回合末移除",
+        "运用-Cu预约不跨新战斗或本人回合，目标不能获得能力时不强行配置",
+        "运用-Cu同本人回合重施保留余数，下一本人回合不带入旧余数",
+        "运用-Cu混合升级重施的连锁攻击在施加返回前使用新阈值",
+        "运用-Cu嵌套打出升级牌后外层返回不能回滚最新配置"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "687c532b6e7bcd179023c813361248c5581e250ec5e0addf483725ea1b3920ae"
+    },
+    {
+      "class": "ApplicationF",
+      "title": "运用-F",
+      "model_id": "INDIUM_STAR_CARD_APPLICATION_F",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/ApplicationF.cs",
+      "document_anchor": 158,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对；最新用户规则补充优先",
+      "specification_text": "运用-F\n0c 普通 攻击 \n造成6(8)点伤害。消耗。\n晶逆：晶化2。\n将1张本牌的复制加入手牌。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "latest_user_rule": "本牌复制加入手牌属于晶逆；保留先晶化2再复制的顺序。",
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "0",
+        "type": "Attack",
+        "rarity": "Common",
+        "target": "AnyEnemy",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "造成{Damage:diff()}点伤害。\n[gold]晶逆[/gold]：将1张本牌的复制加入手牌，[gold]晶化[/gold]{Cards:diff()}。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "运用-F先晶化再复制，手动/自动和溢出 slots=0 auto=False upgraded=False",
+        "运用-F先晶化再复制，手动/自动和溢出 slots=0 auto=True upgraded=False",
+        "运用-F先晶化再复制，手动/自动和溢出 slots=1 auto=False upgraded=False",
+        "运用-F先晶化再复制，手动/自动和溢出 slots=1 auto=True upgraded=False",
+        "运用-F先晶化再复制，手动/自动和溢出 slots=2 auto=False upgraded=False",
+        "运用-F先晶化再复制，手动/自动和溢出 slots=2 auto=True upgraded=False",
+        "运用-F先晶化再复制，手动/自动和溢出 slots=3 auto=False upgraded=False",
+        "运用-F先晶化再复制，手动/自动和溢出 slots=3 auto=True upgraded=False",
+        "运用-F先晶化再复制，手动/自动和溢出 slots=0 auto=False upgraded=True",
+        "运用-F先晶化再复制，手动/自动和溢出 slots=0 auto=True upgraded=True",
+        "运用-F先晶化再复制，手动/自动和溢出 slots=1 auto=False upgraded=True",
+        "运用-F先晶化再复制，手动/自动和溢出 slots=1 auto=True upgraded=True",
+        "运用-F先晶化再复制，手动/自动和溢出 slots=2 auto=False upgraded=True",
+        "运用-F先晶化再复制，手动/自动和溢出 slots=2 auto=True upgraded=True",
+        "运用-F先晶化再复制，手动/自动和溢出 slots=3 auto=False upgraded=True",
+        "运用-F先晶化再复制，手动/自动和溢出 slots=3 auto=True upgraded=True",
+        "运用-F基础攻击钩子之后读取能量 final=0",
+        "运用-F基础攻击钩子之后读取能量 final=1",
+        "运用-F基础伤害后结束阶段或主人死亡时分支牌不进入战斗牌堆 ended=False",
+        "运用-F基础伤害后结束阶段或主人死亡时分支牌不进入战斗牌堆 ended=True"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "7f1b1679004349e07930c9e544b1db969d3dfc9fbb016338fd99b49c1dd58cb3"
+    },
+    {
+      "class": "ApplicationH",
+      "title": "运用-H",
+      "model_id": "INDIUM_STAR_CARD_APPLICATION_H",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/ApplicationH.cs",
+      "document_anchor": 1766,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_text": "运用-H \n0c 罕见 技能\n失去1（2）层易伤/虚弱/脆弱。\n晶抗：切换到下一个效果。\n晶逆：切换到上一个效果。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "0",
+        "type": "Skill",
+        "rarity": "Uncommon",
+        "target": "Self",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "失去{DebuffAmount:diff()}层[gold]{CurrentEffect}[/gold]。\n[gold]晶抗[/gold]：切换为失去[gold]{NextEffect}[/gold]。\n[gold]晶逆[/gold]：切换为失去[gold]{PreviousEffect}[/gold]。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "运用-H按易伤虚弱脆弱循环，升级去除上限 upgraded=False",
+        "运用-Hs只削弱存活敌人，敌人回合末恢复 upgraded=False",
+        "运用-H按易伤虚弱脆弱循环，升级去除上限 upgraded=True",
+        "运用-Hs只削弱存活敌人，敌人回合末恢复 upgraded=True",
+        "运用-H无对应减益仍切换，克隆保持独立模式，新战斗重置",
+        "运用-Hs重复施加累计扣除并仅在敌人回合末返还"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "1ed32465c5f452cbcc633ae01c6ce47352fa3488570dd87b81408eeecc3cdef1"
+    },
+    {
+      "class": "ApplicationHs",
+      "title": "运用-Hs",
+      "model_id": "INDIUM_STAR_CARD_APPLICATION_HS",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/ApplicationHs.cs",
+      "document_anchor": 1010,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_text": "运用-Hs\n0c 普通 技能使所有敌人失去7（10）点临时力量。晶化（Hs）2。消耗。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "0",
+        "type": "Skill",
+        "rarity": "Common",
+        "target": "AllEnemies",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "使所有敌人失去{StrengthLoss:diff()}点[gold]力量[/gold]（敌人回合结束时恢复）。\n[gold]晶化[/gold]（Hs）{Cards:diff()}。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "运用-Hs只削弱存活敌人，敌人回合末恢复 upgraded=False",
+        "运用-Hs只削弱存活敌人，敌人回合末恢复 upgraded=True",
+        "运用-Hs重复施加累计扣除并仅在敌人回合末返还"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "f80e48be0474582fdb65f2bcf4cc1e20e4b6a36ff8f887f5e773f27586df047d"
+    },
+    {
+      "class": "ApplicationIn",
+      "title": "运用-In",
+      "model_id": "INDIUM_STAR_CARD_APPLICATION_IN",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/ApplicationIn.cs",
+      "document_anchor": 109,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_text": "运用-In \n1c 初始 技能\n（保留）·\n晶化1。延拓2。\n \n\n普通卡：攻击（10/10）",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "1",
+        "type": "Skill",
+        "rarity": "Basic",
+        "target": "Self",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "[gold]晶化[/gold]{Cards:diff()}。\n[gold]延拓[/gold]{Energy:diff()}。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "运用-In先晶化再延拓，升级只添加保留 upgraded=False",
+        "运用-In先晶化再延拓，升级只添加保留 upgraded=True"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "7fbebced217d68a11117f2e47221bf9d57dc3aba67d8fceb5ddfb61a1902c18d"
+    },
+    {
+      "class": "ApplicationMg",
+      "title": "运用-Mg",
+      "model_id": "INDIUM_STAR_CARD_APPLICATION_MG",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/ApplicationMg.cs",
+      "document_anchor": 415,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_text": "运用-Mg\n1c 普通 攻击\n造成8（11）点伤害.晶化（Mg）2。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "1",
+        "type": "Attack",
+        "rarity": "Common",
+        "target": "AnyEnemy",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "造成{Damage:diff()}点伤害。\n[gold]晶化[/gold]（Mg）{Cards:diff()}。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "运用-Mg伤害和晶化种类、满手溢出 n=0 upgraded=False",
+        "运用-Mg伤害和晶化种类、满手溢出 n=9 upgraded=False",
+        "运用-Mg伤害和晶化种类、满手溢出 n=10 upgraded=False",
+        "运用-Mg伤害和晶化种类、满手溢出 n=0 upgraded=True",
+        "运用-Mg伤害和晶化种类、满手溢出 n=9 upgraded=True",
+        "运用-Mg伤害和晶化种类、满手溢出 n=10 upgraded=True",
+        "运用-Mg基础攻击失败不生成后续晶化"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "91f85f9b12edfd28e2d454d447ebf840a1f074ea0f0e73eaad442e170e989eb5"
+    },
+    {
+      "class": "ApplicationNb",
+      "title": "运用-Nb",
+      "model_id": "INDIUM_STAR_CARD_APPLICATION_NB",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/ApplicationNb.cs",
+      "document_anchor": 2287,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_text": "运用-Nb\n1c 罕见 能力\n活力改为在打出攻击牌后减少2层。（获得2层活力。）晶化2（Nb）。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "1",
+        "type": "Power",
+        "rarity": "Uncommon",
+        "target": "Self",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "[gold]晶化[/gold]（Nb）{Cards:diff()}。\n[gold]活力[/gold]改为在打出攻击牌后只减少2层。{IfUpgraded:show:\n获得2层[gold]活力[/gold]。|}",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "Nb与崩碎之歌加的自动晶化Nb组合保留2活力",
+        "Nb保留同张牌后续伤害段的活力并清理原版攻击缓存",
+        "Nb只扣本玩家攻击且不会把活力扣为负数",
+        "运用-Nb直接授予能力、升级活力及两张晶化Nb upgraded=False",
+        "运用-Nb直接授予能力、升级活力及两张晶化Nb upgraded=True"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "c2cc14e594ac23cfb9daea889480ef085711e80ecabcfcdca0107efd3a8b7b4b"
+    },
+    {
+      "class": "ApplicationNeutron",
+      "title": "运用-电子",
+      "model_id": "INDIUM_STAR_CARD_APPLICATION_NEUTRON",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/ApplicationNeutron.cs",
+      "document_anchor": 54,
+      "specification_source": "最新用户定稿消息；优先于DOCX正文",
+      "specification_text": "运用-电子\n1（0）c 初始 攻击\n造成10（14）点伤害。\n晶抗：自身获得1层虚弱。\n晶逆：自身获得1层易伤。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "document_specification_text": "运用-电子\n1（0）c  初始 攻击\n造成 10（14）点伤害\n晶抗：获得一层虚弱。\n晶逆：获得一层易伤。",
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "1",
+        "type": "Attack",
+        "rarity": "Basic",
+        "target": "AnyEnemy",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "造成{Damage:diff()}点伤害。\n[gold]晶抗[/gold]：自身获得{WeakPower:diff()}层[gold]虚弱[/gold]。\n[gold]晶逆[/gold]：自身获得{VulnerablePower:diff()}层[gold]易伤[/gold]。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "电子攻击牌允许待发下自动打出并触发Nb活力扣除 upgraded=False",
+        "电子攻击牌允许待发下自动打出并触发Nb活力扣除 upgraded=True",
+        "电子重复施加只使用原版状态，无隐藏清除器 energy=0",
+        "电子重复施加只使用原版状态，无隐藏清除器 energy=1"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "9669009025f9fba951bb2b7e5db22e8b9beee7a69632fa55aa9333758bbe559e"
+    },
+    {
+      "class": "ApplicationPb",
+      "title": "运用-Pb",
+      "model_id": "INDIUM_STAR_CARD_APPLICATION_PB",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/ApplicationPb.cs",
+      "document_anchor": 1526,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_text": "运用-Pb\n1c 罕见 攻击\n造成9（11）点伤害。将至多1（2）张状态牌变化为晶化-Pb。晶抗：晶化1。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "1",
+        "type": "Attack",
+        "rarity": "Uncommon",
+        "target": "AnyEnemy",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "造成{Damage:diff()}点伤害。\n将至多{TransformCount:diff()}张状态牌变化为[gold]晶化-Pb[/gold]。\n[gold]晶抗[/gold]：[gold]晶化[/gold]{Cards:diff()}。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "运用-Pb只变化状态牌并晶抗生成普通晶化 upgraded=False",
+        "运用-Pb只变化状态牌并晶抗生成普通晶化 upgraded=True",
+        "运用-Pb选牌暂停恢复后读取能量且允许不选 final=0",
+        "运用-Pb选牌暂停恢复后读取能量且允许不选 final=1"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "4f3b3c2bc9488e74ba6e89a2ffc360fde449f1b256e8d02840d6eedf89cc123a"
+    },
+    {
+      "class": "ApplicationTh",
+      "title": "运用-Th",
+      "model_id": "INDIUM_STAR_CARD_APPLICATION_TH",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/ApplicationTh.cs",
+      "document_anchor": 1143,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_text": "运用-Th\n1c 罕见 攻击\n晶化1。使一名敌人失去4（5）点生命。\n晶抗：造成等量伤害2次。\n晶逆：重放2。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "1",
+        "type": "Attack",
+        "rarity": "Uncommon",
+        "target": "AnyEnemy",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "[gold]晶化[/gold]{Cards:diff()}。\n使一名敌人失去{Damage:diff()}点生命。\n[gold]晶抗[/gold]：造成等量伤害2次。\n[gold]晶逆[/gold]：[gold]重放[/gold]2。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "运用Th等待生命伤害钩子后选择 晶逆",
+        "运用Th等待生命伤害钩子后选择 晶抗",
+        "运用Th晶化入堆钩子参与基础效果后判定",
+        "运用Th手牌满时晶化改入弃牌仍完成三段",
+        "运用Th升级后每段生命伤害五点，晶抗独立普通攻击",
+        "运用Th先生成晶化后造成生命损失，再以最终能量选择分支",
+        "运用Th后续段能量变化时正常触发晶抗",
+        "运用Th量子点重放每段保留双分支，但只首段扩张系列"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "7fcaf7dd739b2cce05db75af05b9bbf054492c8987d0bba03c165e8f05ee3ffb"
+    },
+    {
+      "class": "ApplicationU",
+      "title": "运用-U",
+      "model_id": "INDIUM_STAR_CARD_APPLICATION_U",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/ApplicationU.cs",
+      "document_anchor": 2787,
+      "specification_source": "最新用户定稿消息；优先于DOCX正文",
+      "specification_text": "运用-U\n3（2）c 稀有 技能\n将3张具有晶化（U）1的运用-中子+加入手牌。消耗。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "document_specification_text": "运用-U\n3（2）c 稀有 技能\n将3张具有晶化（U）1的“运用-中子+”加入手牌。消耗。",
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "3",
+        "type": "Skill",
+        "rarity": "Rare",
+        "target": "Self",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "将{Cards:diff()}张具有[gold]晶化[/gold]（U）1的「运用-中子+」加入手牌。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "U标记复制生成晶化U且不会修改未标记牌",
+        "运用-U生成中子实际出牌会晶化U，自动晶化不占手动次数",
+        "运用-U三张衍生中子升级并各具有晶化U，溢出仍保留标记 n=0 upgraded=False",
+        "运用-U三张衍生中子升级并各具有晶化U，溢出仍保留标记 n=9 upgraded=False",
+        "运用-U三张衍生中子升级并各具有晶化U，溢出仍保留标记 n=10 upgraded=False",
+        "运用-U三张衍生中子升级并各具有晶化U，溢出仍保留标记 n=0 upgraded=True",
+        "运用-U三张衍生中子升级并各具有晶化U，溢出仍保留标记 n=9 upgraded=True",
+        "运用-U三张衍生中子升级并各具有晶化U，溢出仍保留标记 n=10 upgraded=True"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "ef0ee3e61e7ee72e765a3a011c9a325882556aa303694ce34277a3b0bbc26daf"
+    },
+    {
+      "class": "ApplicationZn",
+      "title": "运用-Zn",
+      "model_id": "INDIUM_STAR_CARD_APPLICATION_ZN",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/ApplicationZn.cs",
+      "document_anchor": 673,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_text": "运用-Zn \n1c 普通 技能\n获得12（15）点格挡。\n晶抗：失去一点能量。\n晶逆：消耗。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "1",
+        "type": "Skill",
+        "rarity": "Common",
+        "target": "Self",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "获得{Block:diff()}点[gold]格挡[/gold]。\n[gold]晶抗[/gold]：失去1点能量。\n[gold]晶逆[/gold]：[gold]消耗[/gold]。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "运用-Zn基础格挡之后只选择一次分支 energy=0 upgraded=False",
+        "运用-Zn基础格挡之后只选择一次分支 energy=1 upgraded=False",
+        "运用-Zn基础格挡之后只选择一次分支 energy=2 upgraded=False",
+        "运用-Zn基础格挡之后只选择一次分支 energy=0 upgraded=True",
+        "运用-Zn基础格挡之后只选择一次分支 energy=1 upgraded=True",
+        "运用-Zn基础格挡之后只选择一次分支 energy=2 upgraded=True",
+        "运用-Zn基础格挡钩子之后读取能量 final=0",
+        "运用-Zn基础格挡钩子之后读取能量 final=1",
+        "运用-Zn双分支固定先失能量再消耗，不重新读取分支"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "6f5495f6d6a807010eff1ec1fac25c61d3bb8b423e0f24a8b490a3b53ab16016"
+    },
+    {
+      "class": "BondingEster",
+      "title": "键合-酯基",
+      "model_id": "INDIUM_STAR_CARD_BONDING_ESTER",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/BondingEster.cs",
+      "document_anchor": 963,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_text": "键合-酯基\n1c 普通 技能获得6（8）点格挡，为手牌中的1张非攻击牌添加保留。晶逆：延拓1。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "1",
+        "type": "Skill",
+        "rarity": "Common",
+        "target": "Self",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "获得{Block:diff()}点[gold]格挡[/gold]，为手牌中的1张非攻击牌添加[gold]保留[/gold]。\n[gold]晶逆[/gold]：[gold]延拓[/gold]{Energy:diff()}。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "键合-酯基格挡后选择非攻击并保留，晶逆延拓 energy=0 upgraded=False",
+        "键合-酯基格挡后选择非攻击并保留，晶逆延拓 energy=1 upgraded=False",
+        "键合-酯基格挡后选择非攻击并保留，晶逆延拓 energy=0 upgraded=True",
+        "键合-酯基格挡后选择非攻击并保留，晶逆延拓 energy=1 upgraded=True"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "8d9d627ad7413f03e89df269fa009e99381d986b551f23e29e9ae8cfc67b35ed"
+    },
+    {
+      "class": "BondingImidogen",
+      "title": "键合-亚胺基",
+      "model_id": "INDIUM_STAR_CARD_BONDING_IMIDOGEN",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/BondingImidogen.cs",
+      "document_anchor": 791,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_text": "键合-亚胺基 \n2c 普通 技能\n（保留） \n消耗（打出）手牌中至多2张晶化。\n获得3点临时敏捷。\n延拓2。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "2",
+        "type": "Skill",
+        "rarity": "Common",
+        "target": "Self",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "消耗至多{Cards:diff()}张手牌中的[gold]晶化[/gold]。（升级后改为打出）\n获得{DexterityPower:diff()}点[gold]临时敏捷[/gold]。\n[gold]延拓[/gold]{Energy:diff()}。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "键合-亚胺基至多两张，消耗/自动打出、临时敏捷及延拓 n=0 upgraded=False",
+        "键合-亚胺基至多两张，消耗/自动打出、临时敏捷及延拓 n=1 upgraded=False",
+        "键合-亚胺基至多两张，消耗/自动打出、临时敏捷及延拓 n=3 upgraded=False",
+        "键合-亚胺基至多两张，消耗/自动打出、临时敏捷及延拓 n=0 upgraded=True",
+        "键合-亚胺基至多两张，消耗/自动打出、临时敏捷及延拓 n=1 upgraded=True",
+        "键合-亚胺基至多两张，消耗/自动打出、临时敏捷及延拓 n=3 upgraded=True",
+        "键合-亚胺基选择暂停完成之前不授予敏捷或延拓"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "5e708923da60885556fab2f3fa1e3e41dd4897682399a50d189f16c6f1a438ce"
+    },
+    {
+      "class": "BondingNitro",
+      "title": "键合-硝基",
+      "model_id": "INDIUM_STAR_CARD_BONDING_NITRO",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/BondingNitro.cs",
+      "document_anchor": 334,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_text": "键合-硝基\n1c 普通 攻击\n（保留） \n造成6点伤害，延拓1。抽1张牌。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "1",
+        "type": "Attack",
+        "rarity": "Common",
+        "target": "AnyEnemy",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "造成{Damage:diff()}点伤害。\n[gold]延拓[/gold]{Energy:diff()}。\n抽{Cards:diff()}张牌。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "键合-硝基攻击、延拓、抽牌严格顺序与升级保留 available=0 upgraded=False",
+        "键合-硝基攻击、延拓、抽牌严格顺序与升级保留 available=1 upgraded=False",
+        "键合-硝基攻击、延拓、抽牌严格顺序与升级保留 available=5 upgraded=False",
+        "键合-硝基攻击、延拓、抽牌严格顺序与升级保留 available=0 upgraded=True",
+        "键合-硝基攻击、延拓、抽牌严格顺序与升级保留 available=1 upgraded=True",
+        "键合-硝基攻击、延拓、抽牌严格顺序与升级保留 available=5 upgraded=True"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "b1f8c64bf2bca3d54669fa73488b25b95f45f0162c2fb29ddf14039aa9de3e4f"
+    },
+    {
+      "class": "BondingTripleBond",
+      "title": "键合-三键",
+      "model_id": "INDIUM_STAR_CARD_BONDING_TRIPLE_BOND",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/BondingTripleBond.cs",
+      "document_anchor": 2203,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_text": "键合-三键\n2c 罕见 技能\n获得12（15）点格挡。\n晶抗：你每有一张晶化获得4（6）点格挡。\n晶逆：你每有一层延拓获得6（8）点格挡。\n\n罕见卡：能力（6/9）",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "2",
+        "type": "Skill",
+        "rarity": "Uncommon",
+        "target": "Self",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "获得{Block:diff()}点[gold]格挡[/gold]。\n[gold]晶抗[/gold]：手牌中每有一张[gold]晶化[/gold]，获得{CrystalBlock:diff()}点[gold]格挡[/gold]。\n[gold]晶逆[/gold]：每有一层[gold]延拓[/gold]，获得{ExtensionBlock:diff()}点[gold]格挡[/gold]。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "键合三键资源数量与分支 n=0 energy=0 upgraded=False",
+        "键合三键资源数量与分支 n=0 energy=0 upgraded=True",
+        "键合三键资源数量与分支 n=0 energy=1 upgraded=False",
+        "键合三键资源数量与分支 n=0 energy=1 upgraded=True",
+        "键合三键资源数量与分支 n=1 energy=0 upgraded=False",
+        "键合三键资源数量与分支 n=1 energy=0 upgraded=True",
+        "键合三键资源数量与分支 n=1 energy=1 upgraded=False",
+        "键合三键资源数量与分支 n=1 energy=1 upgraded=True",
+        "键合三键资源数量与分支 n=3 energy=0 upgraded=False",
+        "键合三键资源数量与分支 n=3 energy=0 upgraded=True",
+        "键合三键资源数量与分支 n=3 energy=1 upgraded=False",
+        "键合三键资源数量与分支 n=3 energy=1 upgraded=True",
+        "键合三键晶化只按牌族及本人手牌统计",
+        "键合三键以基础格挡钩子之后的能量与晶化数量结算",
+        "键合三键基础格挡钩子耗尽能量后选择晶逆",
+        "键合三键量子点先晶抗后晶逆并保留分支开始前的资源变化",
+        "键合三键基础和追加格挡分别走敏捷及Ca额度",
+        "键合三键负敏捷和战斗结束不生成无效格挡"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "5741fd33472d089e0fb4869b12edeb1f84c70f0fe409a448bf1ab0a32d335934"
+    },
+    {
+      "class": "Characterization",
+      "title": "表征",
+      "model_id": "INDIUM_STAR_CARD_CHARACTERIZATION",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/Characterization.cs",
+      "document_anchor": 847,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_text": "表征\n1c 普通 技能\n获得7（9）点格挡。\n晶抗：下回合获得3（4）点临时力量。\n晶逆：下回合抽2（3）张牌。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "1",
+        "type": "Skill",
+        "rarity": "Common",
+        "target": "Self",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "获得{Block:diff()}点[gold]格挡[/gold]。\n[gold]晶抗[/gold]：下回合获得{StrengthPower:diff()}点[gold]临时力量[/gold]。\n[gold]晶逆[/gold]：下回合抽{Cards:diff()}张牌。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "表征打出回合结束不发放也不收回",
+        "表征下回合开始发放并在结束时收回",
+        "表征格挡后预约下回合力量或抽牌 energy=0 upgraded=False",
+        "表征格挡后预约下回合力量或抽牌 energy=1 upgraded=False",
+        "表征格挡后预约下回合力量或抽牌 energy=0 upgraded=True",
+        "表征格挡后预约下回合力量或抽牌 energy=1 upgraded=True",
+        "表征在本人开始阶段自动打出不能提前兑现当前回合 upgraded=False",
+        "表征旧预约兑现前嵌套新预约，只发旧预约并保留下一回合 upgraded=False",
+        "表征在本人开始阶段自动打出不能提前兑现当前回合 upgraded=True",
+        "表征旧预约兑现前嵌套新预约，只发旧预约并保留下一回合 upgraded=True",
+        "表征异战斗、他人和重复开始回调不能兑现或重复授予",
+        "表征实际力量授予受阻时不在回合末倒扣",
+        "表征发放钩子暂停期间重施与重复开始，不扩大旧预约",
+        "表征回收连锁重施的新预约与重复结束隔离",
+        "表征死亡或结束阶段不发放，预约保留到有效回调",
+        "表征能力克隆的预约列表独立，不消耗原件预约",
+        "表征重复施加按本体最终接受层数预约 offset=0",
+        "表征重复施加按本体最终接受层数预约 offset=1",
+        "表征重复施加按本体最终接受层数预约 offset=5"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "9366e9815e3d87953afb3e306ebd5f6686faf9e95d621b04f3e90e78836e3667"
+    },
+    {
+      "class": "Collapse",
+      "title": "坍缩",
+      "model_id": "INDIUM_STAR_CARD_COLLAPSE",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/Collapse.cs",
+      "document_anchor": 1477,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_text": "坍缩\n3c 罕见 攻击造成27（33）点伤害。若有不少于3（2）层延拓，失去所有延拓，获得2c。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "3",
+        "type": "Attack",
+        "rarity": "Uncommon",
+        "target": "AnyEnemy",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "造成{Damage:diff()}点伤害。\n若有不少于{ExtensionThreshold:diff()}层[gold]延拓[/gold]，失去所有延拓，获得{Energy:energyIcons()}。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "坍缩伤害后达阈值消耗全部延拓，仅获两能量 n=0 upgraded=False",
+        "坍缩伤害后达阈值消耗全部延拓，仅获两能量 n=1 upgraded=False",
+        "坍缩伤害后达阈值消耗全部延拓，仅获两能量 n=2 upgraded=False",
+        "坍缩伤害后达阈值消耗全部延拓，仅获两能量 n=3 upgraded=False",
+        "坍缩伤害后达阈值消耗全部延拓，仅获两能量 n=5 upgraded=False",
+        "坍缩伤害后达阈值消耗全部延拓，仅获两能量 n=0 upgraded=True",
+        "坍缩伤害后达阈值消耗全部延拓，仅获两能量 n=1 upgraded=True",
+        "坍缩伤害后达阈值消耗全部延拓，仅获两能量 n=2 upgraded=True",
+        "坍缩伤害后达阈值消耗全部延拓，仅获两能量 n=3 upgraded=True",
+        "坍缩伤害后达阈值消耗全部延拓，仅获两能量 n=5 upgraded=True"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "5795bee34226f00929f68e60bc57f3ff46fe1de222f4f6e0e2eec09e07ddf434"
+    },
+    {
+      "class": "ConformationBlow",
+      "title": "构象打击",
+      "model_id": "INDIUM_STAR_CARD_CONFORMATION_BLOW",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/ConformationBlow.cs",
+      "document_anchor": 1294,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_text": "构象打击\n0c 罕见 攻击造成4点伤害。晶抗：失去1c。你每拥有1层延拓，额外造成5（7）点伤害。晶逆：手牌中每有1张晶化，额外造成3（4）点伤害。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "0",
+        "type": "Attack",
+        "rarity": "Uncommon",
+        "target": "AnyEnemy",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "造成{Damage:diff()}点伤害。\n[gold]晶抗[/gold]：失去1点能量。你每拥有1层[gold]延拓[/gold]，额外造成{ResistanceBonus:diff()}点伤害。\n[gold]晶逆[/gold]：手牌中每有1张[gold]晶化[/gold]，额外造成{ReversalBonus:diff()}点伤害。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "构象打击基础4后读取延拓和手中晶化，分支不重判 energy=0 both=False upgraded=False",
+        "构象打击基础4后读取延拓和手中晶化，分支不重判 energy=0 both=True upgraded=False",
+        "构象打击基础4后读取延拓和手中晶化，分支不重判 energy=1 both=False upgraded=False",
+        "构象打击基础4后读取延拓和手中晶化，分支不重判 energy=1 both=True upgraded=False",
+        "构象打击基础4后读取延拓和手中晶化，分支不重判 energy=0 both=False upgraded=True",
+        "构象打击基础4后读取延拓和手中晶化，分支不重判 energy=0 both=True upgraded=True",
+        "构象打击基础4后读取延拓和手中晶化，分支不重判 energy=1 both=False upgraded=True",
+        "构象打击基础4后读取延拓和手中晶化，分支不重判 energy=1 both=True upgraded=True"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "d6907226936827cdcaab061887689bfc4e26893be88d292ee1fefedff868515a"
+    },
+    {
+      "class": "CrystalClusterGun",
+      "title": "晶簇枪",
+      "model_id": "INDIUM_STAR_CARD_CRYSTAL_CLUSTER_GUN",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/CrystalClusterGun.cs",
+      "document_anchor": 1637,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_text": "晶簇枪\n0c 罕见 攻击\n造成6（8）点伤害。若你没有晶化，晶化1，抽1张牌。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "0",
+        "type": "Attack",
+        "rarity": "Uncommon",
+        "target": "AnyEnemy",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "造成{Damage:diff()}点伤害。\n若你手牌中没有[gold]晶化[/gold]，[gold]晶化[/gold]{Cards:diff()}并抽1张牌。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "晶簇枪伤害后检查手中晶化，先生成后抽牌 has=False occupied=0 upgraded=False",
+        "晶簇枪伤害后检查手中晶化，先生成后抽牌 has=False occupied=9 upgraded=False",
+        "晶簇枪伤害后检查手中晶化，先生成后抽牌 has=False occupied=10 upgraded=False",
+        "晶簇枪伤害后检查手中晶化，先生成后抽牌 has=True occupied=0 upgraded=False",
+        "晶簇枪伤害后检查手中晶化，先生成后抽牌 has=True occupied=9 upgraded=False",
+        "晶簇枪伤害后检查手中晶化，先生成后抽牌 has=True occupied=10 upgraded=False",
+        "晶簇枪伤害后检查手中晶化，先生成后抽牌 has=False occupied=0 upgraded=True",
+        "晶簇枪伤害后检查手中晶化，先生成后抽牌 has=False occupied=9 upgraded=True",
+        "晶簇枪伤害后检查手中晶化，先生成后抽牌 has=False occupied=10 upgraded=True",
+        "晶簇枪伤害后检查手中晶化，先生成后抽牌 has=True occupied=0 upgraded=True",
+        "晶簇枪伤害后检查手中晶化，先生成后抽牌 has=True occupied=9 upgraded=True",
+        "晶簇枪伤害后检查手中晶化，先生成后抽牌 has=True occupied=10 upgraded=True",
+        "晶簇枪伤害钩子已经生成晶化后不再重复生成或抽牌"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "a5df6f7e7bb244cc0034966c278ae730e193e425eecadc937d9511bd5d347499"
+    },
+    {
+      "class": "CrystalCoin",
+      "title": "晶币",
+      "model_id": "INDIUM_STAR_CARD_CRYSTAL_COIN",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/CrystalCoin.cs",
+      "document_anchor": 1942,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对；最新用户规则补充优先",
+      "specification_text": "晶币 \n1c 罕见 技能 \n获得18（24）金币。 \n此牌在本场游戏中给予的金币永久-3 \n虚无。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "latest_user_rule": "复制继承复制时的衰减；之后原件与复制各自继续衰减。",
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "1",
+        "type": "Skill",
+        "rarity": "Uncommon",
+        "target": "Self",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "获得{Gold:diff()}金币。\n此牌在本场游戏中给予的金币永久-3。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "晶币跨战斗递减写回牌组原件",
+        "晶币收益下限为0",
+        "晶币升级抬高基础值且不清除递减",
+        "晶币复制继承已衰减收益，后续各自递减 upgraded=False",
+        "晶币复制继承已衰减收益，后续各自递减 upgraded=True",
+        "晶币从牌组战斗克隆复制时读取原件衰减，复制后独立",
+        "晶币衰减到零再复制和升级仍继承次数"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "9d3b55a4b95b7d15d4f463628d4153fdeb5e6364150e4bc67e2e4e47a1f5c78a"
+    },
+    {
+      "class": "CrystalFlow",
+      "title": "晶流",
+      "model_id": "INDIUM_STAR_CARD_CRYSTAL_FLOW",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/CrystalFlow.cs",
+      "document_anchor": 904,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_text": "晶流\n1c 普通 技能\n获得5（6）点格挡。\n晶抗：给予1（2）层虚弱。\n晶逆：重放1，不会触发晶抗/晶逆的效果。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "1",
+        "type": "Skill",
+        "rarity": "Common",
+        "target": "AnyEnemy",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "获得{Block:diff()}点[gold]格挡[/gold]。\n[gold]晶抗[/gold]：给予{WeakPower:diff()}层[gold]虚弱[/gold]。\n[gold]晶逆[/gold]：[gold]重放[/gold]1，不会触发晶抗/晶逆。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "晶流按基础效果后能量 0 延长实际系列",
+        "晶流按基础效果后能量 1 延长实际系列",
+        "晶流按基础效果后能量 -1 延长实际系列",
+        "晶流升级系列格挡和虚弱 0",
+        "晶流升级系列格挡和虚弱 1",
+        "晶流等待格挡异步钩子后选择 晶逆",
+        "晶流等待格挡异步钩子后选择 晶抗",
+        "晶流格挡为零时也等待钩子改变能量",
+        "晶流重放明确禁止分支，运用Th遵循普通重放规则"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "faa56e492bf6b7d1c74ade7c6155e7bc346a548400935c83558c403dcdb95ad3"
+    },
+    {
+      "class": "Crystallization",
+      "title": "晶化",
+      "model_id": "INDIUM_STAR_CARD_CRYSTALLIZATION",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/Crystallization.cs",
+      "specification_source": "用户确认的通则/增补消息",
+      "specification_text": "用户通则：普通无额外效果晶化，0c状态、保留、消耗；同一玩家每回合共用1次手动额度，自动打出不计次数。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "inherited": "晶化基类；还需核对实际注册/可打出属性",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "每回合至多手动打出1张晶化。自动打出不计入次数。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "晶化身份不依赖名称或语言",
+        "晶化基类提供默认属性",
+        "晶化Pb保留公共晶化属性并额外具有虚无",
+        "晶化生成普通牌和指定变体",
+        "晶化Hs提供真正的全体力量并在离手后保留其他来源",
+        "晶化U只回收已升级中子，不额外升级普通中子",
+        "晶化U只回收独立衍生中子+ pile=Draw",
+        "晶化U只回收独立衍生中子+ pile=Discard",
+        "晶化U只回收独立衍生中子+ pile=Exhaust",
+        "晶化Mg实际衍生牌0费保留消耗并获得4格挡"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "7551e3eea513a8eaed385d2513cc7e5f2cb4286b75a16d034735f2280fff976c"
+    },
+    {
+      "class": "CrystallizationHs",
+      "title": "晶化Hs",
+      "model_id": "INDIUM_STAR_CARD_CRYSTALLIZATION_HS",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/CrystallizationHs.cs",
+      "document_anchor": 1054,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_text": "*晶化Hs0c 状态\n每回合至多打出1张晶化。在手中时，所有人具有1点力量。\n*",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "inherited": "晶化基类；还需核对实际注册/可打出属性",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "在手牌中时，所有角色具有1点[gold]力量[/gold]。\n每回合至多手动打出1张晶化。自动打出不计入次数。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "晶化Hs提供真正的全体力量并在离手后保留其他来源"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "8de9ed245ed6b6431f40fae5532ec9f9e819ad1cab8d85a29b57131e1f14c383"
+    },
+    {
+      "class": "CrystallizationMg",
+      "title": "晶化Mg",
+      "model_id": "INDIUM_STAR_CARD_CRYSTALLIZATION_MG",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/CrystallizationMg.cs",
+      "document_anchor": 451,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_text": "*晶化Mg0c 状态保留，消耗每回合至多打出1张晶化。\n获得4点格挡。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "inherited": "晶化基类；还需核对实际注册/可打出属性",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "获得{Block:diff()}点[gold]格挡[/gold]。\n每回合至多手动打出1张晶化。自动打出不计入次数。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "晶化Mg实际衍生牌0费保留消耗并获得4格挡"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "da2dedb1d40371ac54944d2befd46b7c97448d5c5c3295c79360e147ae19b44e"
+    },
+    {
+      "class": "CrystallizationNb",
+      "title": "晶化Nb",
+      "model_id": "INDIUM_STAR_CARD_CRYSTALLIZATION_NB",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/CrystallizationNb.cs",
+      "document_anchor": 2337,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_text": "*晶化Nb \n0c 状态\n保留。消耗。\n每回合至多打出一张“晶化”牌，获得4层活力。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "inherited": "晶化基类；还需核对实际注册/可打出属性",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "获得{VigorPower:diff()}层[gold]活力[/gold]。\n每回合至多手动打出1张晶化。自动打出不计入次数。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "需要补齐直接卡牌效果回归；相关命名用例不自动证明整牌效果",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "027165cea2ff779f0ab12a1d28eebd06749cee77059937988e556bbad2733fb3"
+    },
+    {
+      "class": "CrystallizationPb",
+      "title": "晶化-Pb",
+      "model_id": "INDIUM_STAR_CARD_CRYSTALLIZATION_PB",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/CrystallizationPb.cs",
+      "document_anchor": 1580,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_text": "*晶化-Pb\n0c 状态保留，消耗，虚无每回合最多只能打出1张晶化。回合结束时，若在手中，随机保留1张非状态牌。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "inherited": "晶化基类；还需核对实际注册/可打出属性",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "每回合至多手动打出1张晶化。自动打出不计入次数。\n回合结束时，若在手中，随机保留1张非状态牌。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "需要补齐直接卡牌效果回归；相关命名用例不自动证明整牌效果",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "47a17c1ecf46c093a592272537b04ba0050aa85a98eb91e5db0c42361bb95049"
+    },
+    {
+      "class": "CrystallizationU",
+      "title": "晶化U",
+      "model_id": "INDIUM_STAR_CARD_CRYSTALLIZATION_U",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/CrystallizationU.cs",
+      "document_anchor": 2834,
+      "specification_source": "最新用户定稿消息；优先于DOCX正文",
+      "specification_text": "晶化U\n0c 状态 保留 消耗；共用晶化手动额度。\n不论何处，将1张运用-中子+放回手牌，使其获得消耗。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "document_specification_text": "*晶化U\n0c 保留 消耗\n不论何处，将1张“运用-中子+”放回你的手牌，使其获得消耗。",
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "inherited": "晶化基类；还需核对实际注册/可打出属性",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "从任意位置将一张「运用-中子+」放回手牌，并使其获得[gold]消耗[/gold]。\n每回合至多手动打出1张晶化。自动打出不计入次数。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "晶化U只回收已升级中子，不额外升级普通中子",
+        "晶化U只回收独立衍生中子+ pile=Draw",
+        "晶化U只回收独立衍生中子+ pile=Discard",
+        "晶化U只回收独立衍生中子+ pile=Exhaust"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "4a81c32a822a3be38e2f16e470da8770dd1b6e789fc473fc60f88ede70ad16ab"
+    },
+    {
+      "class": "Cyclization",
+      "title": "成环",
+      "model_id": "INDIUM_STAR_CARD_CYCLIZATION",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/Cyclization.cs",
+      "document_anchor": 2145,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_text": "成环\n1c 罕见 技能\n消耗一张牌。\n下回合多抽2（3）张牌。\n若消耗的不是状态或诅咒牌，则获得5（8）点格挡。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "1",
+        "type": "Skill",
+        "rarity": "Uncommon",
+        "target": "Self",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "消耗一张手牌。\n下回合多抽{Cards:diff()}张牌。\n若消耗的不是状态或诅咒牌，获得{Block:diff()}点[gold]格挡[/gold]。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "成环消耗实际选择牌并延后抽牌 skill upgraded=False",
+        "成环消耗实际选择牌并延后抽牌 skill upgraded=True",
+        "成环消耗实际选择牌并延后抽牌 crystal upgraded=False",
+        "成环消耗实际选择牌并延后抽牌 crystal upgraded=True",
+        "成环消耗实际选择牌并延后抽牌 empty upgraded=False",
+        "成环消耗实际选择牌并延后抽牌 empty upgraded=True",
+        "成环消耗实际选择牌并延后抽牌 blocked upgraded=False",
+        "成环消耗实际选择牌并延后抽牌 blocked upgraded=True",
+        "成环消耗被改送弃牌堆不会得到格挡 upgraded=False",
+        "成环消耗被改送弃牌堆不会得到格挡 upgraded=True"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "70679d275cc60e0ba23e287662ec1a578bcc38468e6ba946e02d08f938bd2c8a"
+    },
+    {
+      "class": "DefendIndiumStar",
+      "title": "防御",
+      "model_id": "INDIUM_STAR_CARD_DEFEND_INDIUM_STAR",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/DefendIndiumStar.cs",
+      "document_anchor": 30,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_text": "防御\n1c 初始 技能\n获得5（8）点格挡。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "1",
+        "type": "Skill",
+        "rarity": "Basic",
+        "target": "Self",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "获得{Block:diff()}点[gold]格挡[/gold]。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "防御基础格挡与Defend标签 upgraded=False",
+        "防御基础格挡与Defend标签 upgraded=True"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "32666e26e4e1cf0df6c00cf29a1d3c40538e44761ab3b64762a39508f042c4b3"
+    },
+    {
+      "class": "DeferredRelease",
+      "title": "气溶胶",
+      "model_id": "INDIUM_STAR_CARD_DEFERRED_RELEASE",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/DeferredRelease.cs",
+      "document_anchor": 1094,
+      "specification_source": "最新用户定稿消息；优先于DOCX正文",
+      "specification_text": "气溶胶（暂名） 1c 普通 技能\n（升级：保留）消耗1张手牌。下个回合开始时，将其自动打出。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "document_specification_text": "1c 普通 技能\n（保留）消耗1张牌。下个回合开始时，将其打出。\n\n罕见卡：攻击（10/12）",
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "1",
+        "type": "Skill",
+        "rarity": "Common",
+        "target": "Self",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "消耗一张手牌。\n下回合开始时，将其自动打出。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "未命名技能只为成功消耗创建下回合预约 success upgraded=False",
+        "未命名技能只为成功消耗创建下回合预约 success upgraded=True",
+        "未命名技能只为成功消耗创建下回合预约 blocked upgraded=False",
+        "未命名技能只为成功消耗创建下回合预约 blocked upgraded=True",
+        "未命名技能只为成功消耗创建下回合预约 redirected upgraded=False",
+        "未命名技能只为成功消耗创建下回合预约 redirected upgraded=True",
+        "未命名技能只为成功消耗创建下回合预约 empty upgraded=False",
+        "未命名技能只为成功消耗创建下回合预约 empty upgraded=True",
+        "预约只在本人下一回合兑现并传递真实选择上下文",
+        "预约跟随原牌身份，移入Hand后仍能兑现",
+        "预约跟随原牌身份，移入Draw后仍能兑现",
+        "预约跟随原牌身份，移入Discard后仍能兑现",
+        "预约不会拉回已失效或正在打出的原牌 removed",
+        "预约不会拉回已失效或正在打出的原牌 foreignOwner",
+        "预约不会拉回已失效或正在打出的原牌 foreignCombat",
+        "预约不会拉回已失效或正在打出的原牌 playing",
+        "未命名技能及预约能力双语文本齐备",
+        "预约消费幂等且同一牌的不同CardPlay相互独立",
+        "预约拒绝非法输入 zero",
+        "预约拒绝非法输入 negative",
+        "预约拒绝非法输入 foreign",
+        "预约拒绝非法输入 replay",
+        "预约拒绝非法输入 overflow",
+        "预约拒绝非法输入 duplicate",
+        "气溶胶命名保留模型ID且中英卡面同步"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "c981487dd4bca6d8e0755f6408a7a0109edcc373dafc8b47527dc67e0d67f444"
+    },
+    {
+      "class": "DerivedApplicationNeutron",
+      "title": "运用-中子",
+      "model_id": "INDIUM_STAR_CARD_DERIVED_APPLICATION_NEUTRON",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/DerivedApplicationNeutron.cs",
+      "specification_source": "最新用户定稿消息；优先于DOCX正文",
+      "specification_text": "运用-中子\n1（0）c 衍生 技能\n随机打出弃牌堆中1张花费不大于1的牌。\n晶抗：抽1张牌。\n晶逆：弃1张牌。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "document_specification_text": "运用-中子\n1（0）c 衍生 技能\n随机打出弃牌堆中1张花费不大于1的牌。\n晶抗：抽1张牌。\n晶逆：弃1张牌。",
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "1",
+        "type": "Skill",
+        "rarity": "Token",
+        "target": "Self",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "随机打出弃牌堆中1张花费不大于1的牌。\n[gold]晶抗[/gold]：抽1张牌。\n[gold]晶逆[/gold]：弃1张牌。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "运用-中子随机牌结算后抽弃互斥 energy=0 upgraded=False",
+        "运用-中子随机牌结算后抽弃互斥 energy=1 upgraded=False",
+        "运用-中子随机牌结算后抽弃互斥 energy=0 upgraded=True",
+        "运用-中子随机牌结算后抽弃互斥 energy=1 upgraded=True",
+        "运用-中子包含嵌套出牌结束钩子的能量变化 initial=0",
+        "运用-中子包含嵌套出牌结束钩子的能量变化 initial=1",
+        "运用-中子只选择当前固定0或1费牌 cost=-1",
+        "运用-中子只选择当前固定0或1费牌 cost=0",
+        "运用-中子只选择当前固定0或1费牌 cost=1",
+        "运用-中子只选择当前固定0或1费牌 cost=2",
+        "运用-中子跳过X费用及不可打出牌 X=False",
+        "运用-中子跳过X费用及不可打出牌 X=True",
+        "运用-中子弃牌堆为空仍结算分支 energy=0",
+        "运用-中子弃牌堆为空仍结算分支 energy=1",
+        "运用-中子空手晶逆安全完成",
+        "运用-中子遵循本体自动出牌限制不重新选牌",
+        "运用-中子嵌套效果结束战斗或本人死亡停止后续 dead=False",
+        "运用-中子嵌套效果结束战斗或本人死亡停止后续 dead=True",
+        "运用-中子与电子双语身份及U引用相互独立"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "c29ac57be5d31e331567a8bc7a7acca86ea8965b0ae9c82fb923c7d7b267027c"
+    },
+    {
+      "class": "ExploitAdvantage",
+      "title": "因势利导",
+      "model_id": "INDIUM_STAR_CARD_EXPLOIT_ADVANTAGE",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/ExploitAdvantage.cs",
+      "document_anchor": 270,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_text": "因势利导 \n1c 普通 攻击\n造成7（10）点伤害。\n晶抗：对同一目标造成3（5）点伤害，给予1层易伤。\n晶逆：给予1层虚弱。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "1",
+        "type": "Attack",
+        "rarity": "Common",
+        "target": "AnyEnemy",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "造成{Damage:diff()}点伤害。\n[gold]晶抗[/gold]：对同一目标造成{ExtraDamage:diff()}点伤害，给予{VulnerablePower:diff()}层[gold]易伤[/gold]。\n[gold]晶逆[/gold]：给予{WeakPower:diff()}层[gold]虚弱[/gold]。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "因势利导额外攻击先于易伤，同一目标且不重复判断 energy=0 upgraded=False",
+        "因势利导额外攻击先于易伤，同一目标且不重复判断 energy=1 upgraded=False",
+        "因势利导额外攻击先于易伤，同一目标且不重复判断 energy=0 upgraded=True",
+        "因势利导额外攻击先于易伤，同一目标且不重复判断 energy=1 upgraded=True"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "ab20935986972e666e66b10a86df1a041ef0e234484dc2c3cad559f0c89cc6fd"
+    },
+    {
+      "class": "ExtensionSpread",
+      "title": "延拓展延",
+      "model_id": "INDIUM_STAR_CARD_EXTENSION_SPREAD",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/ExtensionSpread.cs",
+      "document_anchor": 2575,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_text": "延拓展延1（0）c 罕见 能力回合结束时，你每拥有1层延拓，获得3点格挡。\n\n稀有卡：攻击（3/8）",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "1",
+        "type": "Power",
+        "rarity": "Uncommon",
+        "target": "Self",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "回合结束时，你每拥有1层[gold]延拓[/gold]，获得3点[gold]格挡[/gold]。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "延拓展延按本人回合结束延拓层数获得格挡 upgraded=False",
+        "延拓展延按本人回合结束延拓层数获得格挡 upgraded=True"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "94fe50ff6a1c6a146691fa87547576422ac0a9230cd8b60d95f6a54771213eaf"
+    },
+    {
+      "class": "GasPhaseSurge",
+      "title": "气相涌流",
+      "model_id": "INDIUM_STAR_CARD_GAS_PHASE_SURGE",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/GasPhaseSurge.cs",
+      "document_anchor": 1409,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_text": "气相涌流1c 罕见 攻击\n造成6点伤害。每当你保留这张牌时，在本场战斗中其伤害增加6（9）。晶抗：回合开始时，返回手牌。晶逆：获得保留。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "1",
+        "type": "Attack",
+        "rarity": "Uncommon",
+        "target": "AnyEnemy",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "造成{Damage:diff()}点伤害。每当你保留这张牌时，在本场战斗中其伤害增加{RetainGrowth:diff()}。\n[gold]晶抗[/gold]：回合开始时，返回手牌。\n[gold]晶逆[/gold]：获得[gold]保留[/gold]。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "气相涌流实际保留才成长且每本人回合一次 upgraded=False",
+        "气相涌流实际保留才成长且每本人回合一次 upgraded=True",
+        "气相涌流他人同阵营开始不重置成长次数",
+        "气相涌流晶抗预约只在本人开始从Discard返回一次",
+        "气相涌流晶抗预约只在本人开始从Draw返回一次",
+        "气相涌流晶抗预约只在本人开始从Exhaust返回一次",
+        "气相涌流拒绝敌方或其他战斗的开始回调",
+        "气相涌流晶逆获得战斗内保留而不是自带保留",
+        "气相涌流成长克隆继承数值但不写回牌组或共享动态变量"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "98d0ea91f2e1ef3f9659fd91f1e19b03d7c56ade7d343c10b158f1c8fa97e866"
+    },
+    {
+      "class": "GroupMigration",
+      "title": "基团迁移",
+      "model_id": "INDIUM_STAR_CARD_GROUP_MIGRATION",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/GroupMigration.cs",
+      "document_anchor": 1993,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_text": "基团迁移\n1c 罕见 技能\n延拓2（3）。\n晶抗：打出1张“晶化”。\n晶逆：将手牌中的1（任意）张牌放在抽牌堆顶。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "1",
+        "type": "Skill",
+        "rarity": "Uncommon",
+        "target": "Self",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "[gold]延拓[/gold]{Energy:diff()}。\n[gold]晶抗[/gold]：打出1张[gold]晶化[/gold]。\n[gold]晶逆[/gold]：将手牌中的1张牌放在抽牌堆顶。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "基团迁移先延拓、晶抗自动晶化或晶逆置顶数量与顺序 energy=0 upgraded=False",
+        "基团迁移先延拓、晶抗自动晶化或晶逆置顶数量与顺序 energy=1 upgraded=False",
+        "基团迁移先延拓、晶抗自动晶化或晶逆置顶数量与顺序 energy=0 upgraded=True",
+        "基团迁移先延拓、晶抗自动晶化或晶逆置顶数量与顺序 energy=1 upgraded=True",
+        "基团迁移磷语基础效果返能量后判断晶抗",
+        "基团迁移升级选择零张仍保留延拓，不默认强制置顶"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "ecd1bdf14ccb525b1d8775145c775e44392cbc1075b46cab023e3d65eb87cf0e"
+    },
+    {
+      "class": "Inversion",
+      "title": "反演",
+      "model_id": "INDIUM_STAR_CARD_INVERSION",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/Inversion.cs",
+      "document_anchor": 2673,
+      "specification_source": "最新用户定稿消息；优先于DOCX正文",
+      "specification_text": "反演 1c 攻击 稀有\n造成7点伤害。（升级：保留）\n本场战斗中，你每打出过一张延拓牌，延拓1。\n消耗",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "document_specification_text": "反演 \n1c 稀有 攻击\n（保留）造成7点伤害。本场战斗中，你每打出过一张延拓牌，延拓1。消耗。",
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "1",
+        "type": "Attack",
+        "rarity": "Rare",
+        "target": "AnyEnemy",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "造成{Damage:diff()}点伤害。\n本场战斗中，你每打出过一张[gold]延拓[/gold]牌，[gold]延拓[/gold]1。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "反演重做后不执行敌人意图或推进敌人的RNG",
+        "反演固定7伤、费用稀有度词条与历史延拓 n=0 upgraded=False",
+        "反演固定7伤、费用稀有度词条与历史延拓 n=1 upgraded=False",
+        "反演固定7伤、费用稀有度词条与历史延拓 n=5 upgraded=False",
+        "反演固定7伤、费用稀有度词条与历史延拓 n=0 upgraded=True",
+        "反演固定7伤、费用稀有度词条与历史延拓 n=1 upgraded=True",
+        "反演固定7伤、费用稀有度词条与历史延拓 n=5 upgraded=True",
+        "反演只计本人完成系列，自动算一次，重放不重复，未完成不计",
+        "反演当前牌不自计，已完成反演在后续计入，重放结算仍获得同数延拓",
+        "反演攻击连锁完成的延拓牌在伤害之后计入",
+        "反演伤害后战斗结束或本人死亡不再加延拓 ended=False",
+        "反演伤害后战斗结束或本人死亡不再加延拓 ended=True",
+        "反演新战斗重置历史，累计不跨战斗",
+        "反演延拓使用公共入口，受磷语替换影响"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "f089507f3aad3cc459e88bde4efe363cb83d0a2e054ca9b930112ce1d317f79b"
+    },
+    {
+      "class": "MacroDendrite",
+      "title": "宏枝晶",
+      "model_id": "INDIUM_STAR_CARD_MACRO_DENDRITE",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/MacroDendrite.cs",
+      "document_anchor": 1678,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_text": "宏枝晶\n1c 罕见 攻击\n造成3点伤害3次。\n晶抗：晶化1，本场战斗内，伤害＋1（2）。\n晶逆：晶化1，本场战斗内，段数＋1（2）。\n\n罕见卡：技能（9/14,多人0/3）",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "1",
+        "type": "Attack",
+        "rarity": "Uncommon",
+        "target": "AnyEnemy",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "造成{Damage:diff()}点伤害{HitCount:diff()}次。\n[gold]晶抗[/gold]：[gold]晶化[/gold]1。本场战斗内，此牌伤害增加{DamageGrowth:diff()}。\n[gold]晶逆[/gold]：[gold]晶化[/gold]1。本场战斗内，此牌伤害次数增加{HitGrowth:diff()}。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "宏枝晶先伤害后按能量成长 e=0 upgraded=False",
+        "宏枝晶先伤害后按能量成长 e=0 upgraded=True",
+        "宏枝晶先伤害后按能量成长 e=1 upgraded=False",
+        "宏枝晶先伤害后按能量成长 e=1 upgraded=True",
+        "宏枝晶量子点双分支各生成1晶化并各成长一次",
+        "宏枝晶成长复制继承当前值但不共享状态或写回牌组"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "dc40a566ac133abe6404ad1d4e2f2fccb6f3d68c377238e043aabea48ea2dc8a"
+    },
+    {
+      "class": "NeighboringGroupParticipation",
+      "title": "邻基参与",
+      "model_id": "INDIUM_STAR_CARD_NEIGHBORING_GROUP_PARTICIPATION",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/NeighboringGroupParticipation.cs",
+      "specification_source": "用户确认的通则/增补消息",
+      "specification_text": "用户增补：0c罕见技能；抽1张；能力再抽2，技能获3（5）格挡，攻击获3（4）临时力量。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "0",
+        "type": "Skill",
+        "rarity": "Uncommon",
+        "target": "Self",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "抽1张牌。\n若抽到的是能力牌，再抽2张牌。\n若是技能牌，获得{Block:diff()}点[gold]格挡[/gold]。\n若是攻击牌，获得{StrengthPower:diff()}点临时[gold]力量[/gold]。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "邻基参与按第一张实际抽到牌判断 None upgraded=False",
+        "邻基参与按第一张实际抽到牌判断 None upgraded=True",
+        "邻基参与按第一张实际抽到牌判断 Attack upgraded=False",
+        "邻基参与按第一张实际抽到牌判断 Attack upgraded=True",
+        "邻基参与按第一张实际抽到牌判断 Skill upgraded=False",
+        "邻基参与按第一张实际抽到牌判断 Skill upgraded=True",
+        "邻基参与按第一张实际抽到牌判断 Power upgraded=False",
+        "邻基参与按第一张实际抽到牌判断 Power upgraded=True",
+        "邻基参与按第一张实际抽到牌判断 Status upgraded=False",
+        "邻基参与按第一张实际抽到牌判断 Status upgraded=True",
+        "邻基参与按第一张实际抽到牌判断 Curse upgraded=False",
+        "邻基参与按第一张实际抽到牌判断 Curse upgraded=True",
+        "邻基参与按第一张实际抽到牌判断 Quest upgraded=False",
+        "邻基参与按第一张实际抽到牌判断 Quest upgraded=True",
+        "邻基参与抽牌受阻和空牌堆都不触发类型奖励",
+        "邻基参与多次临时力量回收保留原有永久力量",
+        "邻基参与抽到电子触发攻击临时力量分支 upgraded=False",
+        "邻基参与抽到电子触发攻击临时力量分支 upgraded=True"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "9a1daa5ed9a1dc3f4e0626aa815a2ee4f49ad1205aea48d86182bf7a7827add1"
+    },
+    {
+      "class": "OrigionStrike",
+      "title": "溯源猛击",
+      "model_id": "INDIUM_STAR_CARD_ORIGION_STRIKE",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/OrigionStrike.cs",
+      "document_anchor": 1252,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_text": "溯源猛击\n2c 罕见 攻击造成14（20）点伤害。你的下一张“运用”牌可以免费打出。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "2",
+        "type": "Attack",
+        "rarity": "Uncommon",
+        "target": "AnyEnemy",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "造成{Damage:diff()}点伤害。\n你的下一张「运用」牌可以免费打出。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "溯源猛击伤害后发放下一运用免费且只消耗首段 upgraded=False",
+        "溯源猛击伤害后发放下一运用免费且只消耗首段 upgraded=True"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "1b74de8b5ddbeaab08a097a0c431e2f184791a27d454dea39d5492bfa2829309"
+    },
+    {
+      "class": "Primed",
+      "title": "待发",
+      "model_id": "INDIUM_STAR_CARD_PRIMED",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/Primed.cs",
+      "document_anchor": 752,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_text": "待发\n0c 普通 技能\n获得1c。\n抽1（2）张牌。\n本回合只能打出攻击牌。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "0",
+        "type": "Skill",
+        "rarity": "Common",
+        "target": "Self",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "获得{Energy:diff()}点能量。\n抽{Cards:diff()}张牌。\n本回合只能打出攻击牌。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "待发禁止自动晶化时崩碎之歌加不产生伤害",
+        "待发获得能量、抽牌后才禁止非攻击 available=0 upgraded=False",
+        "待发获得能量、抽牌后才禁止非攻击 available=1 upgraded=False",
+        "待发获得能量、抽牌后才禁止非攻击 available=5 upgraded=False",
+        "待发获得能量、抽牌后才禁止非攻击 available=0 upgraded=True",
+        "待发获得能量、抽牌后才禁止非攻击 available=1 upgraded=True",
+        "待发获得能量、抽牌后才禁止非攻击 available=5 upgraded=True"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "6f46ebdd33683be94ca2206634fda2848a950809401e4bdd95d4809226908c23"
+    },
+    {
+      "class": "PrimordialPierce",
+      "title": "原波穿刺",
+      "model_id": "INDIUM_STAR_CARD_PRIMORDIAL_PIERCE",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/PrimordialPierce.cs",
+      "document_anchor": 373,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对；最新用户规则补充优先",
+      "specification_text": "原波穿刺\n2c 普通 攻击\n造成11点伤害，目标每有一种负面状态，伤害+3（4）",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "latest_user_rule": "同类型的多个独立负面能力实例只算一种；保留原版Rend的当前Debuff类型和ITemporaryPower排除条件。",
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "2",
+        "type": "Attack",
+        "rarity": "Common",
+        "target": "AnyEnemy",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "造成{CalculatedDamage:diff()}点伤害。\n目标身上每有一种负面状态，就额外造成{ExtraDamage:diff()}点伤害。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "原波穿刺按负面种数、负力量及临时包装排除，克隆计算独立 upgraded=False",
+        "原波穿刺按负面种数、负力量及临时包装排除，克隆计算独立 upgraded=True",
+        "原波穿刺空效果目标只有基础11，正力量不计负面",
+        "原波穿刺同类型负面状态只计一种 upgraded=False",
+        "原波穿刺同类型负面状态只计一种 upgraded=True"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "b43289ba71f186863ae06879b75e59ee960ebdbfeee17b68cc9ea3f934cfafcd"
+    },
+    {
+      "class": "QuantumDot",
+      "title": "量子点",
+      "model_id": "INDIUM_STAR_CARD_QUANTUM_DOT",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/QuantumDot.cs",
+      "document_anchor": 2535,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_text": "量子点\n2（1）c 罕见 能力\n你每回合打出的前2张牌会同时触发晶抗和晶逆效果。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "2",
+        "type": "Power",
+        "rarity": "Uncommon",
+        "target": "Self",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "你每回合打出的前2张牌会同时触发[gold]晶抗[/gold]和[gold]晶逆[/gold]效果。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "量子点第1张牌预测与实际结算一致",
+        "量子点第2张牌预测与实际结算一致",
+        "量子点第3张牌预测与实际结算一致",
+        "量子点第4张牌预测与实际结算一致",
+        "量子点不把基础效果的嵌套出牌计入外层序号",
+        "量子点第三张牌的预测不会额外生成晶逆重放",
+        "量子点第二张牌也等到基础效果后预约重放",
+        "量子点原生重放保持该系列的序号",
+        "量子点过滤其他玩家并在新回合重新计数",
+        "量子点第1个系列的实际分支与重放一致",
+        "量子点第2个系列的实际分支与重放一致",
+        "量子点第3个系列的实际分支与重放一致",
+        "量子点第4个系列的实际分支与重放一致",
+        "量子点真实卡牌施加后按全牌序号提供前两张双分支 upgraded=False",
+        "量子点真实卡牌施加后按全牌序号提供前两张双分支 upgraded=True"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "3606e450c9be105c4130ce69dbca53aadc95c134dfd2f3d3f5a7ae3aae220f78"
+    },
+    {
+      "class": "Reiteration",
+      "title": "复沓",
+      "model_id": "INDIUM_STAR_CARD_REITERATION",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/Reiteration.cs",
+      "document_anchor": 2880,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_text": "复沓\n1（0）c 稀有 技能\n抽1张牌，将你在本回合打出的下一张牌的复制放置到你的抽牌堆顶部。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "1",
+        "type": "Skill",
+        "rarity": "Rare",
+        "target": "Self",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "抽1张牌。\n将本回合打出的下一张牌的复制置于抽牌堆顶部。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "复沓不复制自身而在下一牌结算前置顶独立升级复制",
+        "复沓可复制自动打出牌但不再次复制系列重放",
+        "复沓叠加生成多个复制并在本人回合结束清除",
+        "复沓不响应另一玩家出牌和非首次重放"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "196530e4431a67f8c39eb44f995f1d9764f584c1cc6b108d83fdd52f786ee370"
+    },
+    {
+      "class": "ReminiscenceHardCalcite",
+      "title": "回忆-硬钙石",
+      "model_id": "INDIUM_STAR_CARD_REMINISCENCE_HARD_CALCITE",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/ReminiscenceHardCalcite.cs",
+      "document_anchor": 2481,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对；最新用户规则补充优先",
+      "specification_text": "回忆-硬钙石\n1c 罕见 能力\n回合结束时，若你本回合消耗过牌，则对所有敌人造成3（4）倍晶化数的伤害。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "latest_user_rule": "多次打出数值叠加，但只显示一个能力图标；普通3、升级4累加为每张手中晶化的伤害。",
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "1",
+        "type": "Power",
+        "rarity": "Uncommon",
+        "target": "Self",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "回合结束时，若你本回合消耗过牌，对所有敌人造成{DamagePerCrystal:diff()}×手牌中[gold]晶化[/gold]数量的伤害。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unblocked=False n=0 upgraded=False",
+        "回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unblocked=True n=0 upgraded=False",
+        "回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unblocked=False n=1 upgraded=False",
+        "回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unblocked=True n=1 upgraded=False",
+        "回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unblocked=False n=3 upgraded=False",
+        "回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unblocked=True n=3 upgraded=False",
+        "回忆-硬钙石施加链内回合末读取累计伤害 repeat=False upgraded=False",
+        "回忆-硬钙石施加链内回合末读取累计伤害 repeat=True upgraded=False",
+        "回忆-硬钙石嵌套重施后总伤害正确累加 upgraded=False",
+        "回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unblocked=False n=0 upgraded=True",
+        "回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unblocked=True n=0 upgraded=True",
+        "回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unblocked=False n=1 upgraded=True",
+        "回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unblocked=True n=1 upgraded=True",
+        "回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unblocked=False n=3 upgraded=True",
+        "回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unblocked=True n=3 upgraded=True",
+        "回忆-硬钙石施加链内回合末读取累计伤害 repeat=False upgraded=True",
+        "回忆-硬钙石施加链内回合末读取累计伤害 repeat=True upgraded=True",
+        "回忆-硬钙石嵌套重施后总伤害正确累加 upgraded=True"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "cf3d2202d68848a8df1f2c09b7f7dd2bb6deef93cd2071ef8281655f34fa9b82"
+    },
+    {
+      "class": "ReminiscencePhosphorus",
+      "title": "回忆-磷语",
+      "model_id": "INDIUM_STAR_CARD_REMINISCENCE_PHOSPHORUS",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/ReminiscencePhosphorus.cs",
+      "document_anchor": 3217,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对；最新用户规则补充优先",
+      "specification_text": "回忆-磷语 \n1c 稀有 能力 \n每回合第一次获得延拓时，改为（同时）获得等量能量。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "latest_user_rule": "多次打出增加每回合触发次数，前一次变前二次；每次效果不变。",
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "1",
+        "type": "Power",
+        "rarity": "Rare",
+        "target": "Self",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "每回合第一次获得[gold]延拓[/gold]时，{IfUpgraded:show:同时|改为}获得等量能量。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "回忆-磷语叠加次数延拓替换或并行、本人与他人重置 upgraded=False",
+        "回忆-磷语施加链内额度保留施加顺序 repeat=False upgraded=False",
+        "回忆-磷语施加链内额度保留施加顺序 repeat=True upgraded=False",
+        "回忆-磷语嵌套重施后各份模式按顺序保留 upgraded=False",
+        "回忆-磷语能量钩子嵌套改配置，本次延拓模式取拦截开始快照 upgraded=False",
+        "回忆-磷语叠加次数延拓替换或并行、本人与他人重置 upgraded=True",
+        "回忆-磷语施加链内额度保留施加顺序 repeat=False upgraded=True",
+        "回忆-磷语施加链内额度保留施加顺序 repeat=True upgraded=True",
+        "回忆-磷语嵌套重施后各份模式按顺序保留 upgraded=True",
+        "回忆-磷语能量钩子嵌套改配置，本次延拓模式取拦截开始快照 upgraded=True",
+        "回忆-磷语能量拦截器先占本回合名额防递归重复返能量",
+        "磷语多份合并图标、次数叠加，各份效果不变 firstUp=False secondUp=False",
+        "磷语Before施加钩子嵌套也保留内外模式 outerUp=False innerUp=False",
+        "磷语多份合并图标、次数叠加，各份效果不变 firstUp=False secondUp=True",
+        "磷语Before施加钩子嵌套也保留内外模式 outerUp=False innerUp=True",
+        "磷语多份合并图标、次数叠加，各份效果不变 firstUp=True secondUp=False",
+        "磷语Before施加钩子嵌套也保留内外模式 outerUp=True innerUp=False",
+        "磷语多份合并图标、次数叠加，各份效果不变 firstUp=True secondUp=True",
+        "磷语Before施加钩子嵌套也保留内外模式 outerUp=True innerUp=True",
+        "磷语重复施加只增加本体接受的额度 offset=0",
+        "磷语重复施加只增加本体接受的额度 offset=1",
+        "磷语重复施加只增加本体接受的额度 offset=2",
+        "磷语被拒绝的升级施加不会改写下一份普通额度",
+        "磷语能量连锁重入先消费额度，两个额度均只触发一次",
+        "磷语能力克隆后的模式列表独立",
+        "磷语他人和其他战斗的回合开始不会刷新本人额度"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "158d9157fb50c0df9580def37372bb2c7035067929d99a4447f9d619ce5a137d"
+    },
+    {
+      "class": "ReminiscencePollutionH",
+      "title": "回忆-污染H",
+      "model_id": "INDIUM_STAR_CARD_REMINISCENCE_POLLUTION_H",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/ReminiscencePollutionH.cs",
+      "document_anchor": 2442,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_text": "回忆-污染H\n1c 罕见 能力\n你每触发4（3）次晶抗，延拓1并抽1张牌。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "1",
+        "type": "Power",
+        "rarity": "Uncommon",
+        "target": "Self",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "你每触发{Threshold:diff()}次[gold]晶抗[/gold]，[gold]延拓[/gold]1并抽1张牌。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "污染H普通版从零进度到准确阈值才奖励",
+        "污染H升级版从零进度到准确阈值才奖励",
+        "污染H重复施加不赠送进度且普通版不覆盖升级阈值",
+        "污染H忽略晶逆和其他玩家的晶抗"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "cb6005c128eb15ea16fca2f27cd9f1c63c8611a4ab813612d546b3f92337e45a"
+    },
+    {
+      "class": "ReminiscencePollutionO",
+      "title": "回忆-污染O",
+      "model_id": "INDIUM_STAR_CARD_REMINISCENCE_POLLUTION_O",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/ReminiscencePollutionO.cs",
+      "document_anchor": 2381,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_text": "回忆-污染O\n1c 罕见 能力 \n（固有）\n晶抗：打出“晶化”时，获得4点格挡。\n晶逆：打出“晶化”时，获得3点活力。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "1",
+        "type": "Power",
+        "rarity": "Uncommon",
+        "target": "Self",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "[gold]晶抗[/gold]：打出[gold]晶化[/gold]时，获得{Block:diff()}点[gold]格挡[/gold]。\n[gold]晶逆[/gold]：打出[gold]晶化[/gold]时，获得{VigorPower:diff()}层[gold]活力[/gold]。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "回忆-污染O打出时确定永久触发器，手动自动晶化均收益 energy=0 both=False upgraded=False",
+        "回忆-污染O打出时确定永久触发器，手动自动晶化均收益 energy=0 both=True upgraded=False",
+        "回忆-污染O打出时确定永久触发器，手动自动晶化均收益 energy=1 both=False upgraded=False",
+        "回忆-污染O打出时确定永久触发器，手动自动晶化均收益 energy=1 both=True upgraded=False",
+        "回忆-污染O打出时确定永久触发器，手动自动晶化均收益 energy=0 both=False upgraded=True",
+        "回忆-污染O打出时确定永久触发器，手动自动晶化均收益 energy=0 both=True upgraded=True",
+        "回忆-污染O打出时确定永久触发器，手动自动晶化均收益 energy=1 both=False upgraded=True",
+        "回忆-污染O打出时确定永久触发器，手动自动晶化均收益 energy=1 both=True upgraded=True",
+        "回忆-污染O重复施加保持既有双收益，非晶化不触发"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "efe4b4491c96dd2870f9cb8679913980cd45473e62e6461e816c54631697aa38"
+    },
+    {
+      "class": "ReminiscenceTinDoubt",
+      "title": "回忆-锡疑",
+      "model_id": "INDIUM_STAR_CARD_REMINISCENCE_TIN_DOUBT",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/ReminiscenceTinDoubt.cs",
+      "document_anchor": 3110,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_text": "回忆-锡疑 \n9c 稀有 能力\n回合内，你每打出一张牌，就交替获得1点临时力量/临时敏捷。\n每当你打出延拓牌时，此牌花费-2（3）",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "9",
+        "type": "Power",
+        "rarity": "Rare",
+        "target": "Self",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "本回合，你每打出一张牌，就交替获得1点[gold]临时力量[/gold]/[gold]临时敏捷[/gold]。\n每当你打出[gold]延拓[/gold]牌时，此牌花费-{CostReduction:diff()}。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "锡疑在Hand也获得延拓牌费用减免且不重复计算重放",
+        "锡疑在Draw也获得延拓牌费用减免且不重复计算重放",
+        "锡疑在Discard也获得延拓牌费用减免且不重复计算重放",
+        "锡疑在Exhaust也获得延拓牌费用减免且不重复计算重放"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "057040e56ba46fbe0f57e6759c60caa7891067ce7c51a47af93d0261d39cdeb8"
+    },
+    {
+      "class": "ReminiscenceVanadiumEternal",
+      "title": "回忆-钒永",
+      "model_id": "INDIUM_STAR_CARD_REMINISCENCE_VANADIUM_ETERNAL",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/ReminiscenceVanadiumEternal.cs",
+      "document_anchor": 2099,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对；最新用户规则补充优先",
+      "specification_text": "回忆-钒永\n1c 罕见 技能\n本回合每当你抽牌时，下回合开始时抽等量牌。抽1（2）张牌。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "latest_user_rule": "效果不叠加；共用实际抽牌统计器，重复施加不清空累计。",
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "1",
+        "type": "Skill",
+        "rarity": "Uncommon",
+        "target": "Self",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "本回合每当你抽牌时，下回合开始时抽等量牌。\n抽{Cards:diff()}张牌。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "钒永只统计实际抽到牌 available=0 upgraded=False",
+        "钒永只统计实际抽到牌 available=1 upgraded=False",
+        "钒永只统计实际抽到牌 available=5 upgraded=False",
+        "钒永只统计实际抽到牌 available=0 upgraded=True",
+        "钒永只统计实际抽到牌 available=1 upgraded=True",
+        "钒永只统计实际抽到牌 available=5 upgraded=True",
+        "钒永抽牌被阻止不会预约不存在的牌",
+        "钒永满手不把抽牌指令请求数当作实际抽牌数",
+        "钒永生效之前的抽牌不计入，此后包括自身和其他来源",
+        "钒永多份效果不叠加，每张实际抽取仅计一次",
+        "钒永生成和入手牌不计为抽取，其他玩家抽取也不计入",
+        "钒永同阵营其他玩家结束或开始回合不覆盖本人预约",
+        "钒永重复结束回调不会把预约数清零",
+        "钒永回合末晚抽牌连锁仍计入，下一阵营开始后封存",
+        "钒永在普通结束钩子遍历之后生效仍能预约下回合",
+        "钒永全局回合推进不能替代本人回合推进",
+        "钒永预览修改抽牌数是纯读，不提前消费预约",
+        "钒永本人开始阶段未完成时阵营开始钩子不会提前移除",
+        "钒永零预约也等待本人开始完成，其他玩家开始不清理",
+        "钒永下回合抽牌前再次生效，旧预约消费保留新统计",
+        "钒永普通开局抽牌不会自动开启下一份统计",
+        "钒永旧预约为零时的新统计不会被本人开始回调移除",
+        "钒永与预约自动打出及抽牌选择暂停组合，不提前消费旧预约",
+        "钒永预约不跨入旧战斗或死亡玩家的开始结算",
+        "钒永计数显示跟随实际抽牌，不把再次施加显示为旧预约加一",
+        "钒永队列克隆后的消费不修改原能力字段"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "254ade5459f86208660e5ba1f66720bce9710e66541321885bef244970612e0c"
+    },
+    {
+      "class": "RustEdge",
+      "title": "锈蚀之刃",
+      "model_id": "INDIUM_STAR_CARD_RUST_EDGE",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/RustEdge.cs",
+      "document_anchor": 619,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_text": "锈蚀之刃\n1c 普通 攻击\n造成10（14）点伤害，将其虚弱层数翻倍。消耗。\n\n普通卡：技能（9/11）",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "1",
+        "type": "Attack",
+        "rarity": "Common",
+        "target": "AnyEnemy",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "造成{Damage:diff()}点伤害，将其[gold]虚弱[/gold]层数翻倍。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "锈蚀之刃伤害先于虚弱翻倍，保留消耗 n=0 upgraded=False",
+        "锈蚀之刃伤害先于虚弱翻倍，保留消耗 n=1 upgraded=False",
+        "锈蚀之刃伤害先于虚弱翻倍，保留消耗 n=5 upgraded=False",
+        "锈蚀之刃伤害先于虚弱翻倍，保留消耗 n=0 upgraded=True",
+        "锈蚀之刃伤害先于虚弱翻倍，保留消耗 n=1 upgraded=True",
+        "锈蚀之刃伤害先于虚弱翻倍，保留消耗 n=5 upgraded=True"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "0c1c530418fb6593b267ee41bc5b866c180132159230f250aa1c0f069831c052"
+    },
+    {
+      "class": "Segregation",
+      "title": "离析",
+      "model_id": "INDIUM_STAR_CARD_SEGREGATION",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/Segregation.cs",
+      "document_anchor": 721,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_text": "离析 \n1c 普通 技能\n打出1（2）张晶化。\n抽2张牌。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "1",
+        "type": "Skill",
+        "rarity": "Common",
+        "target": "Self",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "打出{Cards:diff()}张[gold]晶化[/gold]。\n抽2张牌。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "离析自动打出实际可选晶化后抽两张，不消耗手动额度 n=0 upgraded=False",
+        "离析自动打出实际可选晶化后抽两张，不消耗手动额度 n=1 upgraded=False",
+        "离析自动打出实际可选晶化后抽两张，不消耗手动额度 n=3 upgraded=False",
+        "离析自动打出实际可选晶化后抽两张，不消耗手动额度 n=0 upgraded=True",
+        "离析自动打出实际可选晶化后抽两张，不消耗手动额度 n=1 upgraded=True",
+        "离析自动打出实际可选晶化后抽两张，不消耗手动额度 n=3 upgraded=True"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "34311ca5c6614e136d44e0d2299d2a2a34dc3ae0766baf96f9e27f47b34b27e2"
+    },
+    {
+      "class": "ShadowChainBreath",
+      "title": "分影连气",
+      "model_id": "INDIUM_STAR_CARD_SHADOW_CHAIN_BREATH",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/ShadowChainBreath.cs",
+      "specification_source": "用户确认的通则/增补消息",
+      "specification_text": "用户增补：0c罕见技能；抽取时复制加入手牌；手牌中每张分影连气分别获得3（4）格挡；消耗。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "0",
+        "type": "Skill",
+        "rarity": "Uncommon",
+        "target": "Self",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "抽取时，将此牌的复制加入手牌。\n手牌中每有1张[gold]分影连气[/gold]，获得一次{Block:diff()}点[gold]格挡[/gold]。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "分影连气仅真正抽到本牌时复制且保留升级",
+        "分影连气生成复制不会递归且满手溢出进入弃牌堆",
+        "分影连气按剩余手牌分次获得格挡 count=0 upgraded=False",
+        "分影连气按剩余手牌分次获得格挡 count=0 upgraded=True",
+        "分影连气按剩余手牌分次获得格挡 count=1 upgraded=False",
+        "分影连气按剩余手牌分次获得格挡 count=1 upgraded=True",
+        "分影连气按剩余手牌分次获得格挡 count=3 upgraded=False",
+        "分影连气按剩余手牌分次获得格挡 count=3 upgraded=True"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "f9c0ba17410210cf32d5ef375a76fc05bcc4eb979c9804934460020526f48352"
+    },
+    {
+      "class": "ShatterCrystalRain",
+      "title": "碎晶雨",
+      "model_id": "INDIUM_STAR_CARD_SHATTER_CRYSTAL_RAIN",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/ShatterCrystalRain.cs",
+      "document_anchor": 550,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_text": "碎晶雨\n1c 普通 攻击\n造成3点伤害3（4）次。\n晶抗：手牌中每有一张晶化多造成一次3（4）点伤害。\n晶逆：对其他敌人造成等量伤害。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "1",
+        "type": "Attack",
+        "rarity": "Common",
+        "target": "AnyEnemy",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "造成{Damage:diff()}点伤害{Repeat:diff()}次。\n[gold]晶抗[/gold]：手牌中每有一张[gold]晶化[/gold]，就再造成{CrystalDamage:diff()}点伤害一次。\n[gold]晶逆[/gold]：对其他敌人造成等量伤害。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "碎晶雨晶逆保留主伤害的多段模式 upgraded=False",
+        "碎晶雨晶逆保留主伤害的多段模式 upgraded=True"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "a7bb02c57ab84d429ba71b31e17e5215861e323f48eb14354f9b8aa1fbb9dadc"
+    },
+    {
+      "class": "ShatterSong",
+      "title": "崩碎之歌",
+      "model_id": "INDIUM_STAR_CARD_SHATTER_SONG",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/ShatterSong.cs",
+      "document_anchor": 2626,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_text": "崩碎之歌2c 稀有 攻击消耗（打出）所有晶化，每张被打出的晶化造成9（11）点伤害。消耗。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "2",
+        "type": "Attack",
+        "rarity": "Rare",
+        "target": "AnyEnemy",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "消耗手牌中所有[gold]晶化[/gold]，每张造成{Damage:diff()}点伤害。{IfUpgraded:show:以打出代替消耗。|}",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "崩碎之歌加只计算实际打出的晶化",
+        "崩碎之歌普通版按实际消耗数量造成伤害",
+        "崩碎之歌不把失败消耗计入伤害段数"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "323367dfed9ca5a144e193419dd5467915f951db2cd328aef7a59158b907361c"
+    },
+    {
+      "class": "Slash",
+      "title": "合斩",
+      "model_id": "INDIUM_STAR_CARD_SLASH",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/Slash.cs",
+      "document_anchor": 487,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_text": "合斩\n0c 普通 攻击\n对所有敌人造成5（7）点伤害。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "0",
+        "type": "Attack",
+        "rarity": "Common",
+        "target": "AllEnemies",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "对所有敌人造成{Damage:diff()}点伤害。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "合斩一次指令攻击全部存活敌人 upgraded=False",
+        "合斩一次指令攻击全部存活敌人 upgraded=True"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "3f5afd3412365ed93cf97db274f481a82d528623f35b106c72a9ceb8b35c3374"
+    },
+    {
+      "class": "SpinKick",
+      "title": "回身踢",
+      "model_id": "INDIUM_STAR_CARD_SPIN_KICK",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/SpinKick.cs",
+      "document_anchor": 210,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_text": "回身踢 \n1c 普通 攻击\n造成2点伤害2（3）次。将弃牌堆中的1张牌加入手牌。（不）消耗。晶逆：使其本回合具有保留。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "1",
+        "type": "Attack",
+        "rarity": "Common",
+        "target": "AnyEnemy",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "造成{Damage:diff()}点伤害{Repeat:diff()}次。\n将弃牌堆中的1张牌加入手牌。\n[gold]晶逆[/gold]：使其本回合具有[gold]保留[/gold]。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "回身踢攻击后取弃牌、晶逆单回合保留及升级移除消耗 energy=0 discarded=0 upgraded=False",
+        "回身踢攻击后取弃牌、晶逆单回合保留及升级移除消耗 energy=0 discarded=2 upgraded=False",
+        "回身踢攻击后取弃牌、晶逆单回合保留及升级移除消耗 energy=1 discarded=0 upgraded=False",
+        "回身踢攻击后取弃牌、晶逆单回合保留及升级移除消耗 energy=1 discarded=2 upgraded=False",
+        "回身踢攻击后取弃牌、晶逆单回合保留及升级移除消耗 energy=0 discarded=0 upgraded=True",
+        "回身踢攻击后取弃牌、晶逆单回合保留及升级移除消耗 energy=0 discarded=2 upgraded=True",
+        "回身踢攻击后取弃牌、晶逆单回合保留及升级移除消耗 energy=1 discarded=0 upgraded=True",
+        "回身踢攻击后取弃牌、晶逆单回合保留及升级移除消耗 energy=1 discarded=2 upgraded=True"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "f97286e357f0fc0fe2965321aa533dbc66b10879e4f615eea190baae832b32dd"
+    },
+    {
+      "class": "StrikeIndiumStar",
+      "title": "打击",
+      "model_id": "INDIUM_STAR_CARD_STRIKE_INDIUM_STAR",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/StrikeIndiumStar.cs",
+      "document_anchor": 6,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_text": "打击\n1c 初始 攻击\n造成6（9）点伤害。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "1",
+        "type": "Attack",
+        "rarity": "Basic",
+        "target": "AnyEnemy",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "造成{Damage:diff()}点伤害。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "打击基础伤害与Strike标签 upgraded=False",
+        "打击基础伤害与Strike标签 upgraded=True"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "c47d1310210ae911f6ca8f7ead60c4022965dfbc4dff262aa9a9eb7dc0e839eb"
+    },
+    {
+      "class": "ThermobaricField",
+      "title": "温压领域",
+      "model_id": "INDIUM_STAR_CARD_THERMOBARIC_FIELD",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/ThermobaricField.cs",
+      "document_anchor": 1370,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_text": "温压领域Xc 罕见 攻击获得等同于晶化数量的临时力量。造成7（9）点伤害X次。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "0",
+        "type": "Attack",
+        "rarity": "Uncommon",
+        "target": "AnyEnemy",
+        "has_energy_cost_x": true,
+        "effective_cost_display": "X；base_cost_expression=0是本体X牌构造方式"
+      },
+      "localized_description": "获得等同于手牌中[gold]晶化[/gold]数量的[gold]临时力量[/gold]。\n造成{Damage:diff()}点伤害X次。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "温压领域按捕获X而非剩余能量，多段前获得临时力量 n=0 X=0 upgraded=False",
+        "温压领域按捕获X而非剩余能量，多段前获得临时力量 n=0 X=1 upgraded=False",
+        "温压领域按捕获X而非剩余能量，多段前获得临时力量 n=0 X=4 upgraded=False",
+        "温压领域按捕获X而非剩余能量，多段前获得临时力量 n=1 X=0 upgraded=False",
+        "温压领域按捕获X而非剩余能量，多段前获得临时力量 n=1 X=1 upgraded=False",
+        "温压领域按捕获X而非剩余能量，多段前获得临时力量 n=1 X=4 upgraded=False",
+        "温压领域按捕获X而非剩余能量，多段前获得临时力量 n=3 X=0 upgraded=False",
+        "温压领域按捕获X而非剩余能量，多段前获得临时力量 n=3 X=1 upgraded=False",
+        "温压领域按捕获X而非剩余能量，多段前获得临时力量 n=3 X=4 upgraded=False",
+        "温压领域按捕获X而非剩余能量，多段前获得临时力量 n=0 X=0 upgraded=True",
+        "温压领域按捕获X而非剩余能量，多段前获得临时力量 n=0 X=1 upgraded=True",
+        "温压领域按捕获X而非剩余能量，多段前获得临时力量 n=0 X=4 upgraded=True",
+        "温压领域按捕获X而非剩余能量，多段前获得临时力量 n=1 X=0 upgraded=True",
+        "温压领域按捕获X而非剩余能量，多段前获得临时力量 n=1 X=1 upgraded=True",
+        "温压领域按捕获X而非剩余能量，多段前获得临时力量 n=1 X=4 upgraded=True",
+        "温压领域按捕获X而非剩余能量，多段前获得临时力量 n=3 X=0 upgraded=True",
+        "温压领域按捕获X而非剩余能量，多段前获得临时力量 n=3 X=1 upgraded=True",
+        "温压领域按捕获X而非剩余能量，多段前获得临时力量 n=3 X=4 upgraded=True",
+        "温压领域原始X零仍授予临时力量，攻击指令为零段"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "5102320def991c76849ccc1ef7fd384c0ba9060055ecddad7aa76b308c22f96b"
+    },
+    {
+      "class": "TilingForm",
+      "title": "密铺形态",
+      "model_id": "INDIUM_STAR_CARD_TILING_FORM",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/TilingForm.cs",
+      "document_anchor": 3057,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_text": "密铺形态 \n3c 稀有 能力\n晶化3。（保留）\n所有晶化牌具有“在手中时，你具有2点力量和2点敏捷”。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "3",
+        "type": "Power",
+        "rarity": "Rare",
+        "target": "Self",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "[gold]晶化[/gold]{Cards:diff()}。\n所有[gold]晶化[/gold]牌具有「在手中时，你具有2点[gold]力量[/gold]和2点[gold]敏捷[/gold]」。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "密铺形态真实力量敏捷随晶化离手变化且不会重复叠加",
+        "密铺形态先施加光环再晶化，只有手中晶化提供属性 occupied=0 upgraded=False",
+        "密铺形态先施加光环再晶化，只有手中晶化提供属性 occupied=9 upgraded=False",
+        "密铺形态先施加光环再晶化，只有手中晶化提供属性 occupied=10 upgraded=False",
+        "密铺形态先施加光环再晶化，只有手中晶化提供属性 occupied=0 upgraded=True",
+        "密铺形态先施加光环再晶化，只有手中晶化提供属性 occupied=9 upgraded=True",
+        "密铺形态先施加光环再晶化，只有手中晶化提供属性 occupied=10 upgraded=True"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "3e26b3d80e1c33e0b8e8456b157a1faa8d4015d0f3427536472118e52143564e"
+    },
+    {
+      "class": "Transmutation",
+      "title": "嬗变",
+      "model_id": "INDIUM_STAR_CARD_TRANSMUTATION",
+      "source_file": "IndiumStar/IndiumStar/src/Cards/Transmutation.cs",
+      "document_anchor": 3177,
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_text": "嬗变 \n1c 稀有 能力\n（固有）回合开始时，将一张晶化变化为抽牌堆顶的牌。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+      "observed_source_metadata": {
+        "base_cost_expression": "1",
+        "type": "Power",
+        "rarity": "Rare",
+        "target": "Self",
+        "has_energy_cost_x": false
+      },
+      "localized_description": "回合开始时，将一张[gold]晶化[/gold]变化为抽牌堆顶的牌。",
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "嬗变本人开始前变化原堆顶复制、空手空堆及升级固有 crystal=False draw=False upgraded=False",
+        "嬗变本人开始前变化原堆顶复制、空手空堆及升级固有 crystal=False draw=True upgraded=False",
+        "嬗变本人开始前变化原堆顶复制、空手空堆及升级固有 crystal=True draw=False upgraded=False",
+        "嬗变本人开始前变化原堆顶复制、空手空堆及升级固有 crystal=True draw=True upgraded=False",
+        "嬗变本人开始前变化原堆顶复制、空手空堆及升级固有 crystal=False draw=False upgraded=True",
+        "嬗变本人开始前变化原堆顶复制、空手空堆及升级固有 crystal=False draw=True upgraded=True",
+        "嬗变本人开始前变化原堆顶复制、空手空堆及升级固有 crystal=True draw=False upgraded=True",
+        "嬗变本人开始前变化原堆顶复制、空手空堆及升级固有 crystal=True draw=True upgraded=True"
+      ],
+      "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
+      "live_combat": "未验证",
+      "save_and_multiplayer": "未验证",
+      "required_audit": [
+        "费用、类型、稀有度、目标与词条；逐项核对括号升级",
+        "基础效果顺序与各分支，能量/资源读取时点",
+        "目标死亡/战斗结束、空/满手、空牌堆、选牌和指令受阻的实际结果",
+        "自动出牌、系列重放与嵌套回调，真实选择上下文暂停/恢复",
+        "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
+        "真实游戏运行、存档恢复、多人数值和动作同步"
+      ],
+      "source_sha256": "73885eea9a84b0497e46729c2f5ade1d17243dce99901e093f51e91cff979a59"
+    }
+  ],
+  "total": 65,
+  "regression_cases": 643,
+  "unimplemented_document_cards": [
+    {
+      "name": "晶罚",
+      "rarity": "稀有",
+      "type": "攻击",
+      "status": "未实现",
+      "document_anchor": 2723,
+      "specification_text": "晶罚 \n1c 攻击 稀有\n造成9点伤害，为手牌中所有“晶化”添加：“给予3（4）层消亡”\n\n稀有卡：技能（3/8，多人0/1）",
+      "specification_source": "当前DOCX正文；未注册、无实现"
+    },
+    {
+      "name": "隧穿",
+      "rarity": "稀有",
+      "type": "技能",
+      "status": "未实现",
+      "document_anchor": 2929,
+      "specification_text": "隧穿 \nXc 稀有 技能 \n消耗\n结束当前回合，获得一个额外回合。额外回合内，你至多打出x（x+1）张牌。",
+      "specification_source": "当前DOCX正文；未注册、无实现"
+    },
+    {
+      "name": "晶髓",
+      "rarity": "稀有",
+      "type": "技能",
+      "status": "未实现",
+      "document_anchor": 2984,
+      "specification_text": "晶髓\nXc 稀有 技能延拓X。下回合开始时，抽X(X+1）张牌。下回合你的所有手牌具有+1花费和重放1。\n\n稀有卡：能力（4/9，多人1/1）",
+      "specification_source": "当前DOCX正文；未注册、无实现"
+    }
+  ],
+  "total_defined_cards": 68,
+  "direct_card_sources_linked": 65,
+  "complete_effect_acceptances": 0
+}

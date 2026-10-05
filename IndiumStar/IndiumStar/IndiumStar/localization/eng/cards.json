@@ -10,7 +10,7 @@
   "INDIUM_STAR_CARD_CRYSTALLIZATION_NB.title": "Crystallization-Nb",
   "INDIUM_STAR_CARD_CRYSTALLIZATION_NB.description": "Gain {VigorPower:diff()} [gold]Vigor[/gold].\nYou may manually play at most 1 Crystallization per turn. Automatic plays do not count.",
   "INDIUM_STAR_CARD_CRYSTALLIZATION_U.title": "Crystallization-U",
-  "INDIUM_STAR_CARD_CRYSTALLIZATION_U.description": "Return an Application-Electron+ from anywhere to your hand and give it [gold]Exhaust[/gold].\nYou may manually play at most 1 Crystallization per turn. Automatic plays do not count.",
+  "INDIUM_STAR_CARD_CRYSTALLIZATION_U.description": "Return an Application-Neutron+ from anywhere to your hand and give it [gold]Exhaust[/gold].\nYou may manually play at most 1 Crystallization per turn. Automatic plays do not count.",
   "INDIUM_STAR_CARD_APPLICATION_NB.title": "Application-Nb",
   "INDIUM_STAR_CARD_APPLICATION_NB.description": "[gold]Crystallize[/gold] (Nb) {Cards:diff()}.\n[gold]Vigor[/gold] now only loses 2 stacks after you play an Attack.{IfUpgraded:show:\nGain 2 [gold]Vigor[/gold].|}",
   "INDIUM_STAR_CARD_REMINISCENCE_POLLUTION_O.title": "Reminiscence-Pollution O",
@@ -26,7 +26,7 @@
   "INDIUM_STAR_CARD_SHATTER_SONG.title": "Shatter Song",
   "INDIUM_STAR_CARD_SHATTER_SONG.description": "[gold]Exhaust[/gold] all [gold]Crystallization[/gold] in your hand. Deal {Damage:diff()} damage for each.{IfUpgraded:show: Play them instead of Exhausting them.|}",
   "INDIUM_STAR_CARD_APPLICATION_U.title": "Application-U",
-  "INDIUM_STAR_CARD_APPLICATION_U.description": "Add {Cards:diff()} Application-Electron+ with [gold]Crystallize[/gold] (U) 1 to your hand.",
+  "INDIUM_STAR_CARD_APPLICATION_U.description": "Add {Cards:diff()} Application-Neutron+ with [gold]Crystallize[/gold] (U) 1 to your hand.",
   "INDIUM_STAR_CARD_TILING_FORM.title": "Tiling Form",
   "INDIUM_STAR_CARD_TILING_FORM.description": "[gold]Crystallize[/gold] {Cards:diff()}.\nAll [gold]Crystallization[/gold] cards have \"While in your hand, you have 2 [gold]Strength[/gold] and 2 [gold]Dexterity[/gold]\".",
   "INDIUM_STAR_CARD_REMINISCENCE_TIN_DOUBT.title": "Reminiscence-Tin Doubt",
@@ -135,5 +135,7 @@
   "INDIUM_STAR_CARD_BONDING_TRIPLE_BOND.title": "Bonding-Triple Bond",
   "INDIUM_STAR_CARD_BONDING_TRIPLE_BOND.description": "Gain {Block:diff()} [gold]Block[/gold].\n[gold]Resistance[/gold]: Gain {CrystalBlock:diff()} [gold]Block[/gold] per [gold]Crystallization[/gold] in your hand.\n[gold]Reversal[/gold]: Gain {ExtensionBlock:diff()} [gold]Block[/gold] per [gold]Extend[/gold] stack.",
   "INDIUM_STAR_CARD_DEFERRED_RELEASE.title": "Aerosol",
-  "INDIUM_STAR_CARD_DEFERRED_RELEASE.description": "Exhaust 1 card in your hand.\nAt the start of your next turn, automatically play it."
+  "INDIUM_STAR_CARD_DEFERRED_RELEASE.description": "Exhaust 1 card in your hand.\nAt the start of your next turn, automatically play it.",
+  "INDIUM_STAR_CARD_DERIVED_APPLICATION_NEUTRON.title": "Application-Neutron",
+  "INDIUM_STAR_CARD_DERIVED_APPLICATION_NEUTRON.description": "Play a random card costing 1 or less from your Discard Pile.\n[gold]Resistance[/gold]: Draw 1 card.\n[gold]Reversal[/gold]: Discard 1 card."
 }

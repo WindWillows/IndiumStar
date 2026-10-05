@@ -9,6 +9,7 @@ using IndiumStar.Cards;
 using IndiumStar.Patches;
 using IndiumStar.Powers;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Extensions;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.TestSupport;
 using STS2RitsuLib.Utils;
@@ -71,11 +72,31 @@ foreach (Type type in cardTypes)
         || canonical.Rarity != CardRarity.Basic || canonical.Id.Entry != "APPLICATION_NEUTRON"
         || canonical.DynamicVars.Damage.BaseValue != 10 || copy.DynamicVars.Damage.BaseValue != 14))
         throw new Exception("Native renamed Electron type, stable ID or damage contract failed");
+    if (type == typeof(DerivedApplicationNeutron) && (canonical.Type != CardType.Skill
+        || canonical.Rarity != CardRarity.Token || canonical.Id.Entry != "DERIVED_APPLICATION_NEUTRON"
+        || canonical.EnergyCost.GetWithModifiers(CostModifiers.All) != 1
+        || copy.EnergyCost.GetWithModifiers(CostModifiers.All) != 0
+        || canonical.Keywords.Contains(CardKeyword.Exhaust) || canonical.Keywords.Contains(CardKeyword.Retain)
+        || type.CustomAttributes.Any(a => a.AttributeType.Name == "RegisterCharacterStarterCardAttribute")))
+        throw new Exception("Native derived Neutron metadata/upgrade contract failed");
     rows.Add(new { type = type.Name, id = canonical.Id.Entry, upgraded, mutable_clone = "pass",
         card_type = canonical.Type.ToString(), rarity = canonical.Rarity.ToString() });
     passed++;
 }
 var macro = (MacroDendrite)ModelDb.GetById<CardModel>(ModelDb.GetId(typeof(MacroDendrite))).MutableClone();
+var neutronFilter = typeof(DerivedApplicationNeutron).GetMethod("CanAutoPlayFromDiscard",
+    BindingFlags.Static | BindingFlags.NonPublic)!;
+bool Eligible(CardModel card) => (bool)neutronFilter.Invoke(null, new object[] { card })!;
+var electronCandidate = ModelDb.GetById<CardModel>(ModelDb.GetId(typeof(ApplicationNeutron))).ToMutable();
+if (!Eligible(electronCandidate)) throw new Exception("Native Neutron excluded 1-cost card");
+electronCandidate.EnergyCost.SetThisCombat(2);
+if (Eligible(electronCandidate)) throw new Exception("Native Neutron ignored increased current cost");
+electronCandidate.EnergyCost.SetThisCombat(0);
+if (!Eligible(electronCandidate)) throw new Exception("Native Neutron ignored reduced current cost");
+electronCandidate.AddKeyword(CardKeyword.Unplayable);
+if (Eligible(electronCandidate)) throw new Exception("Native Neutron included unplayable card");
+var xCandidate = ModelDb.GetById<CardModel>(ModelDb.GetId(typeof(ThermobaricField))).ToMutable();
+if (Eligible(xCandidate)) throw new Exception("Native Neutron included X-cost card");
 var coin = (CrystalCoin)ModelDb.GetById<CardModel>(ModelDb.GetId(typeof(CrystalCoin))).MutableClone();
 var decay = typeof(CrystalCoin).GetProperty("PlaysThisRun", BindingFlags.Instance | BindingFlags.NonPublic)!;
 decay.SetValue(coin, 4);
@@ -112,6 +133,7 @@ File.WriteAllText(args[0], JsonSerializer.Serialize(new {
     scope = "Actual game DLL managed TestMode: model constructors/upgrades/MutableClone/Harmony; keyword definitions seeded without registry startup; no live combat, UI, CreateClone card-scope path, or save test",
     generated_at_utc = DateTime.UtcNow, passed, macro_independence = "pass", co_u_clone_marks = "pass",
     coin_decay_clone = "pass; actual SavedAttachedState and patched MutableClone; no save roundtrip",
+    derived_neutron_cost_filter = "pass; actual local cost modifiers, increased/reduced current cost, Unplayable and X exclusion; global combat hooks not invoked",
     replay_patch = new { status = "pass", target = replayTarget.DeclaringType!.FullName,
         state_machine_is_value_type = replayTarget.DeclaringType.IsValueType,
         injection = "one Apply call before main ExecutionFinished, native loop field by reference",

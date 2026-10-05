@@ -5,7 +5,7 @@ using STS2RitsuLib.Scaffolding.Content;
 namespace IndiumStar.Afflictions;
 
 /// <summary>
-/// 「晶化（U）1」：挂在「运用-电子+」上的<strong>纯显示</strong>标记（本场战斗永久）。
+/// 「晶化（U）1」：挂在「运用-中子+」上的<strong>纯显示</strong>标记（本场战斗永久）。
 /// <para>表示"这张牌被打出时，向手牌加入 1 张「晶化U」"。</para>
 /// </summary>
 /// <remarks>

@@ -121,9 +121,9 @@ public static class SemanticAuditTests {
             var song = r.Crystal<ShatterSong>(); await song.Play(r.Choice, new() { Card = song, Target = new() });
             Check(DamageCmd.Attacks.Count == 0);
         });
-        Test("晶化U只回收已升级电子，不额外升级普通电子", async () => {
-            var r = new Rig(); var plain = r.Crystal<ApplicationNeutron>(); plain.Pile = PileType.Draw.GetPile(r.Player); plain.Pile.Cards.Add(plain);
-            var upgraded = r.Crystal<ApplicationNeutron>(); upgraded.Upgrade(); upgraded.Pile = PileType.Discard.GetPile(r.Player); upgraded.Pile.Cards.Add(upgraded);
+        Test("晶化U只回收已升级中子，不额外升级普通中子", async () => {
+            var r = new Rig(); var plain = r.Crystal<DerivedApplicationNeutron>(); plain.Pile = PileType.Draw.GetPile(r.Player); plain.Pile.Cards.Add(plain);
+            var upgraded = r.Crystal<DerivedApplicationNeutron>(); upgraded.Upgrade(); upgraded.Pile = PileType.Discard.GetPile(r.Player); upgraded.Pile.Cards.Add(upgraded);
             var crystal = r.Crystal<CrystallizationU>(); await crystal.Play(r.Choice, new() { Card = crystal });
             Check(plain.Pile.Type == PileType.Draw && !plain.IsUpgraded && upgraded.Pile.Type == PileType.Hand);
         });

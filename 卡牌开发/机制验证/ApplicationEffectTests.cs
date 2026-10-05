@@ -148,13 +148,13 @@ public static class ApplicationEffectTests
             foreach (int occupied in new[] { 0, 9, 10 })
             {
                 int n = occupied;
-                Test($"运用-U三张电子升级并各具有晶化U，溢出仍保留标记 n={n} upgraded={up}", async () =>
+                Test($"运用-U三张衍生中子升级并各具有晶化U，溢出仍保留标记 n={n} upgraded={up}", async () =>
                 {
                     var r = new Rig(); var card = r.Crystal<ApplicationU>(); if (up) card.Upgrade();
                     for (int i = 0; i < n; i++) Put(r, new TypedProbe(CardType.Skill) { Owner = r.Player, CombatState = r.State });
                     await Play(r, card);
-                    var neutrons = r.Player.PlayerCombatState!.AllCards.OfType<ApplicationNeutron>().ToArray();
-                    Check(neutrons.Length == 3 && neutrons.All(c => c.Type == CardType.Attack && c.IsUpgraded && c.DynamicVars.Damage.BaseValue == 14 && c.EnergyCost.Value == 0 && c.Affliction is CrystallizeUAffliction));
+                    var neutrons = r.Player.PlayerCombatState!.AllCards.OfType<DerivedApplicationNeutron>().ToArray();
+                    Check(neutrons.Length == 3 && neutrons.All(c => c.Type == CardType.Skill && c.IsUpgraded && c.EnergyCost.Value == 0 && c.Affliction is CrystallizeUAffliction));
                     Check(neutrons.Count(c => c.Pile?.Type == PileType.Hand) == Math.Min(3, 10 - n));
                     Check(card.EnergyCost.Value == (up ? 2 : 3) && card.Keywords.Contains(CardKeyword.Exhaust));
                     var power = r.Player.Creature.GetPower<ApplicationUCrystallizePower>()!;

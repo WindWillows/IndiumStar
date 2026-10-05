@@ -13,10 +13,14 @@ namespace MegaCrit.Sts2.Core.CardSelection {
         public CardSelectorPrefs(object prompt, int count) : this(prompt, count, count) { }
         public int Count => MaxCount;
         public static object ExhaustSelectionPrompt { get; } = new();
+        public static object DiscardSelectionPrompt { get; } = new();
     }
 }
 namespace MegaCrit.Sts2.Core.Commands {
     public static class CardSelectCmd {
+        public static Task<IEnumerable<CardModel>> FromHandForDiscard(PlayerChoiceContext context, Player player,
+            MegaCrit.Sts2.Core.CardSelection.CardSelectorPrefs prefs, Func<CardModel, bool>? filter, CardModel source) =>
+            FromHand(context, player, prefs, filter, source);
         public static Func<PlayerChoiceContext, CardPile, Player, MegaCrit.Sts2.Core.CardSelection.CardSelectorPrefs, Task<IEnumerable<CardModel>>>? PileSelectionOverride { get; set; }
         public static Task<IEnumerable<CardModel>> FromCombatPile(PlayerChoiceContext context, CardPile pile, Player player,
             MegaCrit.Sts2.Core.CardSelection.CardSelectorPrefs prefs) => PileSelectionOverride != null

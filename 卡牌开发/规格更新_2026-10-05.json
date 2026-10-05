@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "source_file": "晶塔世界角色.docx",
-  "source_sha256": "85920bc38df934aba98b755d7181b375134859692db6b65fe36436acbd9a2438",
+  "source_sha256": "2a25e6905b35511fed4d97c27a55ace5f521f572c78b69cbe7cc595b9117bbf1",
   "baseline_revision": "7a43d89",
   "precedence": "用户当前更新的DOCX覆盖此前同名卡牌规格；此前明确给出的分影连气和邻基参与继续保留。",
   "cards": [
@@ -85,5 +85,27 @@
     "class": "DeferredRelease",
     "display_title": "[待命名]技能"
   },
-  "remaining_audit_scope": "全卡池逐牌语义、时序和边界核查；卡牌全部完成前不转入遗物实现"
+  "remaining_audit_scope": "全卡池逐牌语义、时序和边界核查；卡牌全部完成前不转入遗物实现",
+  "previous_source_sha256": "85920bc38df934aba98b755d7181b375134859692db6b65fe36436acbd9a2438",
+  "latest_document_review": "2026-10-06：已核对新版DOCX；晶罚、隧穿、晶髓新增但尚未实现，正文已有电子/反演定稿。本文件旧卡记录属历史规格，当前规则以规则定稿文件为准。",
+  "pending_document_cards": [
+    {
+      "name": "晶罚",
+      "rarity": "稀有",
+      "type": "攻击",
+      "status": "未实现"
+    },
+    {
+      "name": "隧穿",
+      "rarity": "稀有",
+      "type": "技能",
+      "status": "未实现"
+    },
+    {
+      "name": "晶髓",
+      "rarity": "稀有",
+      "type": "技能",
+      "status": "未实现"
+    }
+  ]
 }

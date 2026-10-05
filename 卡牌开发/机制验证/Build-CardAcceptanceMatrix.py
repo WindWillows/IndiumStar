@@ -6,10 +6,16 @@ import hashlib
 import json
 import re
 import sys
+import argparse
 
 ROOT = Path(__file__).resolve().parents[2]
 PROJECT = ROOT / "IndiumStar/IndiumStar"
-EVIDENCE = ROOT / "卡牌开发/审查证据_2026-10-05"
+parser = argparse.ArgumentParser()
+parser.add_argument("--evidence-dir", default="卡牌开发/审查证据_2026-10-05")
+options = parser.parse_args()
+EVIDENCE = (ROOT / options.evidence_dir).resolve()
+if ROOT not in EVIDENCE.parents:
+    raise ValueError("证据目录必须位于工作区内")
 DOCUMENT = ROOT / "晶塔世界角色.docx"
 DECISIONS = ROOT / "卡牌开发/规则定稿_2026-10-05.json"
 decisions = json.loads(DECISIONS.read_text(encoding="utf-8"))
@@ -33,6 +39,7 @@ external = {
     "ShadowChainBreath": "用户增补：0c罕见技能；抽取时复制加入手牌；手牌中每张分影连气分别获得3（4）格挡；消耗。",
     "NeighboringGroupParticipation": "用户增补：0c罕见技能；抽1张；能力再抽2，技能获3（5）格挡，攻击获3（4）临时力量。",
     "Crystallization": "用户通则：普通无额外效果晶化，0c状态、保留、消耗；同一玩家每回合共用1次手动额度，自动打出不计次数。",
+    "DerivedApplicationNeutron": decisions["card_specification_overrides"]["DerivedApplicationNeutron"],
 }
 short_names = {
     "ApplicationCo": ["Co标记"], "ApplicationU": ["U标记"], "ApplicationCa": ["Ca两份"],
@@ -67,10 +74,20 @@ for native in model_probe["cards"]:
         anchors.append((found.start(), cls)); record["document_anchor"] = found.start()
     records.append(record)
 anchors.sort()
+pending_cards = []
+for card in decisions.get("pending_document_cards", []):
+    found = re.search(re.escape(card["name"]) + r"(?=\s|[0-9Xx]|$)", body)
+    if found is None: raise ValueError("尚未实现卡牌的文档锚点缺失：" + card["name"])
+    anchors.append((found.start(), "pending:" + card["name"]))
+    pending_cards.append(dict(card, document_anchor=found.start()))
+anchors.sort()
 span_by_class = {}
 for index, (start, cls) in enumerate(anchors):
     end = anchors[index + 1][0] if index + 1 < len(anchors) else len(body)
     span_by_class[cls] = body[start:end].strip()
+for card in pending_cards:
+    card["specification_text"] = span_by_class["pending:" + card["name"]]
+    card["specification_source"] = "当前DOCX正文；未注册、无实现"
 for row in records:
     cls = row["class"]
     key = row["model_id"]
@@ -115,15 +132,22 @@ report = {
     "schema_version": 2, "document_sha256": hashlib.sha256(DOCUMENT.read_bytes()).hexdigest(),
     "rule_decisions_sha256": hashlib.sha256(DECISIONS.read_bytes()).hexdigest(),
     "precedence": decisions["precedence"],
-    "scope": "64张注册卡牌的规格/源码/现有证据工作矩阵；命名用例和源码链接仅定位证据，不自动认定语义阅读或完整验收",
+    "scope": f"{len(records)}张注册卡牌与{len(pending_cards)}张尚未实现文档卡牌的规格/源码/现有证据工作矩阵；命名用例和源码链接仅定位证据，不自动认定完整验收",
     "cards": records, "total": len(records), "regression_cases": len(passed_cases),
+    "unimplemented_document_cards": pending_cards,
+    "total_defined_cards": len(records) + len(pending_cards),
     "direct_card_sources_linked": sum(row["card_source_linked_by_regression"] for row in records),
     "complete_effect_acceptances": 0,
 }
-if report["total"] != 64 or len({row["class"] for row in records}) != 64: raise ValueError("卡池身份数量异常")
+registered_source_count = sum(bool(re.search(r"\[RegisterCard\(", p.read_text(encoding="utf-8")))
+    for p in (PROJECT / "src/Cards").glob("*.cs"))
+if report["total"] != registered_source_count or len({row["class"] for row in records}) != report["total"]:
+    raise ValueError("卡池身份数量异常；模型证据必须对应当前源码")
 (EVIDENCE / "逐牌验收矩阵.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-lines = ["# 当前卡池逐牌验收矩阵", "", f"文档SHA256：`{report['document_sha256']}`。注册卡牌64张；当前来源代码回归{report['regression_cases']}项；直接链接卡牌源码{report['direct_card_sources_linked']}张。完整效果验收仍为0，不能用模型检查替代。", "", "此表是工作矩阵：JSON保留各牌原文、观察到的源码元数据、卡面、命名用例与待验证边界。名字匹配仅定位相关测试，不自动判定整牌功能通过。", "", "| 卡牌 | 类 | 直接源码 | 命名相关用例 | 效果验收 | 实机/同步 |", "| --- | --- | --- | --- | --- | --- |"]
+lines = ["# 当前卡池逐牌验收矩阵", "", f"文档SHA256：`{report['document_sha256']}`。注册卡牌{report['total']}张，另有{len(pending_cards)}张文档卡牌未实现；当前来源代码回归{report['regression_cases']}项；直接链接卡牌源码{report['direct_card_sources_linked']}张。完整效果验收仍为0，不能用模型检查替代。", "", "此表是工作矩阵：JSON保留各牌原文、观察到的源码元数据、卡面、命名用例与待验证边界。名字匹配仅定位相关测试，不自动判定整牌功能通过。", "", "| 卡牌 | 类 | 直接源码 | 命名相关用例 | 效果验收 | 实机/同步 |", "| --- | --- | --- | --- | --- | --- |"]
 for row in records:
     lines.append(f"| {row['title']} | `{row['class']}` | {'已链接' if row['card_source_linked_by_regression'] else '未链接'} | {len(row['named_case_evidence'])} | {row['effect_acceptance']} | 未验证 |")
+for card in pending_cards:
+    lines.append(f"| {card['name']} | — | 无实现 | 0 | 未实现 | 未验证 |")
 (EVIDENCE / "逐牌验收矩阵.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 print(f"Matrix: {report['total']} cards; {report['direct_card_sources_linked']} directly linked card sources; {report['regression_cases']} regression cases; no complete-effect claims.")

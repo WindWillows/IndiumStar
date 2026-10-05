@@ -1,14 +1,15 @@
 {
   "schema_version": 1,
-  "source": "本对话2026-10-05逐项定稿及2026-10-06电子改名/类型调整消息",
+  "source": "本对话2026-10-05逐项定稿及2026-10-06电子改名/类型调整消息；2026-10-06独立衍生中子及U引用定稿",
   "precedence": "最新用户指令优先于DOCX和旧问题单；DOCX保留原样",
-  "document_sha256": "85920bc38df934aba98b755d7181b375134859692db6b65fe36436acbd9a2438",
+  "document_sha256": "2a25e6905b35511fed4d97c27a55ace5f521f572c78b69cbe7cc595b9117bbf1",
   "card_specification_overrides": {
     "Inversion": "反演 1c 攻击 稀有\n造成7点伤害。（升级：保留）\n本场战斗中，你每打出过一张延拓牌，延拓1。\n消耗",
     "DeferredRelease": "气溶胶（暂名） 1c 普通 技能\n（升级：保留）消耗1张手牌。下个回合开始时，将其自动打出。",
     "ApplicationNeutron": "运用-电子\n1（0）c 初始 攻击\n造成10（14）点伤害。\n晶抗：自身获得1层虚弱。\n晶逆：自身获得1层易伤。",
-    "ApplicationU": "运用-U\n3（2）c 稀有 技能\n将3张具有晶化（U）1的运用-电子+加入手牌。消耗。",
-    "CrystallizationU": "晶化U\n0c 状态 保留 消耗；共用晶化手动额度。\n不论何处，将1张运用-电子+放回手牌，使其获得消耗。"
+    "ApplicationU": "运用-U\n3（2）c 稀有 技能\n将3张具有晶化（U）1的运用-中子+加入手牌。消耗。",
+    "CrystallizationU": "晶化U\n0c 状态 保留 消耗；共用晶化手动额度。\n不论何处，将1张运用-中子+放回手牌，使其获得消耗。",
+    "DerivedApplicationNeutron": "运用-中子\n1（0）c 衍生 技能\n随机打出弃牌堆中1张花费不大于1的牌。\n晶抗：抽1张牌。\n晶逆：弃1张牌。"
   },
   "global_rules": [
     "所有晶化数量均指手牌中的晶化。",
@@ -28,7 +29,8 @@
     "Inversion_history": "本人本场战斗已完成的IExtensionCard系列，每个系列只计首段；自动打出计入，重放不另计。当前反演尚未完成，不自计；此前反演可计入。基础伤害结算后读取历史，结束战斗/本人死亡则停止后续指令。",
     "Phosphorus_mixed_upgrades": "普通版和升级版混用时，各份保留自己的模式，并按实际施加顺序消耗额度。本回合新增份数立即增加可用额度，每次本人新回合恢复总额度。此为已向用户说明的实施解释，不标为用户逐字规定。",
     "Aerosol_identifier": "仅修改显示标题，保留DeferredRelease卡牌/能力模型ID；这不能证明旧战斗队列可恢复。",
-    "Electron_identifier": "显示名改为运用-电子，实际CardType改为Attack；保留ApplicationNeutron类和APPLICATION_NEUTRON模型/本地化键，以便已有牌组及U生成/回收引用继续解析。保留原有初始稀有度、费用和伤害升级。"
+    "Electron_identifier": "运用-电子保留ApplicationNeutron类及APPLICATION_NEUTRON模型/本地化键，仍为初始攻击；新衍生中子使用DerivedApplicationNeutron独立模型，U生成及晶化U回收引用切换到新模型。",
+    "Derived_neutron": "衍生技能Token，不进入初始牌组或普通奖励池；固定当前费用含本地/全局修正，0或1费为候选，X费用和不可打出牌排除。原生自动打出不支付费用、随机目标、遵循ShouldPlay；受阻不另选。嵌套出牌及结束钩子完成后判分支；无候选仍判分支；晶逆由玩家选择弃1张手牌。晶化U沿原定义回收新中子+。费用/X候选与晶化U关联是实施解释。"
   },
   "deferred_user_items": [
     {
@@ -53,7 +55,25 @@
     }
   ],
   "updated_on": "2026-10-06",
-  "document_title_aliases": {
-    "ApplicationNeutron": "运用-中子"
-  }
+  "document_title_aliases": {},
+  "pending_document_cards": [
+    {
+      "name": "晶罚",
+      "rarity": "稀有",
+      "type": "攻击",
+      "status": "未实现"
+    },
+    {
+      "name": "隧穿",
+      "rarity": "稀有",
+      "type": "技能",
+      "status": "未实现"
+    },
+    {
+      "name": "晶髓",
+      "rarity": "稀有",
+      "type": "技能",
+      "status": "未实现"
+    }
+  ]
 }

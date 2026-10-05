@@ -593,6 +593,7 @@ Test("Hs光环改变敌人力量时同步刷新伤害意图", async () => {
 NewCardTests.Register(tests, args);
 SemanticAuditTests.Register(tests);
 UpdatedSpecificationTests.Register(tests, args);
+DerivedNeutronTests.Register(tests, args);
 DeferredReleaseTests.Register(tests, args);
 CrystalReplayTests.Register(tests, args);
 TurnSchedulingTests.Register(tests, args);

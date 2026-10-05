@@ -177,7 +177,15 @@ namespace MegaCrit.Sts2.Core.Models
         public static T Power<T>() where T : PowerModel => Activator.CreateInstance<T>();
         public static T Card<T>() where T : CardModel => Activator.CreateInstance<T>();
     }
-    public class TestEnergyCost { public int Value { get; set; } public int CapturedXValue { get; set; } public int XModifier { get; set; } public void UpgradeBy(int amount) => Value += amount; public void AddThisCombat(int amount) => Value = Math.Max(0, Value + amount); }
+    public class TestEnergyCost {
+        public int Value { get; set; }
+        public bool CostsX { get; set; }
+        public int CapturedXValue { get; set; }
+        public int XModifier { get; set; }
+        public int GetWithModifiers(MegaCrit.Sts2.Core.Entities.Cards.CostModifiers modifiers) => Value;
+        public void UpgradeBy(int amount) => Value += amount;
+        public void AddThisCombat(int amount) => Value = Math.Max(0, Value + amount);
+    }
     public class AfflictionModel : AbstractModel { }
 }
 
@@ -296,9 +304,10 @@ namespace MegaCrit.Sts2.Core.Entities.Players
 namespace MegaCrit.Sts2.Core.Entities.Cards
 {
     public enum CardType { None, Attack, Skill, Power, Status, Curse, Quest }
-    public enum CardRarity { Common, Basic, Uncommon, Rare }
+    public enum CardRarity { Common, Basic, Uncommon, Rare, Token }
     public enum TargetType { Self, AnyEnemy, AllEnemies }
-    public enum CardKeyword { Retain, Exhaust, Ethereal, Innate }
+    public enum CardKeyword { Retain, Exhaust, Ethereal, Innate, Unplayable }
+    public enum CostModifiers { All }
     public enum CardTag { Strike, Defend }
     public enum CardPreviewMode { Normal }
     public enum PileType { Hand, Play, Exhaust, Discard, None, Draw }
@@ -686,6 +695,10 @@ namespace MegaCrit.Sts2.Core.Commands
 {
     public static class CardCmd
     {
+        // 仅模拟单张弃牌的牌堆移动；Sly及真实弃牌钩子需要实机验收。
+        public static Task Discard(MegaCrit.Sts2.Core.GameActions.Multiplayer.PlayerChoiceContext context,
+            MegaCrit.Sts2.Core.Models.CardModel card) =>
+            CardPileCmd.Add(card, MegaCrit.Sts2.Core.Entities.Cards.PileType.Discard);
         public static Task<MegaCrit.Sts2.Core.Entities.Cards.CardPileAddResult?> Transform(MegaCrit.Sts2.Core.Models.CardModel original,
             MegaCrit.Sts2.Core.Models.CardModel replacement) {
             var pile = original.Pile!; int index = pile.Cards.IndexOf(original);

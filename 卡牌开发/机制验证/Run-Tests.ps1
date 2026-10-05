@@ -28,13 +28,14 @@ $sourcePaths = @('Cards\Analyze.cs', 'Cards\BondingEster.cs', 'Cards\BondingImid
     'Patches\CrystallizeMarkClonePatch.cs', 'Powers\ApplicationCoPower.cs', 'Powers\ApplicationUCrystallizePower.cs',
     'Powers\FreeApplicationPower.cs', 'Powers\ApplicationCaBlockPower.cs', 'Cards\ApplicationCa.cs',
     'Cards\ReminiscenceTinDoubt.cs', 'Powers\ReminiscenceTinDoubtPower.cs', 'Powers\TinDoubtTemporaryPowers.cs',
-    'Cards\ShatterCrystalRain.cs', 'Cards\CrystallizationU.cs', 'Cards\ApplicationNeutron.cs',
+    'Cards\ShatterCrystalRain.cs', 'Cards\CrystallizationU.cs', 'Cards\ApplicationNeutron.cs', 'Cards\DerivedApplicationNeutron.cs',
     'Powers\LoseWeakAtTurnEndPower.cs', 'Powers\LoseVulnerableAtTurnStartPower.cs') |
     ForEach-Object { Join-Path (Join-Path $ProjectDir 'src') $_ }
 $sourcePaths += @($usingsPath, (Join-Path $PSScriptRoot 'GameStubs.cs'), (Join-Path $PSScriptRoot 'NewCardStubs.cs'),
     (Join-Path $PSScriptRoot 'NewCardTests.cs'), (Join-Path $PSScriptRoot 'SemanticAuditTests.cs'),
     (Join-Path $PSScriptRoot 'MechanismTests.cs'), (Join-Path $PSScriptRoot 'UpdatedSpecificationTests.cs'), (Join-Path $PSScriptRoot 'DeferredReleaseTests.cs'), (Join-Path $PSScriptRoot 'CrystalReplayTests.cs'), (Join-Path $PSScriptRoot 'TurnSchedulingTests.cs'), (Join-Path $PSScriptRoot 'ApplicationEffectTests.cs'), (Join-Path $PSScriptRoot 'RemainingCardStubs.cs'), (Join-Path $PSScriptRoot 'RemainingCardEffectTests.cs'))
 $sourcePaths += (Join-Path $PSScriptRoot 'RuleDecisionTests.cs')
+$sourcePaths += (Join-Path $PSScriptRoot 'DerivedNeutronTests.cs')
 $arguments = @('/nostdlib+', '/target:exe', '/optimize+', '/langversion:13.0', '/nullable:enable', '/utf8output',
     ('/out:"' + (Join-Path $outputDir 'MechanismTests.dll') + '"'))
 $arguments += Get-ChildItem -LiteralPath (Join-Path $refDir.FullName 'ref\net9.0') -Filter '*.dll' |
@@ -59,8 +60,8 @@ $branchCards = 0
 $applicationCards = 0
 Get-ChildItem -LiteralPath (Join-Path $ProjectDir 'src\Cards') -Filter '*.cs' | ForEach-Object {
     $source = [System.IO.File]::ReadAllText($_.FullName)
-    if ($source -match 'public sealed class Application\w+ : (ApplicationCard|ModCardTemplate)') {
-        if ($source -notmatch 'public sealed class Application\w+ : [^\r\n]+, IApplicationCard') { throw "运用牌缺少标记：$($_.Name)" }
+    if ($source -match 'public sealed class (Application\w+|DerivedApplicationNeutron) : (ApplicationCard|ModCardTemplate)') {
+        if ($source -notmatch 'public sealed class (Application\w+|DerivedApplicationNeutron) : [^\r\n]+, IApplicationCard') { throw "运用牌缺少标记：$($_.Name)" }
         $applicationCards++
     }
     $hasResistance = $source -match 'protected override (async )?Task CrystalResistance\('

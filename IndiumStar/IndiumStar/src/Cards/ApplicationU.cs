@@ -13,12 +13,12 @@ using IndiumStar.Powers;
 namespace IndiumStar.Cards;
 
 /// <summary>
-/// 运用-U：将 3 张具有「晶化（U）1」的「运用-电子+」加入手牌。消耗。
+/// 运用-U：将 3 张具有「晶化（U）1」的「运用-中子+」加入手牌。消耗。
 /// <para>升级后：费用 3 → 2。</para>
 /// </summary>
 /// <remarks>
 /// <para>
-/// 生成的电子是现场创建并升级的副本（<c>CreateCard</c> + <c>CardCmd.Upgrade</c>）。
+/// 生成的中子是现场创建并升级的副本（<c>CreateCard</c> + <c>CardCmd.Upgrade</c>）。
 /// 「晶化（U）1」的结算状态由 <see cref="ApplicationUCrystallizePower" /> 的
 /// 运行时附加状态承载（不占侵蚀槽）；侵蚀槽空闲时再挂显示标记让卡面出现词条。
 /// </para>
@@ -31,7 +31,7 @@ public sealed class ApplicationU : ModCardTemplate, IApplicationCard
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        // 加入几张「运用-电子+」。
+        // 加入几张「运用-中子+」。
         new CardsVar(3),
     ];
 
@@ -48,7 +48,7 @@ public sealed class ApplicationU : ModCardTemplate, IApplicationCard
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        // 先挂结算能力：生成的电子被打出时要靠它来结算「晶化（U）1」。
+        // 先挂结算能力：生成的中子被打出时要靠它来结算「晶化（U）1」。
         await PowerCmd.Apply<ApplicationUCrystallizePower>(
             choiceContext,
             Owner.Creature,
@@ -58,7 +58,7 @@ public sealed class ApplicationU : ModCardTemplate, IApplicationCard
 
         for (int i = 0; i < DynamicVars.Cards.IntValue; i++)
         {
-            var neutron = CombatState!.CreateCard<ApplicationNeutron>(Owner);
+            var neutron = CombatState!.CreateCard<DerivedApplicationNeutron>(Owner);
             CardCmd.Upgrade(neutron, CardPreviewStyle.None);
 
             ApplicationUCrystallizePower.MarkForCrystallizeU(neutron, 1);
