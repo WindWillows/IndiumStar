@@ -36,7 +36,7 @@ namespace IndiumStar.Cards;
 /// 「负面状态」的判定沿用原版 <c>Rend</c> 的 <c>ShouldCountPower</c>：
 /// 能力的<strong>当前层数</strong>对应的类型是 <see cref="PowerType.Debuff" />，
 /// 并且<strong>排除</strong>临时能力（<see cref="ITemporaryPower" />，例如「临时敏捷」）。
-/// 每个能力只算一种，所以同一能力叠 5 层也只加一次。
+/// 同类型能力只算一种，叠层和多个独立实例均不增加种类数。
 /// </para>
 /// <para>
 /// <b>不要</b>把乘数写成捕获 <c>this</c> 的 lambda：<c>WithMultiplier</c> 会检查委托的
@@ -92,7 +92,7 @@ public sealed class PrimordialPierce : ModCardTemplate
     /// </para>
     /// </summary>
     private static decimal CountDebuffs(CardModel card, Creature? target)
-        => target?.Powers.Count(IsCountedDebuff) ?? 0;
+        => target?.Powers.Where(IsCountedDebuff).DistinctBy(power => power.GetType()).Count() ?? 0;
 
     /// <summary>这个能力算不算「一种负面状态」。</summary>
     private static bool IsCountedDebuff(PowerModel power)

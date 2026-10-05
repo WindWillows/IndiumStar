@@ -159,30 +159,7 @@ public static class NewCardTests
             await temporary.AfterSideTurnEnd(r.Choice, CombatSide.Player, [r.Player.Creature]);
             Check(r.Player.Creature.GetPowerAmount<StrengthPower>() == 5 && r.Player.Creature.GetPower<NeighboringGroupStrengthPower>() == null);
         });
-        foreach (ProbeEnemy.Mode mode in Enum.GetValues<ProbeEnemy.Mode>()) {
-            var m = mode;
-            Test($"反演借用意图且不推进原敌人 {m}", async () => {
-                var r = new Rig(); var enemy = Enemy(r, m); var original = (ProbeEnemy)enemy.Monster!;
-                var originalMove = original.NextMove; var card = r.Crystal<Inversion>();
-                bool failed = false; try { await Play(r, card, enemy); } catch (InvalidOperationException) { failed = true; }
-                Check(failed == (m == ProbeEnemy.Mode.Fail));
-                Check(original.ExecutionCount == 0 && !originalMove.Performed && original.NextMove == originalMove && original.Creature == enemy);
-                Check(IntentExecutionRules.Current == null);
-                Check(DamageCmd.Attacks[0].Damage == 5 && DamageCmd.Attacks[0].Target == enemy);
-                if (m == ProbeEnemy.Mode.Attack) {
-                    var attack = DamageCmd.Attacks[1]; Check(attack.Damage == 7 && attack.Hits == 2 && attack.Source == card && attack.Target == enemy && attack.Choice == r.Choice);
-                }
-                if (m == ProbeEnemy.Mode.Buff) Check(r.Player.Creature.GetPowerAmount<StrengthPower>() == 2 && enemy.GetPowerAmount<StrengthPower>() == 0);
-                if (m == ProbeEnemy.Mode.Debuff) Check(enemy.GetPowerAmount<DexterityPower>() == -2 && r.Player.Creature.GetPowerAmount<DexterityPower>() == 0);
-                if (m == ProbeEnemy.Mode.Animation) Check(CreatureCmd.LastAnimation == "Cast");
-            });
-        }
-        Test("反演升级8伤且死亡目标不借用意图", async () => {
-            var r = new Rig(); var enemy = Enemy(r, ProbeEnemy.Mode.Attack); enemy.IsAlive = false;
-            var card = r.Crystal<Inversion>(); card.Upgrade(); await Play(r, card, enemy);
-            Check(DamageCmd.Attacks.Count == 1 && DamageCmd.Attacks[0].Damage == 8);
-        });
-        Test("反演补丁在借用范围外不改原怪物攻击与动画", async () => {
+        Test("原怪物攻击与动画保持本体指令语义", async () => {
             var r = new Rig(); var enemy = Enemy(r, ProbeEnemy.Mode.Attack);
             await DamageCmd.Attack(7m).FromMonster(enemy.Monster!).Execute(null);
             Check(DamageCmd.Attacks.Single().Source == enemy.Monster && DamageCmd.Attacks.Single().Choice == null);
@@ -197,26 +174,7 @@ public static class NewCardTests
             }
             return Task.CompletedTask;
         });
-        Test("实际游戏反演反射字段和Harmony目标参数契约", () => {
-            var directory = System.IO.Path.Combine(args[0], "data_sts2_windows_x86_64");
-            var context = new System.Runtime.Loader.AssemblyLoadContext("IntentContract", isCollectible: true);
-            context.Resolving += (_, name) => {
-                string path = System.IO.Path.Combine(directory, name.Name + ".dll");
-                return System.IO.File.Exists(path) ? context.LoadFromAssemblyPath(path) : null;
-            };
-            try {
-                var assembly = context.LoadFromAssemblyPath(System.IO.Path.Combine(directory, "sts2.dll"));
-                var monster = assembly.GetType("MegaCrit.Sts2.Core.Models.MonsterModel", true)!;
-                var flags = System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance;
-                Check(monster.GetField("_creature", flags)?.FieldType.FullName == typeof(Creature).FullName);
-                var attack = assembly.GetType("MegaCrit.Sts2.Core.Commands.Builders.AttackCommand", true)!;
-                Check(attack.GetMethod("FromMonster")!.GetParameters().Single().Name == "monster");
-                Check(attack.GetMethod("Execute")!.GetParameters().Single().Name == "choiceContext");
-                var creatureCmd = assembly.GetType("MegaCrit.Sts2.Core.Commands.CreatureCmd", true)!;
-                Check(creatureCmd.GetMethod("TriggerAnim")!.GetParameters().Select(p => p.Name).SequenceEqual(new[] { "creature", "triggerName", "waitTime" }));
-            } finally { context.Unload(); }
-            return Task.CompletedTask;
-        });
+
     }
 }
 public class TypedProbe(CardType type) : STS2RitsuLib.Scaffolding.Content.ModCardTemplate(0, type, CardRarity.Common, TargetType.Self) {

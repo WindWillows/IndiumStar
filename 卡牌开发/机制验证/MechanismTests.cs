@@ -598,6 +598,7 @@ CrystalReplayTests.Register(tests, args);
 TurnSchedulingTests.Register(tests, args);
 ApplicationEffectTests.Register(tests, args);
 RemainingCardEffectTests.Register(tests, args);
+RuleDecisionTests.Register(tests, args);
 int failed = 0;
 foreach (var test in tests) {
     try { await test.Run(); Console.WriteLine("PASS " + test.Name); }

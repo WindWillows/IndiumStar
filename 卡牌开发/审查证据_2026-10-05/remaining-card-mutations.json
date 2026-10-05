@@ -1,6 +1,6 @@
 {
   "scope": "Compile exact original committed sources in ignored output only; phosphorus/calcite cards and powers restored together; production and normal test assembly untouched",
-  "generated_at_utc": "2026-10-05T10:06:44.6902937Z",
+  "generated_at_utc": "2026-10-05T14:25:51.9245259Z",
   "variants": [
     {
       "variant": "baseline-phosphorus-configuration",
@@ -19,13 +19,28 @@
       "result": "detected",
       "exit_code": 1,
       "failures": [
-        "FAIL 回忆-磷语施加链内首次延拓读取当前卡牌配置 repeat=True upgraded=False: Phosphorus configuration must precede apply chain",
-        "FAIL 回忆-磷语嵌套重施后外层不回滚最新配置 upgraded=False: Outer phosphorus apply must not roll back inner configuration",
+        "FAIL 回忆-磷语叠加次数延拓替换或并行、本人与他人重置 upgraded=False: Remaining card effect assertion failed",
+        "FAIL 回忆-磷语嵌套重施后各份模式按顺序保留 upgraded=False: Nested modes must remain independent",
         "FAIL 回忆-磷语能量钩子嵌套改配置，本次延拓模式取拦截开始快照 upgraded=False: Current conversion mode must not change while energy hook awaits",
-        "FAIL 回忆-磷语施加链内首次延拓读取当前卡牌配置 repeat=False upgraded=True: Phosphorus configuration must precede apply chain",
-        "FAIL 回忆-磷语施加链内首次延拓读取当前卡牌配置 repeat=True upgraded=True: Phosphorus configuration must precede apply chain",
-        "FAIL 回忆-磷语嵌套重施后外层不回滚最新配置 upgraded=True: Outer phosphorus apply must not roll back inner configuration",
-        "FAIL 回忆-磷语能量钩子嵌套改配置，本次延拓模式取拦截开始快照 upgraded=True: Current conversion mode must not change while energy hook awaits"
+        "FAIL 回忆-磷语叠加次数延拓替换或并行、本人与他人重置 upgraded=True: Remaining card effect assertion failed",
+        "FAIL 回忆-磷语施加链内额度保留施加顺序 repeat=False upgraded=True: Phosphorus slots must preserve application order",
+        "FAIL 回忆-磷语嵌套重施后各份模式按顺序保留 upgraded=True: Nested modes must remain independent",
+        "FAIL 回忆-磷语能量钩子嵌套改配置，本次延拓模式取拦截开始快照 upgraded=True: Current conversion mode must not change while energy hook awaits",
+        "FAIL 磷语多份合并图标、次数叠加，各份效果不变 firstUp=False secondUp=False: Latest rule decision failed",
+        "FAIL 磷语Before施加钩子嵌套也保留内外模式 outerUp=False innerUp=False: Latest rule decision failed",
+        "FAIL 磷语多份合并图标、次数叠加，各份效果不变 firstUp=False secondUp=True: Latest rule decision failed",
+        "FAIL 磷语Before施加钩子嵌套也保留内外模式 outerUp=False innerUp=True: Latest rule decision failed",
+        "FAIL 磷语多份合并图标、次数叠加，各份效果不变 firstUp=True secondUp=False: Latest rule decision failed",
+        "FAIL 磷语Before施加钩子嵌套也保留内外模式 outerUp=True innerUp=False: Latest rule decision failed",
+        "FAIL 磷语多份合并图标、次数叠加，各份效果不变 firstUp=True secondUp=True: Latest rule decision failed",
+        "FAIL 磷语Before施加钩子嵌套也保留内外模式 outerUp=True innerUp=True: Latest rule decision failed",
+        "FAIL 磷语重复施加只增加本体接受的额度 offset=0: Latest rule decision failed",
+        "FAIL 磷语重复施加只增加本体接受的额度 offset=1: Latest rule decision failed",
+        "FAIL 磷语重复施加只增加本体接受的额度 offset=2: Latest rule decision failed",
+        "FAIL 磷语被拒绝的升级施加不会改写下一份普通额度: Latest rule decision failed",
+        "FAIL 磷语能量连锁重入先消费额度，两个额度均只触发一次: Latest rule decision failed",
+        "FAIL 磷语能力克隆后的模式列表独立: Latest rule decision failed",
+        "FAIL 磷语他人和其他战斗的回合开始不会刷新本人额度: Latest rule decision failed"
       ]
     },
     {
@@ -45,11 +60,15 @@
       "result": "detected",
       "exit_code": 1,
       "failures": [
-        "FAIL 回忆-硬钙石施加链内回合末读取当前伤害配置 repeat=True upgraded=False: Hard calcite configuration must precede apply chain",
-        "FAIL 回忆-硬钙石嵌套重施后外层不回滚最新配置 upgraded=False: Outer calcite apply must not roll back inner configuration",
-        "FAIL 回忆-硬钙石施加链内回合末读取当前伤害配置 repeat=False upgraded=True: Hard calcite configuration must precede apply chain",
-        "FAIL 回忆-硬钙石施加链内回合末读取当前伤害配置 repeat=True upgraded=True: Hard calcite configuration must precede apply chain",
-        "FAIL 回忆-硬钙石嵌套重施后外层不回滚最新配置 upgraded=True: Outer calcite apply must not roll back inner configuration"
+        "FAIL 回忆-硬钙石施加链内回合末读取累计伤害 repeat=True upgraded=False: Hard calcite must accumulate before apply chain",
+        "FAIL 回忆-硬钙石嵌套重施后总伤害正确累加 upgraded=False: Both calcite applications must contribute",
+        "FAIL 回忆-硬钙石施加链内回合末读取累计伤害 repeat=False upgraded=True: Hard calcite must accumulate before apply chain",
+        "FAIL 回忆-硬钙石施加链内回合末读取累计伤害 repeat=True upgraded=True: Hard calcite must accumulate before apply chain",
+        "FAIL 回忆-硬钙石嵌套重施后总伤害正确累加 upgraded=True: Both calcite applications must contribute",
+        "FAIL 硬钙石多份合并图标并累计数值 firstUp=False secondUp=False: Latest rule decision failed",
+        "FAIL 硬钙石多份合并图标并累计数值 firstUp=False secondUp=True: Latest rule decision failed",
+        "FAIL 硬钙石多份合并图标并累计数值 firstUp=True secondUp=False: Latest rule decision failed",
+        "FAIL 硬钙石多份合并图标并累计数值 firstUp=True secondUp=True: Latest rule decision failed"
       ]
     },
     {

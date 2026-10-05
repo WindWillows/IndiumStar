@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "source": "本对话用户对12项问题的逐项定稿消息",
+  "precedence": "最新用户指令优先于DOCX和旧问题单；DOCX保留原样",
+  "document_sha256": "85920bc38df934aba98b755d7181b375134859692db6b65fe36436acbd9a2438",
+  "card_specification_overrides": {
+    "Inversion": "反演 1c 攻击 稀有\n造成7点伤害。（升级：保留）\n本场战斗中，你每打出过一张延拓牌，延拓1。\n消耗",
+    "DeferredRelease": "气溶胶（暂名） 1c 普通 技能\n（升级：保留）消耗1张手牌。下个回合开始时，将其自动打出。"
+  },
+  "global_rules": [
+    "所有晶化数量均指手牌中的晶化。",
+    "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+  ],
+  "card_rule_overrides": {
+    "ApplicationCa": "下一次从卡牌中获得的格挡翻倍属于晶抗。",
+    "ApplicationF": "本牌复制加入手牌属于晶逆；保留先晶化2再复制的顺序。",
+    "ReminiscenceHardCalcite": "多次打出数值叠加，但只显示一个能力图标；普通3、升级4累加为每张手中晶化的伤害。",
+    "ReminiscencePhosphorus": "多次打出增加每回合触发次数，前一次变前二次；每次效果不变。",
+    "ReminiscenceVanadiumEternal": "效果不叠加；共用实际抽牌统计器，重复施加不清空累计。",
+    "CrystalCoin": "复制继承复制时的衰减；之后原件与复制各自继续衰减。",
+    "Analyze": "同类型的多个独立能力实例只算一种，隐藏能力仍排除。",
+    "PrimordialPierce": "同类型的多个独立负面能力实例只算一种；保留原版Rend的当前Debuff类型和ITemporaryPower排除条件。"
+  },
+  "implementation_interpretations": {
+    "Inversion_history": "本人本场战斗已完成的IExtensionCard系列，每个系列只计首段；自动打出计入，重放不另计。当前反演尚未完成，不自计；此前反演可计入。基础伤害结算后读取历史，结束战斗/本人死亡则停止后续指令。",
+    "Phosphorus_mixed_upgrades": "普通版和升级版混用时，各份保留自己的模式，并按实际施加顺序消耗额度。本回合新增份数立即增加可用额度，每次本人新回合恢复总额度。此为已向用户说明的实施解释，不标为用户逐字规定。",
+    "Aerosol_identifier": "仅修改显示标题，保留DeferredRelease卡牌/能力模型ID；这不能证明旧战斗队列可恢复。"
+  },
+  "deferred_user_items": [
+    { "user_item": 2, "todo": "TD01", "scope": "完整游戏启动、战斗、存档和多人同步验收" },
+    { "user_item": 3, "todo": "TD02", "scope": "晶流/运用-Th条件重放的实机附魔、侵蚀、原版能力和多人暂停组合" },
+    { "user_item": 4, "todo": "TD03", "scope": "气溶胶预约队列的存档、X费用、随机目标、内部选牌和多人暂停恢复" },
+    { "user_item": 5, "todo": "TD04", "scope": "表征Strength授予/回收修改链、外部Amount修改、存档和多人开始阶段" }
+  ]
+}

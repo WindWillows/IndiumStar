@@ -59,7 +59,10 @@ foreach (Type type in cardTypes)
             || canonical.DynamicVars["ExtensionBlock"].BaseValue != 6 || copy.DynamicVars.Block.BaseValue != 15
             || copy.DynamicVars["CrystalBlock"].BaseValue != 6 || copy.DynamicVars["ExtensionBlock"].BaseValue != 8))
         throw new Exception("Native updated triple-bond specification failed");
-    if (type == typeof(Inversion) && (canonical.DynamicVars.Damage.BaseValue != 5 || copy.DynamicVars.Damage.BaseValue != 8))
+    if (type == typeof(Inversion) && (canonical.DynamicVars.Damage.BaseValue != 7 || copy.DynamicVars.Damage.BaseValue != 7
+        || !canonical.Keywords.Contains(CardKeyword.Exhaust) || !copy.Keywords.Contains(CardKeyword.Retain)
+        || canonical.Keywords.Contains(CardKeyword.Retain) || mutable is not IExtensionCard
+        || canonical.Rarity != CardRarity.Rare || canonical.Type != CardType.Attack))
         throw new Exception("Native updated Inversion damage failed");
     if (type == typeof(DeferredRelease) && (!copy.Keywords.Contains(CardKeyword.Retain)
         || canonical.Keywords.Contains(CardKeyword.Retain)))
@@ -68,6 +71,13 @@ foreach (Type type in cardTypes)
     passed++;
 }
 var macro = (MacroDendrite)ModelDb.GetById<CardModel>(ModelDb.GetId(typeof(MacroDendrite))).MutableClone();
+var coin = (CrystalCoin)ModelDb.GetById<CardModel>(ModelDb.GetId(typeof(CrystalCoin))).MutableClone();
+var decay = typeof(CrystalCoin).GetProperty("PlaysThisRun", BindingFlags.Instance | BindingFlags.NonPublic)!;
+decay.SetValue(coin, 4);
+var coinCopy = (CrystalCoin)coin.MutableClone();
+if ((int)decay.GetValue(coinCopy)! != 4) throw new Exception("Native coin clone did not inherit decay");
+decay.SetValue(coinCopy, 5);
+if ((int)decay.GetValue(coin)! != 4) throw new Exception("Native coin clone decay not independent");
 macro.DynamicVars.Damage.BaseValue += 2;
 var macroCopy = (MacroDendrite)macro.MutableClone();
 macroCopy.DynamicVars.Damage.BaseValue++;
@@ -96,6 +106,7 @@ Console.WriteLine($"PASS native model smoke: {passed} registrations/upgrades/dee
 File.WriteAllText(args[0], JsonSerializer.Serialize(new {
     scope = "Actual game DLL managed TestMode: model constructors/upgrades/MutableClone/Harmony; keyword definitions seeded without registry startup; no live combat, UI, CreateClone card-scope path, or save test",
     generated_at_utc = DateTime.UtcNow, passed, macro_independence = "pass", co_u_clone_marks = "pass",
+    coin_decay_clone = "pass; actual SavedAttachedState and patched MutableClone; no save roundtrip",
     replay_patch = new { status = "pass", target = replayTarget.DeclaringType!.FullName,
         state_machine_is_value_type = replayTarget.DeclaringType.IsValueType,
         injection = "one Apply call before main ExecutionFinished, native loop field by reference",

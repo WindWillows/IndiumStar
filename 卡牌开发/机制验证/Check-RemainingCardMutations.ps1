@@ -11,8 +11,8 @@ $sdk = Get-ChildItem 'C:\Program Files\dotnet\sdk' -Directory | Where-Object Nam
 $dotnet = 'C:\Program Files\dotnet\dotnet.exe'
 $utf8 = [Text.UTF8Encoding]::new($false)
 $cases = @(
-    @{ name='baseline-phosphorus-configuration'; source='Powers/ReminiscencePhosphorusPower.cs'; additional=@('Cards/ReminiscencePhosphorus.cs'); expect='FAIL 回忆-磷语施加链内首次延拓读取当前卡牌配置 repeat=False upgraded=True' },
-    @{ name='baseline-calcite-configuration'; source='Powers/ReminiscenceHardCalcitePower.cs'; additional=@('Cards/ReminiscenceHardCalcite.cs'); expect='FAIL 回忆-硬钙石施加链内回合末读取当前伤害配置 repeat=False upgraded=True' },
+    @{ name='baseline-phosphorus-configuration'; source='Powers/ReminiscencePhosphorusPower.cs'; additional=@('Cards/ReminiscencePhosphorus.cs'); expect='FAIL 回忆-磷语施加链内额度保留施加顺序 repeat=False upgraded=True' },
+    @{ name='baseline-calcite-configuration'; source='Powers/ReminiscenceHardCalcitePower.cs'; additional=@('Cards/ReminiscenceHardCalcite.cs'); expect='FAIL 回忆-硬钙石施加链内回合末读取累计伤害 repeat=False upgraded=True' },
     @{ name='baseline-characterization-turn'; source='Powers/CharacterizationStrengthPower.cs'; expect='FAIL 表征在本人开始阶段自动打出不能提前兑现当前回合 upgraded=False' }
 )
 $rows = @()

@@ -30,7 +30,7 @@ namespace IndiumStar.Cards;
 /// </para>
 /// <para>
 /// <b>多张晶币分别递减：</b>附加状态按牌实例区分，战斗中复制出来的新牌
-/// 从完整收益重新开始计数。
+/// 继承复制时原牌的递减次数，之后各自继续递减。
 /// </para>
 /// <para>
 /// <b>升级不会碰它：</b>升级改的是 <c>DynamicVars</c>，和这个计数完全无关。
@@ -61,6 +61,13 @@ public sealed class CrystalCoin : ModCardTemplate
     {
         get => PlaysThisRunState.GetValueOrDefault(PersistentSelf, 0);
         set => PlaysThisRunState.Set(PersistentSelf, value);
+    }
+
+    public static void CopyDecay(CardModel source, CardModel copy)
+    {
+        if (source is CrystalCoin coin && copy is CrystalCoin)
+            // MutableClone时DeckVersion尚未被CreateClone清除，直接写复制实例以免改写牌组原件。
+            PlaysThisRunState.Set(copy, coin.PlaysThisRun);
     }
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>

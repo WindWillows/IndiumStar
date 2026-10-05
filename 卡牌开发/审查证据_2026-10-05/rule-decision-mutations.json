@@ -1,0 +1,78 @@
+{
+  "scope": "Deliberate semantic variants compiled in ignored output only; production and normal regression assembly unchanged",
+  "generated_at_utc": "2026-10-05T14:24:23.9867998Z",
+  "variants": [
+    {
+      "variant": "coin-copy-resets-decay",
+      "source": "Patches/CrystallizeMarkClonePatch.cs",
+      "result": "detected",
+      "exit_code": 1,
+      "production_source_sha256": "5B9BAD0D95B6A2BC40F5CC66E54BA01E328193C1F0C8986564E899D6F3CD43D9",
+      "mutant_sha256": "AA202CBB494280C5BB77CB73B9B8DEB24CEBBD32AC550424E3346FE8301DF701",
+      "failures": [
+        "FAIL 晶币复制继承已衰减收益，后续各自递减 upgraded=False: Latest rule decision failed",
+        "FAIL 晶币复制继承已衰减收益，后续各自递减 upgraded=True: Latest rule decision failed",
+        "FAIL 晶币从牌组战斗克隆复制时读取原件衰减，复制后独立: Latest rule decision failed",
+        "FAIL 晶币衰减到零再复制和升级仍继承次数: Latest rule decision failed"
+      ]
+    },
+    {
+      "variant": "analyze-counts-instances",
+      "source": "Cards/Analyze.cs",
+      "result": "detected",
+      "exit_code": 1,
+      "production_source_sha256": "45BBD09B32A8B161A05BCD770DBCA5810F6C4E603114BC345E88B3B1E899C838",
+      "mutant_sha256": "8A77824FFFDBF40333DBD9A882047380AE0B28D1228228323105B14FEAA238CE",
+      "failures": [
+        "FAIL 分析同类型多个实例只计一种、仍排除隐藏效果 upgraded=False: Latest rule decision failed",
+        "FAIL 分析同类型多个实例只计一种、仍排除隐藏效果 upgraded=True: Latest rule decision failed"
+      ]
+    },
+    {
+      "variant": "pierce-counts-instances",
+      "source": "Cards/PrimordialPierce.cs",
+      "result": "detected",
+      "exit_code": 1,
+      "production_source_sha256": "B43289BA71F186863AE06879B75E59EE960EBDBFEEE17B68CC9EA3F934CFAFCD",
+      "mutant_sha256": "84858B09AFF193E0436C05593AEF3D9EB5B73FFEA900225FDFA73BA605C11505",
+      "failures": [
+        "FAIL 原波穿刺同类型负面状态只计一种 upgraded=False: Latest rule decision failed",
+        "FAIL 原波穿刺同类型负面状态只计一种 upgraded=True: Latest rule decision failed"
+      ]
+    },
+    {
+      "variant": "phosphorus-loses-outer-async-mode",
+      "source": "Powers/ReminiscencePhosphorusPower.cs",
+      "result": "detected",
+      "exit_code": 1,
+      "production_source_sha256": "B3185BAB2913BD435E28D2DA3F3D98C70CCC27CA623F1105708A98EB0D80E694",
+      "mutant_sha256": "0D6B0643FB07C86CAB78DC57301848567F32375D4236FD982145C198281FA4DA",
+      "failures": [
+        "FAIL 磷语Before施加钩子嵌套也保留内外模式 outerUp=False innerUp=True: Latest rule decision failed",
+        "FAIL 磷语Before施加钩子嵌套也保留内外模式 outerUp=True innerUp=False: Latest rule decision failed"
+      ]
+    },
+    {
+      "variant": "phosphorus-shares-clone-list",
+      "source": "Powers/ReminiscencePhosphorusPower.cs",
+      "result": "detected",
+      "exit_code": 1,
+      "production_source_sha256": "B3185BAB2913BD435E28D2DA3F3D98C70CCC27CA623F1105708A98EB0D80E694",
+      "mutant_sha256": "BFCA5BA86788FA106BBB068721A48775ADF62F6EBA243BB086C83F02193D8A55",
+      "failures": [
+        "FAIL 磷语能力克隆后的模式列表独立: Latest rule decision failed"
+      ]
+    },
+    {
+      "variant": "inversion-counts-replay-segments",
+      "source": "Cards/Inversion.cs",
+      "result": "detected",
+      "exit_code": 1,
+      "production_source_sha256": "F089507F3AAD3CC459E88BDE4EFE363CB83D0A2E054CA9B930112CE1D317F79B",
+      "mutant_sha256": "7E0D17DAEE9D7AF71F06EBAE8BE26AD496DBD9B9142BF3085C270AD6D82BF10E",
+      "failures": [
+        "FAIL 反演只计本人完成系列，自动算一次，重放不重复，未完成不计: Latest rule decision failed"
+      ]
+    }
+  ]
+}

@@ -38,40 +38,12 @@ namespace IndiumStar.Powers;
 [RegisterPower]
 public sealed class ReminiscenceHardCalcitePower : ModPowerTemplate
 {
-    /// <summary>每张手牌晶化造成的伤害。</summary>
-    private int _damagePerCrystal = 3;
-
     public override PowerType Type => PowerType.Buff;
 
-    /// <summary>效果是配置而不是计数，用 Single 不显示层数。</summary>
-    public override PowerStackType StackType => PowerStackType.Single;
+    /// <summary>合并为一个图标，Amount累加每张手中晶化的伤害。</summary>
+    public override PowerStackType StackType => PowerStackType.Counter;
 
     public override PowerAssetProfile AssetProfile => ContentAssetProfiles.Power("strength_power");
-
-    /// <summary>由卡牌在施加时设置每张晶化的伤害（升级会提高）。</summary>
-    public void Configure(int damagePerCrystal)
-    {
-        _damagePerCrystal = Math.Max(0, damagePerCrystal);
-    }
-
-    // 首次及重复施加都在施加链开始前配置；嵌套卡牌返回时不回滚最新参数。
-    public override Task BeforeApplied(Creature target, decimal amount, Creature? applier, CardModel? cardSource)
-    {
-        ConfigureFromCard(cardSource);
-        return Task.CompletedTask;
-    }
-
-    public override Task BeforePowerAmountChanged(PowerModel power, decimal amount,
-        Creature target, Creature? applier, CardModel? cardSource)
-    {
-        if (power == this && target == Owner) ConfigureFromCard(cardSource);
-        return Task.CompletedTask;
-    }
-
-    private void ConfigureFromCard(CardModel? source)
-    {
-        if (source is ReminiscenceHardCalcite card) Configure(card.DynamicVars["DamagePerCrystal"].IntValue);
-    }
 
     public override async Task BeforeSideTurnEnd(
         PlayerChoiceContext choiceContext,
@@ -100,7 +72,7 @@ public sealed class ReminiscenceHardCalcitePower : ModPowerTemplate
         int crystals = PileType.Hand
             .GetPile(base.Owner.Player)
             .Cards.Count(CrystallizationRules.IsCrystallizationCard);
-        decimal totalDamage = (decimal)_damagePerCrystal * crystals;
+        decimal totalDamage = (decimal)Amount * crystals;
         if (totalDamage <= 0m)
         {
             return;

@@ -1,6 +1,8 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "document_sha256": "85920bc38df934aba98b755d7181b375134859692db6b65fe36436acbd9a2438",
+  "rule_decisions_sha256": "91d9e96b9b6ff0422634e2c8abbcca84911c10e954b803facd2e5d7fae800886",
+  "precedence": "最新用户指令优先于DOCX和旧问题单；DOCX保留原样",
   "scope": "64张注册卡牌的规格/源码/现有证据工作矩阵；命名用例和源码链接仅定位证据，不自动认定语义阅读或完整验收",
   "cards": [
     {
@@ -9,8 +11,14 @@
       "model_id": "INDIUM_STAR_CARD_ANALYZE",
       "source_file": "IndiumStar/IndiumStar/src/Cards/Analyze.cs",
       "document_anchor": 1922,
-      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对；最新用户规则补充优先",
       "specification_text": "分析 \n1（0）c罕见 技能\n你每有一种效果，获得2点格挡，敌人每有一种效果，失去2点生命。 \n晶抗：失去1c。\n晶逆：消耗。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "latest_user_rule": "同类型的多个独立能力实例只算一种，隐藏能力仍排除。",
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "1",
         "type": "Skill",
@@ -18,13 +26,15 @@
         "target": "AnyEnemy",
         "has_energy_cost_x": false
       },
-      "localized_description": "你每有一种效果，获得{PerEffect:diff()}点[gold]格挡[/gold]；敌人每有一种效果，失去{PerEffect:diff()}点生命。\n[gold]晶抗[/gold]：失去1点能量。\n[gold]晶逆[/gold]：[gold]消耗[/gold]。",
+      "localized_description": "你每有一种可见效果，获得{PerEffect:diff()}点[gold]格挡[/gold]；敌人每有一种可见效果，失去{PerEffect:diff()}点生命。\n[gold]晶抗[/gold]：失去1点能量。\n[gold]晶逆[/gold]：[gold]消耗[/gold]。",
       "card_source_linked_by_regression": true,
       "named_case_evidence": [
         "分析可见效果计数、无视格挡及固定分支 energy=0 upgraded=False",
         "分析可见效果计数、无视格挡及固定分支 energy=1 upgraded=False",
         "分析可见效果计数、无视格挡及固定分支 energy=0 upgraded=True",
-        "分析可见效果计数、无视格挡及固定分支 energy=1 upgraded=True"
+        "分析可见效果计数、无视格挡及固定分支 energy=1 upgraded=True",
+        "分析同类型多个实例只计一种、仍排除隐藏效果 upgraded=False",
+        "分析同类型多个实例只计一种、仍排除隐藏效果 upgraded=True"
       ],
       "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
       "effect_acceptance": "部分源码回归；尚未完整验收",
@@ -38,7 +48,7 @@
         "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
         "真实游戏运行、存档恢复、多人数值和动作同步"
       ],
-      "source_sha256": "f99e43f1e5b6c2c718bd07418695161f550ee9e347c7c7ef4a7f5af3c03ed554"
+      "source_sha256": "45bbd09b32a8b161a05bcd770dbca5810f6c4e603114bc345e88b3b1e899c838"
     },
     {
       "class": "ApplicationAs",
@@ -48,6 +58,11 @@
       "document_anchor": 564,
       "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
       "specification_text": "运用-As \n2c 普通 攻击\n造成23（27）点伤害，晶化2。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "2",
         "type": "Attack",
@@ -86,8 +101,14 @@
       "model_id": "INDIUM_STAR_CARD_APPLICATION_CA",
       "source_file": "IndiumStar/IndiumStar/src/Cards/ApplicationCa.cs",
       "document_anchor": 1987,
-      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对；最新用户规则补充优先",
       "specification_text": "运用-Ca\n0c 罕见 技能\n获得3（5）点格挡。\n晶抗：失去1c。\n下一次从卡牌中获得的格挡翻倍。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "latest_user_rule": "下一次从卡牌中获得的格挡翻倍属于晶抗。",
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "0",
         "type": "Skill",
@@ -122,6 +143,11 @@
       "document_anchor": 2149,
       "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
       "specification_text": "运用-Co \n1c 罕见 技能\n抽3（4）张牌。\n抽到的第1张牌在本回合具有\n晶化2和保留。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "1",
         "type": "Skill",
@@ -163,6 +189,11 @@
       "document_anchor": 1252,
       "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
       "specification_text": "运用-Cu\n2c 罕见 攻击\n造成13点伤害。\n本回合，这名敌人每受到7（6）点攻击伤害，获得2层中毒。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "2",
         "type": "Attack",
@@ -204,8 +235,14 @@
       "model_id": "INDIUM_STAR_CARD_APPLICATION_F",
       "source_file": "IndiumStar/IndiumStar/src/Cards/ApplicationF.cs",
       "document_anchor": 158,
-      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对；最新用户规则补充优先",
       "specification_text": "运用-F\n0c 普通 攻击 \n造成6(8)点伤害。消耗。\n晶逆：晶化2。\n将1张本牌的复制加入手牌。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "latest_user_rule": "本牌复制加入手牌属于晶逆；保留先晶化2再复制的顺序。",
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "0",
         "type": "Attack",
@@ -259,6 +296,11 @@
       "document_anchor": 1863,
       "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
       "specification_text": "运用-H \n0c 罕见 技能\n失去1（2）层易伤/虚弱/脆弱。\n晶抗：切换到下一个效果。\n晶逆：切换到上一个效果。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "0",
         "type": "Skill",
@@ -298,6 +340,11 @@
       "document_anchor": 1063,
       "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
       "specification_text": "运用-Hs\n0c 普通 技能使所有敌人失去7（10）点临时力量。晶化（Hs）2。消耗。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "0",
         "type": "Skill",
@@ -334,6 +381,11 @@
       "document_anchor": 109,
       "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
       "specification_text": "运用-In \n1c 初始 技能\n（保留）·\n晶化1。延拓2。\n \n\n普通卡：攻击（10/10）",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "1",
         "type": "Skill",
@@ -369,6 +421,11 @@
       "document_anchor": 463,
       "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
       "specification_text": "运用-Mg\n1c 普通 攻击\n造成8（11）点伤害.晶化（Mg）2。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "1",
         "type": "Attack",
@@ -409,6 +466,11 @@
       "document_anchor": 2384,
       "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
       "specification_text": "运用-Nb\n1c 罕见 能力\n活力改为在打出攻击牌后减少2层。（获得2层活力。）晶化2（Nb）。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "1",
         "type": "Power",
@@ -447,6 +509,11 @@
       "document_anchor": 54,
       "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
       "specification_text": "运用-中子\n1（0）c  初始 技能\n造成 10（14）点伤害\n晶抗：获得一层虚弱。\n晶逆：获得一层易伤。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "1",
         "type": "Skill",
@@ -479,6 +546,11 @@
       "document_anchor": 1577,
       "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
       "specification_text": "运用-Pb\n1c 罕见 攻击\n造成9（11）点伤害。将至多1（2）张状态牌变化为晶化-Pb。晶抗：晶化1。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "1",
         "type": "Attack",
@@ -516,6 +588,11 @@
       "document_anchor": 1195,
       "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
       "specification_text": "运用-Th\n1c 罕见 攻击\n晶化1。使一名敌人失去4（5）点生命。\n晶抗：造成等量伤害2次。\n晶逆：重放2。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "1",
         "type": "Attack",
@@ -557,6 +634,11 @@
       "document_anchor": 2821,
       "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
       "specification_text": "运用-U\n3（2）c 稀有 技能\n将3张具有晶化（U）1的“运用-中子+”加入手牌。消耗。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "3",
         "type": "Skill",
@@ -597,6 +679,11 @@
       "document_anchor": 724,
       "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
       "specification_text": "运用-Zn \n1c 普通 技能\n获得12（15）点格挡。\n晶抗：失去一点能量。\n晶逆：消耗。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "1",
         "type": "Skill",
@@ -639,6 +726,11 @@
       "document_anchor": 1016,
       "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
       "specification_text": "键合-酯基\n1c 普通 技能获得6（8）点格挡，为手牌中的1张非攻击牌添加保留。晶逆：延拓1。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "1",
         "type": "Skill",
@@ -676,6 +768,11 @@
       "document_anchor": 843,
       "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
       "specification_text": "键合-亚胺基 \n2c 普通 技能\n（保留） \n消耗（打出）手牌中至多2张晶化。\n获得3点临时敏捷。\n延拓2。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "2",
         "type": "Skill",
@@ -716,6 +813,11 @@
       "document_anchor": 382,
       "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
       "specification_text": "键合-硝基\n1c 普通 攻击\n（保留） \n造成6点伤害，延拓1。抽1张牌。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "1",
         "type": "Attack",
@@ -755,6 +857,11 @@
       "document_anchor": 2300,
       "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
       "specification_text": "键合-三键\n2c 罕见 技能\n获得12（15）点格挡。\n晶抗：你每有一张晶化获得4（6）点格挡。\n晶逆：你每有一层延拓获得6（8）点格挡。\n\n罕见卡：能力（6/9）",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "2",
         "type": "Skill",
@@ -762,7 +869,7 @@
         "target": "Self",
         "has_energy_cost_x": false
       },
-      "localized_description": "获得{Block:diff()}点[gold]格挡[/gold]。\n[gold]晶抗[/gold]：每有一张[gold]晶化[/gold]，获得{CrystalBlock:diff()}点[gold]格挡[/gold]。\n[gold]晶逆[/gold]：每有一层[gold]延拓[/gold]，获得{ExtensionBlock:diff()}点[gold]格挡[/gold]。",
+      "localized_description": "获得{Block:diff()}点[gold]格挡[/gold]。\n[gold]晶抗[/gold]：手牌中每有一张[gold]晶化[/gold]，获得{CrystalBlock:diff()}点[gold]格挡[/gold]。\n[gold]晶逆[/gold]：每有一层[gold]延拓[/gold]，获得{ExtensionBlock:diff()}点[gold]格挡[/gold]。",
       "card_source_linked_by_regression": true,
       "named_case_evidence": [
         "键合三键资源数量与分支 n=0 energy=0 upgraded=False",
@@ -806,6 +913,11 @@
       "document_anchor": 899,
       "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
       "specification_text": "表征\n1c 普通 技能\n获得7（9）点格挡。\n晶抗：下回合获得3（4）点临时力量。\n晶逆：下回合抽2（3）张牌。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "1",
         "type": "Skill",
@@ -858,6 +970,11 @@
       "document_anchor": 1528,
       "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
       "specification_text": "坍缩\n3c 罕见 攻击造成27（33）点伤害。若有不少于3（2）层延拓，失去所有延拓，获得2c。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "3",
         "type": "Attack",
@@ -901,6 +1018,11 @@
       "document_anchor": 1346,
       "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
       "specification_text": "构象打击\n0c 罕见 攻击造成4点伤害。晶抗：失去1c。你每拥有1层延拓，额外造成5（7）点伤害。晶逆：手牌中每有1张晶化，额外造成3（4）点伤害。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "0",
         "type": "Attack",
@@ -942,6 +1064,11 @@
       "document_anchor": 1734,
       "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
       "specification_text": "晶簇枪\n0c 罕见 攻击\n造成6（8）点伤害。若你没有晶化，晶化1，抽1张牌。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "0",
         "type": "Attack",
@@ -949,7 +1076,7 @@
         "target": "AnyEnemy",
         "has_energy_cost_x": false
       },
-      "localized_description": "造成{Damage:diff()}点伤害。\n若你没有[gold]晶化[/gold]，[gold]晶化[/gold]{Cards:diff()}并抽1张牌。",
+      "localized_description": "造成{Damage:diff()}点伤害。\n若你手牌中没有[gold]晶化[/gold]，[gold]晶化[/gold]{Cards:diff()}并抽1张牌。",
       "card_source_linked_by_regression": true,
       "named_case_evidence": [
         "晶簇枪伤害后检查手中晶化，先生成后抽牌 has=False occupied=0 upgraded=False",
@@ -986,8 +1113,14 @@
       "model_id": "INDIUM_STAR_CARD_CRYSTAL_COIN",
       "source_file": "IndiumStar/IndiumStar/src/Cards/CrystalCoin.cs",
       "document_anchor": 2039,
-      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对；最新用户规则补充优先",
       "specification_text": "晶币 \n1c 罕见 技能 \n获得18（24）金币。 \n此牌在本场游戏中给予的金币永久-3 \n虚无。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "latest_user_rule": "复制继承复制时的衰减；之后原件与复制各自继续衰减。",
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "1",
         "type": "Skill",
@@ -1000,7 +1133,11 @@
       "named_case_evidence": [
         "晶币跨战斗递减写回牌组原件",
         "晶币收益下限为0",
-        "晶币升级抬高基础值且不清除递减"
+        "晶币升级抬高基础值且不清除递减",
+        "晶币复制继承已衰减收益，后续各自递减 upgraded=False",
+        "晶币复制继承已衰减收益，后续各自递减 upgraded=True",
+        "晶币从牌组战斗克隆复制时读取原件衰减，复制后独立",
+        "晶币衰减到零再复制和升级仍继承次数"
       ],
       "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
       "effect_acceptance": "部分源码回归；尚未完整验收",
@@ -1014,7 +1151,7 @@
         "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
         "真实游戏运行、存档恢复、多人数值和动作同步"
       ],
-      "source_sha256": "cefefef014a0f8486f7020df2a052306d1df33f86d72628912ac1c0cf706ad11"
+      "source_sha256": "9d3b55a4b95b7d15d4f463628d4153fdeb5e6364150e4bc67e2e4e47a1f5c78a"
     },
     {
       "class": "CrystalFlow",
@@ -1024,6 +1161,11 @@
       "document_anchor": 957,
       "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
       "specification_text": "晶流\n1c 普通 技能\n获得5（6）点格挡。\n晶抗：给予1（2）层虚弱。\n晶逆：重放1，不会触发晶抗/晶逆的效果。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "1",
         "type": "Skill",
@@ -1065,6 +1207,11 @@
       "source_file": "IndiumStar/IndiumStar/src/Cards/Crystallization.cs",
       "specification_source": "用户确认的通则/增补消息",
       "specification_text": "用户通则：普通无额外效果晶化，0c状态、保留、消耗；同一玩家每回合共用1次手动额度，自动打出不计次数。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "inherited": "晶化基类；还需核对实际注册/可打出属性",
         "has_energy_cost_x": false
@@ -1102,6 +1249,11 @@
       "document_anchor": 1107,
       "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
       "specification_text": "*晶化Hs0c 状态\n每回合至多打出1张晶化。在手中时，所有人具有1点力量。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "inherited": "晶化基类；还需核对实际注册/可打出属性",
         "has_energy_cost_x": false
@@ -1133,6 +1285,11 @@
       "document_anchor": 499,
       "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
       "specification_text": "*晶化Mg0c 状态保留，消耗每回合至多打出1张晶化。\n获得4点格挡。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "inherited": "晶化基类；还需核对实际注册/可打出属性",
         "has_energy_cost_x": false
@@ -1164,6 +1321,11 @@
       "document_anchor": 2434,
       "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
       "specification_text": "*晶化Nb \n0c 状态\n保留。消耗。\n每回合至多打出一张“晶化”牌，获得4层活力。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "inherited": "晶化基类；还需核对实际注册/可打出属性",
         "has_energy_cost_x": false
@@ -1193,6 +1355,11 @@
       "document_anchor": 1631,
       "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
       "specification_text": "*晶化-Pb\n0c 状态保留，消耗，虚无每回合最多只能打出1张晶化。回合结束时，若在手中，随机保留1张非状态牌。---------------------------------------------",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "inherited": "晶化基类；还需核对实际注册/可打出属性",
         "has_energy_cost_x": false
@@ -1222,6 +1389,11 @@
       "document_anchor": 2868,
       "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
       "specification_text": "*晶化U\n0c 保留 消耗\n不论何处，将1张“运用-中子+”放回你的手牌，使其获得消耗。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "inherited": "晶化基类；还需核对实际注册/可打出属性",
         "has_energy_cost_x": false
@@ -1253,6 +1425,11 @@
       "document_anchor": 2242,
       "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
       "specification_text": "成环\n1c 罕见 技能\n消耗一张牌。\n下回合多抽2（3）张牌。\n若消耗的不是状态或诅咒牌，则获得5（8）点格挡。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "1",
         "type": "Skill",
@@ -1296,6 +1473,11 @@
       "document_anchor": 30,
       "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
       "specification_text": "防御\n1c 初始 技能\n获得5（8）点格挡。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "1",
         "type": "Skill",
@@ -1325,12 +1507,18 @@
     },
     {
       "class": "DeferredRelease",
-      "title": "[待命名]技能",
+      "title": "气溶胶",
       "model_id": "INDIUM_STAR_CARD_DEFERRED_RELEASE",
       "source_file": "IndiumStar/IndiumStar/src/Cards/DeferredRelease.cs",
       "document_anchor": 1146,
-      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
-      "specification_text": "1c 普通 技能\n（保留）消耗1张牌。下个回合开始时，将其打出。\n\n罕见卡：攻击（10/12）",
+      "specification_source": "最新用户定稿消息；优先于DOCX正文",
+      "specification_text": "气溶胶（暂名） 1c 普通 技能\n（升级：保留）消耗1张手牌。下个回合开始时，将其自动打出。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "document_specification_text": "1c 普通 技能\n（保留）消耗1张牌。下个回合开始时，将其打出。\n\n罕见卡：攻击（10/12）",
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "1",
         "type": "Skill",
@@ -1364,7 +1552,8 @@
         "预约拒绝非法输入 foreign",
         "预约拒绝非法输入 replay",
         "预约拒绝非法输入 overflow",
-        "预约拒绝非法输入 duplicate"
+        "预约拒绝非法输入 duplicate",
+        "气溶胶命名保留模型ID且中英卡面同步"
       ],
       "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
       "effect_acceptance": "部分源码回归；尚未完整验收",
@@ -1378,7 +1567,7 @@
         "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
         "真实游戏运行、存档恢复、多人数值和动作同步"
       ],
-      "source_sha256": "a4a7d22fed56e3b6c37f85f233c9defdd803ba0ce4e4dbc9b5e98d727713bf58"
+      "source_sha256": "c981487dd4bca6d8e0755f6408a7a0109edcc373dafc8b47527dc67e0d67f444"
     },
     {
       "class": "ExploitAdvantage",
@@ -1388,6 +1577,11 @@
       "document_anchor": 270,
       "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
       "specification_text": "因势利导 \n1c 普通 攻击\n造成7（10）点伤害。\n晶抗：对同一目标造成3（5）点伤害，给予1层易伤。\n晶逆：给予1层虚弱。-----------------------------------------------",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "1",
         "type": "Attack",
@@ -1425,6 +1619,11 @@
       "document_anchor": 2672,
       "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
       "specification_text": "延拓展延1（0）c 罕见 能力回合结束时，你每拥有1层延拓，获得3点格挡。\n\n稀有卡：攻击（2/8）",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "1",
         "type": "Power",
@@ -1460,6 +1659,11 @@
       "document_anchor": 1460,
       "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
       "specification_text": "气相涌流1c 罕见 攻击\n造成6点伤害。每当你保留这张牌时，在本场战斗中其伤害增加6（9）。晶抗：回合开始时，返回手牌。晶逆：获得保留。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "1",
         "type": "Attack",
@@ -1502,6 +1706,11 @@
       "document_anchor": 2090,
       "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
       "specification_text": "基团迁移\n1c 罕见 技能\n延拓2（3）。\n晶抗：打出1张“晶化”。\n晶逆：将手牌中的1（任意）张牌放在抽牌堆顶。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "1",
         "type": "Skill",
@@ -1539,8 +1748,14 @@
       "model_id": "INDIUM_STAR_CARD_INVERSION",
       "source_file": "IndiumStar/IndiumStar/src/Cards/Inversion.cs",
       "document_anchor": 2770,
-      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
-      "specification_text": "反演 稀有 攻击 1\n造成5（8）点伤害。\n令你执行目标的意图。\n稀有卡：技能（2/8，多人0/1）",
+      "specification_source": "最新用户定稿消息；优先于DOCX正文",
+      "specification_text": "反演 1c 攻击 稀有\n造成7点伤害。（升级：保留）\n本场战斗中，你每打出过一张延拓牌，延拓1。\n消耗",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "document_specification_text": "反演 稀有 攻击 1\n造成5（8）点伤害。\n令你执行目标的意图。\n稀有卡：技能（2/8，多人0/1）",
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "1",
         "type": "Attack",
@@ -1548,18 +1763,23 @@
         "target": "AnyEnemy",
         "has_energy_cost_x": false
       },
-      "localized_description": "造成{Damage:diff()}点伤害。\n你执行目标敌人的意图。",
+      "localized_description": "造成{Damage:diff()}点伤害。\n本场战斗中，你每打出过一张[gold]延拓[/gold]牌，[gold]延拓[/gold]1。",
       "card_source_linked_by_regression": true,
       "named_case_evidence": [
-        "反演借用意图且不推进原敌人 Attack",
-        "反演借用意图且不推进原敌人 Buff",
-        "反演借用意图且不推进原敌人 Debuff",
-        "反演借用意图且不推进原敌人 Animation",
-        "反演借用意图且不推进原敌人 RandomAttack",
-        "反演借用意图且不推进原敌人 Fail",
-        "反演升级8伤且死亡目标不借用意图",
-        "反演补丁在借用范围外不改原怪物攻击与动画",
-        "反演借用随机攻击不推进原敌人的RNG"
+        "反演重做后不执行敌人意图或推进敌人的RNG",
+        "反演固定7伤、费用稀有度词条与历史延拓 n=0 upgraded=False",
+        "反演固定7伤、费用稀有度词条与历史延拓 n=1 upgraded=False",
+        "反演固定7伤、费用稀有度词条与历史延拓 n=5 upgraded=False",
+        "反演固定7伤、费用稀有度词条与历史延拓 n=0 upgraded=True",
+        "反演固定7伤、费用稀有度词条与历史延拓 n=1 upgraded=True",
+        "反演固定7伤、费用稀有度词条与历史延拓 n=5 upgraded=True",
+        "反演只计本人完成系列，自动算一次，重放不重复，未完成不计",
+        "反演当前牌不自计，已完成反演在后续计入，重放结算仍获得同数延拓",
+        "反演攻击连锁完成的延拓牌在伤害之后计入",
+        "反演伤害后战斗结束或本人死亡不再加延拓 ended=False",
+        "反演伤害后战斗结束或本人死亡不再加延拓 ended=True",
+        "反演新战斗重置历史，累计不跨战斗",
+        "反演延拓使用公共入口，受磷语替换影响"
       ],
       "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
       "effect_acceptance": "部分源码回归；尚未完整验收",
@@ -1573,7 +1793,7 @@
         "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
         "真实游戏运行、存档恢复、多人数值和动作同步"
       ],
-      "source_sha256": "7a3ef00068034ebbcc134e0690ac87779089f27dcabef5915f49c84a2376e484"
+      "source_sha256": "f089507f3aad3cc459e88bde4efe363cb83d0a2e054ca9b930112ce1d317f79b"
     },
     {
       "class": "MacroDendrite",
@@ -1583,6 +1803,11 @@
       "document_anchor": 1775,
       "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
       "specification_text": "宏枝晶\n1c 罕见 攻击\n造成3点伤害3次。\n晶抗：晶化1，本场战斗内，伤害＋1（2）。\n晶逆：晶化1，本场战斗内，段数＋1（2）。\n\n罕见卡：技能（9/14,多人0/3）",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "1",
         "type": "Attack",
@@ -1621,6 +1846,11 @@
       "source_file": "IndiumStar/IndiumStar/src/Cards/NeighboringGroupParticipation.cs",
       "specification_source": "用户确认的通则/增补消息",
       "specification_text": "用户增补：0c罕见技能；抽1张；能力再抽2，技能获3（5）格挡，攻击获3（4）临时力量。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "0",
         "type": "Skill",
@@ -1670,6 +1900,11 @@
       "document_anchor": 1304,
       "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
       "specification_text": "溯源猛击\n2c 罕见 攻击造成14（20）点伤害。你的下一张“运用”牌可以免费打出。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "2",
         "type": "Attack",
@@ -1705,6 +1940,11 @@
       "document_anchor": 803,
       "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
       "specification_text": "待发\n0c 普通 技能\n获得1c。\n抽1（2）张牌。\n本回合只能打出攻击牌。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "0",
         "type": "Skill",
@@ -1743,8 +1983,14 @@
       "model_id": "INDIUM_STAR_CARD_PRIMORDIAL_PIERCE",
       "source_file": "IndiumStar/IndiumStar/src/Cards/PrimordialPierce.cs",
       "document_anchor": 421,
-      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对；最新用户规则补充优先",
       "specification_text": "原波穿刺\n2c 普通 攻击\n造成11点伤害，目标每有一种负面状态，伤害+3（4）",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "latest_user_rule": "同类型的多个独立负面能力实例只算一种；保留原版Rend的当前Debuff类型和ITemporaryPower排除条件。",
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "2",
         "type": "Attack",
@@ -1757,7 +2003,9 @@
       "named_case_evidence": [
         "原波穿刺按负面种数、负力量及临时包装排除，克隆计算独立 upgraded=False",
         "原波穿刺按负面种数、负力量及临时包装排除，克隆计算独立 upgraded=True",
-        "原波穿刺空效果目标只有基础11，正力量不计负面"
+        "原波穿刺空效果目标只有基础11，正力量不计负面",
+        "原波穿刺同类型负面状态只计一种 upgraded=False",
+        "原波穿刺同类型负面状态只计一种 upgraded=True"
       ],
       "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
       "effect_acceptance": "部分源码回归；尚未完整验收",
@@ -1771,7 +2019,7 @@
         "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
         "真实游戏运行、存档恢复、多人数值和动作同步"
       ],
-      "source_sha256": "1a084ec74ba297414824aa176d761d5666c3d0fbb25395d483ffa7ea9960ca04"
+      "source_sha256": "b43289ba71f186863ae06879b75e59ee960ebdbfeee17b68cc9ea3f934cfafcd"
     },
     {
       "class": "QuantumDot",
@@ -1781,6 +2029,11 @@
       "document_anchor": 2632,
       "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
       "specification_text": "量子点\n2（1）c 罕见 能力\n你每回合打出的前2张牌会同时触发晶抗和晶逆效果。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "2",
         "type": "Power",
@@ -1829,6 +2082,11 @@
       "document_anchor": 2914,
       "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
       "specification_text": "复沓\n1（0）c 稀有 技能\n抽1张牌，将你在本回合打出的下一张牌的复制放置到你的抽牌堆顶部。\n\n稀有卡：能力（4/9，多人1/1）",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "1",
         "type": "Skill",
@@ -1864,8 +2122,14 @@
       "model_id": "INDIUM_STAR_CARD_REMINISCENCE_HARD_CALCITE",
       "source_file": "IndiumStar/IndiumStar/src/Cards/ReminiscenceHardCalcite.cs",
       "document_anchor": 2578,
-      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对；最新用户规则补充优先",
       "specification_text": "回忆-硬钙石\n1c 罕见 能力\n回合结束时，若你本回合消耗过牌，则对所有敌人造成3（4）倍晶化数的伤害。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "latest_user_rule": "多次打出数值叠加，但只显示一个能力图标；普通3、升级4累加为每张手中晶化的伤害。",
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "1",
         "type": "Power",
@@ -1882,18 +2146,18 @@
         "回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unblocked=True n=1 upgraded=False",
         "回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unblocked=False n=3 upgraded=False",
         "回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unblocked=True n=3 upgraded=False",
-        "回忆-硬钙石施加链内回合末读取当前伤害配置 repeat=False upgraded=False",
-        "回忆-硬钙石施加链内回合末读取当前伤害配置 repeat=True upgraded=False",
-        "回忆-硬钙石嵌套重施后外层不回滚最新配置 upgraded=False",
+        "回忆-硬钙石施加链内回合末读取累计伤害 repeat=False upgraded=False",
+        "回忆-硬钙石施加链内回合末读取累计伤害 repeat=True upgraded=False",
+        "回忆-硬钙石嵌套重施后总伤害正确累加 upgraded=False",
         "回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unblocked=False n=0 upgraded=True",
         "回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unblocked=True n=0 upgraded=True",
         "回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unblocked=False n=1 upgraded=True",
         "回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unblocked=True n=1 upgraded=True",
         "回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unblocked=False n=3 upgraded=True",
         "回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unblocked=True n=3 upgraded=True",
-        "回忆-硬钙石施加链内回合末读取当前伤害配置 repeat=False upgraded=True",
-        "回忆-硬钙石施加链内回合末读取当前伤害配置 repeat=True upgraded=True",
-        "回忆-硬钙石嵌套重施后外层不回滚最新配置 upgraded=True"
+        "回忆-硬钙石施加链内回合末读取累计伤害 repeat=False upgraded=True",
+        "回忆-硬钙石施加链内回合末读取累计伤害 repeat=True upgraded=True",
+        "回忆-硬钙石嵌套重施后总伤害正确累加 upgraded=True"
       ],
       "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
       "effect_acceptance": "部分源码回归；尚未完整验收",
@@ -1907,7 +2171,7 @@
         "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
         "真实游戏运行、存档恢复、多人数值和动作同步"
       ],
-      "source_sha256": "de61699fc75c063a67356971a024939fbdff9886e34c9fe1ea65e220f86454a9"
+      "source_sha256": "cf3d2202d68848a8df1f2c09b7f7dd2bb6deef93cd2071ef8281655f34fa9b82"
     },
     {
       "class": "ReminiscencePhosphorus",
@@ -1915,8 +2179,14 @@
       "model_id": "INDIUM_STAR_CARD_REMINISCENCE_PHOSPHORUS",
       "source_file": "IndiumStar/IndiumStar/src/Cards/ReminiscencePhosphorus.cs",
       "document_anchor": 3142,
-      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对；最新用户规则补充优先",
       "specification_text": "回忆-磷语 \n1c 稀有 能力 \n每回合第一次获得延拓时，改为（同时）获得等量能量。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "latest_user_rule": "多次打出增加每回合触发次数，前一次变前二次；每次效果不变。",
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "1",
         "type": "Power",
@@ -1927,17 +2197,32 @@
       "localized_description": "每回合第一次获得[gold]延拓[/gold]时，{IfUpgraded:show:同时|改为}获得等量能量。",
       "card_source_linked_by_regression": true,
       "named_case_evidence": [
-        "回忆-磷语首次有效延拓替换或并行、本人与他人重置 upgraded=False",
-        "回忆-磷语施加链内首次延拓读取当前卡牌配置 repeat=False upgraded=False",
-        "回忆-磷语施加链内首次延拓读取当前卡牌配置 repeat=True upgraded=False",
-        "回忆-磷语嵌套重施后外层不回滚最新配置 upgraded=False",
+        "回忆-磷语叠加次数延拓替换或并行、本人与他人重置 upgraded=False",
+        "回忆-磷语施加链内额度保留施加顺序 repeat=False upgraded=False",
+        "回忆-磷语施加链内额度保留施加顺序 repeat=True upgraded=False",
+        "回忆-磷语嵌套重施后各份模式按顺序保留 upgraded=False",
         "回忆-磷语能量钩子嵌套改配置，本次延拓模式取拦截开始快照 upgraded=False",
-        "回忆-磷语首次有效延拓替换或并行、本人与他人重置 upgraded=True",
-        "回忆-磷语施加链内首次延拓读取当前卡牌配置 repeat=False upgraded=True",
-        "回忆-磷语施加链内首次延拓读取当前卡牌配置 repeat=True upgraded=True",
-        "回忆-磷语嵌套重施后外层不回滚最新配置 upgraded=True",
+        "回忆-磷语叠加次数延拓替换或并行、本人与他人重置 upgraded=True",
+        "回忆-磷语施加链内额度保留施加顺序 repeat=False upgraded=True",
+        "回忆-磷语施加链内额度保留施加顺序 repeat=True upgraded=True",
+        "回忆-磷语嵌套重施后各份模式按顺序保留 upgraded=True",
         "回忆-磷语能量钩子嵌套改配置，本次延拓模式取拦截开始快照 upgraded=True",
-        "回忆-磷语能量拦截器先占本回合名额防递归重复返能量"
+        "回忆-磷语能量拦截器先占本回合名额防递归重复返能量",
+        "磷语多份合并图标、次数叠加，各份效果不变 firstUp=False secondUp=False",
+        "磷语Before施加钩子嵌套也保留内外模式 outerUp=False innerUp=False",
+        "磷语多份合并图标、次数叠加，各份效果不变 firstUp=False secondUp=True",
+        "磷语Before施加钩子嵌套也保留内外模式 outerUp=False innerUp=True",
+        "磷语多份合并图标、次数叠加，各份效果不变 firstUp=True secondUp=False",
+        "磷语Before施加钩子嵌套也保留内外模式 outerUp=True innerUp=False",
+        "磷语多份合并图标、次数叠加，各份效果不变 firstUp=True secondUp=True",
+        "磷语Before施加钩子嵌套也保留内外模式 outerUp=True innerUp=True",
+        "磷语重复施加只增加本体接受的额度 offset=0",
+        "磷语重复施加只增加本体接受的额度 offset=1",
+        "磷语重复施加只增加本体接受的额度 offset=2",
+        "磷语被拒绝的升级施加不会改写下一份普通额度",
+        "磷语能量连锁重入先消费额度，两个额度均只触发一次",
+        "磷语能力克隆后的模式列表独立",
+        "磷语他人和其他战斗的回合开始不会刷新本人额度"
       ],
       "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
       "effect_acceptance": "部分源码回归；尚未完整验收",
@@ -1951,7 +2236,7 @@
         "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
         "真实游戏运行、存档恢复、多人数值和动作同步"
       ],
-      "source_sha256": "3055e5de5ec2cb0b61c7e3f8dc40f635b5241bf3a509aa3c21f73757de363f23"
+      "source_sha256": "158d9157fb50c0df9580def37372bb2c7035067929d99a4447f9d619ce5a137d"
     },
     {
       "class": "ReminiscencePollutionH",
@@ -1961,6 +2246,11 @@
       "document_anchor": 2539,
       "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
       "specification_text": "回忆-污染H\n1c 罕见 能力\n你每触发4（3）次晶抗，延拓1并抽1张牌。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "1",
         "type": "Power",
@@ -1998,6 +2288,11 @@
       "document_anchor": 2478,
       "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
       "specification_text": "回忆-污染O\n1c 罕见 能力 \n（固有）\n晶抗：打出“晶化”时，获得4点格挡。\n晶逆：打出“晶化”时，获得3点活力。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "1",
         "type": "Power",
@@ -2040,6 +2335,11 @@
       "document_anchor": 3035,
       "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
       "specification_text": "回忆-锡疑 \n9c 稀有 能力\n回合内，你每打出一张牌，就交替获得1点临时力量/临时敏捷。\n每当你打出延拓牌时，此牌花费-2（3）",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "9",
         "type": "Power",
@@ -2075,8 +2375,14 @@
       "model_id": "INDIUM_STAR_CARD_REMINISCENCE_VANADIUM_ETERNAL",
       "source_file": "IndiumStar/IndiumStar/src/Cards/ReminiscenceVanadiumEternal.cs",
       "document_anchor": 2196,
-      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
+      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对；最新用户规则补充优先",
       "specification_text": "回忆-钒永\n1c 罕见 技能\n本回合每当你抽牌时，下回合开始时抽等量牌。抽1（2）张牌。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "latest_user_rule": "效果不叠加；共用实际抽牌统计器，重复施加不清空累计。",
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "1",
         "type": "Skill",
@@ -2096,7 +2402,7 @@
         "钒永抽牌被阻止不会预约不存在的牌",
         "钒永满手不把抽牌指令请求数当作实际抽牌数",
         "钒永生效之前的抽牌不计入，此后包括自身和其他来源",
-        "钒永同回合多份仍采用已记录的共用统计器口径",
+        "钒永多份效果不叠加，每张实际抽取仅计一次",
         "钒永生成和入手牌不计为抽取，其他玩家抽取也不计入",
         "钒永同阵营其他玩家结束或开始回合不覆盖本人预约",
         "钒永重复结束回调不会把预约数清零",
@@ -2136,6 +2442,11 @@
       "document_anchor": 667,
       "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
       "specification_text": "锈蚀之刃\n1c 普通 攻击\n造成10（14）点伤害，将其虚弱层数翻倍。消耗。\n\n普通卡：技能（8（9）/11）",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "1",
         "type": "Attack",
@@ -2175,6 +2486,11 @@
       "document_anchor": 772,
       "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
       "specification_text": "离析 \n1c 普通 技能\n打出1（2）张晶化。\n抽2张牌。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "1",
         "type": "Skill",
@@ -2213,6 +2529,11 @@
       "source_file": "IndiumStar/IndiumStar/src/Cards/ShadowChainBreath.cs",
       "specification_source": "用户确认的通则/增补消息",
       "specification_text": "用户增补：0c罕见技能；抽取时复制加入手牌；手牌中每张分影连气分别获得3（4）格挡；消耗。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "0",
         "type": "Skill",
@@ -2254,6 +2575,11 @@
       "document_anchor": 598,
       "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
       "specification_text": "碎晶雨\n1c 普通 攻击\n造成3点伤害3（4）次。\n晶抗：手牌中每有一张晶化多造成一次3（4）点伤害。\n晶逆：对其他敌人造成等量伤害。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "1",
         "type": "Attack",
@@ -2289,6 +2615,11 @@
       "document_anchor": 2723,
       "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
       "specification_text": "崩碎之歌2c 稀有 攻击消耗（打出）所有晶化，每张被打出的晶化造成9（11）点伤害。消耗。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "2",
         "type": "Attack",
@@ -2325,6 +2656,11 @@
       "document_anchor": 535,
       "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
       "specification_text": "合斩\n0c 普通 攻击\n对所有敌人造成5（7）点伤害。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "0",
         "type": "Attack",
@@ -2360,6 +2696,11 @@
       "document_anchor": 210,
       "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
       "specification_text": "回身踢 \n1c 普通 攻击\n造成2点伤害2（3）次。将弃牌堆中的1张牌加入手牌。（不）消耗。晶逆：使其本回合具有保留。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "1",
         "type": "Attack",
@@ -2401,6 +2742,11 @@
       "document_anchor": 6,
       "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
       "specification_text": "打击\n1c 初始 攻击\n造成6（9）点伤害。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "1",
         "type": "Attack",
@@ -2436,6 +2782,11 @@
       "document_anchor": 1421,
       "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
       "specification_text": "温压领域Xc 罕见 攻击获得等同于晶化数量的临时力量。造成7（9）点伤害X次。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "0",
         "type": "Attack",
@@ -2444,7 +2795,7 @@
         "has_energy_cost_x": true,
         "effective_cost_display": "X；base_cost_expression=0是本体X牌构造方式"
       },
-      "localized_description": "获得等同于[gold]晶化[/gold]数量的[gold]临时力量[/gold]。\n造成{Damage:diff()}点伤害X次。",
+      "localized_description": "获得等同于手牌中[gold]晶化[/gold]数量的[gold]临时力量[/gold]。\n造成{Damage:diff()}点伤害X次。",
       "card_source_linked_by_regression": true,
       "named_case_evidence": [
         "温压领域按捕获X而非剩余能量，多段前获得临时力量 n=0 X=0 upgraded=False",
@@ -2489,6 +2840,11 @@
       "document_anchor": 2982,
       "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
       "specification_text": "密铺形态 \n3c 稀有 能力\n晶化3。（保留）\n所有晶化牌具有“在手中时，你具有2点力量和2点敏捷”。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "3",
         "type": "Power",
@@ -2529,6 +2885,11 @@
       "document_anchor": 3102,
       "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
       "specification_text": "嬗变 \n1c 稀有 能力\n（固有）回合开始时，将一张晶化变化为抽牌堆顶的牌。",
+      "global_user_rules": [
+        "所有晶化数量均指手牌中的晶化。",
+        "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
+      ],
+      "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "1",
         "type": "Power",
@@ -2564,7 +2925,7 @@
     }
   ],
   "total": 64,
-  "regression_cases": 583,
+  "regression_cases": 616,
   "direct_card_sources_linked": 64,
   "complete_effect_acceptances": 0
 }

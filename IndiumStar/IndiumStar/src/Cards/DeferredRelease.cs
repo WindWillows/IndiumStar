@@ -10,7 +10,7 @@ using STS2RitsuLib.Scaffolding.Content;
 
 namespace IndiumStar.Cards;
 
-/// <summary>文档中未命名的普通技能；内部标识固定，显示名称明确保留待命名状态。</summary>
+/// <summary>气溶胶：消耗一张手牌，预约本人下回合自动打出；内部标识沿用DeferredRelease。</summary>
 [RegisterCard(typeof(IndiumStarCardPool))]
 public sealed class DeferredRelease : ModCardTemplate
 {

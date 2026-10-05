@@ -25,14 +25,14 @@ public static class SemanticAuditTests {
                 Check(!r.Player.Creature.Powers.Any(p => p.GetType().Name.StartsWith("Lose")));
             });
         }
-        Test("反演借用随机攻击不推进原敌人的RNG", async () => {
+        Test("反演重做后不执行敌人意图或推进敌人的RNG", async () => {
             var r = new Rig(); var target = new Creature { CombatState = r.State };
             var monster = new ProbeEnemy { Creature = target, Intent = ProbeEnemy.Mode.RandomAttack };
             target.Monster = monster; monster.SetUpForCombat();
             var before = monster.Rng.ToSerializable();
             var card = r.Crystal<Inversion>();
             await card.Play(r.Choice, new() { Card = card, Target = target });
-            Check(monster.Rng.ToSerializable() == before && monster.ExecutionCount == 0 && DamageCmd.Attacks.Count == 2);
+            Check(monster.Rng.ToSerializable() == before && monster.ExecutionCount == 0 && DamageCmd.Attacks.Count == 1 && DamageCmd.Attacks[0].Damage == 7);
         });
         Test("Co标记复制继承且回合结束清除原件与复制", async () => {
             var r = new Rig(); var source = r.Crystal<MarkedApplication>();

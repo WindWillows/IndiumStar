@@ -138,19 +138,11 @@ PASS 邻基参与按第一张实际抽到牌判断 Quest upgraded=False
 PASS 邻基参与按第一张实际抽到牌判断 Quest upgraded=True
 PASS 邻基参与抽牌受阻和空牌堆都不触发类型奖励
 PASS 邻基参与多次临时力量回收保留原有永久力量
-PASS 反演借用意图且不推进原敌人 Attack
-PASS 反演借用意图且不推进原敌人 Buff
-PASS 反演借用意图且不推进原敌人 Debuff
-PASS 反演借用意图且不推进原敌人 Animation
-PASS 反演借用意图且不推进原敌人 RandomAttack
-PASS 反演借用意图且不推进原敌人 Fail
-PASS 反演升级8伤且死亡目标不借用意图
-PASS 反演补丁在借用范围外不改原怪物攻击与动画
+PASS 原怪物攻击与动画保持本体指令语义
 PASS 六张新卡中英文标题描述均存在
-PASS 实际游戏反演反射字段和Harmony目标参数契约
 PASS 中子重复施加只使用原版状态，无隐藏清除器 energy=0
 PASS 中子重复施加只使用原版状态，无隐藏清除器 energy=1
-PASS 反演借用随机攻击不推进原敌人的RNG
+PASS 反演重做后不执行敌人意图或推进敌人的RNG
 PASS Co标记复制继承且回合结束清除原件与复制
 PASS U标记复制生成晶化U且不会修改未标记牌
 PASS 免费运用两份额度不会被一张牌的系列重放耗尽
@@ -285,7 +277,7 @@ PASS 钒永只统计实际抽到牌 available=5 upgraded=True
 PASS 钒永抽牌被阻止不会预约不存在的牌
 PASS 钒永满手不把抽牌指令请求数当作实际抽牌数
 PASS 钒永生效之前的抽牌不计入，此后包括自身和其他来源
-PASS 钒永同回合多份仍采用已记录的共用统计器口径
+PASS 钒永多份效果不叠加，每张实际抽取仅计一次
 PASS 钒永生成和入手牌不计为抽取，其他玩家抽取也不计入
 PASS 钒永同阵营其他玩家结束或开始回合不覆盖本人预约
 PASS 钒永重复结束回调不会把预约数清零
@@ -470,13 +462,13 @@ PASS 回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unbl
 PASS 回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unblocked=True n=1 upgraded=False
 PASS 回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unblocked=False n=3 upgraded=False
 PASS 回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unblocked=True n=3 upgraded=False
-PASS 回忆-磷语首次有效延拓替换或并行、本人与他人重置 upgraded=False
-PASS 回忆-磷语施加链内首次延拓读取当前卡牌配置 repeat=False upgraded=False
-PASS 回忆-硬钙石施加链内回合末读取当前伤害配置 repeat=False upgraded=False
-PASS 回忆-磷语施加链内首次延拓读取当前卡牌配置 repeat=True upgraded=False
-PASS 回忆-硬钙石施加链内回合末读取当前伤害配置 repeat=True upgraded=False
-PASS 回忆-磷语嵌套重施后外层不回滚最新配置 upgraded=False
-PASS 回忆-硬钙石嵌套重施后外层不回滚最新配置 upgraded=False
+PASS 回忆-磷语叠加次数延拓替换或并行、本人与他人重置 upgraded=False
+PASS 回忆-磷语施加链内额度保留施加顺序 repeat=False upgraded=False
+PASS 回忆-硬钙石施加链内回合末读取累计伤害 repeat=False upgraded=False
+PASS 回忆-磷语施加链内额度保留施加顺序 repeat=True upgraded=False
+PASS 回忆-硬钙石施加链内回合末读取累计伤害 repeat=True upgraded=False
+PASS 回忆-磷语嵌套重施后各份模式按顺序保留 upgraded=False
+PASS 回忆-硬钙石嵌套重施后总伤害正确累加 upgraded=False
 PASS 回忆-磷语能量钩子嵌套改配置，本次延拓模式取拦截开始快照 upgraded=False
 PASS 打击基础伤害与Strike标签 upgraded=True
 PASS 防御基础格挡与Defend标签 upgraded=True
@@ -555,13 +547,13 @@ PASS 回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unbl
 PASS 回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unblocked=True n=1 upgraded=True
 PASS 回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unblocked=False n=3 upgraded=True
 PASS 回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unblocked=True n=3 upgraded=True
-PASS 回忆-磷语首次有效延拓替换或并行、本人与他人重置 upgraded=True
-PASS 回忆-磷语施加链内首次延拓读取当前卡牌配置 repeat=False upgraded=True
-PASS 回忆-硬钙石施加链内回合末读取当前伤害配置 repeat=False upgraded=True
-PASS 回忆-磷语施加链内首次延拓读取当前卡牌配置 repeat=True upgraded=True
-PASS 回忆-硬钙石施加链内回合末读取当前伤害配置 repeat=True upgraded=True
-PASS 回忆-磷语嵌套重施后外层不回滚最新配置 upgraded=True
-PASS 回忆-硬钙石嵌套重施后外层不回滚最新配置 upgraded=True
+PASS 回忆-磷语叠加次数延拓替换或并行、本人与他人重置 upgraded=True
+PASS 回忆-磷语施加链内额度保留施加顺序 repeat=False upgraded=True
+PASS 回忆-硬钙石施加链内回合末读取累计伤害 repeat=False upgraded=True
+PASS 回忆-磷语施加链内额度保留施加顺序 repeat=True upgraded=True
+PASS 回忆-硬钙石施加链内回合末读取累计伤害 repeat=True upgraded=True
+PASS 回忆-磷语嵌套重施后各份模式按顺序保留 upgraded=True
+PASS 回忆-硬钙石嵌套重施后总伤害正确累加 upgraded=True
 PASS 回忆-磷语能量钩子嵌套改配置，本次延拓模式取拦截开始快照 upgraded=True
 PASS 基团迁移磷语基础效果返能量后判断晶抗
 PASS 基团迁移升级选择零张仍保留延拓，不默认强制置顶
@@ -584,4 +576,45 @@ PASS 表征能力克隆的预约列表独立，不消耗原件预约
 PASS 表征重复施加按本体最终接受层数预约 offset=0
 PASS 表征重复施加按本体最终接受层数预约 offset=1
 PASS 表征重复施加按本体最终接受层数预约 offset=5
-583/583 passed; scope: real mod source, command/history stubs, real Harmony patching and game API contract.
+PASS 反演固定7伤、费用稀有度词条与历史延拓 n=0 upgraded=False
+PASS 反演固定7伤、费用稀有度词条与历史延拓 n=1 upgraded=False
+PASS 反演固定7伤、费用稀有度词条与历史延拓 n=5 upgraded=False
+PASS 晶币复制继承已衰减收益，后续各自递减 upgraded=False
+PASS 磷语多份合并图标、次数叠加，各份效果不变 firstUp=False secondUp=False
+PASS 硬钙石多份合并图标并累计数值 firstUp=False secondUp=False
+PASS 磷语Before施加钩子嵌套也保留内外模式 outerUp=False innerUp=False
+PASS 磷语多份合并图标、次数叠加，各份效果不变 firstUp=False secondUp=True
+PASS 硬钙石多份合并图标并累计数值 firstUp=False secondUp=True
+PASS 磷语Before施加钩子嵌套也保留内外模式 outerUp=False innerUp=True
+PASS 反演固定7伤、费用稀有度词条与历史延拓 n=0 upgraded=True
+PASS 反演固定7伤、费用稀有度词条与历史延拓 n=1 upgraded=True
+PASS 反演固定7伤、费用稀有度词条与历史延拓 n=5 upgraded=True
+PASS 晶币复制继承已衰减收益，后续各自递减 upgraded=True
+PASS 磷语多份合并图标、次数叠加，各份效果不变 firstUp=True secondUp=False
+PASS 硬钙石多份合并图标并累计数值 firstUp=True secondUp=False
+PASS 磷语Before施加钩子嵌套也保留内外模式 outerUp=True innerUp=False
+PASS 磷语多份合并图标、次数叠加，各份效果不变 firstUp=True secondUp=True
+PASS 硬钙石多份合并图标并累计数值 firstUp=True secondUp=True
+PASS 磷语Before施加钩子嵌套也保留内外模式 outerUp=True innerUp=True
+PASS 反演只计本人完成系列，自动算一次，重放不重复，未完成不计
+PASS 反演当前牌不自计，已完成反演在后续计入，重放结算仍获得同数延拓
+PASS 反演攻击连锁完成的延拓牌在伤害之后计入
+PASS 反演伤害后战斗结束或本人死亡不再加延拓 ended=False
+PASS 反演伤害后战斗结束或本人死亡不再加延拓 ended=True
+PASS 反演新战斗重置历史，累计不跨战斗
+PASS 反演延拓使用公共入口，受磷语替换影响
+PASS 磷语重复施加只增加本体接受的额度 offset=0
+PASS 磷语重复施加只增加本体接受的额度 offset=1
+PASS 磷语重复施加只增加本体接受的额度 offset=2
+PASS 磷语被拒绝的升级施加不会改写下一份普通额度
+PASS 磷语能量连锁重入先消费额度，两个额度均只触发一次
+PASS 磷语能力克隆后的模式列表独立
+PASS 磷语他人和其他战斗的回合开始不会刷新本人额度
+PASS 晶币从牌组战斗克隆复制时读取原件衰减，复制后独立
+PASS 晶币衰减到零再复制和升级仍继承次数
+PASS 分析同类型多个实例只计一种、仍排除隐藏效果 upgraded=False
+PASS 原波穿刺同类型负面状态只计一种 upgraded=False
+PASS 分析同类型多个实例只计一种、仍排除隐藏效果 upgraded=True
+PASS 原波穿刺同类型负面状态只计一种 upgraded=True
+PASS 气溶胶命名保留模型ID且中英卡面同步
+616/616 passed; scope: real mod source, command/history stubs, real Harmony patching and game API contract.

@@ -12,7 +12,7 @@ namespace IndiumStar.Powers;
 
 /// <summary>本回合从钒永生效后统计实际抽牌，预约本人下一回合的额外抽牌。</summary>
 /// <remarks>
-/// 保留既有的同回合多份共用统计器口径；多份是否独立累加另列设计问题。
+/// 同回合多份共用统计器：钒永效果不叠加，重复施加也不清空已计入的抽牌。
 /// 待兑现数量与本回合的新统计分开，BeforeHandDraw自动打出的新钒永不会被旧预约清理。
 /// 不用AfterSideTurnStart兑现：多人开始回合遇到选牌暂停时，该钩子可能早于本人抽牌完成。
 /// 正数预约在真正的AfterModifyingHandDraw消费；零预约在本人的AfterPlayerTurnStart清理。

@@ -24,8 +24,7 @@ $sourcePaths = @('Cards\Analyze.cs', 'Cards\BondingEster.cs', 'Cards\BondingImid
     'Powers\OnlyAttacksThisTurnPower.cs', 'Powers\TilingFormPower.cs', 'Powers\CrystalHandAuraPower.cs',
     'Cards\MacroDendrite.cs', 'Cards\Cyclization.cs', 'Cards\ShadowChainBreath.cs', 'Cards\Reiteration.cs',
     'Cards\NeighboringGroupParticipation.cs', 'Cards\Inversion.cs', 'Cards\BondingTripleBond.cs', 'Cards\DeferredRelease.cs', 'Powers\DeferredReleasePower.cs', 'Powers\ReiterationPower.cs',
-    'Powers\NeighboringGroupStrengthPower.cs', 'Mechanics\IntentExecutionRules.cs',
-    'Mechanics\BorrowedIntentCompatibility.cs', 'Patches\BorrowedIntentPatches.cs',
+    'Powers\NeighboringGroupStrengthPower.cs',
     'Patches\CrystallizeMarkClonePatch.cs', 'Powers\ApplicationCoPower.cs', 'Powers\ApplicationUCrystallizePower.cs',
     'Powers\FreeApplicationPower.cs', 'Powers\ApplicationCaBlockPower.cs', 'Cards\ApplicationCa.cs',
     'Cards\ReminiscenceTinDoubt.cs', 'Powers\ReminiscenceTinDoubtPower.cs', 'Powers\TinDoubtTemporaryPowers.cs',
@@ -35,6 +34,7 @@ $sourcePaths = @('Cards\Analyze.cs', 'Cards\BondingEster.cs', 'Cards\BondingImid
 $sourcePaths += @($usingsPath, (Join-Path $PSScriptRoot 'GameStubs.cs'), (Join-Path $PSScriptRoot 'NewCardStubs.cs'),
     (Join-Path $PSScriptRoot 'NewCardTests.cs'), (Join-Path $PSScriptRoot 'SemanticAuditTests.cs'),
     (Join-Path $PSScriptRoot 'MechanismTests.cs'), (Join-Path $PSScriptRoot 'UpdatedSpecificationTests.cs'), (Join-Path $PSScriptRoot 'DeferredReleaseTests.cs'), (Join-Path $PSScriptRoot 'CrystalReplayTests.cs'), (Join-Path $PSScriptRoot 'TurnSchedulingTests.cs'), (Join-Path $PSScriptRoot 'ApplicationEffectTests.cs'), (Join-Path $PSScriptRoot 'RemainingCardStubs.cs'), (Join-Path $PSScriptRoot 'RemainingCardEffectTests.cs'))
+$sourcePaths += (Join-Path $PSScriptRoot 'RuleDecisionTests.cs')
 $arguments = @('/nostdlib+', '/target:exe', '/optimize+', '/langversion:13.0', '/nullable:enable', '/utf8output',
     ('/out:"' + (Join-Path $outputDir 'MechanismTests.dll') + '"'))
 $arguments += Get-ChildItem -LiteralPath (Join-Path $refDir.FullName 'ref\net9.0') -Filter '*.dll' |

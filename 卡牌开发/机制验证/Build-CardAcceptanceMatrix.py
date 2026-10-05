@@ -11,6 +11,10 @@ ROOT = Path(__file__).resolve().parents[2]
 PROJECT = ROOT / "IndiumStar/IndiumStar"
 EVIDENCE = ROOT / "卡牌开发/审查证据_2026-10-05"
 DOCUMENT = ROOT / "晶塔世界角色.docx"
+DECISIONS = ROOT / "卡牌开发/规则定稿_2026-10-05.json"
+decisions = json.loads(DECISIONS.read_text(encoding="utf-8"))
+if hashlib.sha256(DOCUMENT.read_bytes()).hexdigest() != decisions["document_sha256"]:
+    raise ValueError("最新规则定稿对应的DOCX哈希已改变，请先重新核对")
 N = {"w": "http://schemas.openxmlformats.org/wordprocessingml/2006/main"}
 with ZipFile(DOCUMENT) as archive:
     document = ET.fromstring(archive.read("word/document.xml"))
@@ -72,6 +76,15 @@ for row in records:
     if cls in span_by_class:
         row.update(specification_source="当前DOCX正文；括号升级以该文档格式和原文核对",
                    specification_text=span_by_class[cls])
+    row["global_user_rules"] = decisions["global_rules"]
+    if cls in decisions["card_specification_overrides"]:
+        row["document_specification_text"] = row["specification_text"]
+        row.update(specification_source="最新用户定稿消息；优先于DOCX正文",
+                   specification_text=decisions["card_specification_overrides"][cls])
+    if cls in decisions["card_rule_overrides"]:
+        row["latest_user_rule"] = decisions["card_rule_overrides"][cls]
+        row["specification_source"] += "；最新用户规则补充优先"
+    row["rule_decision_file"] = "卡牌开发/规则定稿_2026-10-05.json"
     source_path = ROOT / row["source_file"]
     source = source_path.read_text(encoding="utf-8")
     constructor = re.search(r": base\(([^,]+), CardType\.(\w+), CardRarity\.(\w+), TargetType\.(\w+)\)", source)
@@ -97,7 +110,9 @@ for row in records:
     ]
     row["source_sha256"] = hashlib.sha256(source_path.read_bytes()).hexdigest()
 report = {
-    "schema_version": 1, "document_sha256": hashlib.sha256(DOCUMENT.read_bytes()).hexdigest(),
+    "schema_version": 2, "document_sha256": hashlib.sha256(DOCUMENT.read_bytes()).hexdigest(),
+    "rule_decisions_sha256": hashlib.sha256(DECISIONS.read_bytes()).hexdigest(),
+    "precedence": decisions["precedence"],
     "scope": "64张注册卡牌的规格/源码/现有证据工作矩阵；命名用例和源码链接仅定位证据，不自动认定语义阅读或完整验收",
     "cards": records, "total": len(records), "regression_cases": len(passed_cases),
     "direct_card_sources_linked": sum(row["card_source_linked_by_regression"] for row in records),

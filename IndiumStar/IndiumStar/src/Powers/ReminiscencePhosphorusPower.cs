@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
@@ -15,94 +16,98 @@ using IndiumStar.Cards;
 
 namespace IndiumStar.Powers;
 
-/// <summary>
-/// 「回忆-磷语」的能力：每回合第一次获得延拓时，改为获得等量能量（升级版为同时获得）。
-/// </summary>
-/// <remarks>
-/// <para>
-/// 拦截点在延拓公共入口 <c>ExtensionRules.Gain</c>（通过
-/// <see cref="IExtensionGainInterceptor" /> 解耦，公共入口不认识具体能力）。
-/// 每回合的第一次有效：返回 true 表示延拓被替换成能量（基础版）；
-/// 升级版返回 false，能量照发、延拓也照常获得。
-/// </para>
-/// <para>
-/// 「每回合第一次」在拥有者的回合开始时重置。
-/// </para>
-/// <para>
-/// 图标暂时借用原版「力量」的能力图标。
-/// </para>
-/// </remarks>
+/// <summary>每份磷语增加每回合一次转换额度；各份保留其升级模式，按施加顺序使用。</summary>
 [RegisterPower]
 public sealed class ReminiscencePhosphorusPower : ModPowerTemplate, IExtensionGainInterceptor
 {
-    /// <summary>本回合是否已经拦截过一次。</summary>
-    private bool _usedThisTurn;
+    private List<bool> _grantBothBySlot = [];
+    private bool _pendingGrantBoth;
+    private int _usedThisTurn;
+    private int _resetTurn;
+    private static readonly AsyncLocal<bool?> ApplyingMode = new();
 
-    /// <summary>升级版：同时获得能量和延拓，而不是替换。</summary>
-    private bool _grantBoth;
+    /// <summary>模式跟随施加动作的异步调用域，嵌套施加返回后恢复外层模式。</summary>
+    public static async Task ApplyFromCard(PlayerChoiceContext context, ReminiscencePhosphorus card)
+    {
+        card.Owner.Creature.GetPower<ReminiscencePhosphorusPower>()?.SyncAcceptedSlots();
+        bool? previous = ApplyingMode.Value;
+        ApplyingMode.Value = card.IsUpgraded;
+        try
+        {
+            await PowerCmd.Apply<ReminiscencePhosphorusPower>(context, card.Owner.Creature,
+                1m, card.Owner.Creature, card);
+        }
+        finally { ApplyingMode.Value = previous; }
+    }
 
     public override PowerType Type => PowerType.Buff;
-
-    /// <summary>效果是开关而不是计数，用 Single 不显示层数。</summary>
-    public override PowerStackType StackType => PowerStackType.Single;
-
+    public override PowerStackType StackType => PowerStackType.Counter;
     public override PowerAssetProfile AssetProfile => ContentAssetProfiles.Power("strength_power");
 
-    /// <summary>由卡牌在施加时设置：升级版为同时获得。</summary>
-    public void Configure(bool grantBoth)
+    protected override void DeepCloneFields()
     {
-        _grantBoth = grantBoth;
+        base.DeepCloneFields();
+        _grantBothBySlot = new(_grantBothBySlot);
     }
 
     public override Task BeforeApplied(Creature target, decimal amount, Creature? applier, CardModel? cardSource)
     {
-        ConfigureFromCard(cardSource);
+        _pendingGrantBoth = cardSource is ReminiscencePhosphorus { IsUpgraded: true };
+        _resetTurn = target.Player?.PlayerCombatState?.TurnNumber ?? 0;
+        // 新能力尚未设置Owner/Amount，这里的amount已经过本体修改器。
+        for (int i = 0; i < (int)amount; i++) _grantBothBySlot.Add(_pendingGrantBoth);
         return Task.CompletedTask;
     }
 
     public override Task BeforePowerAmountChanged(PowerModel power, decimal amount,
         Creature target, Creature? applier, CardModel? cardSource)
     {
-        if (power == this && target == Owner) ConfigureFromCard(cardSource);
+        if (power == this && target == Owner)
+        {
+            // 外层施加已经修改Amount时，先保存外层新增额度，再接受内层模式。
+            SyncAcceptedSlots();
+            if (cardSource is ReminiscencePhosphorus card) _pendingGrantBoth = card.IsUpgraded;
+        }
         return Task.CompletedTask;
     }
 
-    private void ConfigureFromCard(CardModel? source)
+    public override Task AfterPowerAmountChanged(PlayerChoiceContext context, PowerModel power,
+        decimal amount, Creature? applier, CardModel? cardSource)
     {
-        if (source is ReminiscencePhosphorus card) Configure(card.IsUpgraded);
+        if (power == this) SyncAcceptedSlots();
+        return Task.CompletedTask;
     }
 
-    public async Task<bool> TryConvertExtensionToEnergy(
-        PlayerChoiceContext choiceContext,
-        Player player,
-        int amount)
+    private void SyncAcceptedSlots()
     {
-        if (_usedThisTurn)
-        {
-            return false;
-        }
+        // 用真正接受的层数对齐；受阻或减为零的施加不能产生隐藏额度。
+        int accepted = System.Math.Max(0, Amount);
+        while (_grantBothBySlot.Count < accepted)
+            _grantBothBySlot.Add(ApplyingMode.Value ?? _pendingGrantBoth);
+        if (_grantBothBySlot.Count > accepted)
+            _grantBothBySlot.RemoveRange(accepted, _grantBothBySlot.Count - accepted);
+    }
 
-        // 能量修改钩子可以等待或嵌套重施磷语；本次按进入拦截时的模式结算。
-        bool grantBoth = _grantBoth;
-        _usedThisTurn = true;
+    public async Task<bool> TryConvertExtensionToEnergy(PlayerChoiceContext context, Player player, int amount)
+    {
+        if (amount <= 0 || player.Creature != Owner || Owner.CombatState == null) return false;
+        SyncAcceptedSlots();
+        if (_usedThisTurn >= _grantBothBySlot.Count) return false;
+        // 能量钩子可能等待、再施加或再次获得延拓；先消费次数，并固定本次模式。
+        bool grantBoth = _grantBothBySlot[_usedThisTurn++];
         await PlayerCmd.GainEnergy(amount, player);
-
-        // 同时模式：能量照发，延拓也照常获得（不替换）。
         return !grantBoth;
     }
 
-    /// <summary>拥有者的回合开始时重置「每回合第一次」。</summary>
-    public override Task BeforeSideTurnStart(
-        PlayerChoiceContext choiceContext,
-        CombatSide side,
-        IReadOnlyList<Creature> participants,
-        ICombatState combatState)
+    public override Task BeforeSideTurnStart(PlayerChoiceContext context, CombatSide side,
+        IReadOnlyList<Creature> participants, ICombatState combatState)
     {
-        if (participants.Contains(base.Owner))
+        if (combatState == Owner.CombatState && participants.Contains(Owner)
+            && Owner.Player?.PlayerCombatState is { } state && state.TurnNumber != _resetTurn)
         {
-            _usedThisTurn = false;
+            _resetTurn = state.TurnNumber;
+            _usedThisTurn = 0;
         }
-
         return Task.CompletedTask;
     }
 }

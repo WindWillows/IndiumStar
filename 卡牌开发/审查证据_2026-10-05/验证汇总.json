@@ -1,23 +1,23 @@
 {
-  "scope": "Official Godot SDK Release, 583 real-source regressions linking all 64 card sources with command/history/selection stubs and actual Harmony; TaskCompletionSource callback pauses; 64 native model probes and native replay patch/metadata; 11 JSON PCK roundtrip; no deployment or full live engine/combat/UI/save/multiplayer execution",
+  "scope": "Official Godot SDK Release; 616 real-source regressions linking all 64 card sources with command/history/selection stubs and actual Harmony; 64 native model probes plus native replay metadata, Co/U and coin decay clone; 11 JSON PCK roundtrip; no deployment or full live startup/combat/UI/save/multiplayer acceptance",
   "source_document_sha256": "85920BC38DF934ABA98B755D7181B375134859692DB6B65FE36436ACBD9A2438",
-  "baseline": "5ae63f0",
-  "mechanism_cases": 583,
+  "baseline": "41faa5e",
+  "mechanism_cases": 616,
   "native_model_cases": 64,
-  "production_sources": 116,
+  "production_sources": 113,
   "release_errors": 0,
   "release_warnings": 0,
   "pck_roundtrip_json_files": 11,
   "artifacts": [
     {
       "name": "IndiumStar.dll",
-      "length": 196608,
-      "sha256": "17DAD4EBC1E9D2588F6BBFF3BFEE72F0D8F79681C4061C705B9CA5FBF0AE4646"
+      "length": 187392,
+      "sha256": "DA5C090E944B3B5103A061F36AA2E2A803326DE009FE27D9C878070B773F0761"
     },
     {
       "name": "IndiumStar.pck",
-      "length": 55164,
-      "sha256": "F041C581B97B6034E7DFA9C9EEE4975F921F3B8CEA91B6F4EB05CEAE96AFFE64"
+      "length": 55484,
+      "sha256": "7043554882285D75CF4CEA23EB6DB223B9859AF6342963E5400B5782F4ABC423"
     },
     {
       "name": "IndiumStar.json",
@@ -48,7 +48,7 @@
     },
     {
       "path": "src/Cards/Analyze.cs",
-      "sha256": "F99E43F1E5B6C2C718BD07418695161F550EE9E347C7C7EF4A7F5AF3C03ED554"
+      "sha256": "45BBD09B32A8B161A05BCD770DBCA5810F6C4E603114BC345E88B3B1E899C838"
     },
     {
       "path": "src/Cards/ApplicationAs.cs",
@@ -156,7 +156,7 @@
     },
     {
       "path": "src/Cards/CrystalCoin.cs",
-      "sha256": "CEFEFEF014A0F8486F7020DF2A052306D1DF33F86D72628912AC1C0CF706AD11"
+      "sha256": "9D3B55A4B95B7D15D4F463628D4153FDEB5E6364150E4BC67E2E4E47A1F5C78A"
     },
     {
       "path": "src/Cards/CrystalFlow.cs",
@@ -204,7 +204,7 @@
     },
     {
       "path": "src/Cards/DeferredRelease.cs",
-      "sha256": "A4A7D22FED56E3B6C37F85F233C9DEFDD803BA0CE4E4DBC9B5E98D727713BF58"
+      "sha256": "C981487DD4BCA6D8E0755F6408A7A0109EDCC373DAFC8B47527DC67E0D67F444"
     },
     {
       "path": "src/Cards/ExploitAdvantage.cs",
@@ -228,7 +228,7 @@
     },
     {
       "path": "src/Cards/Inversion.cs",
-      "sha256": "7A3EF00068034EBBCC134E0690AC87779089F27DCABEF5915F49C84A2376E484"
+      "sha256": "F089507F3AAD3CC459E88BDE4EFE363CB83D0A2E054CA9B930112CE1D317F79B"
     },
     {
       "path": "src/Cards/MacroDendrite.cs",
@@ -248,7 +248,7 @@
     },
     {
       "path": "src/Cards/PrimordialPierce.cs",
-      "sha256": "1A084EC74BA297414824AA176D761D5666C3D0FBB25395D483FFA7EA9960CA04"
+      "sha256": "B43289BA71F186863AE06879B75E59EE960EBDBFEEE17B68CC9EA3F934CFAFCD"
     },
     {
       "path": "src/Cards/QuantumDot.cs",
@@ -260,11 +260,11 @@
     },
     {
       "path": "src/Cards/ReminiscenceHardCalcite.cs",
-      "sha256": "DE61699FC75C063A67356971A024939FBDFF9886E34C9FE1EA65E220F86454A9"
+      "sha256": "CF3D2202D68848A8DF1F2C09B7F7DD2BB6DEEF93CD2071EF8281655F34FA9B82"
     },
     {
       "path": "src/Cards/ReminiscencePhosphorus.cs",
-      "sha256": "3055E5DE5EC2CB0B61C7E3F8DC40F635B5241BF3A509AA3C21F73757DE363F23"
+      "sha256": "158D9157FB50C0DF9580DEF37372BB2C7035067929D99A4447F9D619CE5A137D"
     },
     {
       "path": "src/Cards/ReminiscencePollutionH.cs",
@@ -335,10 +335,6 @@
       "sha256": "91B990223FE8526BAB7C5D938EE76FF4813116F7DC6A955386C4C5696236D6E0"
     },
     {
-      "path": "src/Mechanics/BorrowedIntentCompatibility.cs",
-      "sha256": "28A22FBB77A60E0A3B11C1B196A4435FA03BEED87DBE2BB4651F3D79C29B8C5F"
-    },
-    {
       "path": "src/Mechanics/CrystalBranch.cs",
       "sha256": "CAEB101DD64C47E67DD07AB5408499DF4D9F0F7E0152116E18162FB8A24922D0"
     },
@@ -359,16 +355,8 @@
       "sha256": "2F8837118E0686634D793E4D4F85BC8BC9192BEF791B9A8644C221949E81B3E6"
     },
     {
-      "path": "src/Mechanics/IntentExecutionRules.cs",
-      "sha256": "6348F7590DDD720D009FA9B453564DEF44B3579B80214ED366F4D6D1308A1976"
-    },
-    {
-      "path": "src/Patches/BorrowedIntentPatches.cs",
-      "sha256": "A8C9E741CE7BA03FCCBC9220748CC53A12949D651970EF756B77AF48881C8970"
-    },
-    {
       "path": "src/Patches/CrystallizeMarkClonePatch.cs",
-      "sha256": "ED2FFA089748C006610A6E7464F7BA5413CDCDEF618BC2BAB3F748967D707993"
+      "sha256": "5B9BAD0D95B6A2BC40F5CC66E54BA01E328193C1F0C8986564E899D6F3CD43D9"
     },
     {
       "path": "src/Patches/CrystalReplaySeriesPatch.cs",
@@ -452,15 +440,15 @@
     },
     {
       "path": "src/Powers/ReminiscenceDrawPower.cs",
-      "sha256": "2C5114CBE5D0187597961EF0603DD053CF1D08C02CE6AA81CA6E16AA8F38375B"
+      "sha256": "7196820FE2DA90AC9957622AE78E2D7861AC836FF18A7D27E2DE985250F38899"
     },
     {
       "path": "src/Powers/ReminiscenceHardCalcitePower.cs",
-      "sha256": "E3790B24757892882DE2B6A4F7706C988C233D75AC360FD215B4D55B110D249A"
+      "sha256": "2FC5A4718DD130D5EB03FB5A7A78B89C518CBD3D503C401167DD3AB119082F77"
     },
     {
       "path": "src/Powers/ReminiscencePhosphorusPower.cs",
-      "sha256": "14AAC8C246EB0D5A79DEB8EB5FF91D8219BC8BF19D78ABB7C3AFB5DB37F09577"
+      "sha256": "B3185BAB2913BD435E28D2DA3F3D98C70CCC27CA623F1105708A98EB0D80E694"
     },
     {
       "path": "src/Powers/ReminiscencePollutionHPower.cs",
@@ -497,10 +485,9 @@
     "live combat",
     "save restoration",
     "multiplayer synchronization",
-    "all enemy intent adapters",
     "live conditional replay with enchantments/afflictions and multiplayer pause/resume"
   ],
-  "generated_at_utc": "2026-10-05T10:13:35.074162+00:00",
+  "generated_at_utc": "2026-10-05T14:26:12.388994+00:00",
   "replay_mutation_variants_detected": 3,
   "native_replay_patch": {
     "status": "pass",
@@ -546,7 +533,8 @@
     "baseline": "c309cbf",
     "baseline_description_mismatches": 63,
     "current_identity_title_description_clone_matches": 64,
-    "scope": "Independent row-to-localization/native-ID cross-check; not live card rendering or full effect acceptance"
+    "scope": "Independent row-to-localization/native-ID cross-check; not live card rendering or full effect acceptance",
+    "rule_overrides_and_source_hashes_checked": true
   },
   "remaining_card_cases_added": 191,
   "remaining_card_sources_added": 27,
@@ -563,6 +551,46 @@
       "sha256": "A663B1D728B90E36035A30292343803BC27EF82D1E9EBCD58911C5F020FB28F1"
     },
     {
+      "path": "卡牌开发/机制验证/Build-CachedSdk.ps1",
+      "sha256": "9FE6F71A19A7F89E2F3807E8EE57CFBC78336D4BCE752E5FC749588BBCF31AB2"
+    },
+    {
+      "path": "卡牌开发/机制验证/Build-CardAcceptanceMatrix.py",
+      "sha256": "0ABA5BA7AF328D575C7F065C5F297FF2D9E7D257988A300A1825A598D1DF7ACA"
+    },
+    {
+      "path": "卡牌开发/机制验证/Check-ApplicationMutations.ps1",
+      "sha256": "8074322EF9B9B57DBC88E18BD377D9FF7EB37144475409511178EB97A885BF61"
+    },
+    {
+      "path": "卡牌开发/机制验证/Check-ExportFailure.ps1",
+      "sha256": "62E24E0A4DCFA23AF26131FEF9BC0A20507BA7473BB0549FCE35D7233BB8F6AF"
+    },
+    {
+      "path": "卡牌开发/机制验证/Check-RemainingCardMutations.ps1",
+      "sha256": "FE7200983648DF6C5C9C9D109F3E8A30AB060EA0EFE21777C07C26610D62D7B6"
+    },
+    {
+      "path": "卡牌开发/机制验证/Check-ReplayMutations.ps1",
+      "sha256": "69B390BC4EED32AB933AD13C8B125809CD56A104028C5E072D8D3D002E424F77"
+    },
+    {
+      "path": "卡牌开发/机制验证/Check-RuleDecisionMutations.ps1",
+      "sha256": "92AAC293FD99A13187B2DCF898A15DB954A430CC0A1838BF2FC27D1FC3F61556"
+    },
+    {
+      "path": "卡牌开发/机制验证/Check-TurnSchedulingMutations.ps1",
+      "sha256": "D68F042C9438BCCAB24BEED4351FE4F2744B420E30972BD42CB4B0CDAA308115"
+    },
+    {
+      "path": "卡牌开发/机制验证/Compare-CardDocument.py",
+      "sha256": "31E3E2D43728F294FD90B425B7DF8D9BA532D1113D042E8CDD6204507CD7EF68"
+    },
+    {
+      "path": "卡牌开发/机制验证/Compile-Mod.ps1",
+      "sha256": "77FC7FFED1B6DBC70E0B7DF799BBC5D751E434AA077045A8545112C5CA3E71B3"
+    },
+    {
       "path": "卡牌开发/机制验证/CrystalReplayTests.cs",
       "sha256": "E4135F85055861B4C8434FF3A46963DA930EC356698BEE32BE33554E4CF22319"
     },
@@ -576,15 +604,11 @@
     },
     {
       "path": "卡牌开发/机制验证/MechanismTests.cs",
-      "sha256": "F4B648D93DB6DE5FE48A56C596D526BB868E6DF02FCD5715AA8D124C2870EAE4"
-    },
-    {
-      "path": "卡牌开发/机制验证/NativeIntentAudit.cs",
-      "sha256": "FD8C5738244C88D93ABC70B069472501E5122C9765219107BED59C49B0133B0A"
+      "sha256": "C85610AFC8619F38D0ABD821A216BEE8D9F5B9B618A881D657C66F7269E7B498"
     },
     {
       "path": "卡牌开发/机制验证/NativeModelSmoke.cs",
-      "sha256": "2C3CCDBFDE852CD104D122FA8ED69F8A1F5BE91ABF7AC36CB4804A9A4A4B0735"
+      "sha256": "1B20416B4423B6FE31C8AD7CF1018E604B885846BFD31D77819C30166F829B56"
     },
     {
       "path": "卡牌开发/机制验证/NewCardStubs.cs",
@@ -592,39 +616,67 @@
     },
     {
       "path": "卡牌开发/机制验证/NewCardTests.cs",
-      "sha256": "723E8711C69C6B1A8C44682310A7508B02E35C452A76B7972E59A3F8D0685975"
+      "sha256": "4A7473613B361138D0D624F6CAAEF2C64FDA835C8BC60C652687EC1929142667"
+    },
+    {
+      "path": "卡牌开发/机制验证/Pack-Localization.gd",
+      "sha256": "CD1543519768F4CAFEE402B892AC60EA5D101CDDA85211EF8339F6D936F5B2F4"
     },
     {
       "path": "卡牌开发/机制验证/RemainingCardEffectTests.cs",
-      "sha256": "A64C39A571F2FC296CBC218F2CC716A93978820E93C98A504E1428EAE5CB1B29"
+      "sha256": "700380261BCE4BF2E56A8E9F76BD2E4867BBC03EFD0CC6A529C9DEE4267035C4"
     },
     {
       "path": "卡牌开发/机制验证/RemainingCardStubs.cs",
       "sha256": "6A3F0A5937464080E09486B6E0ACEA86AAA58D9754AE9A9063F61309B9475A50"
     },
     {
-      "path": "卡牌开发/机制验证/SemanticAuditTests.cs",
-      "sha256": "A3D70DF2D720AC8EC7C0A5F5AC7EE65EA7633963882BDB799784E726286C2FE5"
-    },
-    {
-      "path": "卡牌开发/机制验证/TurnSchedulingTests.cs",
-      "sha256": "00EB9B92B1749F737FD7F5227159517D3C419474FDA3A11E2AC5AE71BA9571F1"
-    },
-    {
-      "path": "卡牌开发/机制验证/UpdatedSpecificationTests.cs",
-      "sha256": "7804746D2D049BB6FB7D0B0D6E87232218B87C97705EBF2A94F7075C68293EB7"
+      "path": "卡牌开发/机制验证/RuleDecisionTests.cs",
+      "sha256": "B7EB71991516FC791B02D071B106FE987998BB14588343D4FC5317943DA6B127"
     },
     {
       "path": "卡牌开发/机制验证/Run-Tests.ps1",
-      "sha256": "86F513890696C032BA046B4DDD56E5BA3FEE700141923BEBED06653EA97BFE6B"
+      "sha256": "E7214D2AC1A15EAFF7E4BF0A5D13583E3432261E8ECA710C793218050351A482"
     },
     {
-      "path": "卡牌开发/机制验证/Check-RemainingCardMutations.ps1",
-      "sha256": "821566D1E443C5BB2F8893420F6EF5421345A5761F68EFD6AC2174CD31C34E8C"
+      "path": "卡牌开发/机制验证/SemanticAuditTests.cs",
+      "sha256": "756B1C7EF5C8308469643883C7EB2FAFBB7EDB2EB7FFB432A732C375221A16BF"
     },
     {
       "path": "卡牌开发/机制验证/Smoke-NativeModels.ps1",
       "sha256": "E8D69F2C433DC872EE84D27A148D81AE5D649F9E52A7AC532722AEA0464B75A0"
+    },
+    {
+      "path": "卡牌开发/机制验证/TurnSchedulingTests.cs",
+      "sha256": "01101A8A8A848E2FEB01D07927FF1B33665C221A184C3579954E6C2EC06C2703"
+    },
+    {
+      "path": "卡牌开发/机制验证/UpdatedSpecificationTests.cs",
+      "sha256": "7804746D2D049BB6FB7D0B0D6E87232218B87C97705EBF2A94F7075C68293EB7"
     }
-  ]
+  ],
+  "native_coin_decay_clone": "pass; actual SavedAttachedState and patched MutableClone; no save roundtrip",
+  "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
+  "rule_decisions_sha256": "91D9E96B9B6FF0422634E2C8ABBCCA84911C10E954B803FACD2E5D7FAE800886",
+  "rule_regression_cases_added": 41,
+  "obsolete_intent_cases_removed": 8,
+  "deferred_by_user": [
+    "TD01",
+    "TD02",
+    "TD03",
+    "TD04"
+  ],
+  "rule_mutation_variants_detected": {
+    "coin-copy-resets-decay": 4,
+    "analyze-counts-instances": 2,
+    "pierce-counts-instances": 2,
+    "phosphorus-loses-outer-async-mode": 2,
+    "phosphorus-shares-clone-list": 1,
+    "inversion-counts-replay-segments": 1
+  },
+  "remaining_card_original_defects_detected_current": {
+    "baseline-phosphorus-configuration": 22,
+    "baseline-calcite-configuration": 9,
+    "baseline-characterization-turn": 8
+  }
 }

@@ -371,24 +371,25 @@ public static class RemainingCardEffectTests
                     } else Check(CreatureCmd.AreaDamages.Count == 0);
                 });
             }
-            Test($"回忆-磷语首次有效延拓替换或并行、本人与他人重置 upgraded={up}", async () =>
+            Test($"回忆-磷语叠加次数延拓替换或并行、本人与他人重置 upgraded={up}", async () =>
             {
                 var r = new Rig(energy: 0); var c = r.Crystal<ReminiscencePhosphorus>(); if (up) c.Upgrade(); await Play(r, c);
                 var p = r.Player.Creature.GetPower<ReminiscencePhosphorusPower>()!;
                 await ExtensionRules.Gain(r.Choice, r.Player, 0, c); await ExtensionRules.Gain(r.Choice, r.Player, 2, c);
                 Check(r.Energy == 2 && ExtensionRules.GetAmount(r.Player) == (up ? 2 : 0));
                 await Play(r, c); await ExtensionRules.Gain(r.Choice, r.Player, 3, c);
-                Check(r.Energy == 2 && ExtensionRules.GetAmount(r.Player) == (up ? 5 : 3));
+                Check(r.Energy == 5 && ExtensionRules.GetAmount(r.Player) == (up ? 5 : 0));
                 await p.BeforeSideTurnStart(r.Choice, CombatSide.Player, new[] { new Player().Creature }, r.State);
-                await ExtensionRules.Gain(r.Choice, r.Player, 1, c); Check(r.Energy == 2);
+                await ExtensionRules.Gain(r.Choice, r.Player, 1, c); Check(r.Energy == 5);
+                r.Player.PlayerCombatState!.TurnNumber++;
                 await p.BeforeSideTurnStart(r.Choice, CombatSide.Player, new[] { r.Player.Creature }, r.State);
                 await ExtensionRules.Gain(r.Choice, r.Player, 4, c);
-                Check(r.Energy == 6 && ExtensionRules.GetAmount(r.Player) == (up ? 10 : 4));
+                Check(r.Energy == 9 && ExtensionRules.GetAmount(r.Player) == (up ? 10 : 1));
             });
             foreach (bool repeated in new[] { false, true })
             {
                 bool repeat = repeated;
-                Test($"回忆-磷语施加链内首次延拓读取当前卡牌配置 repeat={repeat} upgraded={up}", async () =>
+                Test($"回忆-磷语施加链内额度保留施加顺序 repeat={repeat} upgraded={up}", async () =>
                 {
                     var r = new Rig(energy: 0); var c = r.Crystal<ReminiscencePhosphorus>(); if (up) c.Upgrade();
                     if (repeat) { var previous = r.Crystal<ReminiscencePhosphorus>(); if (!up) previous.Upgrade(); await Play(r, previous); }
@@ -396,9 +397,9 @@ public static class RemainingCardEffectTests
                     r.State.Listeners.Add(new PowerObserver(async p => { if (p is ReminiscencePhosphorusPower && !observed) {
                         observed = true; await ExtensionRules.Gain(r.Choice, r.Player, 2, c);
                     } }));
-                    await Play(r, c); Check(observed && r.Energy == 2 && ExtensionRules.GetAmount(r.Player) == (up ? 2 : 0), "Phosphorus configuration must precede apply chain");
+                    await Play(r, c); Check(observed && r.Energy == 2 && ExtensionRules.GetAmount(r.Player) == ((repeat ? !up : up) ? 2 : 0), "Phosphorus slots must preserve application order");
                 });
-                Test($"回忆-硬钙石施加链内回合末读取当前伤害配置 repeat={repeat} upgraded={up}", async () =>
+                Test($"回忆-硬钙石施加链内回合末读取累计伤害 repeat={repeat} upgraded={up}", async () =>
                 {
                     var r = new Rig(); var c = r.Crystal<ReminiscenceHardCalcite>(); if (up) c.Upgrade();
                     if (repeat) { var previous = r.Crystal<ReminiscenceHardCalcite>(); if (!up) previous.Upgrade(); await Play(r, previous); }
@@ -407,25 +408,27 @@ public static class RemainingCardEffectTests
                     r.State.Listeners.Add(new PowerObserver(async p => { if (p is ReminiscenceHardCalcitePower hard && !observed) {
                         observed = true; await hard.BeforeSideTurnEnd(r.Choice, CombatSide.Player, new[] { r.Player.Creature });
                     } }));
-                    await Play(r, c); Check(observed && CreatureCmd.AreaDamages.Single().Amount == (up ? 4 : 3), "Hard calcite configuration must precede apply chain");
+                    await Play(r, c); Check(observed && CreatureCmd.AreaDamages.Single().Amount == (repeat ? 7 : (up ? 4 : 3)), "Hard calcite must accumulate before apply chain");
                 });
             }
-            Test($"回忆-磷语嵌套重施后外层不回滚最新配置 upgraded={up}", async () =>
+            Test($"回忆-磷语嵌套重施后各份模式按顺序保留 upgraded={up}", async () =>
             {
                 var r = new Rig(energy: 0); var outer = r.Crystal<ReminiscencePhosphorus>(); var inner = r.Crystal<ReminiscencePhosphorus>();
                 if (up) outer.Upgrade(); else inner.Upgrade(); bool nested = false;
                 r.State.Listeners.Add(new PowerObserver(async p => { if (p is ReminiscencePhosphorusPower && !nested) { nested = true; await Play(r, inner); } }));
                 await Play(r, outer); await ExtensionRules.Gain(r.Choice, r.Player, 2, outer);
-                Check(nested && r.Energy == 2 && ExtensionRules.GetAmount(r.Player) == (up ? 0 : 2), "Outer phosphorus apply must not roll back inner configuration");
+                Check(nested && r.Energy == 2 && ExtensionRules.GetAmount(r.Player) == (up ? 2 : 0));
+                await ExtensionRules.Gain(r.Choice, r.Player, 3, outer);
+                Check(r.Energy == 5 && ExtensionRules.GetAmount(r.Player) == (up ? 2 : 3), "Nested modes must remain independent");
             });
-            Test($"回忆-硬钙石嵌套重施后外层不回滚最新配置 upgraded={up}", async () =>
+            Test($"回忆-硬钙石嵌套重施后总伤害正确累加 upgraded={up}", async () =>
             {
                 var r = new Rig(); var outer = r.Crystal<ReminiscenceHardCalcite>(); var inner = r.Crystal<ReminiscenceHardCalcite>();
                 if (up) outer.Upgrade(); else inner.Upgrade(); bool nested = false;
                 r.State.Listeners.Add(new PowerObserver(async p => { if (p is ReminiscenceHardCalcitePower && !nested) { nested = true; await Play(r, inner); } }));
                 await Play(r, outer); Enemy(r); Put(r, r.Crystal<Crystallization>()); CombatManager.Instance.History.Entries.Add(new(r.State, r.State.Turn, r.Player.Creature));
                 await r.Player.Creature.GetPower<ReminiscenceHardCalcitePower>()!.BeforeSideTurnEnd(r.Choice, CombatSide.Player, new[] { r.Player.Creature });
-                Check(nested && CreatureCmd.AreaDamages.Single().Amount == (up ? 3 : 4), "Outer calcite apply must not roll back inner configuration");
+                Check(nested && CreatureCmd.AreaDamages.Single().Amount == 7, "Both calcite applications must contribute");
             });
             Test($"回忆-磷语能量钩子嵌套改配置，本次延拓模式取拦截开始快照 upgraded={up}", async () =>
             {
@@ -433,7 +436,7 @@ public static class RemainingCardEffectTests
                 if (up) initial.Upgrade(); else nested.Upgrade(); await Play(r, initial);
                 PlayerCmd.AfterModifyingEnergyGain = async (_, _) => { PlayerCmd.AfterModifyingEnergyGain = null; await Play(r, nested); };
                 await ExtensionRules.Gain(r.Choice, r.Player, 2, initial); Check(r.Energy == 2 && ExtensionRules.GetAmount(r.Player) == (up ? 2 : 0), "Current conversion mode must not change while energy hook awaits");
-                await ExtensionRules.Gain(r.Choice, r.Player, 1, initial); Check(r.Energy == 2 && ExtensionRules.GetAmount(r.Player) == (up ? 3 : 1));
+                await ExtensionRules.Gain(r.Choice, r.Player, 1, initial); Check(r.Energy == 3 && ExtensionRules.GetAmount(r.Player) == (up ? 2 : 1));
             });
         }
         Test("基团迁移磷语基础效果返能量后判断晶抗", async () =>

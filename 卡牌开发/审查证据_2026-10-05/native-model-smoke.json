@@ -1,9 +1,10 @@
 {
   "scope": "Actual game DLL managed TestMode: model constructors/upgrades/MutableClone/Harmony; keyword definitions seeded without registry startup; no live combat, UI, CreateClone card-scope path, or save test",
-  "generated_at_utc": "2026-10-05T10:08:16.2486378Z",
+  "generated_at_utc": "2026-10-05T14:25:54.0264928Z",
   "passed": 64,
   "macro_independence": "pass",
   "co_u_clone_marks": "pass",
+  "coin_decay_clone": "pass; actual SavedAttachedState and patched MutableClone; no save roundtrip",
   "replay_patch": {
     "status": "pass",
     "target": "MegaCrit.Sts2.Core.Models.CardModel\u002B\u003COnPlayWrapper\u003Ed__339",

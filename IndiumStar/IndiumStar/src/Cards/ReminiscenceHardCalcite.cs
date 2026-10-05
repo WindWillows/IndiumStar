@@ -46,7 +46,7 @@ public sealed class ReminiscenceHardCalcite : ModCardTemplate
         await PowerCmd.Apply<ReminiscenceHardCalcitePower>(
             choiceContext,
             Owner.Creature,
-            1m,
+            DynamicVars["DamagePerCrystal"].BaseValue,
             Owner.Creature,
             this);
     }

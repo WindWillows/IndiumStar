@@ -36,11 +36,6 @@ public sealed class ReminiscencePhosphorus : ModCardTemplate
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await PowerCmd.Apply<ReminiscencePhosphorusPower>(
-            choiceContext,
-            Owner.Creature,
-            1m,
-            Owner.Creature,
-            this);
+        await ReminiscencePhosphorusPower.ApplyFromCard(choiceContext, this);
     }
 }

@@ -56,9 +56,11 @@ public static class TurnSchedulingTests
             var power = await Play(r); await CardPileCmd.Draw(r.Choice, 3, r.Player); await End(r, power);
             Check(power.Amount == 4); await Begin(r, power); Check(power.ModifyHandDraw(r.Player, 5) == 9);
         });
-        Test("钒永同回合多份仍采用已记录的共用统计器口径", async () => {
+        Test("钒永多份效果不叠加，每张实际抽取仅计一次", async () => {
             var r = new Rig(); Fill(r, 9); var power = await Play(r); Check(await Play(r) == power);
             await CardPileCmd.Draw(r.Choice, 2, r.Player); await End(r, power); Check(power.Amount == 4);
+            await Begin(r, power); Check(power.ModifyHandDraw(r.Player, 5) == 9);
+            Check(r.Player.Creature.Powers.OfType<ReminiscenceDrawPower>().Count() == 1);
         });
         Test("钒永生成和入手牌不计为抽取，其他玩家抽取也不计入", async () => {
             var r = new Rig(); Fill(r, 6); var power = await Play(r);

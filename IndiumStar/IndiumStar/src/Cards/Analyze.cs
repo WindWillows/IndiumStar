@@ -116,11 +116,11 @@ public sealed class Analyze : ApplicationCard
     }
 
     /// <summary>
-    /// 数一个角色身上<strong>可见</strong>的效果数量。
+    /// 数一个角色身上<strong>可见</strong>的效果类型数量，同类型独立实例只算一种。
     /// <para>隐藏效果（<c>IsVisibleInternal =&gt; false</c>）不计入。</para>
     /// </summary>
     private static int CountVisibleEffects(Creature creature)
-        => creature.Powers.Count(power => power.IsVisible);
+        => creature.Powers.Where(power => power.IsVisible).DistinctBy(power => power.GetType()).Count();
 
     protected override void OnUpgrade()
     {
