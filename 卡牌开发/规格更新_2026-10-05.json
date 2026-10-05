@@ -40,6 +40,38 @@
       "damage": 5,
       "upgraded_damage": 8,
       "intent_support": "仍为部分意图支持；不得把预检通过方法数声称为实机支持数"
+    },
+    {
+      "name": "晶流",
+      "class": "CrystalFlow",
+      "cost": 1,
+      "rarity": "普通",
+      "type": "技能",
+      "block": 5,
+      "upgraded_block": 6,
+      "weak": 1,
+      "upgraded_weak": 2,
+      "reversal_replays": 1,
+      "replay_branches": false,
+      "timing": "基础效果全部结算后，以实际分支延长本体系列"
+    },
+    {
+      "name": "运用-Th",
+      "class": "ApplicationTh",
+      "cost": 1,
+      "rarity": "罕见",
+      "type": "攻击",
+      "crystallize": 1,
+      "hp_loss": 4,
+      "upgraded_hp_loss": 5,
+      "main_effect_order": [
+        "晶化1",
+        "目标失去生命"
+      ],
+      "resistance_normal_attack_hits": 2,
+      "reversal_replays": 2,
+      "replay_branches": true,
+      "replay_rule": "原版出牌系列，仅首段扩张总次数；后续段正常结算基础效果和分支"
     }
   ],
   "existing_missing_entry": {

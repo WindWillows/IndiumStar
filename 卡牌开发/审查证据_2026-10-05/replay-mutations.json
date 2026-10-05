@@ -1,0 +1,60 @@
+{
+  "scope": "Mutant sources only in ignored output; production sources and normal test assembly untouched",
+  "generated_at_utc": "2026-10-05T06:50:30.5381093Z",
+  "mutations": [
+    {
+      "mutation": "early-energy",
+      "result": "detected",
+      "exit_code": 1,
+      "failures": [
+        "FAIL 扣费后0能量但基础效果返还1能量触发晶抗: main,reversal,notify:reversal",
+        "FAIL 基础效果花掉最后能量触发晶逆: main,resistance",
+        "FAIL 基础效果中的嵌套出牌完成后再判断能量: main,reversal",
+        "FAIL 键合三键以基础格挡钩子之后的能量与晶化数量结算: Updated specification assertion failed",
+        "FAIL 键合三键基础格挡钩子耗尽能量后选择晶逆: Updated specification assertion failed",
+        "FAIL 晶流等待格挡异步钩子后选择 晶逆: crystal replay assertion failed",
+        "FAIL 晶流等待格挡异步钩子后选择 晶抗: crystal replay assertion failed",
+        "FAIL 晶流格挡为零时也等待钩子改变能量: crystal replay assertion failed",
+        "FAIL 运用Th等待生命伤害钩子后选择 晶逆: crystal replay assertion failed",
+        "FAIL 运用Th等待生命伤害钩子后选择 晶抗: crystal replay assertion failed",
+        "FAIL 运用Th晶化入堆钩子参与基础效果后判定: crystal replay assertion failed",
+        "FAIL 运用Th后续段能量变化时正常触发晶抗: crystal replay assertion failed"
+      ]
+    },
+    {
+      "mutation": "th-order",
+      "result": "detected",
+      "exit_code": 1,
+      "failures": [
+        "FAIL 运用Th先生成晶化后造成生命损失，再以最终能量选择分支: crystal replay assertion failed"
+      ]
+    },
+    {
+      "mutation": "lost-series-extension",
+      "result": "detected",
+      "exit_code": 1,
+      "failures": [
+        "FAIL 晶流按基础效果后能量 0 延长实际系列: crystal replay assertion failed",
+        "FAIL 晶流升级系列格挡和虚弱 0: crystal replay assertion failed",
+        "FAIL 晶流等待格挡异步钩子后选择 晶逆: crystal replay assertion failed",
+        "FAIL 晶流格挡为零时也等待钩子改变能量: crystal replay assertion failed",
+        "FAIL 运用Th等待生命伤害钩子后选择 晶逆: crystal replay assertion failed",
+        "FAIL 运用Th晶化入堆钩子参与基础效果后判定: crystal replay assertion failed",
+        "FAIL 运用Th手牌满时晶化改入弃牌仍完成三段: crystal replay assertion failed",
+        "FAIL 运用Th后续段能量变化时正常触发晶抗: crystal replay assertion failed",
+        "FAIL 运用Th量子点重放每段保留双分支，但只首段扩张系列: crystal replay assertion failed",
+        "FAIL 系列保留目标资源自动标记，末段钩子恰好一次: crystal replay assertion failed",
+        "FAIL 本体外部次数修改只执行一次，晶逆追加而非替代已有重放: crystal replay assertion failed",
+        "FAIL 双分支通知改变能量不重新选择或重复预约: crystal replay assertion failed",
+        "FAIL 量子点第1个系列的实际分支与重放一致: crystal replay assertion failed",
+        "FAIL 量子点第2个系列的实际分支与重放一致: crystal replay assertion failed",
+        "FAIL 嵌套自动出牌的预约与外层系列隔离: crystal replay assertion failed",
+        "FAIL 重放未抑制分支时仍只在系列第一段追加次数: crystal replay assertion failed",
+        "FAIL 下一次系列不继承已消费预约或上一轮总次数: crystal replay assertion failed",
+        "FAIL 战斗在后钩子结束时停止额外段: crystal replay assertion failed",
+        "FAIL 战斗在主效果结束时停止额外段: crystal replay assertion failed",
+        "FAIL 普通自动出牌同样交付重放且不消耗能量: crystal replay assertion failed"
+      ]
+    }
+  ]
+}

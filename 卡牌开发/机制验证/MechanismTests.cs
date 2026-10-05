@@ -202,22 +202,22 @@ Test("卡牌显式限制时重放段只执行主效果", async () => {
     await r.Card.Play(r.Choice, new CardPlay { Card = r.Card, PlayIndex = 1 });
     LogIs(r, "main");
 });
-Sync("晶逆重放预测延长出牌系列", () => {
+Sync("主效果前不预测晶逆重放", () => {
     var r = new Rig(energy: 0); r.Card.ReplayCount = 2;
-    Check(r.Card.ModifyCardPlayCount(r.Card, null, 1) == 3);
+    Check(r.Card.ModifyCardPlayCount(r.Card, null, 1) == 1);
 });
 Sync("非晶逆能量不延长出牌系列", () => {
     var r = new Rig(energy: 1); r.Card.ReplayCount = 2;
     Check(r.Card.ModifyCardPlayCount(r.Card, null, 1) == 1);
 });
-Sync("重放预测只作用于牌自身", () => {
+Sync("公共卡牌基类不会修改其它牌的出牌次数", () => {
     var r = new Rig(energy: 0); r.Card.ReplayCount = 2;
     Check(r.Card.ModifyCardPlayCount(r.Crystal<CrystalA>(), null, 1) == 1);
 });
-Sync("修改规则参与重放预测", () => {
+Sync("主效果前不调用修改规则预测重放", () => {
     var r = new Rig(energy: 1); r.Card.ReplayCount = 1;
     r.Modify((_, _) => CrystalBranch.Both);
-    Check(r.Card.ModifyCardPlayCount(r.Card, null, 1) == 2);
+    Check(r.Card.ModifyCardPlayCount(r.Card, null, 1) == 1);
 });
 Sync("未声明重放的牌不延长出牌系列", () => {
     var r = new Rig(energy: 0);
@@ -411,10 +411,10 @@ Sync("量子点第三张牌的预测不会额外生成晶逆重放", () => {
     r.Record(r.Crystal<CrystalA>()); r.Record(r.Crystal<CrystalA>());
     Check(r.Card.ModifyCardPlayCount(r.Card, null, 1) == 1);
 });
-Sync("量子点第二张牌的预测包含晶逆重放", () => {
+Sync("量子点第二张牌也等到基础效果后预约重放", () => {
     var r = new Rig(); r.Card.ReplayCount = 1;
     r.Player.Creature.Powers.Add(new QuantumDotPower { Owner = r.Player.Creature }); r.Record(r.Crystal<CrystalA>());
-    Check(r.Card.ModifyCardPlayCount(r.Card, null, 1) == 2);
+    Check(r.Card.ModifyCardPlayCount(r.Card, null, 1) == 1);
 });
 Sync("量子点原生重放保持该系列的序号", () => {
     var r = new Rig(); var quantum = new QuantumDotPower { Owner = r.Player.Creature };
@@ -589,6 +589,7 @@ NewCardTests.Register(tests, args);
 SemanticAuditTests.Register(tests);
 UpdatedSpecificationTests.Register(tests, args);
 DeferredReleaseTests.Register(tests, args);
+CrystalReplayTests.Register(tests, args);
 int failed = 0;
 foreach (var test in tests) {
     try { await test.Run(); Console.WriteLine("PASS " + test.Name); }
@@ -659,11 +660,11 @@ public class Rig
     public CardPlay PlayInfo => new() { Card = Card };
     public int Energy { get => Player.PlayerCombatState!.Energy; set => Player.PlayerCombatState!.Energy = value; }
     public Rig(CrystalBranch branches = CrystalBranch.Both, int energy = 1) {
-        CombatManager.Instance.History.CardPlaysStarted.Clear(); CombatManager.Instance.IsOverOrEnding = false;
+        CombatManager.Instance.History.CardPlaysStarted.Clear(); CombatManager.Instance.History.CardPlaysFinished.Clear(); CombatManager.Instance.IsOverOrEnding = false;
         CombatManager.Instance.IsStarting = false; PowerCmd.ApplyCount = 0;
         CardPileCmd.DrawCount = 0; CardCmd.ShouldAutoPlay = _ => true; DamageCmd.HitCounts.Clear();
         CardPileCmd.HandCapacity = 10; CardPileCmd.DrawBlocked = false; CardCmd.ExhaustBlocked = false; CardCmd.ExhaustDestinationOverride = null;
-        DamageCmd.Attacks.Clear(); CreatureCmd.BlockGains.Clear(); CreatureCmd.LastAnimation = null; CreatureCmd.AfterBlockGained = null;
+        DamageCmd.Attacks.Clear(); CreatureCmd.BlockGains.Clear(); CreatureCmd.LastAnimation = null; CreatureCmd.AfterBlockGained = null; CreatureCmd.AfterDamage = null; CreatureCmd.DirectDamages.Clear();
         MegaCrit.Sts2.Core.Nodes.Rooms.NCombatRoom.Instance = null;
         Player.Creature.CombatState = State; State.CreatureList.Add(Player.Creature);
         Energy = energy; Card = new ProbeCard(branches, Log) { Owner = Player, CombatState = State };

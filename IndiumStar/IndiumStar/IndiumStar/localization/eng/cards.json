@@ -85,7 +85,7 @@
   "INDIUM_STAR_CARD_CRYSTALLIZATION_HS.title": "Crystallization-Hs",
   "INDIUM_STAR_CARD_CRYSTALLIZATION_HS.description": "While this is in your hand, ALL characters have 1 [gold]Strength[/gold].\nYou may manually play at most 1 Crystallization per turn. Automatic plays do not count.",
   "INDIUM_STAR_CARD_APPLICATION_TH.title": "Application-Th",
-  "INDIUM_STAR_CARD_APPLICATION_TH.description": "[gold]Crystallize[/gold] {Cards:diff()}.\nMake an enemy lose {Damage:diff()} HP.\n[gold]Resistance[/gold]: Deal that much damage 2 times.\n[gold]Reversal[/gold]: [gold]Replay[/gold] 2, without triggering Resistance/Reversal.",
+  "INDIUM_STAR_CARD_APPLICATION_TH.description": "[gold]Crystallize[/gold] {Cards:diff()}.\nMake an enemy lose {Damage:diff()} HP.\n[gold]Resistance[/gold]: Deal that much damage 2 times.\n[gold]Reversal[/gold]: [gold]Replay[/gold] 2.",
   "INDIUM_STAR_CARD_APPLICATION_CU.title": "Application-Cu",
   "INDIUM_STAR_CARD_APPLICATION_CU.description": "Deal {Damage:diff()} damage.\nThis turn, whenever this enemy takes {DamageThreshold:diff()} attack damage, they gain 2 [gold]Poison[/gold].",
   "INDIUM_STAR_CARD_ORIGION_STRIKE.title": "Origion Strike",

@@ -20,7 +20,7 @@ namespace IndiumStar.Powers;
 /// <strong>没有分支的牌也占「前两张」的位置</strong>，所以不能按修改接口被调用的次数统计。
 /// </para>
 /// <para>
-/// 出牌次数预测阶段（<c>ModifyCardPlayCount</c>）当前这张牌还没进历史，
+/// 无CardPlay的预览上下文中，当前这张牌还没进历史；
 /// 实际结算阶段已经进了。统一计算本次系列的序号；嵌套出牌不改变外层牌的位置。
 /// </para>
 /// <para>

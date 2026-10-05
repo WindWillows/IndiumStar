@@ -23,10 +23,9 @@ namespace IndiumStar.Cards;
 /// </para>
 /// <para>
 /// <b>「重放」走本体出牌系列</b>（和复制药水同一条路径）：
-/// <see cref="CrystalReversalReplayCount" /> 让 <c>ModifyCardPlayCount</c> 在预测到
-/// 晶逆时把本次出牌系列延长 1 段；重放段经过完整的出牌钩子与出牌历史，
+/// <see cref="CrystalReversalReplayCount" /> 在基础效果结算后的晶逆完成时预约，
+/// 由补丁把本次本体出牌系列延长 1 段；重放段经过完整的出牌钩子与出牌历史，
 /// 由 <c>ResolveEffect</c> 按 <c>IsFirstInSeries</c> 抑制晶抗/晶逆。
-/// 主效果（获得格挡）不改变能量，满足预测的约束。
 /// </para>
 /// <para>
 /// 卡图暂时借用原版铁甲战士的「防御」卡图。

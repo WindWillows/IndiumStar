@@ -85,7 +85,7 @@
   "INDIUM_STAR_CARD_CRYSTALLIZATION_HS.title": "晶化Hs",
   "INDIUM_STAR_CARD_CRYSTALLIZATION_HS.description": "在手牌中时，所有角色具有1点[gold]力量[/gold]。\n每回合至多手动打出1张晶化。自动打出不计入次数。",
   "INDIUM_STAR_CARD_APPLICATION_TH.title": "运用-Th",
-  "INDIUM_STAR_CARD_APPLICATION_TH.description": "[gold]晶化[/gold]{Cards:diff()}。\n使一名敌人失去{Damage:diff()}点生命。\n[gold]晶抗[/gold]：造成等量伤害2次。\n[gold]晶逆[/gold]：[gold]重放[/gold]2，不会触发晶抗/晶逆。",
+  "INDIUM_STAR_CARD_APPLICATION_TH.description": "[gold]晶化[/gold]{Cards:diff()}。\n使一名敌人失去{Damage:diff()}点生命。\n[gold]晶抗[/gold]：造成等量伤害2次。\n[gold]晶逆[/gold]：[gold]重放[/gold]2。",
   "INDIUM_STAR_CARD_APPLICATION_CU.title": "运用-Cu",
   "INDIUM_STAR_CARD_APPLICATION_CU.description": "造成{Damage:diff()}点伤害。\n本回合，这名敌人每受到{DamageThreshold:diff()}点攻击伤害，获得2层[gold]中毒[/gold]。",
   "INDIUM_STAR_CARD_ORIGION_STRIKE.title": "溯源猛击",

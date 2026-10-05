@@ -40,10 +40,10 @@ PASS 基础效果中的嵌套出牌完成后再判断能量
 PASS 基础效果返回值传给两分支及通知
 PASS 普通本体重放段仍触发晶抗晶逆和通知
 PASS 卡牌显式限制时重放段只执行主效果
-PASS 晶逆重放预测延长出牌系列
+PASS 主效果前不预测晶逆重放
 PASS 非晶逆能量不延长出牌系列
-PASS 重放预测只作用于牌自身
-PASS 修改规则参与重放预测
+PASS 公共卡牌基类不会修改其它牌的出牌次数
+PASS 主效果前不调用修改规则预测重放
 PASS 未声明重放的牌不延长出牌系列
 PASS 每次完整结算重新读取能量
 PASS 自动出牌同样可以触发已声明分支
@@ -74,7 +74,7 @@ PASS 量子点第3张牌预测与实际结算一致
 PASS 量子点第4张牌预测与实际结算一致
 PASS 量子点不把基础效果的嵌套出牌计入外层序号
 PASS 量子点第三张牌的预测不会额外生成晶逆重放
-PASS 量子点第二张牌的预测包含晶逆重放
+PASS 量子点第二张牌也等到基础效果后预约重放
 PASS 量子点原生重放保持该系列的序号
 PASS 量子点过滤其他玩家并在新回合重新计数
 PASS 污染H普通版从零进度到准确阈值才奖励
@@ -227,4 +227,53 @@ PASS 旧战斗的预约不会在新战斗兑现
 PASS 队列克隆不共享容器，非法到期回合不改变预约
 PASS 战斗结束或玩家死亡时不兑现预约
 PASS 未命名技能及预约能力双语文本齐备
-227/227 passed; scope: real mod source, command/history stubs, real Harmony patching and game API contract.
+PASS 晶流按基础效果后能量 0 延长实际系列
+PASS 晶流按基础效果后能量 1 延长实际系列
+PASS 晶流按基础效果后能量 -1 延长实际系列
+PASS 晶流升级系列格挡和虚弱 0
+PASS 晶流升级系列格挡和虚弱 1
+PASS 晶流等待格挡异步钩子后选择 晶逆
+PASS 晶流等待格挡异步钩子后选择 晶抗
+PASS 晶流格挡为零时也等待钩子改变能量
+PASS 运用Th等待生命伤害钩子后选择 晶逆
+PASS 运用Th等待生命伤害钩子后选择 晶抗
+PASS 运用Th晶化入堆钩子参与基础效果后判定
+PASS 运用Th手牌满时晶化改入弃牌仍完成三段
+PASS 运用Th升级后每段生命伤害五点，晶抗独立普通攻击
+PASS 运用Th先生成晶化后造成生命损失，再以最终能量选择分支
+PASS 运用Th后续段能量变化时正常触发晶抗
+PASS 运用Th量子点重放每段保留双分支，但只首段扩张系列
+PASS 晶流重放明确禁止分支，运用Th遵循普通重放规则
+PASS 系列保留目标资源自动标记，末段钩子恰好一次
+PASS 本体外部次数修改只执行一次，晶逆追加而非替代已有重放
+PASS 双分支通知改变能量不重新选择或重复预约
+PASS 分支被禁用不会预约重放，修改器只在实际主效果后调用
+PASS 量子点第1个系列的实际分支与重放一致
+PASS 量子点第2个系列的实际分支与重放一致
+PASS 量子点第3个系列的实际分支与重放一致
+PASS 量子点第4个系列的实际分支与重放一致
+PASS 嵌套自动出牌的预约与外层系列隔离
+PASS 重放未抑制分支时仍只在系列第一段追加次数
+PASS 没有晶逆重放声明的原版额外段继续完整分支
+PASS 下一次系列不继承已消费预约或上一轮总次数
+PASS 基础效果失败不延长系列，后续出牌没有遗留预约
+PASS 晶逆通知失败不预约或清理未完成的系列
+PASS 首段玩家死亡后不执行补丁、完成钩子或额外段
+PASS 战斗在后钩子结束时停止额外段
+PASS 战斗在主效果结束时停止额外段
+PASS 普通自动出牌同样交付重放且不消耗能量
+PASS 他人系列不获得自己的量子点分支
+PASS 预约消费幂等且同一牌的不同CardPlay相互独立
+PASS 预约拒绝非法输入 zero
+PASS 预约拒绝非法输入 negative
+PASS 预约拒绝非法输入 foreign
+PASS 预约拒绝非法输入 replay
+PASS 预约拒绝非法输入 overflow
+PASS 预约拒绝非法输入 duplicate
+PASS 系列元数据不一致时明确失败且不消费预约
+PASS 实际回归使用结构体异步状态机，验证字段地址修改原循环
+PASS 本体循环契约不匹配时补丁拒绝静默降级
+PASS 双语文本只给晶流添加重放分支限制，保持Th的文档语义
+SentryGodotInitializer: Sentry GDExtension not loaded in this process; skipping. If you see this in a running game (not during project export or IDE script analysis), check Godot's log for extension load failures.
+PASS 重放测试资源与伤害属性枚举契约匹配实际游戏
+275/275 passed; scope: real mod source, command/history stubs, real Harmony patching and game API contract.

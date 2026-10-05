@@ -1,6 +1,8 @@
 // 在托管测试模式下直接运行游戏DLL的模型注册、升级、深克隆与Harmony补丁。
 // 不启动游戏循环，不调用UI、伤害指令或存档；不能代替实机战斗验证。
 using System.Reflection;
+using System.Reflection.Emit;
+using IndiumStar.Mechanics;
 using System.Text.Json;
 using HarmonyLib;
 using IndiumStar.Cards;
@@ -29,6 +31,16 @@ var cardTypes = typeof(MacroDendrite).Assembly.GetTypes().Where(t =>
 ModelDb.Init(cardTypes);
 var harmony = new Harmony("IndiumStar.NativeModelSmoke");
 harmony.CreateClassProcessor(typeof(CrystallizeMarkClonePatch)).Patch();
+var replayTarget = CrystalReplaySeriesPatch.TargetMethod();
+var replayInstructions = CrystalReplaySeriesPatch.Transpiler(PatchProcessor.GetOriginalInstructions(replayTarget), replayTarget).ToArray();
+if (replayInstructions.Count(instruction => instruction.Calls(typeof(CrystalReplayRules).GetMethod(nameof(CrystalReplayRules.Apply))!)) != 1
+    || !replayInstructions.Any(instruction => instruction.opcode == OpCodes.Ldflda
+        && instruction.operand is FieldInfo field && field.Name.StartsWith("<playCount>") && field.FieldType == typeof(int)))
+    throw new Exception("Native replay injection contract failed");
+harmony.CreateClassProcessor(typeof(CrystalReplaySeriesPatch)).Patch();
+if (!Harmony.GetPatchInfo(replayTarget)!.Transpilers.Any(patch => patch.owner == harmony.Id))
+    throw new Exception("Native replay transpiler not installed");
+
 var rows = new List<object>();
 int passed = 0;
 foreach (Type type in cardTypes)
@@ -69,9 +81,24 @@ int Mark(Type power, string field) => ((AttachedState<CardModel, int>)power.GetF
 if (Mark(typeof(ApplicationCoPower), "CrystallizeMarks") != 2
     || Mark(typeof(ApplicationUCrystallizePower), "CrystallizeUMarks") != 1)
     throw new Exception("Native Harmony copy-mark contract failed");
+var replayPlay = new CardPlay {
+    Card = macro, Player = null!, Target = null, ResultPile = PileType.Discard,
+    Resources = default, IsAutoPlay = false, PlayIndex = 0, PlayCount = 2
+};
+CrystalReplayRules.Request(macro, replayPlay, 1);
+int nativeSeriesCount = 2;
+CrystalReplayRules.Apply(macro, replayPlay, ref nativeSeriesCount);
+CrystalReplayRules.Apply(macro, replayPlay, ref nativeSeriesCount);
+if (nativeSeriesCount != 3 || replayPlay.PlayCount != 3 || replayPlay.IsLastInSeries)
+    throw new Exception("Native CardPlay init setter / replay consumption failed");
 harmony.UnpatchAll(harmony.Id);
-Console.WriteLine($"PASS native model smoke: {passed} registrations/upgrades/deep clones; macro independence; Co/U Harmony marks");
+Console.WriteLine($"PASS native model smoke: {passed} registrations/upgrades/deep clones; macro independence; Co/U Harmony marks; native replay transpiler and CardPlay metadata");
 File.WriteAllText(args[0], JsonSerializer.Serialize(new {
     scope = "Actual game DLL managed TestMode: model constructors/upgrades/MutableClone/Harmony; keyword definitions seeded without registry startup; no live combat, UI, CreateClone card-scope path, or save test",
-    generated_at_utc = DateTime.UtcNow, passed, macro_independence = "pass", co_u_clone_marks = "pass", cards = rows
+    generated_at_utc = DateTime.UtcNow, passed, macro_independence = "pass", co_u_clone_marks = "pass",
+    replay_patch = new { status = "pass", target = replayTarget.DeclaringType!.FullName,
+        state_machine_is_value_type = replayTarget.DeclaringType.IsValueType,
+        injection = "one Apply call before main ExecutionFinished, native loop field by reference",
+        native_card_play_setter_and_idempotent_consumption = "pass",
+        scope = "actual Harmony patch application and helper metadata; no live OnPlayWrapper combat invocation" }, cards = rows
 }, new JsonSerializerOptions { WriteIndented = true }));

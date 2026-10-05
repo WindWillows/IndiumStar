@@ -72,6 +72,47 @@ namespace MegaCrit.Sts2.Core.Models
             MegaCrit.Sts2.Core.Entities.Cards.CardPlay play);
         public Task Play(MegaCrit.Sts2.Core.GameActions.Multiplayer.PlayerChoiceContext context,
             MegaCrit.Sts2.Core.Entities.Cards.CardPlay play) => OnPlay(context, play);
+        public int InitialPlayCount { get; set; } = 1;
+        public int CurrentPlayIndex { get; private set; }
+        public int SeriesCleanupCount { get; private set; }
+        // 仅复制原版循环及其指令边界，不调用模组重放helper；真正的Harmony transpiler负责插入。
+        public async Task OnPlayWrapper(MegaCrit.Sts2.Core.GameActions.Multiplayer.PlayerChoiceContext choiceContext,
+            MegaCrit.Sts2.Core.Entities.Creatures.Creature? target = null, bool isAutoPlay = false,
+            MegaCrit.Sts2.Core.Entities.Cards.ResourceInfo resources = default)
+        {
+            var combatState = CombatState!;
+            var manager = MegaCrit.Sts2.Core.Combat.CombatManager.Instance;
+            var resultPile = CanonicalKeywords.Contains(MegaCrit.Sts2.Core.Entities.Cards.CardKeyword.Exhaust)
+                ? MegaCrit.Sts2.Core.Entities.Cards.PileType.Exhaust : MegaCrit.Sts2.Core.Entities.Cards.PileType.Discard;
+            Pile?.Cards.Remove(this); Owner.PlayerCombatState!.Hand.Cards.Remove(this);
+            Pile = Owner.PlayerCombatState.PlayPile; Pile.Cards.Add(this);
+            int playCount = InitialPlayCount;
+            foreach (var listener in combatState.IterateHookListeners().ToArray())
+                playCount = listener.ModifyCardPlayCount(this, target, playCount);
+            await Task.Yield();
+            for (int i = 0; i < playCount; i++)
+            {
+                if (manager.IsOverOrEnding || !Owner.Creature.IsAlive) break;
+                CurrentPlayIndex = i;
+                var cardPlay = new MegaCrit.Sts2.Core.Entities.Cards.CardPlay {
+                    Card = this, Player = Owner, Target = target, IsAutoPlay = isAutoPlay, PlayIndex = i,
+                    PlayCount = playCount, Resources = resources, ResultPile = resultPile
+                };
+                foreach (var listener in combatState.IterateHookListeners().ToArray()) await listener.BeforeCardPlayed(cardPlay);
+                manager.History.CardPlaysStarted.Add(new(combatState, combatState.Turn, cardPlay));
+                await OnPlay(choiceContext, cardPlay);
+                if (!Owner.Creature.IsAlive) return;
+                InvokeExecutionFinished();
+                manager.History.CardPlaysFinished.Add(new(combatState, combatState.Turn, cardPlay));
+                if (!manager.IsOverOrEnding)
+                    foreach (var listener in combatState.IterateHookListeners().ToArray()) await listener.AfterCardPlayed(choiceContext, cardPlay);
+                if (!Owner.Creature.IsAlive) return;
+            }
+            if (Pile?.Type == MegaCrit.Sts2.Core.Entities.Cards.PileType.Play)
+                await MegaCrit.Sts2.Core.Commands.CardPileCmd.Add(this, resultPile);
+            SeriesCleanupCount++;
+            CurrentPlayIndex = 0;
+        }
     }
 
     public class PowerModel : AbstractModel
@@ -193,7 +234,8 @@ namespace MegaCrit.Sts2.Core.Entities.Players
         public MegaCrit.Sts2.Core.Entities.Cards.CardPile DrawPile { get; } = new() { Type = MegaCrit.Sts2.Core.Entities.Cards.PileType.Draw };
         public MegaCrit.Sts2.Core.Entities.Cards.CardPile DiscardPile { get; } = new() { Type = MegaCrit.Sts2.Core.Entities.Cards.PileType.Discard };
         public MegaCrit.Sts2.Core.Entities.Cards.CardPile ExhaustPile { get; } = new() { Type = MegaCrit.Sts2.Core.Entities.Cards.PileType.Exhaust };
-        public IEnumerable<MegaCrit.Sts2.Core.Models.CardModel> AllCards => Hand.Cards.Concat(DrawPile.Cards).Concat(DiscardPile.Cards).Concat(ExhaustPile.Cards);
+        public MegaCrit.Sts2.Core.Entities.Cards.CardPile PlayPile { get; } = new() { Type = MegaCrit.Sts2.Core.Entities.Cards.PileType.Play };
+        public IEnumerable<MegaCrit.Sts2.Core.Models.CardModel> AllCards => Hand.Cards.Concat(DrawPile.Cards).Concat(DiscardPile.Cards).Concat(ExhaustPile.Cards).Concat(PlayPile.Cards);
     }
 }
 
@@ -212,6 +254,7 @@ namespace MegaCrit.Sts2.Core.Entities.Cards
     {
         public static CardPile GetPile(this PileType type, MegaCrit.Sts2.Core.Entities.Players.Player player) =>
             type switch {
+                PileType.Play => player.PlayerCombatState!.PlayPile,
                 PileType.Draw => player.PlayerCombatState!.DrawPile,
                 PileType.Discard => player.PlayerCombatState!.DiscardPile,
                 PileType.Exhaust => player.PlayerCombatState!.ExhaustPile,
@@ -219,14 +262,25 @@ namespace MegaCrit.Sts2.Core.Entities.Cards
             };
     }
 
+    public struct ResourceInfo {
+        public int EnergySpent { get; init; }
+        public int EnergyValue { get; init; }
+        public int StarsSpent { get; init; }
+        public int StarValue { get; init; }
+    }
     public class CardPlay
     {
         public MegaCrit.Sts2.Core.Models.CardModel Card { get; init; } = null!;
-        public MegaCrit.Sts2.Core.Entities.Players.Player Player => Card.Owner;
+        private MegaCrit.Sts2.Core.Entities.Players.Player? _player;
+        public MegaCrit.Sts2.Core.Entities.Players.Player Player { get => _player ?? Card.Owner; init => _player = value; }
         public bool IsAutoPlay { get; init; }
         public MegaCrit.Sts2.Core.Entities.Creatures.Creature? Target { get; init; }
         public int PlayIndex { get; init; }
+        public int PlayCount { get; init; } = 1;
+        public ResourceInfo Resources { get; init; }
+        public PileType ResultPile { get; init; }
         public bool IsFirstInSeries => PlayIndex == 0;
+        public bool IsLastInSeries => PlayIndex == PlayCount - 1;
     }
 }
 
@@ -264,7 +318,10 @@ namespace MegaCrit.Sts2.Core.Combat
         public History History { get; } = new();
     }
 
-    public class History { public List<HistoryEntry> CardPlaysStarted { get; } = []; }
+    public class History {
+        public List<HistoryEntry> CardPlaysStarted { get; } = [];
+        public List<HistoryEntry> CardPlaysFinished { get; } = [];
+    }
     public record HistoryEntry(ICombatState State, int Turn, MegaCrit.Sts2.Core.Entities.Cards.CardPlay CardPlay)
     {
         public bool HappenedThisTurn(ICombatState state) => ReferenceEquals(state, State) && state.Turn == Turn;
@@ -506,7 +563,8 @@ namespace IndiumStar.Afflictions { public class CrystallizeAffliction : MegaCrit
 
 namespace MegaCrit.Sts2.Core.ValueProps
 {
-    public enum ValueProp { Move }
+    [Flags]
+    public enum ValueProp { Unblockable = 2, Unpowered = 4, Move = 8, SkipHurtAnim = 16 }
     public static class ValuePropExtensions { public static bool IsPoweredCardOrMonsterMoveBlock(this ValueProp props) => true; }
 }
 namespace MegaCrit.Sts2.Core.Commands
@@ -527,16 +585,7 @@ namespace MegaCrit.Sts2.Core.Commands
             if (!allowed) {
                 await CardPileCmd.Add(card, MegaCrit.Sts2.Core.Entities.Cards.PileType.Discard); return;
             }
-            var play = new MegaCrit.Sts2.Core.Entities.Cards.CardPlay { Card = card, Target = target, IsAutoPlay = true };
-            foreach (var listener in state.IterateHookListeners().ToArray()) await listener.BeforeCardPlayed(play);
-            MegaCrit.Sts2.Core.Combat.CombatManager.Instance.History.CardPlaysStarted.Add(new(state, state.Turn, play));
-            await card.Play(context, play);
-            foreach (var power in card.Owner.Creature.Powers.ToArray()) await power.AfterCardPlayed(context, play);
-            if (card.Pile?.Type == MegaCrit.Sts2.Core.Entities.Cards.PileType.Play) {
-                var destination = card.CanonicalKeywords.Contains(MegaCrit.Sts2.Core.Entities.Cards.CardKeyword.Exhaust)
-                    ? MegaCrit.Sts2.Core.Entities.Cards.PileType.Exhaust : MegaCrit.Sts2.Core.Entities.Cards.PileType.Discard;
-                await CardPileCmd.Add(card, destination);
-            }
+            await card.OnPlayWrapper(context, target, true);
         }
         public static bool ExhaustBlocked { get; set; }
         public static MegaCrit.Sts2.Core.Entities.Cards.PileType? ExhaustDestinationOverride { get; set; }

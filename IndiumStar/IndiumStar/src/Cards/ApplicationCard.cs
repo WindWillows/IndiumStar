@@ -1,5 +1,4 @@
 using MegaCrit.Sts2.Core.Entities.Cards;
-using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using STS2RitsuLib.Scaffolding.Content;
@@ -133,43 +132,20 @@ public abstract class ApplicationCard : ModCardTemplate
         {
             await CrystalReversal(choiceContext, cardPlay, playResult);
             await CrystalBranchRules.NotifyTriggered(choiceContext, context, CrystalBranch.Reversal);
+            // 只在实际完成的首段晶逆上预约。主效果和通知中的能量变化不会重新选择分支。
+            if (cardPlay.IsFirstInSeries && CrystalReversalReplayCount > 0)
+            {
+                CrystalReplayRules.Request(this, cardPlay, CrystalReversalReplayCount);
+            }
         }
     }
 
-    /// <summary>
-    /// 晶逆触发时，通过延长本次出牌系列来重放的次数；0（默认）表示这张牌的晶逆不重放。
-    /// </summary>
+    /// <summary>首段晶逆完成后，额外执行主效果的次数；0表示不重放。</summary>
     /// <remarks>
-    /// <para>
-    /// 重放走本体出牌系列（<see cref="ModifyCardPlayCount" />，与复制药水同一条路径），
-    /// 每段都经过 <c>BeforeCardPlayed</c> / <c>AfterCardPlayed</c> 钩子和出牌历史。
-    /// 重放段由 <see cref="ResolveEffect" /> 按 <c>IsFirstInSeries</c> 抑制分支，
-    /// 所以晶逆方法本身保持空实现即可——重放效果已经由系列延长交付。
-    /// </para>
-    /// <para>
-    /// <b>约束：出牌次数在主效果结算之前生成，所以这里只能按当前能量<em>预测</em>
-    /// 分支选择。声明了重放的牌，其主效果（<see cref="PlayEffect" />）不得改变能量，
-    /// 否则预测与实际分支选择可能不一致。</b>
-    /// </para>
+    /// 实际基础效果结算后选择分支，再由CrystalReplaySeriesPatch延长本体当前系列。
+    /// 每段保留BeforeCardPlayed/AfterCardPlayed、历史、资源和目标，最终移牌只执行一次。
+    /// 不在GeneratePlayCount时预测能量；格挡、伤害和晶化生成的外部钩子也能改变能量。
+    /// 文本禁止分支的牌通过SuppressCrystalBranchesOnReplay抑制后续段的晶抗/晶逆。
     /// </remarks>
     protected virtual int CrystalReversalReplayCount => 0;
-
-    /// <summary>
-    /// 预测本次出牌会不会选中晶逆；会的话延长出牌系列，让重放走本体出牌生命周期。
-    /// </summary>
-    public override int ModifyCardPlayCount(CardModel card, Creature? target, int playCount)
-    {
-        if (card != this || CrystalReversalReplayCount <= 0)
-        {
-            return playCount;
-        }
-
-        // 此时费用已支付、主效果还没结算。对声明了重放的牌，主效果不改变能量，
-        // 所以当前能量就是分支选择时会读到的能量（预测上下文没有 CardPlay）。
-        int energy = Owner.PlayerCombatState?.Energy ?? 0;
-        var context = new CrystalBranchContext(this, null, null, energy, AvailableCrystalBranches);
-        return (CrystalBranchRules.SelectBranches(context) & CrystalBranch.Reversal) != 0
-            ? playCount + CrystalReversalReplayCount
-            : playCount;
-    }
 }

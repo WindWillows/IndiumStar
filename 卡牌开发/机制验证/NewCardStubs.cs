@@ -20,6 +20,12 @@ namespace MegaCrit.Sts2.Core.Commands {
             Task.FromResult<IEnumerable<CardModel>>(player.PlayerCombatState!.Hand.Cards.Where(c => c != source).Take(prefs.Count).ToArray());
     }
     public static class CreatureCmd {
+        public static List<(decimal Amount, MegaCrit.Sts2.Core.ValueProps.ValueProp Props, CardModel Source, CardPlay Play)> DirectDamages { get; } = [];
+        public static Func<Creature, CardPlay, Task>? AfterDamage { get; set; }
+        public static async Task Damage(PlayerChoiceContext context, Creature target, DamageVar amount, CardModel source, CardPlay play) {
+            DirectDamages.Add((amount.BaseValue, amount.Props, source, play));
+            if (AfterDamage != null) await AfterDamage(target, play);
+        }
         public static List<int> BlockGains { get; } = [];
         public static Func<Creature, decimal, CardPlay?, Task>? AfterBlockGained { get; set; }
         public static Task<decimal> GainBlock(Creature creature, BlockVar block, CardPlay? play, bool fast = false) =>

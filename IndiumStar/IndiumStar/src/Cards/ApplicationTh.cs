@@ -31,11 +31,9 @@ namespace IndiumStar.Cards;
 /// 和主效果的「失去生命」不是一回事，这是刻意区分的。
 /// </para>
 /// <para>
-/// <b>重放不会再次触发晶抗/晶逆</b>（和「晶流」一致）：
-/// <see cref="CrystalReversalReplayCount" /> 让 <c>ModifyCardPlayCount</c> 在预测到
-/// 晶逆时把本次出牌系列延长 2 段；重放段经过完整的出牌钩子与出牌历史，
-/// 由 <c>ResolveEffect</c> 按 <c>IsFirstInSeries</c> 抑制晶抗/晶逆。
-/// 主效果（失去生命 + 晶化 1）不改变能量，满足预测的约束。
+/// <b>重放沿用原版完整结算：</b>文档未给Th添加晶流的「不触发晶抗/晶逆」限制。
+/// 每段在各自基础效果之后选择分支；首段晶逆完成后由
+/// <see cref="CrystalReversalReplayCount" /> 延长本体系列2段，后续段不再扩张同一系列。
 /// </para>
 /// <para>
 /// 卡图暂时借用原版铁甲战士的「打击」卡图。
@@ -48,8 +46,6 @@ public sealed class ApplicationTh : ApplicationCard, IApplicationCard
 
     /// <summary>重放次数：主效果额外再执行这么多次，通过出牌系列延长交付。</summary>
     protected override int CrystalReversalReplayCount => 2;
-
-    protected override bool SuppressCrystalBranchesOnReplay => true;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
@@ -70,10 +66,7 @@ public sealed class ApplicationTh : ApplicationCard, IApplicationCard
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
 
-        // 使一名敌人失去生命（无视格挡、不吃力量）。
-        await CreatureCmd.Damage(choiceContext, cardPlay.Target, DynamicVars.Damage, this, cardPlay);
-
-        // 晶化 1。
+        // 按文档顺序先晶化，再使目标失去生命。两步及其钩子全部完成后才选择分支。
         await CrystallizationRules.AddToHand(
             choiceContext,
             Owner,
@@ -81,6 +74,8 @@ public sealed class ApplicationTh : ApplicationCard, IApplicationCard
             DynamicVars.Cards.IntValue,
             this);
 
+        // 使一名敌人失去生命（无视格挡、不吃力量）。
+        await CreatureCmd.Damage(choiceContext, cardPlay.Target, DynamicVars.Damage, this, cardPlay);
         return null;
     }
 
@@ -111,7 +106,7 @@ public sealed class ApplicationTh : ApplicationCard, IApplicationCard
     }
 
     /// <summary>
-    /// 晶逆：重放 2——本次出牌系列延长 2 段，重放段只重复主效果，不会再触发晶抗/晶逆。
+    /// 晶逆：首段完成后将本次出牌系列延长2段，每段正常结算主效果与分支。
     /// <para>
     /// 方法体保持为空：重放已经由 <see cref="CrystalReversalReplayCount" /> 驱动的
     /// 系列延长交付；这里留空实现只是为了让晶逆分支正常触发并发送通知。

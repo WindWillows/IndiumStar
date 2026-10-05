@@ -1,23 +1,23 @@
 {
-  "scope": "Official Godot SDK Release compilation, native managed model probes and native PCK roundtrip; no deployment or live combat",
+  "scope": "Official Godot SDK Release compilation; real source with command/history stubs and actual Harmony on struct async state machine; native model probes, actual native replay patch installation/metadata and PCK roundtrip; no deployment/live combat",
   "source_document_sha256": "85920BC38DF934ABA98B755D7181B375134859692DB6B65FE36436ACBD9A2438",
-  "baseline": "d46e10a",
-  "mechanism_cases": 227,
+  "baseline": "336bf0c",
+  "mechanism_cases": 275,
   "native_model_cases": 64,
-  "production_sources": 114,
+  "production_sources": 116,
   "release_errors": 0,
   "release_warnings": 0,
   "pck_roundtrip_json_files": 11,
   "artifacts": [
     {
       "name": "IndiumStar.dll",
-      "length": 184832,
-      "sha256": "D19F90EAF52FD82C5E6A2F440C20935E53473CE142F526A6A448705D67535331"
+      "length": 190464,
+      "sha256": "AE2CFF5413F0DC0FA8E34BE51E46C221DED11EFB80655E4A354B33C6300B3942"
     },
     {
       "name": "IndiumStar.pck",
-      "length": 55228,
-      "sha256": "8E3E901CBA4C04F084E5F89A46D2F064E90F55208CC4B0DB935749ED07E45098"
+      "length": 55164,
+      "sha256": "F041C581B97B6034E7DFA9C9EEE4975F921F3B8CEA91B6F4EB05CEAE96AFFE64"
     },
     {
       "name": "IndiumStar.json",
@@ -26,10 +26,6 @@
     }
   ],
   "sources": [
-    {
-      "path": "src/Entry.cs",
-      "sha256": "91B990223FE8526BAB7C5D938EE76FF4813116F7DC6A955386C4C5696236D6E0"
-    },
     {
       "path": "src/Afflictions/CrystallizeAffliction.cs",
       "sha256": "C1FA6DA734A5EAB1F3B359903548C884EA3707CFF85F62290BBF1BBECB9979BE"
@@ -64,7 +60,7 @@
     },
     {
       "path": "src/Cards/ApplicationCard.cs",
-      "sha256": "E2227F956B7F96A8DE3AD63E9B66470061C7C7B175C6A3F28707D9B13D6AD45E"
+      "sha256": "42B82AD3BF9BFDAD43D35D866168475EE44EA4CBA2E8888B76BAD731D06B941E"
     },
     {
       "path": "src/Cards/ApplicationCo.cs",
@@ -116,7 +112,7 @@
     },
     {
       "path": "src/Cards/ApplicationTh.cs",
-      "sha256": "2149F0345DA0A72C15AB3E901CC153FABE402E39E64F25F3A30DB2A4CB90FBDF"
+      "sha256": "7FCAF7DD739B2CCE05DB75AF05B9BBF054492C8987D0BBA03C165E8F05EE3FFB"
     },
     {
       "path": "src/Cards/ApplicationU.cs",
@@ -164,7 +160,7 @@
     },
     {
       "path": "src/Cards/CrystalFlow.cs",
-      "sha256": "464AA89198830FA1F4FB42DC8D81359A80AC7A375CF41AF756BF87369F02CD16"
+      "sha256": "FAA56E492BF6B7D1C74ADE7C6155E7BC346A548400935C83558C403DCDB95AD3"
     },
     {
       "path": "src/Cards/Crystallization.cs",
@@ -335,6 +331,10 @@
       "sha256": "2E3DBB4859189FDBD7F6005A41D1F4D6D0ADE7770CBCF9A913E93DC6D440C8C7"
     },
     {
+      "path": "src/Entry.cs",
+      "sha256": "91B990223FE8526BAB7C5D938EE76FF4813116F7DC6A955386C4C5696236D6E0"
+    },
+    {
       "path": "src/Mechanics/BorrowedIntentCompatibility.cs",
       "sha256": "28A22FBB77A60E0A3B11C1B196A4435FA03BEED87DBE2BB4651F3D79C29B8C5F"
     },
@@ -345,6 +345,10 @@
     {
       "path": "src/Mechanics/CrystalBranchRules.cs",
       "sha256": "8DC56B9B6CFDE983845D4EACFCA41416F236C69E64DDA88A001BEBD3AF02775D"
+    },
+    {
+      "path": "src/Mechanics/CrystalReplayRules.cs",
+      "sha256": "1A0F39DBF7CAEC132D5EBAE09AEAEDD5435F0C76BAB799F3EEF8313F883157F8"
     },
     {
       "path": "src/Mechanics/ExtensionRules.cs",
@@ -365,6 +369,10 @@
     {
       "path": "src/Patches/CrystallizeMarkClonePatch.cs",
       "sha256": "ED2FFA089748C006610A6E7464F7BA5413CDCDEF618BC2BAB3F748967D707993"
+    },
+    {
+      "path": "src/Patches/CrystalReplaySeriesPatch.cs",
+      "sha256": "9E3E81C06006630175FA125AB09D424D58E9D941D01910D4194DEB2173CEB647"
     },
     {
       "path": "src/Patches/VigorRetentionPatch.cs",
@@ -436,7 +444,7 @@
     },
     {
       "path": "src/Powers/QuantumDotPower.cs",
-      "sha256": "8839537060780CA2EA1E254AD939D2F10B2799BAB688A91D9AE7B848468195ED"
+      "sha256": "9C92D82BCB4D4CD0ECB69CEF30CC6FA7097873BC17C78DFDEFDF5535367F7A06"
     },
     {
       "path": "src/Powers/ReiterationPower.cs",
@@ -490,6 +498,27 @@
     "save restoration",
     "multiplayer synchronization",
     "all enemy intent adapters",
-    "post-main-effect crystal replay"
+    "live conditional replay with enchantments/afflictions and multiplayer pause/resume"
+  ],
+  "generated_at_utc": "2026-10-05T06:52:25.875885+00:00",
+  "replay_cases_added": 48,
+  "replay_mutation_variants_detected": 3,
+  "native_replay_patch": {
+    "status": "pass",
+    "target": "MegaCrit.Sts2.Core.Models.CardModel+<OnPlayWrapper>d__339",
+    "state_machine_is_value_type": true,
+    "injection": "one Apply call before main ExecutionFinished, native loop field by reference",
+    "native_card_play_setter_and_idempotent_consumption": "pass",
+    "scope": "actual Harmony patch application and helper metadata; no live OnPlayWrapper combat invocation"
+  },
+  "actual_game_references": [
+    {
+      "name": "sts2.dll",
+      "sha256": "0861BFA1DF347538D932F22D580E75420F08082792EB914E53B4882764ACDBE9"
+    },
+    {
+      "name": "0Harmony.dll",
+      "sha256": "EF1898322C9F5C86DC1B0758B272A9C440823B4A41CA9A0B82A3AA6B3D206387"
+    }
   ]
 }

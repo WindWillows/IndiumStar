@@ -14,7 +14,8 @@ internal static class ApiDump
         AppDomain.CurrentDomain.AssemblyResolve += OnResolve;
 
         var dllName = args[2];
-        var filters = args.Skip(3).ToArray();
+        var filters = args.Skip(3).Where(a => a != "--private").ToArray();
+        var visibility = BindingFlags.Public | (args.Contains("--private") ? BindingFlags.NonPublic : 0);
         var path = new[] { args[0], args[1] }.Select(d => Path.Combine(d, dllName)).FirstOrDefault(File.Exists);
         if (path == null)
         {
@@ -39,13 +40,13 @@ internal static class ApiDump
                 (t.BaseType != null ? " : " + t.BaseType.Name : ""));
             foreach (var c in t.GetConstructors())
                 Console.WriteLine("  ctor(" + string.Join(", ", c.GetParameters().Select(P)) + ")");
-            foreach (var m in t.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly))
+            foreach (var m in t.GetMethods(visibility | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly))
                 Console.WriteLine("  " + (m.IsStatic ? "static " : "") + Sig(m.ReturnType) + " " + m.Name +
                     (m.IsGenericMethodDefinition ? "<" + string.Join(",", m.GetGenericArguments().Select(a => a.Name)) + ">" : "") +
                     "(" + string.Join(", ", m.GetParameters().Select(P)) + ")");
-            foreach (var p in t.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly))
+            foreach (var p in t.GetProperties(visibility | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly))
                 Console.WriteLine("  prop " + Sig(p.PropertyType) + " " + p.Name);
-            foreach (var f in t.GetFields(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly))
+            foreach (var f in t.GetFields(visibility | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly))
                 Console.WriteLine("  field " + Sig(f.FieldType) + " " + f.Name);
         }
         return 0;
