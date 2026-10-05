@@ -1,23 +1,23 @@
 {
   "scope": "Official Godot SDK Release compilation, native managed model probes and native PCK roundtrip; no deployment or live combat",
   "source_document_sha256": "85920BC38DF934ABA98B755D7181B375134859692DB6B65FE36436ACBD9A2438",
-  "baseline": "7a43d89",
-  "mechanism_cases": 203,
-  "native_model_cases": 63,
-  "production_sources": 112,
+  "baseline": "d46e10a",
+  "mechanism_cases": 227,
+  "native_model_cases": 64,
+  "production_sources": 114,
   "release_errors": 0,
   "release_warnings": 0,
   "pck_roundtrip_json_files": 11,
   "artifacts": [
     {
       "name": "IndiumStar.dll",
-      "length": 179712,
-      "sha256": "DD4EAF7EE7F11DA706F27A1DCCCF107D413E2AF594F1A812A143AE694AE3D5AC"
+      "length": 184832,
+      "sha256": "D19F90EAF52FD82C5E6A2F440C20935E53473CE142F526A6A448705D67535331"
     },
     {
       "name": "IndiumStar.pck",
-      "length": 54428,
-      "sha256": "F1196DAD55705219503D30D6140454F8D5274B5EAF83E9A13F9BB68E39AABC7E"
+      "length": 55228,
+      "sha256": "8E3E901CBA4C04F084E5F89A46D2F064E90F55208CC4B0DB935749ED07E45098"
     },
     {
       "name": "IndiumStar.json",
@@ -205,6 +205,10 @@
     {
       "path": "src/Cards/DefendIndiumStar.cs",
       "sha256": "32666E26E4E1CF0DF6C00CF29A1D3C40538E44761AB3B64762A39508F042C4B3"
+    },
+    {
+      "path": "src/Cards/DeferredRelease.cs",
+      "sha256": "A4A7D22FED56E3B6C37F85F233C9DEFDD803BA0CE4E4DBC9B5E98D727713BF58"
     },
     {
       "path": "src/Cards/ExploitAdvantage.cs",
@@ -403,6 +407,10 @@
       "sha256": "E6C7F44ED6D7ADB335FB7D90F233F14118FC1371DE7C59152BAF12266E746D25"
     },
     {
+      "path": "src/Powers/DeferredReleasePower.cs",
+      "sha256": "521753E80989D5D6D0438AA6C6DBAF88ECD4B5594BC1733724ADDE02EB650AE4"
+    },
+    {
       "path": "src/Powers/ExtensionSpreadPower.cs",
       "sha256": "0E3E20A4C5793CAF60C60739BA5C0EFED06FC0B8113F070898584A2FB55F5BDB"
     },
@@ -481,6 +489,7 @@
     "live combat",
     "save restoration",
     "multiplayer synchronization",
-    "all enemy intent adapters"
+    "all enemy intent adapters",
+    "post-main-effect crystal replay"
   ]
 }

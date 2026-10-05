@@ -133,5 +133,7 @@
   "INDIUM_STAR_CARD_NEIGHBORING_GROUP_PARTICIPATION.title": "Neighboring Group Participation",
   "INDIUM_STAR_CARD_NEIGHBORING_GROUP_PARTICIPATION.description": "Draw 1 card.\nIf it is a Power, draw 2 more cards.\nIf it is a Skill, gain {Block:diff()} [gold]Block[/gold].\nIf it is an Attack, gain {StrengthPower:diff()} temporary [gold]Strength[/gold].",
   "INDIUM_STAR_CARD_BONDING_TRIPLE_BOND.title": "Bonding-Triple Bond",
-  "INDIUM_STAR_CARD_BONDING_TRIPLE_BOND.description": "Gain {Block:diff()} [gold]Block[/gold].\n[gold]Resistance[/gold]: Gain {CrystalBlock:diff()} [gold]Block[/gold] per [gold]Crystallization[/gold].\n[gold]Reversal[/gold]: Gain {ExtensionBlock:diff()} [gold]Block[/gold] per [gold]Extend[/gold] stack."
+  "INDIUM_STAR_CARD_BONDING_TRIPLE_BOND.description": "Gain {Block:diff()} [gold]Block[/gold].\n[gold]Resistance[/gold]: Gain {CrystalBlock:diff()} [gold]Block[/gold] per [gold]Crystallization[/gold].\n[gold]Reversal[/gold]: Gain {ExtensionBlock:diff()} [gold]Block[/gold] per [gold]Extend[/gold] stack.",
+  "INDIUM_STAR_CARD_DEFERRED_RELEASE.title": "[Unnamed] Skill",
+  "INDIUM_STAR_CARD_DEFERRED_RELEASE.description": "Exhaust 1 card in your hand.\nAt the start of your next turn, automatically play it."
 }

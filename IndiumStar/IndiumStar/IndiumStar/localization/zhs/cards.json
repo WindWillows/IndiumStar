@@ -133,5 +133,7 @@
   "INDIUM_STAR_CARD_NEIGHBORING_GROUP_PARTICIPATION.title": "邻基参与",
   "INDIUM_STAR_CARD_NEIGHBORING_GROUP_PARTICIPATION.description": "抽1张牌。\n若抽到的是能力牌，再抽2张牌。\n若是技能牌，获得{Block:diff()}点[gold]格挡[/gold]。\n若是攻击牌，获得{StrengthPower:diff()}点临时[gold]力量[/gold]。",
   "INDIUM_STAR_CARD_BONDING_TRIPLE_BOND.title": "键合-三键",
-  "INDIUM_STAR_CARD_BONDING_TRIPLE_BOND.description": "获得{Block:diff()}点[gold]格挡[/gold]。\n[gold]晶抗[/gold]：每有一张[gold]晶化[/gold]，获得{CrystalBlock:diff()}点[gold]格挡[/gold]。\n[gold]晶逆[/gold]：每有一层[gold]延拓[/gold]，获得{ExtensionBlock:diff()}点[gold]格挡[/gold]。"
+  "INDIUM_STAR_CARD_BONDING_TRIPLE_BOND.description": "获得{Block:diff()}点[gold]格挡[/gold]。\n[gold]晶抗[/gold]：每有一张[gold]晶化[/gold]，获得{CrystalBlock:diff()}点[gold]格挡[/gold]。\n[gold]晶逆[/gold]：每有一层[gold]延拓[/gold]，获得{ExtensionBlock:diff()}点[gold]格挡[/gold]。",
+  "INDIUM_STAR_CARD_DEFERRED_RELEASE.title": "[待命名]技能",
+  "INDIUM_STAR_CARD_DEFERRED_RELEASE.description": "消耗一张手牌。\n下回合开始时，将其自动打出。"
 }

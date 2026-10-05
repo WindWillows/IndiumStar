@@ -25,6 +25,9 @@ namespace MegaCrit.Sts2.Core.Models
         public virtual decimal ModifyBlockMultiplicative(MegaCrit.Sts2.Core.Entities.Creatures.Creature target, decimal block,
             MegaCrit.Sts2.Core.ValueProps.ValueProp props, CardModel? cardSource, MegaCrit.Sts2.Core.Entities.Cards.CardPlay? play) => 1m;
         public virtual Task AfterModifyingBlockAmount(decimal amount, CardModel? cardSource, MegaCrit.Sts2.Core.Entities.Cards.CardPlay? play) => Task.CompletedTask;
+        public virtual Task BeforeHandDraw(MegaCrit.Sts2.Core.Entities.Players.Player player,
+            MegaCrit.Sts2.Core.GameActions.Multiplayer.PlayerChoiceContext context,
+            MegaCrit.Sts2.Core.Combat.ICombatState combat) => Task.CompletedTask;
         public virtual Task AfterCardDrawn(MegaCrit.Sts2.Core.GameActions.Multiplayer.PlayerChoiceContext context,
             CardModel card, bool fromHandDraw) => Task.CompletedTask;
         public virtual Task AfterApplied(MegaCrit.Sts2.Core.Entities.Creatures.Creature? applier, CardModel? source) => Task.CompletedTask;
@@ -185,6 +188,7 @@ namespace MegaCrit.Sts2.Core.Entities.Players
     public class PlayerCombatState
     {
         public int Energy { get; set; }
+        public int TurnNumber { get; set; } = 1;
         public MegaCrit.Sts2.Core.Entities.Cards.CardPile Hand { get; } = new();
         public MegaCrit.Sts2.Core.Entities.Cards.CardPile DrawPile { get; } = new() { Type = MegaCrit.Sts2.Core.Entities.Cards.PileType.Draw };
         public MegaCrit.Sts2.Core.Entities.Cards.CardPile DiscardPile { get; } = new() { Type = MegaCrit.Sts2.Core.Entities.Cards.PileType.Discard };
@@ -514,14 +518,25 @@ namespace MegaCrit.Sts2.Core.Commands
         public static async Task AutoPlay(MegaCrit.Sts2.Core.GameActions.Multiplayer.PlayerChoiceContext context,
             MegaCrit.Sts2.Core.Models.CardModel card, MegaCrit.Sts2.Core.Entities.Creatures.Creature? target)
         {
-            card.Owner.PlayerCombatState!.Hand.Cards.Remove(card);
-            card.Pile = new() { Type = MegaCrit.Sts2.Core.Entities.Cards.PileType.Play };
-            if (!ShouldAutoPlay(card) || MegaCrit.Sts2.Core.Combat.CombatManager.Instance.IsOverOrEnding) return;
-            var play = new MegaCrit.Sts2.Core.Entities.Cards.CardPlay { Card = card, Target = target, IsAutoPlay = true };
+            if (MegaCrit.Sts2.Core.Combat.CombatManager.Instance.IsOverOrEnding || !card.Owner.Creature.IsAlive) return;
             var state = card.CombatState!;
+            bool allowed = ShouldAutoPlay(card) && state.IterateHookListeners().All(model =>
+                model.ShouldPlay(card, MegaCrit.Sts2.Core.Entities.Cards.AutoPlayType.Default));
+            card.Owner.PlayerCombatState!.Hand.Cards.Remove(card); card.Pile?.Cards.Remove(card);
+            card.Pile = new() { Type = MegaCrit.Sts2.Core.Entities.Cards.PileType.Play };
+            if (!allowed) {
+                await CardPileCmd.Add(card, MegaCrit.Sts2.Core.Entities.Cards.PileType.Discard); return;
+            }
+            var play = new MegaCrit.Sts2.Core.Entities.Cards.CardPlay { Card = card, Target = target, IsAutoPlay = true };
+            foreach (var listener in state.IterateHookListeners().ToArray()) await listener.BeforeCardPlayed(play);
             MegaCrit.Sts2.Core.Combat.CombatManager.Instance.History.CardPlaysStarted.Add(new(state, state.Turn, play));
             await card.Play(context, play);
             foreach (var power in card.Owner.Creature.Powers.ToArray()) await power.AfterCardPlayed(context, play);
+            if (card.Pile?.Type == MegaCrit.Sts2.Core.Entities.Cards.PileType.Play) {
+                var destination = card.CanonicalKeywords.Contains(MegaCrit.Sts2.Core.Entities.Cards.CardKeyword.Exhaust)
+                    ? MegaCrit.Sts2.Core.Entities.Cards.PileType.Exhaust : MegaCrit.Sts2.Core.Entities.Cards.PileType.Discard;
+                await CardPileCmd.Add(card, destination);
+            }
         }
         public static bool ExhaustBlocked { get; set; }
         public static MegaCrit.Sts2.Core.Entities.Cards.PileType? ExhaustDestinationOverride { get; set; }

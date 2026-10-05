@@ -49,7 +49,9 @@
     "type": "技能",
     "effect": "消耗一张牌，下个回合开始时将其打出",
     "upgrade": "获得保留",
-    "status": "功能尚未实现，名称缺失；后续以稳定内部标识实现并保留命名问题"
+    "status": "功能已实现；BeforeHandDraw在本人能量重置/延拓之后、普通抽牌之前自动打出原牌；正式名称待定，实机和同步仍待验证",
+    "class": "DeferredRelease",
+    "display_title": "[待命名]技能"
   },
   "remaining_audit_scope": "全卡池逐牌语义、时序和边界核查；卡牌全部完成前不转入遗物实现"
 }

@@ -203,4 +203,28 @@ PASS 更新规格卡牌的双语文本完整且成环排除两种类别
 PASS 回归规格与当前DOCX哈希一致，防止继续使用旧设计
 SentryGodotInitializer: Sentry GDExtension not loaded in this process; skipping. If you see this in a running game (not during project export or IDE script analysis), check Godot's log for extension load failures.
 PASS 测试卡牌类别枚举及格挡重载与实际游戏DLL一致
-203/203 passed; scope: real mod source, command/history stubs, real Harmony patching and game API contract.
+PASS 未命名技能只为成功消耗创建下回合预约 success upgraded=False
+PASS 未命名技能只为成功消耗创建下回合预约 success upgraded=True
+PASS 未命名技能只为成功消耗创建下回合预约 blocked upgraded=False
+PASS 未命名技能只为成功消耗创建下回合预约 blocked upgraded=True
+PASS 未命名技能只为成功消耗创建下回合预约 redirected upgraded=False
+PASS 未命名技能只为成功消耗创建下回合预约 redirected upgraded=True
+PASS 未命名技能只为成功消耗创建下回合预约 empty upgraded=False
+PASS 未命名技能只为成功消耗创建下回合预约 empty upgraded=True
+PASS 预约只在本人下一回合兑现并传递真实选择上下文
+PASS 预约跟随原牌身份，移入Hand后仍能兑现
+PASS 预约跟随原牌身份，移入Draw后仍能兑现
+PASS 预约跟随原牌身份，移入Discard后仍能兑现
+PASS 预约不会拉回已失效或正在打出的原牌 removed
+PASS 预约不会拉回已失效或正在打出的原牌 foreignOwner
+PASS 预约不会拉回已失效或正在打出的原牌 foreignCombat
+PASS 预约不会拉回已失效或正在打出的原牌 playing
+PASS 兑现中新增预约及递归回调不会提前执行
+PASS 多份预约按消费顺序兑现，异常不重试已尝试牌且保留未尝试牌
+PASS 阻止自动出牌时预约不会在下一回合重试
+PASS 自动兑现晶化不受手动额度限制也不会消耗额外额度
+PASS 旧战斗的预约不会在新战斗兑现
+PASS 队列克隆不共享容器，非法到期回合不改变预约
+PASS 战斗结束或玩家死亡时不兑现预约
+PASS 未命名技能及预约能力双语文本齐备
+227/227 passed; scope: real mod source, command/history stubs, real Harmony patching and game API contract.

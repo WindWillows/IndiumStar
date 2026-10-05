@@ -182,6 +182,11 @@ public static class UpdatedSpecificationTests
                 Check(overload.GetParameters().Select(parameter => parameter.Name)
                     .SequenceEqual(new[] { "creature", "amount", "props", "cardPlay", "fast" }));
                 Check(overload.ReturnType == typeof(Task<decimal>));
+                var hook = assembly.GetType("MegaCrit.Sts2.Core.Models.AbstractModel", true)!.GetMethod("BeforeHandDraw")!;
+                Check(hook.ReturnType == typeof(Task) && hook.GetParameters().Select(parameter => parameter.Name)
+                    .SequenceEqual(new[] { "player", "choiceContext", "combatState" }));
+                var player = assembly.GetType("MegaCrit.Sts2.Core.Entities.Players.Player", true)!;
+                Check(player.GetProperty("PlayerCombatState")!.PropertyType.GetProperty("TurnNumber")!.PropertyType == typeof(int));
             }
             finally { context.Unload(); }
             return Task.CompletedTask;

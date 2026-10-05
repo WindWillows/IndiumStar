@@ -49,6 +49,9 @@ foreach (Type type in cardTypes)
         throw new Exception("Native updated triple-bond specification failed");
     if (type == typeof(Inversion) && (canonical.DynamicVars.Damage.BaseValue != 5 || copy.DynamicVars.Damage.BaseValue != 8))
         throw new Exception("Native updated Inversion damage failed");
+    if (type == typeof(DeferredRelease) && (!copy.Keywords.Contains(CardKeyword.Retain)
+        || canonical.Keywords.Contains(CardKeyword.Retain)))
+        throw new Exception("Native deferred release upgrade keyword failed");
     rows.Add(new { type = type.Name, id = canonical.Id.Entry, upgraded, mutable_clone = "pass" });
     passed++;
 }
