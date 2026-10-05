@@ -1,8 +1,8 @@
 {
-  "scope": "Official Godot SDK Release; 616 real-source regressions linking all 64 card sources with command/history/selection stubs and actual Harmony; 64 native model probes plus native replay metadata, Co/U and coin decay clone; 11 JSON PCK roundtrip; no deployment or full live startup/combat/UI/save/multiplayer acceptance",
+  "scope": "Official Godot SDK Release; 620 real-source regressions including renamed Electron attack integrations; 64 actual game model/type/rarity/upgrade/clone checks; native replay metadata and coin clone checks; 11 JSON PCK roundtrip; no deployment or live combat/save/multiplayer acceptance",
   "source_document_sha256": "85920BC38DF934ABA98B755D7181B375134859692DB6B65FE36436ACBD9A2438",
-  "baseline": "41faa5e",
-  "mechanism_cases": 616,
+  "baseline": "3d711cd",
+  "mechanism_cases": 620,
   "native_model_cases": 64,
   "production_sources": 113,
   "release_errors": 0,
@@ -12,12 +12,12 @@
     {
       "name": "IndiumStar.dll",
       "length": 187392,
-      "sha256": "DA5C090E944B3B5103A061F36AA2E2A803326DE009FE27D9C878070B773F0761"
+      "sha256": "8BA08B6E009510440241E92C105EB76259E7D842A38F0118BAAF293D8AEF6F21"
     },
     {
       "name": "IndiumStar.pck",
       "length": 55484,
-      "sha256": "7043554882285D75CF4CEA23EB6DB223B9859AF6342963E5400B5782F4ABC423"
+      "sha256": "8726D5E4AE1F796C82C69640E47002B16AC913965A590DBAAC0FFDDFD07A1BA6"
     },
     {
       "name": "IndiumStar.json",
@@ -32,7 +32,7 @@
     },
     {
       "path": "src/Afflictions/CrystallizeUAffliction.cs",
-      "sha256": "476CBF38D2054AC444224AFF442827AC102CD3991490E1CC5805B94D1DE3FF80"
+      "sha256": "E60DC498E81E5D138D1B4238916CA9671CB1EAB87609BBC740EE202DCB84E711"
     },
     {
       "path": "src/CardPools/IndiumStarCardPool.cs",
@@ -100,7 +100,7 @@
     },
     {
       "path": "src/Cards/ApplicationNeutron.cs",
-      "sha256": "5D19E497D7FC022CD356A0BDE273DAA1BCA7D0989658DBE4ED789D66199866D2"
+      "sha256": "9669009025F9FBA951BB2B7E5DB22E8B9BEEE7A69632FA55AA9333758BBE559E"
     },
     {
       "path": "src/Cards/ApplicationPb.cs",
@@ -116,7 +116,7 @@
     },
     {
       "path": "src/Cards/ApplicationU.cs",
-      "sha256": "A68FFBF6DC5F60A3ED15B74A815F8C5B39A7196A7BA35AFAC6355000A981A156"
+      "sha256": "2AB16EFFAA52814F854C2D06E09E19EE51F8858A5D3F0373004BC5634A16B12A"
     },
     {
       "path": "src/Cards/ApplicationZn.cs",
@@ -192,7 +192,7 @@
     },
     {
       "path": "src/Cards/CrystallizationU.cs",
-      "sha256": "81F441540114CDA7A1A8C002E153069C9534847A531FD8269297E6F3FD017920"
+      "sha256": "0F0308CD27DCFC7671B07B6DD5FC3B22831C743D99DA98CDED6ACAD364065AE6"
     },
     {
       "path": "src/Cards/Cyclization.cs",
@@ -416,11 +416,11 @@
     },
     {
       "path": "src/Powers/LoseVulnerableAtTurnStartPower.cs",
-      "sha256": "F5897A6A8FC8F15423EF802B83B5545451687D1EA855B1DD5F873E5D9F9637FE"
+      "sha256": "B056AA6CD8AEE0A4028F8D5D47A2B858A6C4D5820625CE71A02C0EBBA0B7A1B1"
     },
     {
       "path": "src/Powers/LoseWeakAtTurnEndPower.cs",
-      "sha256": "FF3F2FC6BFFF7554939FE312D03C85392FF76CC67C685366C1DFEDF92CEC71F0"
+      "sha256": "B8E071CAB9492B5458356309CE091B96A93CA05303E5810A203B021083D80985"
     },
     {
       "path": "src/Powers/NeighboringGroupStrengthPower.cs",
@@ -487,7 +487,7 @@
     "multiplayer synchronization",
     "live conditional replay with enchantments/afflictions and multiplayer pause/resume"
   ],
-  "generated_at_utc": "2026-10-05T14:26:12.388994+00:00",
+  "generated_at_utc": "2026-10-05T16:28:45.191615+00:00",
   "replay_mutation_variants_detected": 3,
   "native_replay_patch": {
     "status": "pass",
@@ -548,7 +548,7 @@
   "regression_inputs": [
     {
       "path": "卡牌开发/机制验证/ApplicationEffectTests.cs",
-      "sha256": "A663B1D728B90E36035A30292343803BC27EF82D1E9EBCD58911C5F020FB28F1"
+      "sha256": "5C518EEB011613AD9224ED2724F96D264804206CB2ADA9604321C3E6A0ECCBD4"
     },
     {
       "path": "卡牌开发/机制验证/Build-CachedSdk.ps1",
@@ -556,7 +556,7 @@
     },
     {
       "path": "卡牌开发/机制验证/Build-CardAcceptanceMatrix.py",
-      "sha256": "0ABA5BA7AF328D575C7F065C5F297FF2D9E7D257988A300A1825A598D1DF7ACA"
+      "sha256": "56127595409E421F782598178ADE657DBE7A65CFF6F9D6F435A6257C6282A268"
     },
     {
       "path": "卡牌开发/机制验证/Check-ApplicationMutations.ps1",
@@ -608,7 +608,7 @@
     },
     {
       "path": "卡牌开发/机制验证/NativeModelSmoke.cs",
-      "sha256": "1B20416B4423B6FE31C8AD7CF1018E604B885846BFD31D77819C30166F829B56"
+      "sha256": "F31420DCD400CB701B9637AE8676EC3FE984F1B3C269280999B806A3E5B7AA7E"
     },
     {
       "path": "卡牌开发/机制验证/NewCardStubs.cs",
@@ -640,7 +640,7 @@
     },
     {
       "path": "卡牌开发/机制验证/SemanticAuditTests.cs",
-      "sha256": "756B1C7EF5C8308469643883C7EB2FAFBB7EDB2EB7FFB432A732C375221A16BF"
+      "sha256": "D8088C88FB81D7D9CC2298BCD17812C01ECFA77705DFA3B670AEC088F666B29C"
     },
     {
       "path": "卡牌开发/机制验证/Smoke-NativeModels.ps1",
@@ -657,7 +657,7 @@
   ],
   "native_coin_decay_clone": "pass; actual SavedAttachedState and patched MutableClone; no save roundtrip",
   "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
-  "rule_decisions_sha256": "91D9E96B9B6FF0422634E2C8ABBCCA84911C10E954B803FACD2E5D7FAE800886",
+  "rule_decisions_sha256": "B85B74C2DD277FE1706F04D6D84D4C0D2A423511E513C110DB24C6F30F4B7B06",
   "rule_regression_cases_added": 41,
   "obsolete_intent_cases_removed": 8,
   "deferred_by_user": [
@@ -678,5 +678,21 @@
     "baseline-phosphorus-configuration": 22,
     "baseline-calcite-configuration": 9,
     "baseline-characterization-turn": 8
+  },
+  "electron_change": {
+    "date": "2026-10-06",
+    "display_name": "运用-电子 / Application-Electron",
+    "card_type": "Attack",
+    "rarity": "Basic",
+    "stable_model_id": "APPLICATION_NEUTRON",
+    "regression_cases_added": 4,
+    "native_metadata_matches": 64,
+    "main_card_counts": {
+      "Attack": 24,
+      "Skill": 24,
+      "Power": 10,
+      "Status": 6
+    },
+    "inherited_mutation_evidence": "Historical mutation runs from prior specification batch on 3d711cd; not rerun for this rename/type change"
   }
 }

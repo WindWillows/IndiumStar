@@ -67,7 +67,12 @@ foreach (Type type in cardTypes)
     if (type == typeof(DeferredRelease) && (!copy.Keywords.Contains(CardKeyword.Retain)
         || canonical.Keywords.Contains(CardKeyword.Retain)))
         throw new Exception("Native deferred release upgrade keyword failed");
-    rows.Add(new { type = type.Name, id = canonical.Id.Entry, upgraded, mutable_clone = "pass" });
+    if (type == typeof(ApplicationNeutron) && (canonical.Type != CardType.Attack || copy.Type != CardType.Attack
+        || canonical.Rarity != CardRarity.Basic || canonical.Id.Entry != "APPLICATION_NEUTRON"
+        || canonical.DynamicVars.Damage.BaseValue != 10 || copy.DynamicVars.Damage.BaseValue != 14))
+        throw new Exception("Native renamed Electron type, stable ID or damage contract failed");
+    rows.Add(new { type = type.Name, id = canonical.Id.Entry, upgraded, mutable_clone = "pass",
+        card_type = canonical.Type.ToString(), rarity = canonical.Rarity.ToString() });
     passed++;
 }
 var macro = (MacroDendrite)ModelDb.GetById<CardModel>(ModelDb.GetId(typeof(MacroDendrite))).MutableClone();

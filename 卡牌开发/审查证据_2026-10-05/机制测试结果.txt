@@ -140,8 +140,12 @@ PASS 邻基参与抽牌受阻和空牌堆都不触发类型奖励
 PASS 邻基参与多次临时力量回收保留原有永久力量
 PASS 原怪物攻击与动画保持本体指令语义
 PASS 六张新卡中英文标题描述均存在
-PASS 中子重复施加只使用原版状态，无隐藏清除器 energy=0
-PASS 中子重复施加只使用原版状态，无隐藏清除器 energy=1
+PASS 电子攻击牌允许待发下自动打出并触发Nb活力扣除 upgraded=False
+PASS 邻基参与抽到电子触发攻击临时力量分支 upgraded=False
+PASS 电子攻击牌允许待发下自动打出并触发Nb活力扣除 upgraded=True
+PASS 邻基参与抽到电子触发攻击临时力量分支 upgraded=True
+PASS 电子重复施加只使用原版状态，无隐藏清除器 energy=0
+PASS 电子重复施加只使用原版状态，无隐藏清除器 energy=1
 PASS 反演重做后不执行敌人意图或推进敌人的RNG
 PASS Co标记复制继承且回合结束清除原件与复制
 PASS U标记复制生成晶化U且不会修改未标记牌
@@ -154,7 +158,7 @@ PASS 锡疑在Exhaust也获得延拓牌费用减免且不重复计算重放
 PASS 碎晶雨晶逆保留主伤害的多段模式 upgraded=False
 PASS 碎晶雨晶逆保留主伤害的多段模式 upgraded=True
 PASS 崩碎之歌不把失败消耗计入伤害段数
-PASS 晶化U只回收已升级中子，不额外升级普通中子
+PASS 晶化U只回收已升级电子，不额外升级普通电子
 PASS Hs光环不扣回未发放给不能接收能力单位的贡献
 PASS Hs光环能在单位恢复可接收能力后补发与正确收回
 PASS 新版成环按状态和诅咒类别判定 None upgraded=False
@@ -328,9 +332,9 @@ PASS 运用-Hs只削弱存活敌人，敌人回合末恢复 upgraded=False
 PASS 运用-Co标记实际抽到的首牌并保留 n=0 upgraded=False
 PASS 运用-Co标记实际抽到的首牌并保留 n=1 upgraded=False
 PASS 运用-Co标记实际抽到的首牌并保留 n=5 upgraded=False
-PASS 运用-U三张中子升级并各具有晶化U，溢出仍保留标记 n=0 upgraded=False
-PASS 运用-U三张中子升级并各具有晶化U，溢出仍保留标记 n=9 upgraded=False
-PASS 运用-U三张中子升级并各具有晶化U，溢出仍保留标记 n=10 upgraded=False
+PASS 运用-U三张电子升级并各具有晶化U，溢出仍保留标记 n=0 upgraded=False
+PASS 运用-U三张电子升级并各具有晶化U，溢出仍保留标记 n=9 upgraded=False
+PASS 运用-U三张电子升级并各具有晶化U，溢出仍保留标记 n=10 upgraded=False
 PASS 运用-Pb只变化状态牌并晶抗生成普通晶化 upgraded=False
 PASS 运用-Cu伤害之后生效，累计余数及升级阈值 upgraded=False
 PASS 运用-Cu首次施加后的连锁攻击立即使用当前配置 upgraded=False
@@ -358,9 +362,9 @@ PASS 运用-Hs只削弱存活敌人，敌人回合末恢复 upgraded=True
 PASS 运用-Co标记实际抽到的首牌并保留 n=0 upgraded=True
 PASS 运用-Co标记实际抽到的首牌并保留 n=1 upgraded=True
 PASS 运用-Co标记实际抽到的首牌并保留 n=5 upgraded=True
-PASS 运用-U三张中子升级并各具有晶化U，溢出仍保留标记 n=0 upgraded=True
-PASS 运用-U三张中子升级并各具有晶化U，溢出仍保留标记 n=9 upgraded=True
-PASS 运用-U三张中子升级并各具有晶化U，溢出仍保留标记 n=10 upgraded=True
+PASS 运用-U三张电子升级并各具有晶化U，溢出仍保留标记 n=0 upgraded=True
+PASS 运用-U三张电子升级并各具有晶化U，溢出仍保留标记 n=9 upgraded=True
+PASS 运用-U三张电子升级并各具有晶化U，溢出仍保留标记 n=10 upgraded=True
 PASS 运用-Pb只变化状态牌并晶抗生成普通晶化 upgraded=True
 PASS 运用-Cu伤害之后生效，累计余数及升级阈值 upgraded=True
 PASS 运用-Cu首次施加后的连锁攻击立即使用当前配置 upgraded=True
@@ -617,4 +621,4 @@ PASS 原波穿刺同类型负面状态只计一种 upgraded=False
 PASS 分析同类型多个实例只计一种、仍排除隐藏效果 upgraded=True
 PASS 原波穿刺同类型负面状态只计一种 upgraded=True
 PASS 气溶胶命名保留模型ID且中英卡面同步
-616/616 passed; scope: real mod source, command/history stubs, real Harmony patching and game API contract.
+620/620 passed; scope: real mod source, command/history stubs, real Harmony patching and game API contract.

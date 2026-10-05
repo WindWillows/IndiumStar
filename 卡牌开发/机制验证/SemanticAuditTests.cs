@@ -11,9 +11,33 @@ public static class SemanticAuditTests {
     private static void Check(bool condition) { if (!condition) throw new Exception("assertion failed"); }
     public static void Register(List<(string Name, Func<Task> Run)> tests) {
         void Test(string name, Func<Task> run) => tests.Add((name, run));
+        foreach (bool upgraded in new[] { false, true }) {
+            bool up = upgraded;
+            Test($"电子攻击牌允许待发下自动打出并触发Nb活力扣除 upgraded={up}", async () => {
+                var r = new Rig(energy: 1); var card = r.Crystal<ApplicationNeutron>(); if (up) card.Upgrade();
+                card.Pile = PileType.Hand.GetPile(r.Player); card.Pile.Cards.Add(card);
+                await PowerCmd.Apply<OnlyAttacksThisTurnPower>(r.Choice, r.Player.Creature, 1, null, null);
+                await PowerCmd.Apply<ApplicationNbPower>(r.Choice, r.Player.Creature, 1, null, null);
+                await PowerCmd.Apply<VigorPower>(r.Choice, r.Player.Creature, 4, null, null);
+                var target = new Creature { CombatState = r.State };
+                await CardCmd.AutoPlay(r.Choice, card, target);
+                Check(DamageCmd.Attacks.Single().Damage == (up ? 14 : 10) && card.EnergyCost.Value == (up ? 0 : 1));
+                Check(card.Type == CardType.Attack && card.CreateClone().Type == CardType.Attack
+                    && r.Player.Creature.GetPowerAmount<VigorPower>() == 2 && card.Pile?.Type == PileType.Discard);
+                Check(r.Player.Creature.GetPowerAmount<WeakPower>() == 1 && r.Player.Creature.GetPowerAmount<VulnerablePower>() == 0);
+            });
+            Test($"邻基参与抽到电子触发攻击临时力量分支 upgraded={up}", async () => {
+                var r = new Rig(); var electronic = r.Crystal<ApplicationNeutron>(); if (up) electronic.Upgrade();
+                electronic.Pile = PileType.Draw.GetPile(r.Player); electronic.Pile.Cards.Add(electronic);
+                var neighboring = r.Crystal<NeighboringGroupParticipation>(); if (up) neighboring.Upgrade();
+                await neighboring.Play(r.Choice, new() { Card = neighboring });
+                Check(electronic.Pile?.Type == PileType.Hand && r.Player.Creature.Block == 0
+                    && r.Player.Creature.GetPowerAmount<StrengthPower>() == (up ? 4 : 3));
+            });
+        }
         foreach (int energy in new[] { 0, 1 }) {
             int e = energy;
-            Test($"中子重复施加只使用原版状态，无隐藏清除器 energy={e}", async () => {
+            Test($"电子重复施加只使用原版状态，无隐藏清除器 energy={e}", async () => {
                 var r = new Rig(energy: e); var card = r.Crystal<ApplicationNeutron>();
                 var target = new Creature { CombatState = r.State };
                 await PowerCmd.Apply<WeakPower>(r.Choice, r.Player.Creature, 3, null, null);
@@ -97,7 +121,7 @@ public static class SemanticAuditTests {
             var song = r.Crystal<ShatterSong>(); await song.Play(r.Choice, new() { Card = song, Target = new() });
             Check(DamageCmd.Attacks.Count == 0);
         });
-        Test("晶化U只回收已升级中子，不额外升级普通中子", async () => {
+        Test("晶化U只回收已升级电子，不额外升级普通电子", async () => {
             var r = new Rig(); var plain = r.Crystal<ApplicationNeutron>(); plain.Pile = PileType.Draw.GetPile(r.Player); plain.Pile.Cards.Add(plain);
             var upgraded = r.Crystal<ApplicationNeutron>(); upgraded.Upgrade(); upgraded.Pile = PileType.Discard.GetPile(r.Player); upgraded.Pile.Cards.Add(upgraded);
             var crystal = r.Crystal<CrystallizationU>(); await crystal.Play(r.Choice, new() { Card = crystal });

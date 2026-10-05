@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "document_sha256": "85920bc38df934aba98b755d7181b375134859692db6b65fe36436acbd9a2438",
-  "rule_decisions_sha256": "91d9e96b9b6ff0422634e2c8abbcca84911c10e954b803facd2e5d7fae800886",
+  "rule_decisions_sha256": "b85b74c2dd277fe1706f04d6d84d4c0d2a423511e513c110db24c6f30f4b7b06",
   "precedence": "最新用户指令优先于DOCX和旧问题单；DOCX保留原样",
   "scope": "64张注册卡牌的规格/源码/现有证据工作矩阵；命名用例和源码链接仅定位证据，不自动认定语义阅读或完整验收",
   "cards": [
@@ -503,29 +503,35 @@
     },
     {
       "class": "ApplicationNeutron",
-      "title": "运用-中子",
+      "title": "运用-电子",
       "model_id": "INDIUM_STAR_CARD_APPLICATION_NEUTRON",
       "source_file": "IndiumStar/IndiumStar/src/Cards/ApplicationNeutron.cs",
       "document_anchor": 54,
-      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
-      "specification_text": "运用-中子\n1（0）c  初始 技能\n造成 10（14）点伤害\n晶抗：获得一层虚弱。\n晶逆：获得一层易伤。",
+      "specification_source": "最新用户定稿消息；优先于DOCX正文",
+      "specification_text": "运用-电子\n1（0）c 初始 攻击\n造成10（14）点伤害。\n晶抗：自身获得1层虚弱。\n晶逆：自身获得1层易伤。",
       "global_user_rules": [
         "所有晶化数量均指手牌中的晶化。",
         "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
       ],
+      "document_specification_text": "运用-中子\n1（0）c  初始 技能\n造成 10（14）点伤害\n晶抗：获得一层虚弱。\n晶逆：获得一层易伤。",
       "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "1",
-        "type": "Skill",
+        "type": "Attack",
         "rarity": "Basic",
         "target": "AnyEnemy",
         "has_energy_cost_x": false
       },
       "localized_description": "造成{Damage:diff()}点伤害。\n[gold]晶抗[/gold]：自身获得{WeakPower:diff()}层[gold]虚弱[/gold]。\n[gold]晶逆[/gold]：自身获得{VulnerablePower:diff()}层[gold]易伤[/gold]。",
       "card_source_linked_by_regression": true,
-      "named_case_evidence": [],
+      "named_case_evidence": [
+        "电子攻击牌允许待发下自动打出并触发Nb活力扣除 upgraded=False",
+        "电子攻击牌允许待发下自动打出并触发Nb活力扣除 upgraded=True",
+        "电子重复施加只使用原版状态，无隐藏清除器 energy=0",
+        "电子重复施加只使用原版状态，无隐藏清除器 energy=1"
+      ],
       "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
-      "effect_acceptance": "需要补齐直接卡牌效果回归；相关命名用例不自动证明整牌效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
       "live_combat": "未验证",
       "save_and_multiplayer": "未验证",
       "required_audit": [
@@ -536,7 +542,7 @@
         "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
         "真实游戏运行、存档恢复、多人数值和动作同步"
       ],
-      "source_sha256": "5d19e497d7fc022cd356a0bde273daa1bca7d0989658dbe4ed789d66199866d2"
+      "source_sha256": "9669009025f9fba951bb2b7e5db22e8b9beee7a69632fa55aa9333758bbe559e"
     },
     {
       "class": "ApplicationPb",
@@ -632,12 +638,13 @@
       "model_id": "INDIUM_STAR_CARD_APPLICATION_U",
       "source_file": "IndiumStar/IndiumStar/src/Cards/ApplicationU.cs",
       "document_anchor": 2821,
-      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
-      "specification_text": "运用-U\n3（2）c 稀有 技能\n将3张具有晶化（U）1的“运用-中子+”加入手牌。消耗。",
+      "specification_source": "最新用户定稿消息；优先于DOCX正文",
+      "specification_text": "运用-U\n3（2）c 稀有 技能\n将3张具有晶化（U）1的运用-电子+加入手牌。消耗。",
       "global_user_rules": [
         "所有晶化数量均指手牌中的晶化。",
         "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
       ],
+      "document_specification_text": "运用-U\n3（2）c 稀有 技能\n将3张具有晶化（U）1的“运用-中子+”加入手牌。消耗。",
       "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "base_cost_expression": "3",
@@ -646,16 +653,16 @@
         "target": "Self",
         "has_energy_cost_x": false
       },
-      "localized_description": "将{Cards:diff()}张具有[gold]晶化[/gold]（U）1的「运用-中子+」加入手牌。",
+      "localized_description": "将{Cards:diff()}张具有[gold]晶化[/gold]（U）1的「运用-电子+」加入手牌。",
       "card_source_linked_by_regression": true,
       "named_case_evidence": [
         "U标记复制生成晶化U且不会修改未标记牌",
-        "运用-U三张中子升级并各具有晶化U，溢出仍保留标记 n=0 upgraded=False",
-        "运用-U三张中子升级并各具有晶化U，溢出仍保留标记 n=9 upgraded=False",
-        "运用-U三张中子升级并各具有晶化U，溢出仍保留标记 n=10 upgraded=False",
-        "运用-U三张中子升级并各具有晶化U，溢出仍保留标记 n=0 upgraded=True",
-        "运用-U三张中子升级并各具有晶化U，溢出仍保留标记 n=9 upgraded=True",
-        "运用-U三张中子升级并各具有晶化U，溢出仍保留标记 n=10 upgraded=True"
+        "运用-U三张电子升级并各具有晶化U，溢出仍保留标记 n=0 upgraded=False",
+        "运用-U三张电子升级并各具有晶化U，溢出仍保留标记 n=9 upgraded=False",
+        "运用-U三张电子升级并各具有晶化U，溢出仍保留标记 n=10 upgraded=False",
+        "运用-U三张电子升级并各具有晶化U，溢出仍保留标记 n=0 upgraded=True",
+        "运用-U三张电子升级并各具有晶化U，溢出仍保留标记 n=9 upgraded=True",
+        "运用-U三张电子升级并各具有晶化U，溢出仍保留标记 n=10 upgraded=True"
       ],
       "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
       "effect_acceptance": "部分源码回归；尚未完整验收",
@@ -669,7 +676,7 @@
         "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
         "真实游戏运行、存档恢复、多人数值和动作同步"
       ],
-      "source_sha256": "a68ffbf6dc5f60a3ed15b74a815f8c5b39a7196a7ba35afac6355000a981a156"
+      "source_sha256": "2ab16effaa52814f854c2d06e09e19ee51f8858a5d3f0373004bc5634a16b12a"
     },
     {
       "class": "ApplicationZn",
@@ -1224,7 +1231,7 @@
         "晶化Pb保留公共晶化属性并额外具有虚无",
         "晶化生成普通牌和指定变体",
         "晶化Hs提供真正的全体力量并在离手后保留其他来源",
-        "晶化U只回收已升级中子，不额外升级普通中子",
+        "晶化U只回收已升级电子，不额外升级普通电子",
         "晶化Mg实际衍生牌0费保留消耗并获得4格挡"
       ],
       "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
@@ -1387,21 +1394,22 @@
       "model_id": "INDIUM_STAR_CARD_CRYSTALLIZATION_U",
       "source_file": "IndiumStar/IndiumStar/src/Cards/CrystallizationU.cs",
       "document_anchor": 2868,
-      "specification_source": "当前DOCX正文；括号升级以该文档格式和原文核对",
-      "specification_text": "*晶化U\n0c 保留 消耗\n不论何处，将1张“运用-中子+”放回你的手牌，使其获得消耗。",
+      "specification_source": "最新用户定稿消息；优先于DOCX正文",
+      "specification_text": "晶化U\n0c 状态 保留 消耗；共用晶化手动额度。\n不论何处，将1张运用-电子+放回手牌，使其获得消耗。",
       "global_user_rules": [
         "所有晶化数量均指手牌中的晶化。",
         "同类型效果的多个独立实例只计为一种；保留各牌原有可见性/负面/临时能力过滤。"
       ],
+      "document_specification_text": "*晶化U\n0c 保留 消耗\n不论何处，将1张“运用-中子+”放回你的手牌，使其获得消耗。",
       "rule_decision_file": "卡牌开发/规则定稿_2026-10-05.json",
       "observed_source_metadata": {
         "inherited": "晶化基类；还需核对实际注册/可打出属性",
         "has_energy_cost_x": false
       },
-      "localized_description": "从任意位置将一张「运用-中子+」放回手牌，并使其获得[gold]消耗[/gold]。\n每回合至多手动打出1张晶化。自动打出不计入次数。",
+      "localized_description": "从任意位置将一张「运用-电子+」放回手牌，并使其获得[gold]消耗[/gold]。\n每回合至多手动打出1张晶化。自动打出不计入次数。",
       "card_source_linked_by_regression": true,
       "named_case_evidence": [
-        "晶化U只回收已升级中子，不额外升级普通中子"
+        "晶化U只回收已升级电子，不额外升级普通电子"
       ],
       "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
       "effect_acceptance": "部分源码回归；尚未完整验收",
@@ -1415,7 +1423,7 @@
         "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
         "真实游戏运行、存档恢复、多人数值和动作同步"
       ],
-      "source_sha256": "81f441540114cda7a1a8c002e153069c9534847a531fd8269297e6f3fd017920"
+      "source_sha256": "0f0308cd27dcfc7671b07b6dd5fc3b22831c743d99da98cded6acad364065ae6"
     },
     {
       "class": "Cyclization",
@@ -1876,7 +1884,9 @@
         "邻基参与按第一张实际抽到牌判断 Quest upgraded=False",
         "邻基参与按第一张实际抽到牌判断 Quest upgraded=True",
         "邻基参与抽牌受阻和空牌堆都不触发类型奖励",
-        "邻基参与多次临时力量回收保留原有永久力量"
+        "邻基参与多次临时力量回收保留原有永久力量",
+        "邻基参与抽到电子触发攻击临时力量分支 upgraded=False",
+        "邻基参与抽到电子触发攻击临时力量分支 upgraded=True"
       ],
       "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
       "effect_acceptance": "部分源码回归；尚未完整验收",
@@ -2925,7 +2935,7 @@
     }
   ],
   "total": 64,
-  "regression_cases": 616,
+  "regression_cases": 620,
   "direct_card_sources_linked": 64,
   "complete_effect_acceptances": 0
 }

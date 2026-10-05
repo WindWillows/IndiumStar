@@ -40,6 +40,7 @@ short_names = {
     "ReminiscenceVanadiumEternal": ["钒永"], "BondingTripleBond": ["键合三键"],
     "DeferredRelease": ["未命名技能", "预约"], "ApplicationTh": ["运用Th"],
     "ReminiscenceTinDoubt": ["锡疑"], "ReminiscencePhosphorus": ["磷语"],
+    "ApplicationNeutron": ["电子"],
 }
 anchors = []
 records = []
@@ -59,7 +60,8 @@ for native in model_probe["cards"]:
         anchors.append((pos, cls)); record["document_anchor"] = pos
     else:
         prefix = r"\*" if cls.startswith("Crystallization") else ""
-        pattern = prefix + re.escape(title) + r"(?=\s|[0-9Xx]|$)"
+        document_title = decisions.get("document_title_aliases", {}).get(cls, title)
+        pattern = prefix + re.escape(document_title) + r"(?=\s|[0-9Xx]|$)"
         found = re.search(pattern, body)
         if found is None: raise ValueError("文档未匹配：" + cls + " / " + title)
         anchors.append((found.start(), cls)); record["document_anchor"] = found.start()

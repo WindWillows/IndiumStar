@@ -14,7 +14,7 @@ using IndiumStar.Characters;
 namespace IndiumStar.Cards;
 
 /// <summary>
-/// 运用-中子：造成 10 点伤害。
+/// 运用-电子：造成 10 点伤害。内部ApplicationNeutron模型ID保留用于已有数据兼容。
 /// <para>晶抗（结算后能量不为 0）：<strong>自己</strong>获得 1 层虚弱。</para>
 /// <para>晶逆（结算后能量为 0）：<strong>自己</strong>获得 1 层易伤。</para>
 /// </summary>
@@ -24,7 +24,7 @@ namespace IndiumStar.Cards;
 /// 不是给被打的敌人。所以两边都用 <c>Owner.Creature</c>。
 /// </para>
 /// <para>
-/// 按设计文档它是<strong>技能</strong>牌（不是攻击牌）：升级后费用 1 → 0，伤害 10 → 14。
+/// 按最新用户定稿改为<strong>攻击</strong>牌：升级后费用 1 → 0，伤害 10 → 14。
 /// </para>
 /// <para>
 /// 卡图暂时借用原版铁甲战士的「打击」卡图。
@@ -47,7 +47,7 @@ public sealed class ApplicationNeutron : ApplicationCard, IApplicationCard
         PortraitPath: "res://images/packed/card_portraits/ironclad/strike_ironclad.png");
 
     public ApplicationNeutron()
-        : base(1, CardType.Skill, CardRarity.Basic, TargetType.AnyEnemy)
+        : base(1, CardType.Attack, CardRarity.Basic, TargetType.AnyEnemy)
     {
     }
 
