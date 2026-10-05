@@ -11,6 +11,7 @@ using MegaCrit.Sts2.Core.Models;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 using IndiumStar.Mechanics;
+using IndiumStar.Cards;
 
 namespace IndiumStar.Powers;
 
@@ -53,6 +54,24 @@ public sealed class ReminiscencePhosphorusPower : ModPowerTemplate, IExtensionGa
         _grantBoth = grantBoth;
     }
 
+    public override Task BeforeApplied(Creature target, decimal amount, Creature? applier, CardModel? cardSource)
+    {
+        ConfigureFromCard(cardSource);
+        return Task.CompletedTask;
+    }
+
+    public override Task BeforePowerAmountChanged(PowerModel power, decimal amount,
+        Creature target, Creature? applier, CardModel? cardSource)
+    {
+        if (power == this && target == Owner) ConfigureFromCard(cardSource);
+        return Task.CompletedTask;
+    }
+
+    private void ConfigureFromCard(CardModel? source)
+    {
+        if (source is ReminiscencePhosphorus card) Configure(card.IsUpgraded);
+    }
+
     public async Task<bool> TryConvertExtensionToEnergy(
         PlayerChoiceContext choiceContext,
         Player player,
@@ -63,11 +82,13 @@ public sealed class ReminiscencePhosphorusPower : ModPowerTemplate, IExtensionGa
             return false;
         }
 
+        // 能量修改钩子可以等待或嵌套重施磷语；本次按进入拦截时的模式结算。
+        bool grantBoth = _grantBoth;
         _usedThisTurn = true;
         await PlayerCmd.GainEnergy(amount, player);
 
         // 同时模式：能量照发，延拓也照常获得（不替换）。
-        return !_grantBoth;
+        return !grantBoth;
     }
 
     /// <summary>拥有者的回合开始时重置「每回合第一次」。</summary>

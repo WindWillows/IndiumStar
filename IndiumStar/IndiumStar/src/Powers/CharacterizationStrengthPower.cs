@@ -12,122 +12,91 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace IndiumStar.Powers;
 
-/// <summary>
-/// 「表征」的晶抗：<strong>下回合</strong>获得临时力量。
-/// </summary>
+/// <summary>按本人回合预约表征的临时力量；新预约不会混入当前回合的发放。</summary>
 /// <remarks>
-/// <para>
-/// 拆成两步，各自挂在明确的钩子上：
-/// </para>
-/// <list type="number">
-/// <item><description>
-/// <b>获得效果：下回合获得力量</b> —— 在<strong>你的下个回合开始</strong>时
-/// （<see cref="AfterSideTurnStart" />）发放力量。
-/// </description></item>
-/// <item><description>
-/// <b>获得效果：下回合结束时失去力量</b> —— 在那个回合<strong>结束</strong>时
-/// （<see cref="AfterSideTurnEnd" />）收回力量。
-/// </description></item>
-/// </list>
-/// <para>
-/// 之所以不用原版的 <see cref="TemporaryStrengthPower" />：它是「<strong>立刻</strong>加力量、
-/// 本回合结束移除」（基类 <c>BeforeApplied</c> 加、<c>AfterSideTurnEnd</c> 减），
-/// 而且它<strong>一创建就把力量发出去了</strong>，没法延后到下一回合。
-/// 所以这里不继承它，改成自己控制发放时机——能力挂上时不发力量。
-/// </para>
-/// <para>
-/// 时序（打出当回合记为第 N 回合）：
-/// </para>
-/// <list type="bullet">
-/// <item><description>第 N 回合打出「表征」→ 能力挂上，<strong>不发力量</strong></description></item>
-/// <item><description>第 N+1 回合开始 → 按预约发力量</description></item>
-/// <item><description>第 N+1 回合结束 → 收回已发放的力量</description></item>
-/// </list>
-/// <para>
-/// <b>已发放与待发放分开记。</b>这个能力是 <see cref="PowerStackType.Counter" />，
-/// 同一回合的再次施加会叠加进同一个实例的 <c>Amount</c>。如果发放回合内又打出
-/// 「表征」，新增的预约只是抬高 <c>Amount</c>，并没有发出去。所以回合结束时
-/// 只收回 <see cref="_grantedAmount" /> 记录的<strong>实际已发放</strong>部分，
-/// 把剩余的预约留给再下一回合；只用一个布尔标记会把没发过的力量也扣掉，
-/// 还会丢掉新的预约。
-/// </para>
+/// 回合开始的自动出牌可能早于AfterSideTurnStart，所以不能把全部Amount直接发放。
+/// 每次施加记录本人TurnNumber+1；开始钩子只消费到期快照，回合末只收回本次成功授予部分。
+/// 同回合多张表征仍累计，开始或结束的连锁中新加的预约保留到后续本人回合。
 /// </remarks>
 [RegisterPower]
 public sealed class CharacterizationStrengthPower : PowerModel
 {
-    /// <summary>
-    /// 本回合开始时实际发放出去的力量。回合结束时只收回这部分；
-    /// 发放之后再次施加叠进 <c>Amount</c> 的部分不算在内。
-    /// </summary>
+    private sealed record Appointment(int DueTurn, int Amount);
+    private List<Appointment> _appointments = [];
+    private ICombatState? _combat;
     private int _grantedAmount;
+    private int? _grantedTurn;
 
     public override PowerType Type => PowerType.Buff;
-
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    /// <summary>
-    /// 第一步：<strong>下回合获得力量</strong>。
-    /// <para>
-    /// 只在你自己的回合开始时发放。发放后 <see cref="_grantedAmount" /> 非 0，
-    /// 同一回合内不会重复发放；回合结束收回并清零后，剩余的预约在下个回合开始时发放。
-    /// </para>
-    /// </summary>
-    public override async Task AfterSideTurnStart(
-        CombatSide side,
-        IReadOnlyList<Creature> participants,
-        ICombatState combatState)
+    public override Task AfterPowerAmountChanged(PlayerChoiceContext context, PowerModel power,
+        decimal amount, Creature? applier, CardModel? source)
     {
-        if (!participants.Contains(base.Owner) || _grantedAmount > 0 || base.Amount <= 0)
-        {
-            return;
-        }
-
-        _grantedAmount = base.Amount;
-
-        await PowerCmd.Apply<StrengthPower>(
-            new ThrowingPlayerChoiceContext(),
-            base.Owner,
-            base.Amount,
-            base.Owner,
-            null,
-            silent: true);
+        // BeforePowerAmountChanged仍是请求值，可能被本体given/received修正链拒绝或改变。
+        // 使用最终生效的正增量，不让失败的再次施加产生虚假预约。
+        if (power == this) Schedule(Owner, amount);
+        return Task.CompletedTask;
     }
 
-    /// <summary>
-    /// 第二步：<strong>下回合结束时失去力量</strong>。
-    /// <para>
-    /// 只收回实际发放过的部分（<see cref="_grantedAmount" />）。打出的那个回合结束时
-    /// 还没有发放过，直接跳过；发放回合内再次施加产生的新预约会保留到再下一回合。
-    /// </para>
-    /// </summary>
-    public override async Task AfterSideTurnEnd(
-        PlayerChoiceContext choiceContext,
-        CombatSide side,
-        IEnumerable<Creature> participants)
+    private void Schedule(Creature target, decimal amount)
     {
-        if (!participants.Contains(base.Owner) || _grantedAmount <= 0)
-        {
+        if (amount <= 0 || target.Player?.PlayerCombatState is not { } state || target.CombatState is not { } combat)
             return;
+        if (_combat != combat)
+        {
+            _appointments.Clear();
+            _grantedAmount = 0;
+            _grantedTurn = null;
+            _combat = combat;
         }
+        _appointments.Add(new(checked(state.TurnNumber + 1), (int)amount));
+    }
 
-        await PowerCmd.Apply<StrengthPower>(
-            choiceContext,
-            base.Owner,
-            -_grantedAmount,
-            base.Owner,
-            null);
+    protected override void DeepCloneFields()
+    {
+        base.DeepCloneFields();
+        _appointments = new(_appointments);
+    }
 
-        int pending = base.Amount - _grantedAmount;
+    public override async Task AfterSideTurnStart(CombatSide side,
+        IReadOnlyList<Creature> participants, ICombatState combatState)
+    {
+        if (side != Owner.Side || !participants.Contains(Owner) || Owner.CombatState != _combat
+            || combatState != _combat || !Owner.IsAlive || CombatManager.Instance.IsOverOrEnding
+            || Owner.Player?.PlayerCombatState is not { } state || _grantedAmount > 0)
+            return;
+        int amount = _appointments.Where(a => a.DueTurn <= state.TurnNumber).Sum(a => a.Amount);
+        if (amount <= 0) return;
+        // 先消费到期快照和记录发放回合，重复/嵌套开始不能再次领取。
+        _appointments.RemoveAll(a => a.DueTurn <= state.TurnNumber);
+        _grantedAmount = amount;
+        _grantedTurn = state.TurnNumber;
+        StrengthPower? granted = await PowerCmd.Apply<StrengthPower>(new ThrowingPlayerChoiceContext(),
+            Owner, amount, Owner, null, silent: true);
+        if (granted == null)
+        {
+            // 拒绝施加没有获得力量，不能在结束时倒扣未获得的数值。
+            _grantedAmount = 0;
+            _grantedTurn = null;
+            SetAmount(_appointments.Sum(a => a.Amount));
+            if (_appointments.Count == 0 && Owner.GetPower<CharacterizationStrengthPower>() == this)
+                await PowerCmd.Remove(this);
+        }
+    }
+
+    public override async Task AfterSideTurnEnd(PlayerChoiceContext choiceContext,
+        CombatSide side, IEnumerable<Creature> participants)
+    {
+        if (side != Owner.Side || !participants.Contains(Owner) || Owner.CombatState != _combat
+            || Owner.Player?.PlayerCombatState?.TurnNumber != _grantedTurn || _grantedAmount <= 0)
+            return;
+        int granted = _grantedAmount;
         _grantedAmount = 0;
-
-        if (pending > 0)
-        {
-            // 发放回合内又打出了「表征」：收回已发放的部分，新预约留到再下一回合。
-            SetAmount(pending);
-        }
-        else
-        {
+        _grantedTurn = null;
+        await PowerCmd.Apply<StrengthPower>(choiceContext, Owner, -granted, Owner, null);
+        SetAmount(_appointments.Sum(a => a.Amount));
+        if (_appointments.Count == 0 && Owner.GetPower<CharacterizationStrengthPower>() == this)
             await PowerCmd.Remove(this);
-        }
     }
 }

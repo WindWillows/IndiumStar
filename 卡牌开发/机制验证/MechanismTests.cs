@@ -302,6 +302,7 @@ Test("表征打出回合结束不发放也不收回", async () => {
 Test("表征下回合开始发放并在结束时收回", async () => {
     var r = new Rig();
     var power = await PowerCmd.Apply<CharacterizationStrengthPower>(r.Choice, r.Player.Creature, 3, r.Player.Creature, r.Card);
+    r.Player.PlayerCombatState!.TurnNumber++;
     await power.AfterSideTurnStart(CombatSide.Player, new[] { r.Player.Creature }, r.State);
     Check(r.Player.Creature.GetPowerAmount<StrengthPower>() == 3);
     await power.AfterSideTurnEnd(r.Choice, CombatSide.Player, new[] { r.Player.Creature });
@@ -311,12 +312,14 @@ Test("表征下回合开始发放并在结束时收回", async () => {
 Test("发放回合再次预约只扣回已发放部分", async () => {
     var r = new Rig();
     var power = await PowerCmd.Apply<CharacterizationStrengthPower>(r.Choice, r.Player.Creature, 3, r.Player.Creature, r.Card);
+    r.Player.PlayerCombatState!.TurnNumber++;
     await power.AfterSideTurnStart(CombatSide.Player, new[] { r.Player.Creature }, r.State);
     power = await PowerCmd.Apply<CharacterizationStrengthPower>(r.Choice, r.Player.Creature, 3, r.Player.Creature, r.Card);
     Check(power.Amount == 6);
     await power.AfterSideTurnEnd(r.Choice, CombatSide.Player, new[] { r.Player.Creature });
     Check(r.Player.Creature.GetPowerAmount<StrengthPower>() == 0);
     Check(r.Player.Creature.GetPower<CharacterizationStrengthPower>() == power && power.Amount == 3);
+    r.Player.PlayerCombatState!.TurnNumber++;
     await power.AfterSideTurnStart(CombatSide.Player, new[] { r.Player.Creature }, r.State);
     Check(r.Player.Creature.GetPowerAmount<StrengthPower>() == 3);
     await power.AfterSideTurnEnd(r.Choice, CombatSide.Player, new[] { r.Player.Creature });
@@ -327,6 +330,7 @@ Test("同回合多张表征合并为一次预约", async () => {
     var r = new Rig();
     await PowerCmd.Apply<CharacterizationStrengthPower>(r.Choice, r.Player.Creature, 3, r.Player.Creature, r.Card);
     var power = await PowerCmd.Apply<CharacterizationStrengthPower>(r.Choice, r.Player.Creature, 3, r.Player.Creature, r.Card);
+    r.Player.PlayerCombatState!.TurnNumber++;
     await power.AfterSideTurnStart(CombatSide.Player, new[] { r.Player.Creature }, r.State);
     Check(r.Player.Creature.GetPowerAmount<StrengthPower>() == 6);
     await power.AfterSideTurnEnd(r.Choice, CombatSide.Player, new[] { r.Player.Creature });
@@ -337,6 +341,7 @@ Test("非本人回合不触发表征发放与收回", async () => {
     var r = new Rig();
     var power = await PowerCmd.Apply<CharacterizationStrengthPower>(r.Choice, r.Player.Creature, 3, r.Player.Creature, r.Card);
     await power.AfterSideTurnStart(CombatSide.Player, Array.Empty<MegaCrit.Sts2.Core.Entities.Creatures.Creature>(), r.State);
+    r.Player.PlayerCombatState!.TurnNumber++;
     await power.AfterSideTurnStart(CombatSide.Player, new[] { r.Player.Creature }, r.State);
     await power.AfterSideTurnEnd(r.Choice, CombatSide.Enemy, Array.Empty<MegaCrit.Sts2.Core.Entities.Creatures.Creature>());
     Check(r.Player.Creature.GetPowerAmount<StrengthPower>() == 3);
@@ -592,6 +597,7 @@ DeferredReleaseTests.Register(tests, args);
 CrystalReplayTests.Register(tests, args);
 TurnSchedulingTests.Register(tests, args);
 ApplicationEffectTests.Register(tests, args);
+RemainingCardEffectTests.Register(tests, args);
 int failed = 0;
 foreach (var test in tests) {
     try { await test.Run(); Console.WriteLine("PASS " + test.Name); }
@@ -608,6 +614,8 @@ public class FakeCombat : ICombatState
     public IReadOnlyList<MegaCrit.Sts2.Core.Entities.Creatures.Creature> Creatures => CreatureList;
     public IReadOnlyList<MegaCrit.Sts2.Core.Entities.Creatures.Creature> Allies => CreatureList.Where(c => c.Player != null).ToList();
     public IReadOnlyList<MegaCrit.Sts2.Core.Entities.Creatures.Creature> Enemies => CreatureList.Where(c => c.Player == null).ToList();
+    public IEnumerable<MegaCrit.Sts2.Core.Entities.Creatures.Creature> HittableEnemies => Enemies.Where(c => c.IsAlive);
+    public CardModel CloneCard(CardModel card) => card.CreateClone();
     public IEnumerable<AbstractModel> IterateHookListeners() => Listeners
         .Concat(Creatures.SelectMany(c => c.Powers))
         .Concat(Creatures.Where(c => c.Player != null).SelectMany(c => c.Player!.PlayerCombatState!.AllCards))
@@ -668,6 +676,9 @@ public class Rig
         CardPileCmd.HandCapacity = 10; CardPileCmd.DrawBlocked = false; CardCmd.ExhaustBlocked = false; CardCmd.ExhaustDestinationOverride = null;
         DamageCmd.Attacks.Clear(); CreatureCmd.BlockGains.Clear(); CreatureCmd.LastAnimation = null; CreatureCmd.AfterBlockGained = null; CreatureCmd.AfterDamage = null; CreatureCmd.DirectDamages.Clear();
         DamageCmd.AfterAttackExecuted = null; CardSelectCmd.SelectionOverride = null;
+        CardSelectCmd.PileSelectionOverride = null; PlayerCmd.AfterModifyingEnergyGain = null;
+        PowerCmd.ModifyAmountReceived = null;
+        CreatureCmd.AreaDamages.Clear(); CombatManager.Instance.History.Entries.Clear();
         MegaCrit.Sts2.Core.Nodes.Rooms.NCombatRoom.Instance = null;
         Player.Creature.CombatState = State; State.CreatureList.Add(Player.Creature);
         Energy = energy; Card = new ProbeCard(branches, Log) { Owner = Player, CombatState = State };

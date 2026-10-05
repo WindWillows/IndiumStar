@@ -393,4 +393,195 @@ PASS 晶化Mg实际衍生牌0费保留消耗并获得4格挡
 PASS 运用-Zn双分支固定先失能量再消耗，不重新读取分支
 PASS 运用-As基础攻击失败不生成后续晶化
 PASS 运用-Mg基础攻击失败不生成后续晶化
-392/392 passed; scope: real mod source, command/history stubs, real Harmony patching and game API contract.
+PASS 打击基础伤害与Strike标签 upgraded=False
+PASS 防御基础格挡与Defend标签 upgraded=False
+PASS 合斩一次指令攻击全部存活敌人 upgraded=False
+PASS 分析可见效果计数、无视格挡及固定分支 energy=0 upgraded=False
+PASS 键合-酯基格挡后选择非攻击并保留，晶逆延拓 energy=0 upgraded=False
+PASS 表征格挡后预约下回合力量或抽牌 energy=0 upgraded=False
+PASS 因势利导额外攻击先于易伤，同一目标且不重复判断 energy=0 upgraded=False
+PASS 分析可见效果计数、无视格挡及固定分支 energy=1 upgraded=False
+PASS 键合-酯基格挡后选择非攻击并保留，晶逆延拓 energy=1 upgraded=False
+PASS 表征格挡后预约下回合力量或抽牌 energy=1 upgraded=False
+PASS 因势利导额外攻击先于易伤，同一目标且不重复判断 energy=1 upgraded=False
+PASS 键合-亚胺基至多两张，消耗/自动打出、临时敏捷及延拓 n=0 upgraded=False
+PASS 温压领域按捕获X而非剩余能量，多段前获得临时力量 n=0 X=0 upgraded=False
+PASS 温压领域按捕获X而非剩余能量，多段前获得临时力量 n=0 X=1 upgraded=False
+PASS 温压领域按捕获X而非剩余能量，多段前获得临时力量 n=0 X=4 upgraded=False
+PASS 键合-亚胺基至多两张，消耗/自动打出、临时敏捷及延拓 n=1 upgraded=False
+PASS 温压领域按捕获X而非剩余能量，多段前获得临时力量 n=1 X=0 upgraded=False
+PASS 温压领域按捕获X而非剩余能量，多段前获得临时力量 n=1 X=1 upgraded=False
+PASS 温压领域按捕获X而非剩余能量，多段前获得临时力量 n=1 X=4 upgraded=False
+PASS 键合-亚胺基至多两张，消耗/自动打出、临时敏捷及延拓 n=3 upgraded=False
+PASS 温压领域按捕获X而非剩余能量，多段前获得临时力量 n=3 X=0 upgraded=False
+PASS 温压领域按捕获X而非剩余能量，多段前获得临时力量 n=3 X=1 upgraded=False
+PASS 温压领域按捕获X而非剩余能量，多段前获得临时力量 n=3 X=4 upgraded=False
+PASS 键合-硝基攻击、延拓、抽牌严格顺序与升级保留 available=0 upgraded=False
+PASS 待发获得能量、抽牌后才禁止非攻击 available=0 upgraded=False
+PASS 键合-硝基攻击、延拓、抽牌严格顺序与升级保留 available=1 upgraded=False
+PASS 待发获得能量、抽牌后才禁止非攻击 available=1 upgraded=False
+PASS 键合-硝基攻击、延拓、抽牌严格顺序与升级保留 available=5 upgraded=False
+PASS 待发获得能量、抽牌后才禁止非攻击 available=5 upgraded=False
+PASS 坍缩伤害后达阈值消耗全部延拓，仅获两能量 n=0 upgraded=False
+PASS 坍缩伤害后达阈值消耗全部延拓，仅获两能量 n=1 upgraded=False
+PASS 坍缩伤害后达阈值消耗全部延拓，仅获两能量 n=2 upgraded=False
+PASS 坍缩伤害后达阈值消耗全部延拓，仅获两能量 n=3 upgraded=False
+PASS 坍缩伤害后达阈值消耗全部延拓，仅获两能量 n=5 upgraded=False
+PASS 构象打击基础4后读取延拓和手中晶化，分支不重判 energy=0 both=False upgraded=False
+PASS 构象打击基础4后读取延拓和手中晶化，分支不重判 energy=0 both=True upgraded=False
+PASS 构象打击基础4后读取延拓和手中晶化，分支不重判 energy=1 both=False upgraded=False
+PASS 构象打击基础4后读取延拓和手中晶化，分支不重判 energy=1 both=True upgraded=False
+PASS 晶簇枪伤害后检查手中晶化，先生成后抽牌 has=False occupied=0 upgraded=False
+PASS 晶簇枪伤害后检查手中晶化，先生成后抽牌 has=False occupied=9 upgraded=False
+PASS 晶簇枪伤害后检查手中晶化，先生成后抽牌 has=False occupied=10 upgraded=False
+PASS 晶簇枪伤害后检查手中晶化，先生成后抽牌 has=True occupied=0 upgraded=False
+PASS 晶簇枪伤害后检查手中晶化，先生成后抽牌 has=True occupied=9 upgraded=False
+PASS 晶簇枪伤害后检查手中晶化，先生成后抽牌 has=True occupied=10 upgraded=False
+PASS 延拓展延按本人回合结束延拓层数获得格挡 upgraded=False
+PASS 基团迁移先延拓、晶抗自动晶化或晶逆置顶数量与顺序 energy=0 upgraded=False
+PASS 基团迁移先延拓、晶抗自动晶化或晶逆置顶数量与顺序 energy=1 upgraded=False
+PASS 溯源猛击伤害后发放下一运用免费且只消耗首段 upgraded=False
+PASS 原波穿刺按负面种数、负力量及临时包装排除，克隆计算独立 upgraded=False
+PASS 量子点真实卡牌施加后按全牌序号提供前两张双分支 upgraded=False
+PASS 锈蚀之刃伤害先于虚弱翻倍，保留消耗 n=0 upgraded=False
+PASS 锈蚀之刃伤害先于虚弱翻倍，保留消耗 n=1 upgraded=False
+PASS 锈蚀之刃伤害先于虚弱翻倍，保留消耗 n=5 upgraded=False
+PASS 离析自动打出实际可选晶化后抽两张，不消耗手动额度 n=0 upgraded=False
+PASS 离析自动打出实际可选晶化后抽两张，不消耗手动额度 n=1 upgraded=False
+PASS 离析自动打出实际可选晶化后抽两张，不消耗手动额度 n=3 upgraded=False
+PASS 回身踢攻击后取弃牌、晶逆单回合保留及升级移除消耗 energy=0 discarded=0 upgraded=False
+PASS 回身踢攻击后取弃牌、晶逆单回合保留及升级移除消耗 energy=0 discarded=2 upgraded=False
+PASS 回身踢攻击后取弃牌、晶逆单回合保留及升级移除消耗 energy=1 discarded=0 upgraded=False
+PASS 回身踢攻击后取弃牌、晶逆单回合保留及升级移除消耗 energy=1 discarded=2 upgraded=False
+PASS 密铺形态先施加光环再晶化，只有手中晶化提供属性 occupied=0 upgraded=False
+PASS 密铺形态先施加光环再晶化，只有手中晶化提供属性 occupied=9 upgraded=False
+PASS 密铺形态先施加光环再晶化，只有手中晶化提供属性 occupied=10 upgraded=False
+PASS 回忆-污染O打出时确定永久触发器，手动自动晶化均收益 energy=0 both=False upgraded=False
+PASS 回忆-污染O打出时确定永久触发器，手动自动晶化均收益 energy=0 both=True upgraded=False
+PASS 回忆-污染O打出时确定永久触发器，手动自动晶化均收益 energy=1 both=False upgraded=False
+PASS 回忆-污染O打出时确定永久触发器，手动自动晶化均收益 energy=1 both=True upgraded=False
+PASS 嬗变本人开始前变化原堆顶复制、空手空堆及升级固有 crystal=False draw=False upgraded=False
+PASS 嬗变本人开始前变化原堆顶复制、空手空堆及升级固有 crystal=False draw=True upgraded=False
+PASS 嬗变本人开始前变化原堆顶复制、空手空堆及升级固有 crystal=True draw=False upgraded=False
+PASS 嬗变本人开始前变化原堆顶复制、空手空堆及升级固有 crystal=True draw=True upgraded=False
+PASS 回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unblocked=False n=0 upgraded=False
+PASS 回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unblocked=True n=0 upgraded=False
+PASS 回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unblocked=False n=1 upgraded=False
+PASS 回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unblocked=True n=1 upgraded=False
+PASS 回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unblocked=False n=3 upgraded=False
+PASS 回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unblocked=True n=3 upgraded=False
+PASS 回忆-磷语首次有效延拓替换或并行、本人与他人重置 upgraded=False
+PASS 回忆-磷语施加链内首次延拓读取当前卡牌配置 repeat=False upgraded=False
+PASS 回忆-硬钙石施加链内回合末读取当前伤害配置 repeat=False upgraded=False
+PASS 回忆-磷语施加链内首次延拓读取当前卡牌配置 repeat=True upgraded=False
+PASS 回忆-硬钙石施加链内回合末读取当前伤害配置 repeat=True upgraded=False
+PASS 回忆-磷语嵌套重施后外层不回滚最新配置 upgraded=False
+PASS 回忆-硬钙石嵌套重施后外层不回滚最新配置 upgraded=False
+PASS 回忆-磷语能量钩子嵌套改配置，本次延拓模式取拦截开始快照 upgraded=False
+PASS 打击基础伤害与Strike标签 upgraded=True
+PASS 防御基础格挡与Defend标签 upgraded=True
+PASS 合斩一次指令攻击全部存活敌人 upgraded=True
+PASS 分析可见效果计数、无视格挡及固定分支 energy=0 upgraded=True
+PASS 键合-酯基格挡后选择非攻击并保留，晶逆延拓 energy=0 upgraded=True
+PASS 表征格挡后预约下回合力量或抽牌 energy=0 upgraded=True
+PASS 因势利导额外攻击先于易伤，同一目标且不重复判断 energy=0 upgraded=True
+PASS 分析可见效果计数、无视格挡及固定分支 energy=1 upgraded=True
+PASS 键合-酯基格挡后选择非攻击并保留，晶逆延拓 energy=1 upgraded=True
+PASS 表征格挡后预约下回合力量或抽牌 energy=1 upgraded=True
+PASS 因势利导额外攻击先于易伤，同一目标且不重复判断 energy=1 upgraded=True
+PASS 键合-亚胺基至多两张，消耗/自动打出、临时敏捷及延拓 n=0 upgraded=True
+PASS 温压领域按捕获X而非剩余能量，多段前获得临时力量 n=0 X=0 upgraded=True
+PASS 温压领域按捕获X而非剩余能量，多段前获得临时力量 n=0 X=1 upgraded=True
+PASS 温压领域按捕获X而非剩余能量，多段前获得临时力量 n=0 X=4 upgraded=True
+PASS 键合-亚胺基至多两张，消耗/自动打出、临时敏捷及延拓 n=1 upgraded=True
+PASS 温压领域按捕获X而非剩余能量，多段前获得临时力量 n=1 X=0 upgraded=True
+PASS 温压领域按捕获X而非剩余能量，多段前获得临时力量 n=1 X=1 upgraded=True
+PASS 温压领域按捕获X而非剩余能量，多段前获得临时力量 n=1 X=4 upgraded=True
+PASS 键合-亚胺基至多两张，消耗/自动打出、临时敏捷及延拓 n=3 upgraded=True
+PASS 温压领域按捕获X而非剩余能量，多段前获得临时力量 n=3 X=0 upgraded=True
+PASS 温压领域按捕获X而非剩余能量，多段前获得临时力量 n=3 X=1 upgraded=True
+PASS 温压领域按捕获X而非剩余能量，多段前获得临时力量 n=3 X=4 upgraded=True
+PASS 键合-硝基攻击、延拓、抽牌严格顺序与升级保留 available=0 upgraded=True
+PASS 待发获得能量、抽牌后才禁止非攻击 available=0 upgraded=True
+PASS 键合-硝基攻击、延拓、抽牌严格顺序与升级保留 available=1 upgraded=True
+PASS 待发获得能量、抽牌后才禁止非攻击 available=1 upgraded=True
+PASS 键合-硝基攻击、延拓、抽牌严格顺序与升级保留 available=5 upgraded=True
+PASS 待发获得能量、抽牌后才禁止非攻击 available=5 upgraded=True
+PASS 坍缩伤害后达阈值消耗全部延拓，仅获两能量 n=0 upgraded=True
+PASS 坍缩伤害后达阈值消耗全部延拓，仅获两能量 n=1 upgraded=True
+PASS 坍缩伤害后达阈值消耗全部延拓，仅获两能量 n=2 upgraded=True
+PASS 坍缩伤害后达阈值消耗全部延拓，仅获两能量 n=3 upgraded=True
+PASS 坍缩伤害后达阈值消耗全部延拓，仅获两能量 n=5 upgraded=True
+PASS 构象打击基础4后读取延拓和手中晶化，分支不重判 energy=0 both=False upgraded=True
+PASS 构象打击基础4后读取延拓和手中晶化，分支不重判 energy=0 both=True upgraded=True
+PASS 构象打击基础4后读取延拓和手中晶化，分支不重判 energy=1 both=False upgraded=True
+PASS 构象打击基础4后读取延拓和手中晶化，分支不重判 energy=1 both=True upgraded=True
+PASS 晶簇枪伤害后检查手中晶化，先生成后抽牌 has=False occupied=0 upgraded=True
+PASS 晶簇枪伤害后检查手中晶化，先生成后抽牌 has=False occupied=9 upgraded=True
+PASS 晶簇枪伤害后检查手中晶化，先生成后抽牌 has=False occupied=10 upgraded=True
+PASS 晶簇枪伤害后检查手中晶化，先生成后抽牌 has=True occupied=0 upgraded=True
+PASS 晶簇枪伤害后检查手中晶化，先生成后抽牌 has=True occupied=9 upgraded=True
+PASS 晶簇枪伤害后检查手中晶化，先生成后抽牌 has=True occupied=10 upgraded=True
+PASS 延拓展延按本人回合结束延拓层数获得格挡 upgraded=True
+PASS 基团迁移先延拓、晶抗自动晶化或晶逆置顶数量与顺序 energy=0 upgraded=True
+PASS 基团迁移先延拓、晶抗自动晶化或晶逆置顶数量与顺序 energy=1 upgraded=True
+PASS 溯源猛击伤害后发放下一运用免费且只消耗首段 upgraded=True
+PASS 原波穿刺按负面种数、负力量及临时包装排除，克隆计算独立 upgraded=True
+PASS 量子点真实卡牌施加后按全牌序号提供前两张双分支 upgraded=True
+PASS 锈蚀之刃伤害先于虚弱翻倍，保留消耗 n=0 upgraded=True
+PASS 锈蚀之刃伤害先于虚弱翻倍，保留消耗 n=1 upgraded=True
+PASS 锈蚀之刃伤害先于虚弱翻倍，保留消耗 n=5 upgraded=True
+PASS 离析自动打出实际可选晶化后抽两张，不消耗手动额度 n=0 upgraded=True
+PASS 离析自动打出实际可选晶化后抽两张，不消耗手动额度 n=1 upgraded=True
+PASS 离析自动打出实际可选晶化后抽两张，不消耗手动额度 n=3 upgraded=True
+PASS 回身踢攻击后取弃牌、晶逆单回合保留及升级移除消耗 energy=0 discarded=0 upgraded=True
+PASS 回身踢攻击后取弃牌、晶逆单回合保留及升级移除消耗 energy=0 discarded=2 upgraded=True
+PASS 回身踢攻击后取弃牌、晶逆单回合保留及升级移除消耗 energy=1 discarded=0 upgraded=True
+PASS 回身踢攻击后取弃牌、晶逆单回合保留及升级移除消耗 energy=1 discarded=2 upgraded=True
+PASS 密铺形态先施加光环再晶化，只有手中晶化提供属性 occupied=0 upgraded=True
+PASS 密铺形态先施加光环再晶化，只有手中晶化提供属性 occupied=9 upgraded=True
+PASS 密铺形态先施加光环再晶化，只有手中晶化提供属性 occupied=10 upgraded=True
+PASS 回忆-污染O打出时确定永久触发器，手动自动晶化均收益 energy=0 both=False upgraded=True
+PASS 回忆-污染O打出时确定永久触发器，手动自动晶化均收益 energy=0 both=True upgraded=True
+PASS 回忆-污染O打出时确定永久触发器，手动自动晶化均收益 energy=1 both=False upgraded=True
+PASS 回忆-污染O打出时确定永久触发器，手动自动晶化均收益 energy=1 both=True upgraded=True
+PASS 嬗变本人开始前变化原堆顶复制、空手空堆及升级固有 crystal=False draw=False upgraded=True
+PASS 嬗变本人开始前变化原堆顶复制、空手空堆及升级固有 crystal=False draw=True upgraded=True
+PASS 嬗变本人开始前变化原堆顶复制、空手空堆及升级固有 crystal=True draw=False upgraded=True
+PASS 嬗变本人开始前变化原堆顶复制、空手空堆及升级固有 crystal=True draw=True upgraded=True
+PASS 回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unblocked=False n=0 upgraded=True
+PASS 回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unblocked=True n=0 upgraded=True
+PASS 回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unblocked=False n=1 upgraded=True
+PASS 回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unblocked=True n=1 upgraded=True
+PASS 回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unblocked=False n=3 upgraded=True
+PASS 回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unblocked=True n=3 upgraded=True
+PASS 回忆-磷语首次有效延拓替换或并行、本人与他人重置 upgraded=True
+PASS 回忆-磷语施加链内首次延拓读取当前卡牌配置 repeat=False upgraded=True
+PASS 回忆-硬钙石施加链内回合末读取当前伤害配置 repeat=False upgraded=True
+PASS 回忆-磷语施加链内首次延拓读取当前卡牌配置 repeat=True upgraded=True
+PASS 回忆-硬钙石施加链内回合末读取当前伤害配置 repeat=True upgraded=True
+PASS 回忆-磷语嵌套重施后外层不回滚最新配置 upgraded=True
+PASS 回忆-硬钙石嵌套重施后外层不回滚最新配置 upgraded=True
+PASS 回忆-磷语能量钩子嵌套改配置，本次延拓模式取拦截开始快照 upgraded=True
+PASS 基团迁移磷语基础效果返能量后判断晶抗
+PASS 基团迁移升级选择零张仍保留延拓，不默认强制置顶
+PASS 键合-亚胺基选择暂停完成之前不授予敏捷或延拓
+PASS 温压领域原始X零仍授予临时力量，攻击指令为零段
+PASS 晶簇枪伤害钩子已经生成晶化后不再重复生成或抽牌
+PASS 回忆-磷语能量拦截器先占本回合名额防递归重复返能量
+PASS 回忆-污染O重复施加保持既有双收益，非晶化不触发
+PASS 原波穿刺空效果目标只有基础11，正力量不计负面
+PASS 表征在本人开始阶段自动打出不能提前兑现当前回合 upgraded=False
+PASS 表征旧预约兑现前嵌套新预约，只发旧预约并保留下一回合 upgraded=False
+PASS 表征在本人开始阶段自动打出不能提前兑现当前回合 upgraded=True
+PASS 表征旧预约兑现前嵌套新预约，只发旧预约并保留下一回合 upgraded=True
+PASS 表征异战斗、他人和重复开始回调不能兑现或重复授予
+PASS 表征实际力量授予受阻时不在回合末倒扣
+PASS 表征发放钩子暂停期间重施与重复开始，不扩大旧预约
+PASS 表征回收连锁重施的新预约与重复结束隔离
+PASS 表征死亡或结束阶段不发放，预约保留到有效回调
+PASS 表征能力克隆的预约列表独立，不消耗原件预约
+PASS 表征重复施加按本体最终接受层数预约 offset=0
+PASS 表征重复施加按本体最终接受层数预约 offset=1
+PASS 表征重复施加按本体最终接受层数预约 offset=5
+583/583 passed; scope: real mod source, command/history stubs, real Harmony patching and game API contract.

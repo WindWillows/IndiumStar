@@ -1,8 +1,8 @@
 {
-  "scope": "Official Godot SDK Release, 392 real-source regressions with command/history/selection stubs and actual Harmony; TaskCompletionSource callback pause simulation; 64 native model probes and native replay patch/metadata; PCK roundtrip; no deployment or live engine/combat/UI/save/multiplayer execution",
+  "scope": "Official Godot SDK Release, 583 real-source regressions linking all 64 card sources with command/history/selection stubs and actual Harmony; TaskCompletionSource callback pauses; 64 native model probes and native replay patch/metadata; 11 JSON PCK roundtrip; no deployment or full live engine/combat/UI/save/multiplayer execution",
   "source_document_sha256": "85920BC38DF934ABA98B755D7181B375134859692DB6B65FE36436ACBD9A2438",
-  "baseline": "c309cbf",
-  "mechanism_cases": 392,
+  "baseline": "5ae63f0",
+  "mechanism_cases": 583,
   "native_model_cases": 64,
   "production_sources": 116,
   "release_errors": 0,
@@ -11,8 +11,8 @@
   "artifacts": [
     {
       "name": "IndiumStar.dll",
-      "length": 193024,
-      "sha256": "DC40245D08E2A8139A40B3EB9A08C3E584969C7CC486538E5849E75E2BE4EADE"
+      "length": 196608,
+      "sha256": "17DAD4EBC1E9D2588F6BBFF3BFEE72F0D8F79681C4061C705B9CA5FBF0AE4646"
     },
     {
       "name": "IndiumStar.pck",
@@ -260,11 +260,11 @@
     },
     {
       "path": "src/Cards/ReminiscenceHardCalcite.cs",
-      "sha256": "30DBA3725291F249D27BF872CD71B71A2685A2656B69368A2923ABBA86890568"
+      "sha256": "DE61699FC75C063A67356971A024939FBDFF9886E34C9FE1EA65E220F86454A9"
     },
     {
       "path": "src/Cards/ReminiscencePhosphorus.cs",
-      "sha256": "8F98183C7310B6F85A3A10C5FF01D0B8E9BC7D29DE01E5BE9C2E251EAA52C37D"
+      "sha256": "3055E5DE5EC2CB0B61C7E3F8DC40F635B5241BF3A509AA3C21F73757DE363F23"
     },
     {
       "path": "src/Cards/ReminiscencePollutionH.cs",
@@ -408,7 +408,7 @@
     },
     {
       "path": "src/Powers/CharacterizationStrengthPower.cs",
-      "sha256": "688848F2696E4AE34CDE3E4E9F8BB341EEC9C2C1C9D89A0A7FA8BF22B33EC215"
+      "sha256": "EAD1BAF8170677471B3ED18A12E6321AB089B395D881EAE02C7E255662046DBF"
     },
     {
       "path": "src/Powers/CrystalHandAuraPower.cs",
@@ -456,11 +456,11 @@
     },
     {
       "path": "src/Powers/ReminiscenceHardCalcitePower.cs",
-      "sha256": "DE3118DE58F0ADDBD716E9A5A96B4BE229BB00F60E978F185E65E10A0B985556"
+      "sha256": "E3790B24757892882DE2B6A4F7706C988C233D75AC360FD215B4D55B110D249A"
     },
     {
       "path": "src/Powers/ReminiscencePhosphorusPower.cs",
-      "sha256": "D532A715A1CF80DC19B8965E54DDB64C02C071B398EEE8B4B4540C7A13688E30"
+      "sha256": "14AAC8C246EB0D5A79DEB8EB5FF91D8219BC8BF19D78ABB7C3AFB5DB37F09577"
     },
     {
       "path": "src/Powers/ReminiscencePollutionHPower.cs",
@@ -500,7 +500,7 @@
     "all enemy intent adapters",
     "live conditional replay with enchantments/afflictions and multiplayer pause/resume"
   ],
-  "generated_at_utc": "2026-10-05T09:21:45.638227+00:00",
+  "generated_at_utc": "2026-10-05T10:13:35.074162+00:00",
   "replay_mutation_variants_detected": 3,
   "native_replay_patch": {
     "status": "pass",
@@ -529,8 +529,8 @@
   },
   "matrix": {
     "registered_cards": 64,
-    "direct_card_sources_linked": 37,
-    "card_sources_still_not_linked": 27,
+    "direct_card_sources_linked": 64,
+    "card_sources_still_not_linked": 0,
     "complete_effect_acceptances": 0,
     "scope": "traceability/work matrix; named-case matching is not full acceptance"
   },
@@ -547,5 +547,84 @@
     "baseline_description_mismatches": 63,
     "current_identity_title_description_clone_matches": 64,
     "scope": "Independent row-to-localization/native-ID cross-check; not live card rendering or full effect acceptance"
-  }
+  },
+  "remaining_card_cases_added": 191,
+  "remaining_card_sources_added": 27,
+  "remaining_card_original_defects_detected": {
+    "baseline": "5ae63f0",
+    "phosphorus_configuration_failed_cases": 7,
+    "calcite_configuration_failed_cases": 5,
+    "characterization_turn_failed_cases": 8,
+    "configuration_card_and_power_restored_together": true
+  },
+  "regression_inputs": [
+    {
+      "path": "卡牌开发/机制验证/ApplicationEffectTests.cs",
+      "sha256": "A663B1D728B90E36035A30292343803BC27EF82D1E9EBCD58911C5F020FB28F1"
+    },
+    {
+      "path": "卡牌开发/机制验证/CrystalReplayTests.cs",
+      "sha256": "E4135F85055861B4C8434FF3A46963DA930EC356698BEE32BE33554E4CF22319"
+    },
+    {
+      "path": "卡牌开发/机制验证/DeferredReleaseTests.cs",
+      "sha256": "8E6D3E6D251D29568D43E95761134DAC7E7699E4DECB55F664655743B6BF7FFA"
+    },
+    {
+      "path": "卡牌开发/机制验证/GameStubs.cs",
+      "sha256": "4D0FD981945EADB96129FB1BB095021C05D68329ECEFFF3DB49517E448E7AF22"
+    },
+    {
+      "path": "卡牌开发/机制验证/MechanismTests.cs",
+      "sha256": "F4B648D93DB6DE5FE48A56C596D526BB868E6DF02FCD5715AA8D124C2870EAE4"
+    },
+    {
+      "path": "卡牌开发/机制验证/NativeIntentAudit.cs",
+      "sha256": "FD8C5738244C88D93ABC70B069472501E5122C9765219107BED59C49B0133B0A"
+    },
+    {
+      "path": "卡牌开发/机制验证/NativeModelSmoke.cs",
+      "sha256": "2C3CCDBFDE852CD104D122FA8ED69F8A1F5BE91ABF7AC36CB4804A9A4A4B0735"
+    },
+    {
+      "path": "卡牌开发/机制验证/NewCardStubs.cs",
+      "sha256": "0CB58CDE4499EB46CFD2BB8FF33A255F1D0A995E5F37ADEC4D9BE8BDBE1A6E06"
+    },
+    {
+      "path": "卡牌开发/机制验证/NewCardTests.cs",
+      "sha256": "723E8711C69C6B1A8C44682310A7508B02E35C452A76B7972E59A3F8D0685975"
+    },
+    {
+      "path": "卡牌开发/机制验证/RemainingCardEffectTests.cs",
+      "sha256": "A64C39A571F2FC296CBC218F2CC716A93978820E93C98A504E1428EAE5CB1B29"
+    },
+    {
+      "path": "卡牌开发/机制验证/RemainingCardStubs.cs",
+      "sha256": "6A3F0A5937464080E09486B6E0ACEA86AAA58D9754AE9A9063F61309B9475A50"
+    },
+    {
+      "path": "卡牌开发/机制验证/SemanticAuditTests.cs",
+      "sha256": "A3D70DF2D720AC8EC7C0A5F5AC7EE65EA7633963882BDB799784E726286C2FE5"
+    },
+    {
+      "path": "卡牌开发/机制验证/TurnSchedulingTests.cs",
+      "sha256": "00EB9B92B1749F737FD7F5227159517D3C419474FDA3A11E2AC5AE71BA9571F1"
+    },
+    {
+      "path": "卡牌开发/机制验证/UpdatedSpecificationTests.cs",
+      "sha256": "7804746D2D049BB6FB7D0B0D6E87232218B87C97705EBF2A94F7075C68293EB7"
+    },
+    {
+      "path": "卡牌开发/机制验证/Run-Tests.ps1",
+      "sha256": "86F513890696C032BA046B4DDD56E5BA3FEE700141923BEBED06653EA97BFE6B"
+    },
+    {
+      "path": "卡牌开发/机制验证/Check-RemainingCardMutations.ps1",
+      "sha256": "821566D1E443C5BB2F8893420F6EF5421345A5761F68EFD6AC2174CD31C34E8C"
+    },
+    {
+      "path": "卡牌开发/机制验证/Smoke-NativeModels.ps1",
+      "sha256": "E8D69F2C433DC872EE84D27A148D81AE5D649F9E52A7AC532722AEA0464B75A0"
+    }
+  ]
 }

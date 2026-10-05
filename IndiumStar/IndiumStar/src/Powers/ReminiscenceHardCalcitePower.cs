@@ -54,6 +54,25 @@ public sealed class ReminiscenceHardCalcitePower : ModPowerTemplate
         _damagePerCrystal = Math.Max(0, damagePerCrystal);
     }
 
+    // 首次及重复施加都在施加链开始前配置；嵌套卡牌返回时不回滚最新参数。
+    public override Task BeforeApplied(Creature target, decimal amount, Creature? applier, CardModel? cardSource)
+    {
+        ConfigureFromCard(cardSource);
+        return Task.CompletedTask;
+    }
+
+    public override Task BeforePowerAmountChanged(PowerModel power, decimal amount,
+        Creature target, Creature? applier, CardModel? cardSource)
+    {
+        if (power == this && target == Owner) ConfigureFromCard(cardSource);
+        return Task.CompletedTask;
+    }
+
+    private void ConfigureFromCard(CardModel? source)
+    {
+        if (source is ReminiscenceHardCalcite card) Configure(card.DynamicVars["DamagePerCrystal"].IntValue);
+    }
+
     public override async Task BeforeSideTurnEnd(
         PlayerChoiceContext choiceContext,
         CombatSide side,

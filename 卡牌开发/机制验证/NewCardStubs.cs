@@ -17,6 +17,10 @@ namespace MegaCrit.Sts2.Core.CardSelection {
 }
 namespace MegaCrit.Sts2.Core.Commands {
     public static class CardSelectCmd {
+        public static Func<PlayerChoiceContext, CardPile, Player, MegaCrit.Sts2.Core.CardSelection.CardSelectorPrefs, Task<IEnumerable<CardModel>>>? PileSelectionOverride { get; set; }
+        public static Task<IEnumerable<CardModel>> FromCombatPile(PlayerChoiceContext context, CardPile pile, Player player,
+            MegaCrit.Sts2.Core.CardSelection.CardSelectorPrefs prefs) => PileSelectionOverride != null
+            ? PileSelectionOverride(context, pile, player, prefs) : Task.FromResult<IEnumerable<CardModel>>(pile.Cards.Take(prefs.MaxCount).ToArray());
         public static Func<PlayerChoiceContext, Player, MegaCrit.Sts2.Core.CardSelection.CardSelectorPrefs,
             Func<CardModel, bool>?, CardModel, Task<IEnumerable<CardModel>>>? SelectionOverride { get; set; }
         public static Task<IEnumerable<CardModel>> FromHand(PlayerChoiceContext context, Player player,
@@ -25,6 +29,10 @@ namespace MegaCrit.Sts2.Core.Commands {
             : Task.FromResult<IEnumerable<CardModel>>(player.PlayerCombatState!.Hand.Cards.Where(c => c != source && (filter == null || filter(c))).Take(prefs.Count).ToArray());
     }
     public static class CreatureCmd {
+        public static List<(decimal Amount, MegaCrit.Sts2.Core.ValueProps.ValueProp Props, Creature Source, Creature[] Targets)> AreaDamages { get; } = [];
+        public static Task Damage(PlayerChoiceContext context, IEnumerable<Creature> targets, DamageVar amount, Creature source) {
+            AreaDamages.Add((amount.BaseValue, amount.Props, source, targets.ToArray())); return Task.CompletedTask;
+        }
         public static List<(decimal Amount, MegaCrit.Sts2.Core.ValueProps.ValueProp Props, CardModel Source, CardPlay Play)> DirectDamages { get; } = [];
         public static Func<Creature, CardPlay, Task>? AfterDamage { get; set; }
         public static async Task Damage(PlayerChoiceContext context, Creature target, DamageVar amount, CardModel source, CardPlay play) {

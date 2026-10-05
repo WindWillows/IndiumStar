@@ -1,0 +1,79 @@
+{
+  "scope": "Compile exact original committed sources in ignored output only; phosphorus/calcite cards and powers restored together; production and normal test assembly untouched",
+  "generated_at_utc": "2026-10-05T10:06:44.6902937Z",
+  "variants": [
+    {
+      "variant": "baseline-phosphorus-configuration",
+      "source": "Powers/ReminiscencePhosphorusPower.cs",
+      "baseline": "5ae63f0",
+      "source_snapshots": [
+        {
+          "source": "Powers/ReminiscencePhosphorusPower.cs",
+          "sha256": "D532A715A1CF80DC19B8965E54DDB64C02C071B398EEE8B4B4540C7A13688E30"
+        },
+        {
+          "source": "Cards/ReminiscencePhosphorus.cs",
+          "sha256": "8F98183C7310B6F85A3A10C5FF01D0B8E9BC7D29DE01E5BE9C2E251EAA52C37D"
+        }
+      ],
+      "result": "detected",
+      "exit_code": 1,
+      "failures": [
+        "FAIL 回忆-磷语施加链内首次延拓读取当前卡牌配置 repeat=True upgraded=False: Phosphorus configuration must precede apply chain",
+        "FAIL 回忆-磷语嵌套重施后外层不回滚最新配置 upgraded=False: Outer phosphorus apply must not roll back inner configuration",
+        "FAIL 回忆-磷语能量钩子嵌套改配置，本次延拓模式取拦截开始快照 upgraded=False: Current conversion mode must not change while energy hook awaits",
+        "FAIL 回忆-磷语施加链内首次延拓读取当前卡牌配置 repeat=False upgraded=True: Phosphorus configuration must precede apply chain",
+        "FAIL 回忆-磷语施加链内首次延拓读取当前卡牌配置 repeat=True upgraded=True: Phosphorus configuration must precede apply chain",
+        "FAIL 回忆-磷语嵌套重施后外层不回滚最新配置 upgraded=True: Outer phosphorus apply must not roll back inner configuration",
+        "FAIL 回忆-磷语能量钩子嵌套改配置，本次延拓模式取拦截开始快照 upgraded=True: Current conversion mode must not change while energy hook awaits"
+      ]
+    },
+    {
+      "variant": "baseline-calcite-configuration",
+      "source": "Powers/ReminiscenceHardCalcitePower.cs",
+      "baseline": "5ae63f0",
+      "source_snapshots": [
+        {
+          "source": "Powers/ReminiscenceHardCalcitePower.cs",
+          "sha256": "DE3118DE58F0ADDBD716E9A5A96B4BE229BB00F60E978F185E65E10A0B985556"
+        },
+        {
+          "source": "Cards/ReminiscenceHardCalcite.cs",
+          "sha256": "30DBA3725291F249D27BF872CD71B71A2685A2656B69368A2923ABBA86890568"
+        }
+      ],
+      "result": "detected",
+      "exit_code": 1,
+      "failures": [
+        "FAIL 回忆-硬钙石施加链内回合末读取当前伤害配置 repeat=True upgraded=False: Hard calcite configuration must precede apply chain",
+        "FAIL 回忆-硬钙石嵌套重施后外层不回滚最新配置 upgraded=False: Outer calcite apply must not roll back inner configuration",
+        "FAIL 回忆-硬钙石施加链内回合末读取当前伤害配置 repeat=False upgraded=True: Hard calcite configuration must precede apply chain",
+        "FAIL 回忆-硬钙石施加链内回合末读取当前伤害配置 repeat=True upgraded=True: Hard calcite configuration must precede apply chain",
+        "FAIL 回忆-硬钙石嵌套重施后外层不回滚最新配置 upgraded=True: Outer calcite apply must not roll back inner configuration"
+      ]
+    },
+    {
+      "variant": "baseline-characterization-turn",
+      "source": "Powers/CharacterizationStrengthPower.cs",
+      "baseline": "5ae63f0",
+      "source_snapshots": [
+        {
+          "source": "Powers/CharacterizationStrengthPower.cs",
+          "sha256": "688848F2696E4AE34CDE3E4E9F8BB341EEC9C2C1C9D89A0A7FA8BF22B33EC215"
+        }
+      ],
+      "result": "detected",
+      "exit_code": 1,
+      "failures": [
+        "FAIL 表征在本人开始阶段自动打出不能提前兑现当前回合 upgraded=False: Current start-phase play is due next own turn",
+        "FAIL 表征旧预约兑现前嵌套新预约，只发旧预约并保留下一回合 upgraded=False: Fresh appointment is due one turn later",
+        "FAIL 表征在本人开始阶段自动打出不能提前兑现当前回合 upgraded=True: Current start-phase play is due next own turn",
+        "FAIL 表征旧预约兑现前嵌套新预约，只发旧预约并保留下一回合 upgraded=True: Fresh appointment is due one turn later",
+        "FAIL 表征异战斗、他人和重复开始回调不能兑现或重复授予: Remaining card effect assertion failed",
+        "FAIL 表征实际力量授予受阻时不在回合末倒扣: Remaining card effect assertion failed",
+        "FAIL 表征回收连锁重施的新预约与重复结束隔离: Remaining card effect assertion failed",
+        "FAIL 表征死亡或结束阶段不发放，预约保留到有效回调: Remaining card effect assertion failed"
+      ]
+    }
+  ]
+}

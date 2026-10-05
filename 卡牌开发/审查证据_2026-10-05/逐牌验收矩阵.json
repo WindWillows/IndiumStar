@@ -19,10 +19,15 @@
         "has_energy_cost_x": false
       },
       "localized_description": "你每有一种效果，获得{PerEffect:diff()}点[gold]格挡[/gold]；敌人每有一种效果，失去{PerEffect:diff()}点生命。\n[gold]晶抗[/gold]：失去1点能量。\n[gold]晶逆[/gold]：[gold]消耗[/gold]。",
-      "card_source_linked_by_regression": false,
-      "named_case_evidence": [],
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "分析可见效果计数、无视格挡及固定分支 energy=0 upgraded=False",
+        "分析可见效果计数、无视格挡及固定分支 energy=1 upgraded=False",
+        "分析可见效果计数、无视格挡及固定分支 energy=0 upgraded=True",
+        "分析可见效果计数、无视格挡及固定分支 energy=1 upgraded=True"
+      ],
       "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
-      "effect_acceptance": "需要补齐直接卡牌效果回归；相关命名用例不自动证明整牌效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
       "live_combat": "未验证",
       "save_and_multiplayer": "未验证",
       "required_audit": [
@@ -642,10 +647,15 @@
         "has_energy_cost_x": false
       },
       "localized_description": "获得{Block:diff()}点[gold]格挡[/gold]，为手牌中的1张非攻击牌添加[gold]保留[/gold]。\n[gold]晶逆[/gold]：[gold]延拓[/gold]{Energy:diff()}。",
-      "card_source_linked_by_regression": false,
-      "named_case_evidence": [],
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "键合-酯基格挡后选择非攻击并保留，晶逆延拓 energy=0 upgraded=False",
+        "键合-酯基格挡后选择非攻击并保留，晶逆延拓 energy=1 upgraded=False",
+        "键合-酯基格挡后选择非攻击并保留，晶逆延拓 energy=0 upgraded=True",
+        "键合-酯基格挡后选择非攻击并保留，晶逆延拓 energy=1 upgraded=True"
+      ],
       "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
-      "effect_acceptance": "需要补齐直接卡牌效果回归；相关命名用例不自动证明整牌效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
       "live_combat": "未验证",
       "save_and_multiplayer": "未验证",
       "required_audit": [
@@ -674,10 +684,18 @@
         "has_energy_cost_x": false
       },
       "localized_description": "消耗至多{Cards:diff()}张手牌中的[gold]晶化[/gold]。（升级后改为打出）\n获得{DexterityPower:diff()}点[gold]临时敏捷[/gold]。\n[gold]延拓[/gold]{Energy:diff()}。",
-      "card_source_linked_by_regression": false,
-      "named_case_evidence": [],
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "键合-亚胺基至多两张，消耗/自动打出、临时敏捷及延拓 n=0 upgraded=False",
+        "键合-亚胺基至多两张，消耗/自动打出、临时敏捷及延拓 n=1 upgraded=False",
+        "键合-亚胺基至多两张，消耗/自动打出、临时敏捷及延拓 n=3 upgraded=False",
+        "键合-亚胺基至多两张，消耗/自动打出、临时敏捷及延拓 n=0 upgraded=True",
+        "键合-亚胺基至多两张，消耗/自动打出、临时敏捷及延拓 n=1 upgraded=True",
+        "键合-亚胺基至多两张，消耗/自动打出、临时敏捷及延拓 n=3 upgraded=True",
+        "键合-亚胺基选择暂停完成之前不授予敏捷或延拓"
+      ],
       "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
-      "effect_acceptance": "需要补齐直接卡牌效果回归；相关命名用例不自动证明整牌效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
       "live_combat": "未验证",
       "save_and_multiplayer": "未验证",
       "required_audit": [
@@ -706,10 +724,17 @@
         "has_energy_cost_x": false
       },
       "localized_description": "造成{Damage:diff()}点伤害。\n[gold]延拓[/gold]{Energy:diff()}。\n抽{Cards:diff()}张牌。",
-      "card_source_linked_by_regression": false,
-      "named_case_evidence": [],
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "键合-硝基攻击、延拓、抽牌严格顺序与升级保留 available=0 upgraded=False",
+        "键合-硝基攻击、延拓、抽牌严格顺序与升级保留 available=1 upgraded=False",
+        "键合-硝基攻击、延拓、抽牌严格顺序与升级保留 available=5 upgraded=False",
+        "键合-硝基攻击、延拓、抽牌严格顺序与升级保留 available=0 upgraded=True",
+        "键合-硝基攻击、延拓、抽牌严格顺序与升级保留 available=1 upgraded=True",
+        "键合-硝基攻击、延拓、抽牌严格顺序与升级保留 available=5 upgraded=True"
+      ],
       "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
-      "effect_acceptance": "需要补齐直接卡牌效果回归；相关命名用例不自动证明整牌效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
       "live_combat": "未验证",
       "save_and_multiplayer": "未验证",
       "required_audit": [
@@ -789,13 +814,30 @@
         "has_energy_cost_x": false
       },
       "localized_description": "获得{Block:diff()}点[gold]格挡[/gold]。\n[gold]晶抗[/gold]：下回合获得{StrengthPower:diff()}点[gold]临时力量[/gold]。\n[gold]晶逆[/gold]：下回合抽{Cards:diff()}张牌。",
-      "card_source_linked_by_regression": false,
+      "card_source_linked_by_regression": true,
       "named_case_evidence": [
         "表征打出回合结束不发放也不收回",
-        "表征下回合开始发放并在结束时收回"
+        "表征下回合开始发放并在结束时收回",
+        "表征格挡后预约下回合力量或抽牌 energy=0 upgraded=False",
+        "表征格挡后预约下回合力量或抽牌 energy=1 upgraded=False",
+        "表征格挡后预约下回合力量或抽牌 energy=0 upgraded=True",
+        "表征格挡后预约下回合力量或抽牌 energy=1 upgraded=True",
+        "表征在本人开始阶段自动打出不能提前兑现当前回合 upgraded=False",
+        "表征旧预约兑现前嵌套新预约，只发旧预约并保留下一回合 upgraded=False",
+        "表征在本人开始阶段自动打出不能提前兑现当前回合 upgraded=True",
+        "表征旧预约兑现前嵌套新预约，只发旧预约并保留下一回合 upgraded=True",
+        "表征异战斗、他人和重复开始回调不能兑现或重复授予",
+        "表征实际力量授予受阻时不在回合末倒扣",
+        "表征发放钩子暂停期间重施与重复开始，不扩大旧预约",
+        "表征回收连锁重施的新预约与重复结束隔离",
+        "表征死亡或结束阶段不发放，预约保留到有效回调",
+        "表征能力克隆的预约列表独立，不消耗原件预约",
+        "表征重复施加按本体最终接受层数预约 offset=0",
+        "表征重复施加按本体最终接受层数预约 offset=1",
+        "表征重复施加按本体最终接受层数预约 offset=5"
       ],
       "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
-      "effect_acceptance": "需要补齐直接卡牌效果回归；相关命名用例不自动证明整牌效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
       "live_combat": "未验证",
       "save_and_multiplayer": "未验证",
       "required_audit": [
@@ -824,10 +866,21 @@
         "has_energy_cost_x": false
       },
       "localized_description": "造成{Damage:diff()}点伤害。\n若有不少于{ExtensionThreshold:diff()}层[gold]延拓[/gold]，失去所有延拓，获得{Energy:energyIcons()}。",
-      "card_source_linked_by_regression": false,
-      "named_case_evidence": [],
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "坍缩伤害后达阈值消耗全部延拓，仅获两能量 n=0 upgraded=False",
+        "坍缩伤害后达阈值消耗全部延拓，仅获两能量 n=1 upgraded=False",
+        "坍缩伤害后达阈值消耗全部延拓，仅获两能量 n=2 upgraded=False",
+        "坍缩伤害后达阈值消耗全部延拓，仅获两能量 n=3 upgraded=False",
+        "坍缩伤害后达阈值消耗全部延拓，仅获两能量 n=5 upgraded=False",
+        "坍缩伤害后达阈值消耗全部延拓，仅获两能量 n=0 upgraded=True",
+        "坍缩伤害后达阈值消耗全部延拓，仅获两能量 n=1 upgraded=True",
+        "坍缩伤害后达阈值消耗全部延拓，仅获两能量 n=2 upgraded=True",
+        "坍缩伤害后达阈值消耗全部延拓，仅获两能量 n=3 upgraded=True",
+        "坍缩伤害后达阈值消耗全部延拓，仅获两能量 n=5 upgraded=True"
+      ],
       "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
-      "effect_acceptance": "需要补齐直接卡牌效果回归；相关命名用例不自动证明整牌效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
       "live_combat": "未验证",
       "save_and_multiplayer": "未验证",
       "required_audit": [
@@ -856,10 +909,19 @@
         "has_energy_cost_x": false
       },
       "localized_description": "造成{Damage:diff()}点伤害。\n[gold]晶抗[/gold]：失去1点能量。你每拥有1层[gold]延拓[/gold]，额外造成{ResistanceBonus:diff()}点伤害。\n[gold]晶逆[/gold]：手牌中每有1张[gold]晶化[/gold]，额外造成{ReversalBonus:diff()}点伤害。",
-      "card_source_linked_by_regression": false,
-      "named_case_evidence": [],
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "构象打击基础4后读取延拓和手中晶化，分支不重判 energy=0 both=False upgraded=False",
+        "构象打击基础4后读取延拓和手中晶化，分支不重判 energy=0 both=True upgraded=False",
+        "构象打击基础4后读取延拓和手中晶化，分支不重判 energy=1 both=False upgraded=False",
+        "构象打击基础4后读取延拓和手中晶化，分支不重判 energy=1 both=True upgraded=False",
+        "构象打击基础4后读取延拓和手中晶化，分支不重判 energy=0 both=False upgraded=True",
+        "构象打击基础4后读取延拓和手中晶化，分支不重判 energy=0 both=True upgraded=True",
+        "构象打击基础4后读取延拓和手中晶化，分支不重判 energy=1 both=False upgraded=True",
+        "构象打击基础4后读取延拓和手中晶化，分支不重判 energy=1 both=True upgraded=True"
+      ],
       "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
-      "effect_acceptance": "需要补齐直接卡牌效果回归；相关命名用例不自动证明整牌效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
       "live_combat": "未验证",
       "save_and_multiplayer": "未验证",
       "required_audit": [
@@ -888,10 +950,24 @@
         "has_energy_cost_x": false
       },
       "localized_description": "造成{Damage:diff()}点伤害。\n若你没有[gold]晶化[/gold]，[gold]晶化[/gold]{Cards:diff()}并抽1张牌。",
-      "card_source_linked_by_regression": false,
-      "named_case_evidence": [],
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "晶簇枪伤害后检查手中晶化，先生成后抽牌 has=False occupied=0 upgraded=False",
+        "晶簇枪伤害后检查手中晶化，先生成后抽牌 has=False occupied=9 upgraded=False",
+        "晶簇枪伤害后检查手中晶化，先生成后抽牌 has=False occupied=10 upgraded=False",
+        "晶簇枪伤害后检查手中晶化，先生成后抽牌 has=True occupied=0 upgraded=False",
+        "晶簇枪伤害后检查手中晶化，先生成后抽牌 has=True occupied=9 upgraded=False",
+        "晶簇枪伤害后检查手中晶化，先生成后抽牌 has=True occupied=10 upgraded=False",
+        "晶簇枪伤害后检查手中晶化，先生成后抽牌 has=False occupied=0 upgraded=True",
+        "晶簇枪伤害后检查手中晶化，先生成后抽牌 has=False occupied=9 upgraded=True",
+        "晶簇枪伤害后检查手中晶化，先生成后抽牌 has=False occupied=10 upgraded=True",
+        "晶簇枪伤害后检查手中晶化，先生成后抽牌 has=True occupied=0 upgraded=True",
+        "晶簇枪伤害后检查手中晶化，先生成后抽牌 has=True occupied=9 upgraded=True",
+        "晶簇枪伤害后检查手中晶化，先生成后抽牌 has=True occupied=10 upgraded=True",
+        "晶簇枪伤害钩子已经生成晶化后不再重复生成或抽牌"
+      ],
       "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
-      "effect_acceptance": "需要补齐直接卡牌效果回归；相关命名用例不自动证明整牌效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
       "live_combat": "未验证",
       "save_and_multiplayer": "未验证",
       "required_audit": [
@@ -1228,10 +1304,13 @@
         "has_energy_cost_x": false
       },
       "localized_description": "获得{Block:diff()}点[gold]格挡[/gold]。",
-      "card_source_linked_by_regression": false,
-      "named_case_evidence": [],
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "防御基础格挡与Defend标签 upgraded=False",
+        "防御基础格挡与Defend标签 upgraded=True"
+      ],
       "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
-      "effect_acceptance": "需要补齐直接卡牌效果回归；相关命名用例不自动证明整牌效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
       "live_combat": "未验证",
       "save_and_multiplayer": "未验证",
       "required_audit": [
@@ -1317,10 +1396,15 @@
         "has_energy_cost_x": false
       },
       "localized_description": "造成{Damage:diff()}点伤害。\n[gold]晶抗[/gold]：对同一目标造成{ExtraDamage:diff()}点伤害，给予{VulnerablePower:diff()}层[gold]易伤[/gold]。\n[gold]晶逆[/gold]：给予{WeakPower:diff()}层[gold]虚弱[/gold]。",
-      "card_source_linked_by_regression": false,
-      "named_case_evidence": [],
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "因势利导额外攻击先于易伤，同一目标且不重复判断 energy=0 upgraded=False",
+        "因势利导额外攻击先于易伤，同一目标且不重复判断 energy=1 upgraded=False",
+        "因势利导额外攻击先于易伤，同一目标且不重复判断 energy=0 upgraded=True",
+        "因势利导额外攻击先于易伤，同一目标且不重复判断 energy=1 upgraded=True"
+      ],
       "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
-      "effect_acceptance": "需要补齐直接卡牌效果回归；相关命名用例不自动证明整牌效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
       "live_combat": "未验证",
       "save_and_multiplayer": "未验证",
       "required_audit": [
@@ -1349,10 +1433,13 @@
         "has_energy_cost_x": false
       },
       "localized_description": "回合结束时，你每拥有1层[gold]延拓[/gold]，获得3点[gold]格挡[/gold]。",
-      "card_source_linked_by_regression": false,
-      "named_case_evidence": [],
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "延拓展延按本人回合结束延拓层数获得格挡 upgraded=False",
+        "延拓展延按本人回合结束延拓层数获得格挡 upgraded=True"
+      ],
       "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
-      "effect_acceptance": "需要补齐直接卡牌效果回归；相关命名用例不自动证明整牌效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
       "live_combat": "未验证",
       "save_and_multiplayer": "未验证",
       "required_audit": [
@@ -1423,10 +1510,17 @@
         "has_energy_cost_x": false
       },
       "localized_description": "[gold]延拓[/gold]{Energy:diff()}。\n[gold]晶抗[/gold]：打出1张[gold]晶化[/gold]。\n[gold]晶逆[/gold]：将手牌中的1张牌放在抽牌堆顶。",
-      "card_source_linked_by_regression": false,
-      "named_case_evidence": [],
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "基团迁移先延拓、晶抗自动晶化或晶逆置顶数量与顺序 energy=0 upgraded=False",
+        "基团迁移先延拓、晶抗自动晶化或晶逆置顶数量与顺序 energy=1 upgraded=False",
+        "基团迁移先延拓、晶抗自动晶化或晶逆置顶数量与顺序 energy=0 upgraded=True",
+        "基团迁移先延拓、晶抗自动晶化或晶逆置顶数量与顺序 energy=1 upgraded=True",
+        "基团迁移磷语基础效果返能量后判断晶抗",
+        "基团迁移升级选择零张仍保留延拓，不默认强制置顶"
+      ],
       "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
-      "effect_acceptance": "需要补齐直接卡牌效果回归；相关命名用例不自动证明整牌效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
       "live_combat": "未验证",
       "save_and_multiplayer": "未验证",
       "required_audit": [
@@ -1584,10 +1678,13 @@
         "has_energy_cost_x": false
       },
       "localized_description": "造成{Damage:diff()}点伤害。\n你的下一张「运用」牌可以免费打出。",
-      "card_source_linked_by_regression": false,
-      "named_case_evidence": [],
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "溯源猛击伤害后发放下一运用免费且只消耗首段 upgraded=False",
+        "溯源猛击伤害后发放下一运用免费且只消耗首段 upgraded=True"
+      ],
       "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
-      "effect_acceptance": "需要补齐直接卡牌效果回归；相关命名用例不自动证明整牌效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
       "live_combat": "未验证",
       "save_and_multiplayer": "未验证",
       "required_audit": [
@@ -1616,12 +1713,18 @@
         "has_energy_cost_x": false
       },
       "localized_description": "获得{Energy:diff()}点能量。\n抽{Cards:diff()}张牌。\n本回合只能打出攻击牌。",
-      "card_source_linked_by_regression": false,
+      "card_source_linked_by_regression": true,
       "named_case_evidence": [
-        "待发禁止自动晶化时崩碎之歌加不产生伤害"
+        "待发禁止自动晶化时崩碎之歌加不产生伤害",
+        "待发获得能量、抽牌后才禁止非攻击 available=0 upgraded=False",
+        "待发获得能量、抽牌后才禁止非攻击 available=1 upgraded=False",
+        "待发获得能量、抽牌后才禁止非攻击 available=5 upgraded=False",
+        "待发获得能量、抽牌后才禁止非攻击 available=0 upgraded=True",
+        "待发获得能量、抽牌后才禁止非攻击 available=1 upgraded=True",
+        "待发获得能量、抽牌后才禁止非攻击 available=5 upgraded=True"
       ],
       "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
-      "effect_acceptance": "需要补齐直接卡牌效果回归；相关命名用例不自动证明整牌效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
       "live_combat": "未验证",
       "save_and_multiplayer": "未验证",
       "required_audit": [
@@ -1650,10 +1753,14 @@
         "has_energy_cost_x": false
       },
       "localized_description": "造成{CalculatedDamage:diff()}点伤害。\n目标身上每有一种负面状态，就额外造成{ExtraDamage:diff()}点伤害。",
-      "card_source_linked_by_regression": false,
-      "named_case_evidence": [],
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "原波穿刺按负面种数、负力量及临时包装排除，克隆计算独立 upgraded=False",
+        "原波穿刺按负面种数、负力量及临时包装排除，克隆计算独立 upgraded=True",
+        "原波穿刺空效果目标只有基础11，正力量不计负面"
+      ],
       "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
-      "effect_acceptance": "需要补齐直接卡牌效果回归；相关命名用例不自动证明整牌效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
       "live_combat": "未验证",
       "save_and_multiplayer": "未验证",
       "required_audit": [
@@ -1682,7 +1789,7 @@
         "has_energy_cost_x": false
       },
       "localized_description": "你每回合打出的前2张牌会同时触发[gold]晶抗[/gold]和[gold]晶逆[/gold]效果。",
-      "card_source_linked_by_regression": false,
+      "card_source_linked_by_regression": true,
       "named_case_evidence": [
         "量子点第1张牌预测与实际结算一致",
         "量子点第2张牌预测与实际结算一致",
@@ -1696,10 +1803,12 @@
         "量子点第1个系列的实际分支与重放一致",
         "量子点第2个系列的实际分支与重放一致",
         "量子点第3个系列的实际分支与重放一致",
-        "量子点第4个系列的实际分支与重放一致"
+        "量子点第4个系列的实际分支与重放一致",
+        "量子点真实卡牌施加后按全牌序号提供前两张双分支 upgraded=False",
+        "量子点真实卡牌施加后按全牌序号提供前两张双分支 upgraded=True"
       ],
       "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
-      "effect_acceptance": "需要补齐直接卡牌效果回归；相关命名用例不自动证明整牌效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
       "live_combat": "未验证",
       "save_and_multiplayer": "未验证",
       "required_audit": [
@@ -1765,10 +1874,29 @@
         "has_energy_cost_x": false
       },
       "localized_description": "回合结束时，若你本回合消耗过牌，对所有敌人造成{DamagePerCrystal:diff()}×手牌中[gold]晶化[/gold]数量的伤害。",
-      "card_source_linked_by_regression": false,
-      "named_case_evidence": [],
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unblocked=False n=0 upgraded=False",
+        "回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unblocked=True n=0 upgraded=False",
+        "回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unblocked=False n=1 upgraded=False",
+        "回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unblocked=True n=1 upgraded=False",
+        "回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unblocked=False n=3 upgraded=False",
+        "回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unblocked=True n=3 upgraded=False",
+        "回忆-硬钙石施加链内回合末读取当前伤害配置 repeat=False upgraded=False",
+        "回忆-硬钙石施加链内回合末读取当前伤害配置 repeat=True upgraded=False",
+        "回忆-硬钙石嵌套重施后外层不回滚最新配置 upgraded=False",
+        "回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unblocked=False n=0 upgraded=True",
+        "回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unblocked=True n=0 upgraded=True",
+        "回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unblocked=False n=1 upgraded=True",
+        "回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unblocked=True n=1 upgraded=True",
+        "回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unblocked=False n=3 upgraded=True",
+        "回忆-硬钙石本人本回合消耗历史、手中晶化及全敌人 unblocked=True n=3 upgraded=True",
+        "回忆-硬钙石施加链内回合末读取当前伤害配置 repeat=False upgraded=True",
+        "回忆-硬钙石施加链内回合末读取当前伤害配置 repeat=True upgraded=True",
+        "回忆-硬钙石嵌套重施后外层不回滚最新配置 upgraded=True"
+      ],
       "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
-      "effect_acceptance": "需要补齐直接卡牌效果回归；相关命名用例不自动证明整牌效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
       "live_combat": "未验证",
       "save_and_multiplayer": "未验证",
       "required_audit": [
@@ -1779,7 +1907,7 @@
         "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
         "真实游戏运行、存档恢复、多人数值和动作同步"
       ],
-      "source_sha256": "30dba3725291f249d27bf872cd71b71a2685a2656b69368a2923abba86890568"
+      "source_sha256": "de61699fc75c063a67356971a024939fbdff9886e34c9fe1ea65e220f86454a9"
     },
     {
       "class": "ReminiscencePhosphorus",
@@ -1797,10 +1925,22 @@
         "has_energy_cost_x": false
       },
       "localized_description": "每回合第一次获得[gold]延拓[/gold]时，{IfUpgraded:show:同时|改为}获得等量能量。",
-      "card_source_linked_by_regression": false,
-      "named_case_evidence": [],
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "回忆-磷语首次有效延拓替换或并行、本人与他人重置 upgraded=False",
+        "回忆-磷语施加链内首次延拓读取当前卡牌配置 repeat=False upgraded=False",
+        "回忆-磷语施加链内首次延拓读取当前卡牌配置 repeat=True upgraded=False",
+        "回忆-磷语嵌套重施后外层不回滚最新配置 upgraded=False",
+        "回忆-磷语能量钩子嵌套改配置，本次延拓模式取拦截开始快照 upgraded=False",
+        "回忆-磷语首次有效延拓替换或并行、本人与他人重置 upgraded=True",
+        "回忆-磷语施加链内首次延拓读取当前卡牌配置 repeat=False upgraded=True",
+        "回忆-磷语施加链内首次延拓读取当前卡牌配置 repeat=True upgraded=True",
+        "回忆-磷语嵌套重施后外层不回滚最新配置 upgraded=True",
+        "回忆-磷语能量钩子嵌套改配置，本次延拓模式取拦截开始快照 upgraded=True",
+        "回忆-磷语能量拦截器先占本回合名额防递归重复返能量"
+      ],
       "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
-      "effect_acceptance": "需要补齐直接卡牌效果回归；相关命名用例不自动证明整牌效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
       "live_combat": "未验证",
       "save_and_multiplayer": "未验证",
       "required_audit": [
@@ -1811,7 +1951,7 @@
         "克隆状态独立、牌组写回政策、新战斗/本人/其他玩家回合隔离",
         "真实游戏运行、存档恢复、多人数值和动作同步"
       ],
-      "source_sha256": "8f98183c7310b6f85a3a10c5ff01d0b8e9bc7d29de01e5be9c2e251eaa52c37d"
+      "source_sha256": "3055e5de5ec2cb0b61c7e3f8dc40f635b5241bf3a509aa3c21f73757de363f23"
     },
     {
       "class": "ReminiscencePollutionH",
@@ -1866,10 +2006,20 @@
         "has_energy_cost_x": false
       },
       "localized_description": "[gold]晶抗[/gold]：打出[gold]晶化[/gold]时，获得{Block:diff()}点[gold]格挡[/gold]。\n[gold]晶逆[/gold]：打出[gold]晶化[/gold]时，获得{VigorPower:diff()}层[gold]活力[/gold]。",
-      "card_source_linked_by_regression": false,
-      "named_case_evidence": [],
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "回忆-污染O打出时确定永久触发器，手动自动晶化均收益 energy=0 both=False upgraded=False",
+        "回忆-污染O打出时确定永久触发器，手动自动晶化均收益 energy=0 both=True upgraded=False",
+        "回忆-污染O打出时确定永久触发器，手动自动晶化均收益 energy=1 both=False upgraded=False",
+        "回忆-污染O打出时确定永久触发器，手动自动晶化均收益 energy=1 both=True upgraded=False",
+        "回忆-污染O打出时确定永久触发器，手动自动晶化均收益 energy=0 both=False upgraded=True",
+        "回忆-污染O打出时确定永久触发器，手动自动晶化均收益 energy=0 both=True upgraded=True",
+        "回忆-污染O打出时确定永久触发器，手动自动晶化均收益 energy=1 both=False upgraded=True",
+        "回忆-污染O打出时确定永久触发器，手动自动晶化均收益 energy=1 both=True upgraded=True",
+        "回忆-污染O重复施加保持既有双收益，非晶化不触发"
+      ],
       "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
-      "effect_acceptance": "需要补齐直接卡牌效果回归；相关命名用例不自动证明整牌效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
       "live_combat": "未验证",
       "save_and_multiplayer": "未验证",
       "required_audit": [
@@ -1994,10 +2144,17 @@
         "has_energy_cost_x": false
       },
       "localized_description": "造成{Damage:diff()}点伤害，将其[gold]虚弱[/gold]层数翻倍。",
-      "card_source_linked_by_regression": false,
-      "named_case_evidence": [],
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "锈蚀之刃伤害先于虚弱翻倍，保留消耗 n=0 upgraded=False",
+        "锈蚀之刃伤害先于虚弱翻倍，保留消耗 n=1 upgraded=False",
+        "锈蚀之刃伤害先于虚弱翻倍，保留消耗 n=5 upgraded=False",
+        "锈蚀之刃伤害先于虚弱翻倍，保留消耗 n=0 upgraded=True",
+        "锈蚀之刃伤害先于虚弱翻倍，保留消耗 n=1 upgraded=True",
+        "锈蚀之刃伤害先于虚弱翻倍，保留消耗 n=5 upgraded=True"
+      ],
       "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
-      "effect_acceptance": "需要补齐直接卡牌效果回归；相关命名用例不自动证明整牌效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
       "live_combat": "未验证",
       "save_and_multiplayer": "未验证",
       "required_audit": [
@@ -2026,10 +2183,17 @@
         "has_energy_cost_x": false
       },
       "localized_description": "打出{Cards:diff()}张[gold]晶化[/gold]。\n抽2张牌。",
-      "card_source_linked_by_regression": false,
-      "named_case_evidence": [],
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "离析自动打出实际可选晶化后抽两张，不消耗手动额度 n=0 upgraded=False",
+        "离析自动打出实际可选晶化后抽两张，不消耗手动额度 n=1 upgraded=False",
+        "离析自动打出实际可选晶化后抽两张，不消耗手动额度 n=3 upgraded=False",
+        "离析自动打出实际可选晶化后抽两张，不消耗手动额度 n=0 upgraded=True",
+        "离析自动打出实际可选晶化后抽两张，不消耗手动额度 n=1 upgraded=True",
+        "离析自动打出实际可选晶化后抽两张，不消耗手动额度 n=3 upgraded=True"
+      ],
       "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
-      "effect_acceptance": "需要补齐直接卡牌效果回归；相关命名用例不自动证明整牌效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
       "live_combat": "未验证",
       "save_and_multiplayer": "未验证",
       "required_audit": [
@@ -2169,10 +2333,13 @@
         "has_energy_cost_x": false
       },
       "localized_description": "对所有敌人造成{Damage:diff()}点伤害。",
-      "card_source_linked_by_regression": false,
-      "named_case_evidence": [],
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "合斩一次指令攻击全部存活敌人 upgraded=False",
+        "合斩一次指令攻击全部存活敌人 upgraded=True"
+      ],
       "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
-      "effect_acceptance": "需要补齐直接卡牌效果回归；相关命名用例不自动证明整牌效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
       "live_combat": "未验证",
       "save_and_multiplayer": "未验证",
       "required_audit": [
@@ -2201,10 +2368,19 @@
         "has_energy_cost_x": false
       },
       "localized_description": "造成{Damage:diff()}点伤害{Repeat:diff()}次。\n将弃牌堆中的1张牌加入手牌。\n[gold]晶逆[/gold]：使其本回合具有[gold]保留[/gold]。",
-      "card_source_linked_by_regression": false,
-      "named_case_evidence": [],
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "回身踢攻击后取弃牌、晶逆单回合保留及升级移除消耗 energy=0 discarded=0 upgraded=False",
+        "回身踢攻击后取弃牌、晶逆单回合保留及升级移除消耗 energy=0 discarded=2 upgraded=False",
+        "回身踢攻击后取弃牌、晶逆单回合保留及升级移除消耗 energy=1 discarded=0 upgraded=False",
+        "回身踢攻击后取弃牌、晶逆单回合保留及升级移除消耗 energy=1 discarded=2 upgraded=False",
+        "回身踢攻击后取弃牌、晶逆单回合保留及升级移除消耗 energy=0 discarded=0 upgraded=True",
+        "回身踢攻击后取弃牌、晶逆单回合保留及升级移除消耗 energy=0 discarded=2 upgraded=True",
+        "回身踢攻击后取弃牌、晶逆单回合保留及升级移除消耗 energy=1 discarded=0 upgraded=True",
+        "回身踢攻击后取弃牌、晶逆单回合保留及升级移除消耗 energy=1 discarded=2 upgraded=True"
+      ],
       "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
-      "effect_acceptance": "需要补齐直接卡牌效果回归；相关命名用例不自动证明整牌效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
       "live_combat": "未验证",
       "save_and_multiplayer": "未验证",
       "required_audit": [
@@ -2233,10 +2409,13 @@
         "has_energy_cost_x": false
       },
       "localized_description": "造成{Damage:diff()}点伤害。",
-      "card_source_linked_by_regression": false,
-      "named_case_evidence": [],
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "打击基础伤害与Strike标签 upgraded=False",
+        "打击基础伤害与Strike标签 upgraded=True"
+      ],
       "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
-      "effect_acceptance": "需要补齐直接卡牌效果回归；相关命名用例不自动证明整牌效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
       "live_combat": "未验证",
       "save_and_multiplayer": "未验证",
       "required_audit": [
@@ -2266,10 +2445,30 @@
         "effective_cost_display": "X；base_cost_expression=0是本体X牌构造方式"
       },
       "localized_description": "获得等同于[gold]晶化[/gold]数量的[gold]临时力量[/gold]。\n造成{Damage:diff()}点伤害X次。",
-      "card_source_linked_by_regression": false,
-      "named_case_evidence": [],
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "温压领域按捕获X而非剩余能量，多段前获得临时力量 n=0 X=0 upgraded=False",
+        "温压领域按捕获X而非剩余能量，多段前获得临时力量 n=0 X=1 upgraded=False",
+        "温压领域按捕获X而非剩余能量，多段前获得临时力量 n=0 X=4 upgraded=False",
+        "温压领域按捕获X而非剩余能量，多段前获得临时力量 n=1 X=0 upgraded=False",
+        "温压领域按捕获X而非剩余能量，多段前获得临时力量 n=1 X=1 upgraded=False",
+        "温压领域按捕获X而非剩余能量，多段前获得临时力量 n=1 X=4 upgraded=False",
+        "温压领域按捕获X而非剩余能量，多段前获得临时力量 n=3 X=0 upgraded=False",
+        "温压领域按捕获X而非剩余能量，多段前获得临时力量 n=3 X=1 upgraded=False",
+        "温压领域按捕获X而非剩余能量，多段前获得临时力量 n=3 X=4 upgraded=False",
+        "温压领域按捕获X而非剩余能量，多段前获得临时力量 n=0 X=0 upgraded=True",
+        "温压领域按捕获X而非剩余能量，多段前获得临时力量 n=0 X=1 upgraded=True",
+        "温压领域按捕获X而非剩余能量，多段前获得临时力量 n=0 X=4 upgraded=True",
+        "温压领域按捕获X而非剩余能量，多段前获得临时力量 n=1 X=0 upgraded=True",
+        "温压领域按捕获X而非剩余能量，多段前获得临时力量 n=1 X=1 upgraded=True",
+        "温压领域按捕获X而非剩余能量，多段前获得临时力量 n=1 X=4 upgraded=True",
+        "温压领域按捕获X而非剩余能量，多段前获得临时力量 n=3 X=0 upgraded=True",
+        "温压领域按捕获X而非剩余能量，多段前获得临时力量 n=3 X=1 upgraded=True",
+        "温压领域按捕获X而非剩余能量，多段前获得临时力量 n=3 X=4 upgraded=True",
+        "温压领域原始X零仍授予临时力量，攻击指令为零段"
+      ],
       "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
-      "effect_acceptance": "需要补齐直接卡牌效果回归；相关命名用例不自动证明整牌效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
       "live_combat": "未验证",
       "save_and_multiplayer": "未验证",
       "required_audit": [
@@ -2298,12 +2497,18 @@
         "has_energy_cost_x": false
       },
       "localized_description": "[gold]晶化[/gold]{Cards:diff()}。\n所有[gold]晶化[/gold]牌具有「在手中时，你具有2点[gold]力量[/gold]和2点[gold]敏捷[/gold]」。",
-      "card_source_linked_by_regression": false,
+      "card_source_linked_by_regression": true,
       "named_case_evidence": [
-        "密铺形态真实力量敏捷随晶化离手变化且不会重复叠加"
+        "密铺形态真实力量敏捷随晶化离手变化且不会重复叠加",
+        "密铺形态先施加光环再晶化，只有手中晶化提供属性 occupied=0 upgraded=False",
+        "密铺形态先施加光环再晶化，只有手中晶化提供属性 occupied=9 upgraded=False",
+        "密铺形态先施加光环再晶化，只有手中晶化提供属性 occupied=10 upgraded=False",
+        "密铺形态先施加光环再晶化，只有手中晶化提供属性 occupied=0 upgraded=True",
+        "密铺形态先施加光环再晶化，只有手中晶化提供属性 occupied=9 upgraded=True",
+        "密铺形态先施加光环再晶化，只有手中晶化提供属性 occupied=10 upgraded=True"
       ],
       "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
-      "effect_acceptance": "需要补齐直接卡牌效果回归；相关命名用例不自动证明整牌效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
       "live_combat": "未验证",
       "save_and_multiplayer": "未验证",
       "required_audit": [
@@ -2332,10 +2537,19 @@
         "has_energy_cost_x": false
       },
       "localized_description": "回合开始时，将一张[gold]晶化[/gold]变化为抽牌堆顶的牌。",
-      "card_source_linked_by_regression": false,
-      "named_case_evidence": [],
+      "card_source_linked_by_regression": true,
+      "named_case_evidence": [
+        "嬗变本人开始前变化原堆顶复制、空手空堆及升级固有 crystal=False draw=False upgraded=False",
+        "嬗变本人开始前变化原堆顶复制、空手空堆及升级固有 crystal=False draw=True upgraded=False",
+        "嬗变本人开始前变化原堆顶复制、空手空堆及升级固有 crystal=True draw=False upgraded=False",
+        "嬗变本人开始前变化原堆顶复制、空手空堆及升级固有 crystal=True draw=True upgraded=False",
+        "嬗变本人开始前变化原堆顶复制、空手空堆及升级固有 crystal=False draw=False upgraded=True",
+        "嬗变本人开始前变化原堆顶复制、空手空堆及升级固有 crystal=False draw=True upgraded=True",
+        "嬗变本人开始前变化原堆顶复制、空手空堆及升级固有 crystal=True draw=False upgraded=True",
+        "嬗变本人开始前变化原堆顶复制、空手空堆及升级固有 crystal=True draw=True upgraded=True"
+      ],
       "model_probe": "pass；仅构造、升级、MutableClone；非实机效果",
-      "effect_acceptance": "需要补齐直接卡牌效果回归；相关命名用例不自动证明整牌效果",
+      "effect_acceptance": "部分源码回归；尚未完整验收",
       "live_combat": "未验证",
       "save_and_multiplayer": "未验证",
       "required_audit": [
@@ -2350,7 +2564,7 @@
     }
   ],
   "total": 64,
-  "regression_cases": 392,
-  "direct_card_sources_linked": 37,
+  "regression_cases": 583,
+  "direct_card_sources_linked": 64,
   "complete_effect_acceptances": 0
 }

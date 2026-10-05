@@ -43,14 +43,12 @@ public sealed class ReminiscenceHardCalcite : ModCardTemplate
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        ReminiscenceHardCalcitePower? power = await PowerCmd.Apply<ReminiscenceHardCalcitePower>(
+        await PowerCmd.Apply<ReminiscenceHardCalcitePower>(
             choiceContext,
             Owner.Creature,
             1m,
             Owner.Creature,
             this);
-
-        power?.Configure(DynamicVars["DamagePerCrystal"].IntValue);
     }
 
     protected override void OnUpgrade()
