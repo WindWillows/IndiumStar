@@ -27,9 +27,9 @@ public sealed class Cyclization : ModCardTemplate
         bool gainBlock = false;
         if (selected != null)
         {
-            bool isCrystal = CrystallizationRules.IsCrystallizationCard(selected);
+            bool eligibleForBlock = selected.Type is not (CardType.Status or CardType.Curse);
             var exhausted = await CardCmd.Exhaust(context, selected);
-            gainBlock = exhausted is { success: true, targetPile: PileType.Exhaust } && !isCrystal;
+            gainBlock = exhausted is { success: true, targetPile: PileType.Exhaust } && eligibleForBlock;
         }
         await PowerCmd.Apply<DrawCardsNextTurnPower>(context, Owner.Creature,
             DynamicVars.Cards.IntValue, Owner.Creature, this);

@@ -195,7 +195,7 @@ namespace MegaCrit.Sts2.Core.Entities.Players
 
 namespace MegaCrit.Sts2.Core.Entities.Cards
 {
-    public enum CardType { Skill, Status, Attack, Power }
+    public enum CardType { None, Attack, Skill, Power, Status, Curse, Quest }
     public enum CardRarity { Common, Basic, Uncommon, Rare }
     public enum TargetType { Self, AnyEnemy, AllEnemies }
     public enum CardKeyword { Retain, Exhaust, Ethereal }
@@ -415,7 +415,8 @@ namespace MegaCrit.Sts2.Core.Localization.DynamicVars
         public MegaCrit.Sts2.Core.ValueProps.ValueProp Props { get; }
     }
     public class PowerVar<T>(decimal amount) : DynamicVar(typeof(T).Name, amount) { }
-    public class BlockVar(decimal amount, MegaCrit.Sts2.Core.ValueProps.ValueProp props) : DynamicVar("Block", amount) { }
+    public class BlockVar(decimal amount, MegaCrit.Sts2.Core.ValueProps.ValueProp props) : DynamicVar("Block", amount)
+    { public MegaCrit.Sts2.Core.ValueProps.ValueProp Props { get; } = props; }
     public class CardsVar(decimal amount) : DynamicVar("Cards", amount) { }
     public class RepeatVar(decimal amount) : DynamicVar("Repeat", amount) { }
 }
@@ -523,13 +524,15 @@ namespace MegaCrit.Sts2.Core.Commands
             foreach (var power in card.Owner.Creature.Powers.ToArray()) await power.AfterCardPlayed(context, play);
         }
         public static bool ExhaustBlocked { get; set; }
+        public static MegaCrit.Sts2.Core.Entities.Cards.PileType? ExhaustDestinationOverride { get; set; }
         public static Task<MegaCrit.Sts2.Core.Entities.Cards.CardPileAddResult?> Exhaust(MegaCrit.Sts2.Core.GameActions.Multiplayer.PlayerChoiceContext context, MegaCrit.Sts2.Core.Models.CardModel card)
         {
             if (ExhaustBlocked || MegaCrit.Sts2.Core.Combat.CombatManager.Instance.IsOverOrEnding)
                 return Task.FromResult<MegaCrit.Sts2.Core.Entities.Cards.CardPileAddResult?>(null);
             card.Owner.PlayerCombatState!.Hand.Cards.Remove(card);
-            card.Pile = card.Owner.PlayerCombatState.ExhaustPile; card.Pile.Cards.Add(card);
-            return Task.FromResult<MegaCrit.Sts2.Core.Entities.Cards.CardPileAddResult?>(new() { success = true, targetPile = MegaCrit.Sts2.Core.Entities.Cards.PileType.Exhaust });
+            var destination = ExhaustDestinationOverride ?? MegaCrit.Sts2.Core.Entities.Cards.PileType.Exhaust;
+            card.Pile = MegaCrit.Sts2.Core.Entities.Cards.PileExtensions.GetPile(destination, card.Owner); card.Pile.Cards.Add(card);
+            return Task.FromResult<MegaCrit.Sts2.Core.Entities.Cards.CardPileAddResult?>(new() { success = true, targetPile = destination });
         }
     }
     public static class DamageCmd

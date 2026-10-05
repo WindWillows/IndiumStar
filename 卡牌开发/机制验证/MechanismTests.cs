@@ -587,6 +587,7 @@ Test("Hs光环改变敌人力量时同步刷新伤害意图", async () => {
 
 NewCardTests.Register(tests, args);
 SemanticAuditTests.Register(tests);
+UpdatedSpecificationTests.Register(tests, args);
 int failed = 0;
 foreach (var test in tests) {
     try { await test.Run(); Console.WriteLine("PASS " + test.Name); }
@@ -660,8 +661,8 @@ public class Rig
         CombatManager.Instance.History.CardPlaysStarted.Clear(); CombatManager.Instance.IsOverOrEnding = false;
         CombatManager.Instance.IsStarting = false; PowerCmd.ApplyCount = 0;
         CardPileCmd.DrawCount = 0; CardCmd.ShouldAutoPlay = _ => true; DamageCmd.HitCounts.Clear();
-        CardPileCmd.HandCapacity = 10; CardPileCmd.DrawBlocked = false; CardCmd.ExhaustBlocked = false;
-        DamageCmd.Attacks.Clear(); CreatureCmd.BlockGains.Clear(); CreatureCmd.LastAnimation = null;
+        CardPileCmd.HandCapacity = 10; CardPileCmd.DrawBlocked = false; CardCmd.ExhaustBlocked = false; CardCmd.ExhaustDestinationOverride = null;
+        DamageCmd.Attacks.Clear(); CreatureCmd.BlockGains.Clear(); CreatureCmd.LastAnimation = null; CreatureCmd.AfterBlockGained = null;
         MegaCrit.Sts2.Core.Nodes.Rooms.NCombatRoom.Instance = null;
         Player.Creature.CombatState = State; State.CreatureList.Add(Player.Creature);
         Energy = energy; Card = new ProbeCard(branches, Log) { Owner = Player, CombatState = State };

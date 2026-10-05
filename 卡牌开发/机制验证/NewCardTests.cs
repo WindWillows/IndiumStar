@@ -168,7 +168,7 @@ public static class NewCardTests
                 Check(failed == (m == ProbeEnemy.Mode.Fail));
                 Check(original.ExecutionCount == 0 && !originalMove.Performed && original.NextMove == originalMove && original.Creature == enemy);
                 Check(IntentExecutionRules.Current == null);
-                Check(DamageCmd.Attacks[0].Damage == 6 && DamageCmd.Attacks[0].Target == enemy);
+                Check(DamageCmd.Attacks[0].Damage == 5 && DamageCmd.Attacks[0].Target == enemy);
                 if (m == ProbeEnemy.Mode.Attack) {
                     var attack = DamageCmd.Attacks[1]; Check(attack.Damage == 7 && attack.Hits == 2 && attack.Source == card && attack.Target == enemy && attack.Choice == r.Choice);
                 }

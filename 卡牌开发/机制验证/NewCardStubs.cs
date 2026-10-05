@@ -21,15 +21,22 @@ namespace MegaCrit.Sts2.Core.Commands {
     }
     public static class CreatureCmd {
         public static List<int> BlockGains { get; } = [];
-        public static async Task GainBlock(Creature creature, BlockVar block, CardPlay play) {
-            int amount = Math.Max(0, block.IntValue + creature.GetPowerAmount<Models.Powers.DexterityPower>());
+        public static Func<Creature, decimal, CardPlay?, Task>? AfterBlockGained { get; set; }
+        public static Task<decimal> GainBlock(Creature creature, BlockVar block, CardPlay? play, bool fast = false) =>
+            GainBlock(creature, block.BaseValue, block.Props, play, fast);
+        public static async Task<decimal> GainBlock(Creature creature, decimal baseAmount,
+            MegaCrit.Sts2.Core.ValueProps.ValueProp props, CardPlay? play, bool fast = false) {
+            if (!creature.IsAlive || MegaCrit.Sts2.Core.Combat.CombatManager.Instance.IsOverOrEnding) return 0;
+            int amount = Math.Max(0, (int)baseAmount + creature.GetPowerAmount<Models.Powers.DexterityPower>());
             var modifiers = new List<PowerModel>();
             foreach (var power in creature.Powers.ToArray()) {
-                decimal multiplier = power.ModifyBlockMultiplicative(creature, amount, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move, play.Card, play);
+                decimal multiplier = power.ModifyBlockMultiplicative(creature, amount, props, play?.Card, play);
                 if (multiplier != 1m) { amount = (int)(amount * multiplier); modifiers.Add(power); }
             }
-            BlockGains.Add(amount); creature.Block += amount;
-            foreach (var power in modifiers) await power.AfterModifyingBlockAmount(amount, play.Card, play);
+            foreach (var power in modifiers) await power.AfterModifyingBlockAmount(amount, play?.Card, play);
+            if (amount > 0) { BlockGains.Add(amount); creature.Block += amount; }
+            if (AfterBlockGained != null) await AfterBlockGained(creature, amount, play);
+            return amount;
         }
         public static string? LastAnimation { get; set; }
         public static Task TriggerAnim(Creature creature, string triggerName, float waitTime) {

@@ -1,11 +1,12 @@
-param([Parameter(Mandatory=$true)][string]$GameDir)
+param([Parameter(Mandatory=$true)][string]$GameDir,
+    [string]$ModDir = (Join-Path $PSScriptRoot '..\..\IndiumStar\IndiumStar\build\staging'))
 $ErrorActionPreference = 'Stop'
 $gameData = Join-Path $GameDir 'data_sts2_windows_x86_64'
 $outputDir = Join-Path $PSScriptRoot 'output\native-models'
 New-Item -ItemType Directory -Path $outputDir -Force | Out-Null
 $sdk = Get-ChildItem 'C:\Program Files\dotnet\sdk' -Directory | Where-Object Name -like '9.*' | Sort-Object { [version]$_.Name } -Descending | Select-Object -First 1
 $refs = Get-ChildItem 'C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref' -Directory | Where-Object Name -like '9.*' | Sort-Object { [version]$_.Name } -Descending | Select-Object -First 1
-$modDir = Join-Path $PSScriptRoot 'output\mod'
+$ModDir = (Resolve-Path -LiteralPath $ModDir).Path
 $ritsuDir = Join-Path $PSScriptRoot '..\..\IndiumStar\IndiumStar\.godot\mono\temp\bin\Release'
 $usings = Join-Path $outputDir 'Usings.cs'
 [IO.File]::WriteAllText($usings, "global using System;`nglobal using System.Collections.Generic;`nglobal using System.Linq;`nglobal using System.IO;`n")

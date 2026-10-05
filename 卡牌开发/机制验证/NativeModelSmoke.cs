@@ -42,6 +42,13 @@ foreach (Type type in cardTypes)
         || ReferenceEquals(copy.EnergyCost, mutable.EnergyCost)
         || copy.IsUpgraded != mutable.IsUpgraded || copy.DeckVersion != null)
         throw new Exception("Native clone contract failed: " + type.Name);
+    if (type == typeof(BondingTripleBond)
+        && (canonical.DynamicVars.Block.BaseValue != 12 || canonical.DynamicVars["CrystalBlock"].BaseValue != 4
+            || canonical.DynamicVars["ExtensionBlock"].BaseValue != 6 || copy.DynamicVars.Block.BaseValue != 15
+            || copy.DynamicVars["CrystalBlock"].BaseValue != 6 || copy.DynamicVars["ExtensionBlock"].BaseValue != 8))
+        throw new Exception("Native updated triple-bond specification failed");
+    if (type == typeof(Inversion) && (canonical.DynamicVars.Damage.BaseValue != 5 || copy.DynamicVars.Damage.BaseValue != 8))
+        throw new Exception("Native updated Inversion damage failed");
     rows.Add(new { type = type.Name, id = canonical.Id.Entry, upgraded, mutable_clone = "pass" });
     passed++;
 }

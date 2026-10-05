@@ -16,7 +16,7 @@ public sealed class Inversion : ModCardTemplate
     public Inversion() : base(1, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy) { }
     public override CardAssetProfile AssetProfile => new(
         PortraitPath: "res://images/packed/card_portraits/ironclad/strike_ironclad.png");
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(6m, ValueProp.Move)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(5m, ValueProp.Move)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {
         ArgumentNullException.ThrowIfNull(play.Target);
@@ -24,5 +24,5 @@ public sealed class Inversion : ModCardTemplate
             .Targeting(play.Target).WithHitFx("vfx/vfx_attack_slash").Execute(context);
         await IntentExecutionRules.Execute(context, this, play);
     }
-    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(2m);
+    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(3m);
 }

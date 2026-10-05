@@ -1,0 +1,486 @@
+{
+  "scope": "Official Godot SDK Release compilation, native managed model probes and native PCK roundtrip; no deployment or live combat",
+  "source_document_sha256": "85920BC38DF934ABA98B755D7181B375134859692DB6B65FE36436ACBD9A2438",
+  "baseline": "7a43d89",
+  "mechanism_cases": 203,
+  "native_model_cases": 63,
+  "production_sources": 112,
+  "release_errors": 0,
+  "release_warnings": 0,
+  "pck_roundtrip_json_files": 11,
+  "artifacts": [
+    {
+      "name": "IndiumStar.dll",
+      "length": 179712,
+      "sha256": "DD4EAF7EE7F11DA706F27A1DCCCF107D413E2AF594F1A812A143AE694AE3D5AC"
+    },
+    {
+      "name": "IndiumStar.pck",
+      "length": 54428,
+      "sha256": "F1196DAD55705219503D30D6140454F8D5274B5EAF83E9A13F9BB68E39AABC7E"
+    },
+    {
+      "name": "IndiumStar.json",
+      "length": 406,
+      "sha256": "60C8A8866234B7AAAF97787C8AFB86075F05E328CFCF9A92E069F4891950FE75"
+    }
+  ],
+  "sources": [
+    {
+      "path": "src/Entry.cs",
+      "sha256": "91B990223FE8526BAB7C5D938EE76FF4813116F7DC6A955386C4C5696236D6E0"
+    },
+    {
+      "path": "src/Afflictions/CrystallizeAffliction.cs",
+      "sha256": "C1FA6DA734A5EAB1F3B359903548C884EA3707CFF85F62290BBF1BBECB9979BE"
+    },
+    {
+      "path": "src/Afflictions/CrystallizeUAffliction.cs",
+      "sha256": "476CBF38D2054AC444224AFF442827AC102CD3991490E1CC5805B94D1DE3FF80"
+    },
+    {
+      "path": "src/CardPools/IndiumStarCardPool.cs",
+      "sha256": "CA7D4F6557EBE7409359F1D3636E6CA9EB12FDD52383008C8CD57EE2E1E210B9"
+    },
+    {
+      "path": "src/CardPools/IndiumStarPotionPool.cs",
+      "sha256": "6F9DB101EA32416F513689BE6D25E6C264B01A6DCF5A0891619A579586515BB9"
+    },
+    {
+      "path": "src/CardPools/IndiumStarRelicPool.cs",
+      "sha256": "0DF890D856F24455A41E7CD6A6F32465AD78484916846E26966354F8006A43A6"
+    },
+    {
+      "path": "src/Cards/Analyze.cs",
+      "sha256": "F99E43F1E5B6C2C718BD07418695161F550EE9E347C7C7EF4A7F5AF3C03ED554"
+    },
+    {
+      "path": "src/Cards/ApplicationAs.cs",
+      "sha256": "5ECC9953D642C995C3B0E62DB5891D74AC2F2770A1809B7D251DAC13EB98DFD9"
+    },
+    {
+      "path": "src/Cards/ApplicationCa.cs",
+      "sha256": "611C946F948E47B353A1A7DF12CA8B5E2DB2C7245CF8604F9B90E79D45230452"
+    },
+    {
+      "path": "src/Cards/ApplicationCard.cs",
+      "sha256": "E2227F956B7F96A8DE3AD63E9B66470061C7C7B175C6A3F28707D9B13D6AD45E"
+    },
+    {
+      "path": "src/Cards/ApplicationCo.cs",
+      "sha256": "A1CC68D6721591DF2D9215909153711E90A206B2A47C526C42DBB7F54CA9F55B"
+    },
+    {
+      "path": "src/Cards/ApplicationCu.cs",
+      "sha256": "EF560EAF7F8526901DD1BB2A8628ED121E75B1466ACA9F2A047C0A253C3BC74C"
+    },
+    {
+      "path": "src/Cards/ApplicationEffectKeys.cs",
+      "sha256": "4373C10F2F20DC41E1342E679B3F8B21B529F4E3F2904B7754423417DE84C085"
+    },
+    {
+      "path": "src/Cards/ApplicationF.cs",
+      "sha256": "C30FC454D0D5C27D5707508C15F95C58BD9B493970130938F8D3B7764B7BACC1"
+    },
+    {
+      "path": "src/Cards/ApplicationH.cs",
+      "sha256": "1ED32465C5F452CBCC633AE01C6CE47352FA3488570DD87B81408EEECC3CDEF1"
+    },
+    {
+      "path": "src/Cards/ApplicationHs.cs",
+      "sha256": "F80E48BE0474582FDB65F2BCF4CC1E20E4B6A36FF8F887F5E773F27586DF047D"
+    },
+    {
+      "path": "src/Cards/ApplicationIn.cs",
+      "sha256": "7FBEBCED217D68A11117F2E47221BF9D57DC3ABA67D8FCEB5DDFB61A1902C18D"
+    },
+    {
+      "path": "src/Cards/ApplicationMg.cs",
+      "sha256": "91F85F9B12EDFD28E2D454D447EBF840A1F074EA0F0E73EAAD442E170E989EB5"
+    },
+    {
+      "path": "src/Cards/ApplicationNb.cs",
+      "sha256": "C2CC14E594AC23CFB9DAEA889480EF085711E80ECABCFCDCA0107EFD3A8B7B4B"
+    },
+    {
+      "path": "src/Cards/ApplicationNeutron.cs",
+      "sha256": "5D19E497D7FC022CD356A0BDE273DAA1BCA7D0989658DBE4ED789D66199866D2"
+    },
+    {
+      "path": "src/Cards/ApplicationPb.cs",
+      "sha256": "4F3B3C2BC9488E74BA6E89A2FFC360FDE449F1B256E8D02840D6EEDF89CC123A"
+    },
+    {
+      "path": "src/Cards/ApplicationRules.cs",
+      "sha256": "D4609E833DFC9FAA28B2FEA76EEEE8E285683C169795372C370644487A0BA3B2"
+    },
+    {
+      "path": "src/Cards/ApplicationTh.cs",
+      "sha256": "2149F0345DA0A72C15AB3E901CC153FABE402E39E64F25F3A30DB2A4CB90FBDF"
+    },
+    {
+      "path": "src/Cards/ApplicationU.cs",
+      "sha256": "A68FFBF6DC5F60A3ED15B74A815F8C5B39A7196A7BA35AFAC6355000A981A156"
+    },
+    {
+      "path": "src/Cards/ApplicationZn.cs",
+      "sha256": "6F5495F6D6A807010EFF1EC1FAC25C61D3BB8B423E0F24A8B490A3B53AB16016"
+    },
+    {
+      "path": "src/Cards/BondingEster.cs",
+      "sha256": "8D9D627AD7413F03E89DF269FA009E99381D986B551F23E29E9AE8CFC67B35ED"
+    },
+    {
+      "path": "src/Cards/BondingImidogen.cs",
+      "sha256": "5E708923DA60885556FAB2F3FA1E3E41DD4897682399A50D189F16C6F1A438CE"
+    },
+    {
+      "path": "src/Cards/BondingNitro.cs",
+      "sha256": "B1F8C64BF2BCA3D54669FA73488B25B95F45F0162C2FB29DDF14039AA9DE3E4F"
+    },
+    {
+      "path": "src/Cards/BondingTripleBond.cs",
+      "sha256": "5741FD33472D089E0FB4869B12EDEB1F84C70F0FE409A448BF1AB0A32D335934"
+    },
+    {
+      "path": "src/Cards/Characterization.cs",
+      "sha256": "9366E9815E3D87953AFB3E306EBD5F6686FAF9E95D621B04F3E90E78836E3667"
+    },
+    {
+      "path": "src/Cards/Collapse.cs",
+      "sha256": "5795BEE34226F00929F68E60BC57F3FF46FE1DE222F4F6E0E2EEC09E07DDF434"
+    },
+    {
+      "path": "src/Cards/ConformationBlow.cs",
+      "sha256": "D6907226936827CDCAAB061887689BFC4E26893BE88D292EE1FEFEDFF868515A"
+    },
+    {
+      "path": "src/Cards/CrystalClusterGun.cs",
+      "sha256": "A5DF6F7E7BB244CC0034966C278AE730E193E425EECADC937D9511BD5D347499"
+    },
+    {
+      "path": "src/Cards/CrystalCoin.cs",
+      "sha256": "CEFEFEF014A0F8486F7020DF2A052306D1DF33F86D72628912AC1C0CF706AD11"
+    },
+    {
+      "path": "src/Cards/CrystalFlow.cs",
+      "sha256": "464AA89198830FA1F4FB42DC8D81359A80AC7A375CF41AF756BF87369F02CD16"
+    },
+    {
+      "path": "src/Cards/Crystallization.cs",
+      "sha256": "7551E3EEA513A8EAED385D2513CC7E5F2CB4286B75A16D034735F2280FFF976C"
+    },
+    {
+      "path": "src/Cards/CrystallizationCard.cs",
+      "sha256": "C05794C942540D3D71314A94FC5E19CB9CE749BBBD5D74DF07D23D027F84F49E"
+    },
+    {
+      "path": "src/Cards/CrystallizationHs.cs",
+      "sha256": "8DE9ED245ED6B6431F40FAE5532EC9F9E819AD1CAB8D85A29B57131E1F14C383"
+    },
+    {
+      "path": "src/Cards/CrystallizationMg.cs",
+      "sha256": "DA2DEDB1D40371AC54944D2BEFD46B7C97448D5C5C3295C79360E147AE19B44E"
+    },
+    {
+      "path": "src/Cards/CrystallizationNb.cs",
+      "sha256": "027165CEA2FF779F0AB12A1D28EEBD06749CEE77059937988E556BBAD2733FB3"
+    },
+    {
+      "path": "src/Cards/CrystallizationPb.cs",
+      "sha256": "47A17C1ECF46C093A592272537B04BA0050AA85A98EB91E5DB0C42361BB95049"
+    },
+    {
+      "path": "src/Cards/CrystallizationRules.cs",
+      "sha256": "8DC12E8EAF53F70C80424C4BF7A0E63BC48AC0346BD852A12DBB1DCC49660C5C"
+    },
+    {
+      "path": "src/Cards/CrystallizationU.cs",
+      "sha256": "81F441540114CDA7A1A8C002E153069C9534847A531FD8269297E6F3FD017920"
+    },
+    {
+      "path": "src/Cards/Cyclization.cs",
+      "sha256": "70679D275CC60E0BA23E287662EC1A578BCC38468E6BA946E02D08F938BD2C8A"
+    },
+    {
+      "path": "src/Cards/DefendIndiumStar.cs",
+      "sha256": "32666E26E4E1CF0DF6C00CF29A1D3C40538E44761AB3B64762A39508F042C4B3"
+    },
+    {
+      "path": "src/Cards/ExploitAdvantage.cs",
+      "sha256": "AB20935986972E666E66B10A86DF1A041EF0E234484DC2C3CAD559F0C89CC6FD"
+    },
+    {
+      "path": "src/Cards/ExtensionSpread.cs",
+      "sha256": "94FE50FF6A1C6A146691FA87547576422AC0A9230CD8B60D95F6A54771213EAF"
+    },
+    {
+      "path": "src/Cards/GasPhaseSurge.cs",
+      "sha256": "F392F7462F91B31C30AAE8B47F31B953053944D0D96782F509DCF30E0916C900"
+    },
+    {
+      "path": "src/Cards/GroupMigration.cs",
+      "sha256": "ECD1BDF14CCB525B1D8775145C775E44392CBC1075B46CAB023E3D65EB87CF0E"
+    },
+    {
+      "path": "src/Cards/ICardFamilies.cs",
+      "sha256": "8C2A3A1369F922C3CF2BC094787EE71C9293455B2535DCD0D2003BD0FA100363"
+    },
+    {
+      "path": "src/Cards/Inversion.cs",
+      "sha256": "7A3EF00068034EBBCC134E0690AC87779089F27DCABEF5915F49C84A2376E484"
+    },
+    {
+      "path": "src/Cards/MacroDendrite.cs",
+      "sha256": "DC40A566AC133ABE6404AD1D4E2F2FCCB6F3D68C377238E043AABEA48EA2DC8A"
+    },
+    {
+      "path": "src/Cards/NeighboringGroupParticipation.cs",
+      "sha256": "9A1DAA5ED9A1DC3F4E0626AA815A2EE4F49AD1205AEA48D86182BF7A7827ADD1"
+    },
+    {
+      "path": "src/Cards/OrigionStrike.cs",
+      "sha256": "1B74DE8B5DDBEAAB08A097A0C431E2F184791A27D454DEA39D5492BFA2829309"
+    },
+    {
+      "path": "src/Cards/Primed.cs",
+      "sha256": "6F46EBDD33683BE94CA2206634FDA2848A950809401E4BDD95D4809226908C23"
+    },
+    {
+      "path": "src/Cards/PrimordialPierce.cs",
+      "sha256": "1A084EC74BA297414824AA176D761D5666C3D0FBB25395D483FFA7EA9960CA04"
+    },
+    {
+      "path": "src/Cards/QuantumDot.cs",
+      "sha256": "3606E450C9BE105C4130CE69DBCA53AADC95C134DFD2F3D3F5A7AE3AAE220F78"
+    },
+    {
+      "path": "src/Cards/Reiteration.cs",
+      "sha256": "196530E4431A67F8C39EB44F995F1D9764F584C1CC6B108D83FDD52F786EE370"
+    },
+    {
+      "path": "src/Cards/ReminiscenceHardCalcite.cs",
+      "sha256": "30DBA3725291F249D27BF872CD71B71A2685A2656B69368A2923ABBA86890568"
+    },
+    {
+      "path": "src/Cards/ReminiscencePhosphorus.cs",
+      "sha256": "8F98183C7310B6F85A3A10C5FF01D0B8E9BC7D29DE01E5BE9C2E251EAA52C37D"
+    },
+    {
+      "path": "src/Cards/ReminiscencePollutionH.cs",
+      "sha256": "CB6005C128EB15EA16FCA2F27CD9F1C63C8611A4AB813612D546B3F92337E45A"
+    },
+    {
+      "path": "src/Cards/ReminiscencePollutionO.cs",
+      "sha256": "EFE4B4491C96DD2870F9CB8679913980CD45473E62E6461E816C54631697AA38"
+    },
+    {
+      "path": "src/Cards/ReminiscenceTinDoubt.cs",
+      "sha256": "057040E56BA46FBE0F57E6759C60CAA7891067CE7C51A47AF93D0261D39CDEB8"
+    },
+    {
+      "path": "src/Cards/ReminiscenceVanadiumEternal.cs",
+      "sha256": "254ADE5459F86208660E5BA1F66720BCE9710E66541321885BEF244970612E0C"
+    },
+    {
+      "path": "src/Cards/RustEdge.cs",
+      "sha256": "0C1C530418FB6593B267EE41BC5B866C180132159230F250AA1C0F069831C052"
+    },
+    {
+      "path": "src/Cards/Segregation.cs",
+      "sha256": "34311CA5C6614E136D44E0D2299D2A2A34DC3AE0766BAF96F9E27F47B34B27E2"
+    },
+    {
+      "path": "src/Cards/ShadowChainBreath.cs",
+      "sha256": "F9C0BA17410210CF32D5EF375A76FC05BCC4EB979C9804934460020526F48352"
+    },
+    {
+      "path": "src/Cards/ShatterCrystalRain.cs",
+      "sha256": "A7BB02C57AB84D429BA71B31E17E5215861E323F48EB14354F9B8AA1FBB9DADC"
+    },
+    {
+      "path": "src/Cards/ShatterSong.cs",
+      "sha256": "323367DFED9CA5A144E193419DD5467915F951DB2CD328AEF7A59158B907361C"
+    },
+    {
+      "path": "src/Cards/Slash.cs",
+      "sha256": "3F5AFD3412365ED93CF97DB274F481A82D528623F35B106C72A9CEB8B35C3374"
+    },
+    {
+      "path": "src/Cards/SpinKick.cs",
+      "sha256": "F97286E357F0FC0FE2965321AA533DBC66B10879E4F615EEA190BAAE832B32DD"
+    },
+    {
+      "path": "src/Cards/StrikeIndiumStar.cs",
+      "sha256": "C47D1310210AE911F6CA8F7EAD60C4022965DFBC4DFF262AA9A9EB7DC0E839EB"
+    },
+    {
+      "path": "src/Cards/ThermobaricField.cs",
+      "sha256": "5102320DEF991C76849CCC1EF7FD384C0BA9060055ECDDAD7AA76B308C22F96B"
+    },
+    {
+      "path": "src/Cards/TilingForm.cs",
+      "sha256": "3E26B3D80E1C33E0B8E8456B157A1FAA8D4015D0F3427536472118E52143564E"
+    },
+    {
+      "path": "src/Cards/Transmutation.cs",
+      "sha256": "73885EEA9A84B0497E46729C2F5ADE1D17243DCE99901E093F51E91CFF979A59"
+    },
+    {
+      "path": "src/Characters/IndiumStarCharacter.cs",
+      "sha256": "2E3DBB4859189FDBD7F6005A41D1F4D6D0ADE7770CBCF9A913E93DC6D440C8C7"
+    },
+    {
+      "path": "src/Mechanics/BorrowedIntentCompatibility.cs",
+      "sha256": "28A22FBB77A60E0A3B11C1B196A4435FA03BEED87DBE2BB4651F3D79C29B8C5F"
+    },
+    {
+      "path": "src/Mechanics/CrystalBranch.cs",
+      "sha256": "CAEB101DD64C47E67DD07AB5408499DF4D9F0F7E0152116E18162FB8A24922D0"
+    },
+    {
+      "path": "src/Mechanics/CrystalBranchRules.cs",
+      "sha256": "8DC56B9B6CFDE983845D4EACFCA41416F236C69E64DDA88A001BEBD3AF02775D"
+    },
+    {
+      "path": "src/Mechanics/ExtensionRules.cs",
+      "sha256": "3202938DAB4B2E45A86A74137B416AD033184BAAF53C8CB8A128CBDD464FDA02"
+    },
+    {
+      "path": "src/Mechanics/IndiumStarKeywords.cs",
+      "sha256": "2F8837118E0686634D793E4D4F85BC8BC9192BEF791B9A8644C221949E81B3E6"
+    },
+    {
+      "path": "src/Mechanics/IntentExecutionRules.cs",
+      "sha256": "6348F7590DDD720D009FA9B453564DEF44B3579B80214ED366F4D6D1308A1976"
+    },
+    {
+      "path": "src/Patches/BorrowedIntentPatches.cs",
+      "sha256": "A8C9E741CE7BA03FCCBC9220748CC53A12949D651970EF756B77AF48881C8970"
+    },
+    {
+      "path": "src/Patches/CrystallizeMarkClonePatch.cs",
+      "sha256": "ED2FFA089748C006610A6E7464F7BA5413CDCDEF618BC2BAB3F748967D707993"
+    },
+    {
+      "path": "src/Patches/VigorRetentionPatch.cs",
+      "sha256": "2055CA4FE03B0F5BFCAE4B80FB74B244D563C47365670347754DC25801026E16"
+    },
+    {
+      "path": "src/Powers/ApplicationCaBlockPower.cs",
+      "sha256": "338E121D3D673C1CCD1BC7B0363583720D94B39205F9239652DD2254FE88FBDA"
+    },
+    {
+      "path": "src/Powers/ApplicationCoPower.cs",
+      "sha256": "1C16FD30925846080A8A78B0FF9A28CC13905B836B40EC10933999E77057DFF7"
+    },
+    {
+      "path": "src/Powers/ApplicationCuPower.cs",
+      "sha256": "2F3515760246E15B189E47F7AAA412A2BCA7DF4C0A3B221BBBFCF21197405C9B"
+    },
+    {
+      "path": "src/Powers/ApplicationHsStrengthDownPower.cs",
+      "sha256": "F8160CE254D9F80749A637E585DEB3BABC4A3B1FC47BA2ECB89445689DD13ED4"
+    },
+    {
+      "path": "src/Powers/ApplicationNbPower.cs",
+      "sha256": "5957C984DBBD3A39194402AF4B3706AC520563F90965FE4CD4B425F28B790778"
+    },
+    {
+      "path": "src/Powers/ApplicationUCrystallizePower.cs",
+      "sha256": "4A9D11D9938A96E9219CC7E800748D84196AF14B8CFC9808437B2B7BED42DD58"
+    },
+    {
+      "path": "src/Powers/BondingImidogenDexterityPower.cs",
+      "sha256": "BADB6A7D462E5D336830BE802F9B7DFC11788D8AC0F7ABFA24558BE59B0FA618"
+    },
+    {
+      "path": "src/Powers/CharacterizationStrengthPower.cs",
+      "sha256": "688848F2696E4AE34CDE3E4E9F8BB341EEC9C2C1C9D89A0A7FA8BF22B33EC215"
+    },
+    {
+      "path": "src/Powers/CrystalHandAuraPower.cs",
+      "sha256": "E6C7F44ED6D7ADB335FB7D90F233F14118FC1371DE7C59152BAF12266E746D25"
+    },
+    {
+      "path": "src/Powers/ExtensionSpreadPower.cs",
+      "sha256": "0E3E20A4C5793CAF60C60739BA5C0EFED06FC0B8113F070898584A2FB55F5BDB"
+    },
+    {
+      "path": "src/Powers/FreeApplicationPower.cs",
+      "sha256": "6B4313CCC1AA1EBFC49F505EEE9383F32717C3F8F91CFF26A6B5A403B98545A2"
+    },
+    {
+      "path": "src/Powers/LoseVulnerableAtTurnStartPower.cs",
+      "sha256": "F5897A6A8FC8F15423EF802B83B5545451687D1EA855B1DD5F873E5D9F9637FE"
+    },
+    {
+      "path": "src/Powers/LoseWeakAtTurnEndPower.cs",
+      "sha256": "FF3F2FC6BFFF7554939FE312D03C85392FF76CC67C685366C1DFEDF92CEC71F0"
+    },
+    {
+      "path": "src/Powers/NeighboringGroupStrengthPower.cs",
+      "sha256": "B0767E87435E13B75B3BB99862A864D65BC5EF56911652A508EECCC4E5F69140"
+    },
+    {
+      "path": "src/Powers/OnlyAttacksThisTurnPower.cs",
+      "sha256": "EA7DAA0654006BD05552D84BE0563666DAE75166CB7FFA8832C7D6D405D684FF"
+    },
+    {
+      "path": "src/Powers/QuantumDotPower.cs",
+      "sha256": "8839537060780CA2EA1E254AD939D2F10B2799BAB688A91D9AE7B848468195ED"
+    },
+    {
+      "path": "src/Powers/ReiterationPower.cs",
+      "sha256": "02BE16609D7F0659CFD5683463703DC219918F05C8928AAD50C6EC0748CBB293"
+    },
+    {
+      "path": "src/Powers/ReminiscenceDrawPower.cs",
+      "sha256": "2542D563F0334ADD79C142281DFAAB623ED17A355A2FB77D8B0C9A787D32FFE1"
+    },
+    {
+      "path": "src/Powers/ReminiscenceHardCalcitePower.cs",
+      "sha256": "DE3118DE58F0ADDBD716E9A5A96B4BE229BB00F60E978F185E65E10A0B985556"
+    },
+    {
+      "path": "src/Powers/ReminiscencePhosphorusPower.cs",
+      "sha256": "D532A715A1CF80DC19B8965E54DDB64C02C071B398EEE8B4B4540C7A13688E30"
+    },
+    {
+      "path": "src/Powers/ReminiscencePollutionHPower.cs",
+      "sha256": "54200BBAB57FA5C6D07D1DB467EA550F934558AEC63E271BD6E70F1366EE3F46"
+    },
+    {
+      "path": "src/Powers/ReminiscencePollutionOPower.cs",
+      "sha256": "952C1A8CC3AAF0618C65A6014FD6E42B4D0505462CFA18B965D89636445DF152"
+    },
+    {
+      "path": "src/Powers/ReminiscenceTinDoubtPower.cs",
+      "sha256": "2252C3810A36695028CB0C29DE615D4F5A9E56FF67A2F908572DBBADB8D0E817"
+    },
+    {
+      "path": "src/Powers/ThermobaricFieldStrengthPower.cs",
+      "sha256": "F1BF12A2A14C67890A5AE172F4B60FB482ADF4C487F3DCFEF70E0145542DAE08"
+    },
+    {
+      "path": "src/Powers/TilingFormPower.cs",
+      "sha256": "216E9D4355C6D3BE5D21DFBD44939821CE24C4DC6322415D053ABE4E6CADBEB6"
+    },
+    {
+      "path": "src/Powers/TinDoubtTemporaryPowers.cs",
+      "sha256": "231125CEBB74428D6F8E22DE3CA33C5F9893606DE9D953E363EF4D8C5828E769"
+    },
+    {
+      "path": "src/Powers/TransmutationPower.cs",
+      "sha256": "EE1C70BCE9C3418CF021E014874114F25FAE2F352E9111146F189EB3C8D46550"
+    }
+  ],
+  "missing_gates": [
+    "all-card effect audit",
+    "live engine startup",
+    "live combat",
+    "save restoration",
+    "multiplayer synchronization",
+    "all enemy intent adapters"
+  ]
+}

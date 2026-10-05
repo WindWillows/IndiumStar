@@ -123,7 +123,7 @@
   "INDIUM_STAR_CARD_MACRO_DENDRITE.title": "Macro Dendrite",
   "INDIUM_STAR_CARD_MACRO_DENDRITE.description": "Deal {Damage:diff()} damage {HitCount:diff()} times.\n[gold]Crystal Resistance[/gold]: [gold]Crystallization[/gold] 1. Increase this card's damage by {DamageGrowth:diff()} this combat.\n[gold]Crystal Reversal[/gold]: [gold]Crystallization[/gold] 1. Increase this card's hit count by {HitGrowth:diff()} this combat.",
   "INDIUM_STAR_CARD_CYCLIZATION.title": "Cyclization",
-  "INDIUM_STAR_CARD_CYCLIZATION.description": "Exhaust a card in your hand.\nDraw {Cards:diff()} additional cards next turn.\nIf the exhausted card is not a [gold]Crystallization[/gold], gain {Block:diff()} [gold]Block[/gold].",
+  "INDIUM_STAR_CARD_CYCLIZATION.description": "Exhaust 1 card in your hand.\nDraw {Cards:diff()} additional cards next turn.\nIf the exhausted card is neither a Status nor a Curse, gain {Block:diff()} [gold]Block[/gold].",
   "INDIUM_STAR_CARD_SHADOW_CHAIN_BREATH.title": "Shadow Chain Breath",
   "INDIUM_STAR_CARD_SHADOW_CHAIN_BREATH.description": "When drawn, add a copy of this card to your hand.\nFor each [gold]Shadow Chain Breath[/gold] in your hand, gain {Block:diff()} [gold]Block[/gold] once.",
   "INDIUM_STAR_CARD_REITERATION.title": "Reiteration",
@@ -131,5 +131,7 @@
   "INDIUM_STAR_CARD_INVERSION.title": "Inversion",
   "INDIUM_STAR_CARD_INVERSION.description": "Deal {Damage:diff()} damage.\nPerform the targeted enemy's intent.",
   "INDIUM_STAR_CARD_NEIGHBORING_GROUP_PARTICIPATION.title": "Neighboring Group Participation",
-  "INDIUM_STAR_CARD_NEIGHBORING_GROUP_PARTICIPATION.description": "Draw 1 card.\nIf it is a Power, draw 2 more cards.\nIf it is a Skill, gain {Block:diff()} [gold]Block[/gold].\nIf it is an Attack, gain {StrengthPower:diff()} temporary [gold]Strength[/gold]."
+  "INDIUM_STAR_CARD_NEIGHBORING_GROUP_PARTICIPATION.description": "Draw 1 card.\nIf it is a Power, draw 2 more cards.\nIf it is a Skill, gain {Block:diff()} [gold]Block[/gold].\nIf it is an Attack, gain {StrengthPower:diff()} temporary [gold]Strength[/gold].",
+  "INDIUM_STAR_CARD_BONDING_TRIPLE_BOND.title": "Bonding-Triple Bond",
+  "INDIUM_STAR_CARD_BONDING_TRIPLE_BOND.description": "Gain {Block:diff()} [gold]Block[/gold].\n[gold]Resistance[/gold]: Gain {CrystalBlock:diff()} [gold]Block[/gold] per [gold]Crystallization[/gold].\n[gold]Reversal[/gold]: Gain {ExtensionBlock:diff()} [gold]Block[/gold] per [gold]Extend[/gold] stack."
 }

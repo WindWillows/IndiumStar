@@ -1,0 +1,387 @@
+{
+  "scope": "Actual game DLL managed TestMode: model constructors/upgrades/MutableClone/Harmony; keyword definitions seeded without registry startup; no live combat, UI, CreateClone card-scope path, or save test",
+  "generated_at_utc": "2026-10-05T05:58:55.3035162Z",
+  "passed": 63,
+  "macro_independence": "pass",
+  "co_u_clone_marks": "pass",
+  "cards": [
+    {
+      "type": "Analyze",
+      "id": "ANALYZE",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "ApplicationAs",
+      "id": "APPLICATION_AS",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "ApplicationCa",
+      "id": "APPLICATION_CA",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "ApplicationCo",
+      "id": "APPLICATION_CO",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "ApplicationCu",
+      "id": "APPLICATION_CU",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "ApplicationF",
+      "id": "APPLICATION_F",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "ApplicationH",
+      "id": "APPLICATION_H",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "ApplicationHs",
+      "id": "APPLICATION_HS",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "ApplicationIn",
+      "id": "APPLICATION_IN",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "ApplicationMg",
+      "id": "APPLICATION_MG",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "ApplicationNb",
+      "id": "APPLICATION_NB",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "ApplicationNeutron",
+      "id": "APPLICATION_NEUTRON",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "ApplicationPb",
+      "id": "APPLICATION_PB",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "ApplicationTh",
+      "id": "APPLICATION_TH",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "ApplicationU",
+      "id": "APPLICATION_U",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "ApplicationZn",
+      "id": "APPLICATION_ZN",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "BondingEster",
+      "id": "BONDING_ESTER",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "BondingImidogen",
+      "id": "BONDING_IMIDOGEN",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "BondingNitro",
+      "id": "BONDING_NITRO",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "BondingTripleBond",
+      "id": "BONDING_TRIPLE_BOND",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "Characterization",
+      "id": "CHARACTERIZATION",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "Collapse",
+      "id": "COLLAPSE",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "ConformationBlow",
+      "id": "CONFORMATION_BLOW",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "CrystalClusterGun",
+      "id": "CRYSTAL_CLUSTER_GUN",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "CrystalCoin",
+      "id": "CRYSTAL_COIN",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "CrystalFlow",
+      "id": "CRYSTAL_FLOW",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "Crystallization",
+      "id": "CRYSTALLIZATION",
+      "upgraded": false,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "CrystallizationHs",
+      "id": "CRYSTALLIZATION_HS",
+      "upgraded": false,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "CrystallizationMg",
+      "id": "CRYSTALLIZATION_MG",
+      "upgraded": false,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "CrystallizationNb",
+      "id": "CRYSTALLIZATION_NB",
+      "upgraded": false,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "CrystallizationPb",
+      "id": "CRYSTALLIZATION_PB",
+      "upgraded": false,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "CrystallizationU",
+      "id": "CRYSTALLIZATION_U",
+      "upgraded": false,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "Cyclization",
+      "id": "CYCLIZATION",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "DefendIndiumStar",
+      "id": "DEFEND_INDIUM_STAR",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "ExploitAdvantage",
+      "id": "EXPLOIT_ADVANTAGE",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "ExtensionSpread",
+      "id": "EXTENSION_SPREAD",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "GasPhaseSurge",
+      "id": "GAS_PHASE_SURGE",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "GroupMigration",
+      "id": "GROUP_MIGRATION",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "Inversion",
+      "id": "INVERSION",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "MacroDendrite",
+      "id": "MACRO_DENDRITE",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "NeighboringGroupParticipation",
+      "id": "NEIGHBORING_GROUP_PARTICIPATION",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "OrigionStrike",
+      "id": "ORIGION_STRIKE",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "Primed",
+      "id": "PRIMED",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "PrimordialPierce",
+      "id": "PRIMORDIAL_PIERCE",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "QuantumDot",
+      "id": "QUANTUM_DOT",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "Reiteration",
+      "id": "REITERATION",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "ReminiscenceHardCalcite",
+      "id": "REMINISCENCE_HARD_CALCITE",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "ReminiscencePhosphorus",
+      "id": "REMINISCENCE_PHOSPHORUS",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "ReminiscencePollutionH",
+      "id": "REMINISCENCE_POLLUTION_H",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "ReminiscencePollutionO",
+      "id": "REMINISCENCE_POLLUTION_O",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "ReminiscenceTinDoubt",
+      "id": "REMINISCENCE_TIN_DOUBT",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "ReminiscenceVanadiumEternal",
+      "id": "REMINISCENCE_VANADIUM_ETERNAL",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "RustEdge",
+      "id": "RUST_EDGE",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "Segregation",
+      "id": "SEGREGATION",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "ShadowChainBreath",
+      "id": "SHADOW_CHAIN_BREATH",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "ShatterCrystalRain",
+      "id": "SHATTER_CRYSTAL_RAIN",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "ShatterSong",
+      "id": "SHATTER_SONG",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "Slash",
+      "id": "SLASH",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "SpinKick",
+      "id": "SPIN_KICK",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "StrikeIndiumStar",
+      "id": "STRIKE_INDIUM_STAR",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "ThermobaricField",
+      "id": "THERMOBARIC_FIELD",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "TilingForm",
+      "id": "TILING_FORM",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    },
+    {
+      "type": "Transmutation",
+      "id": "TRANSMUTATION",
+      "upgraded": true,
+      "mutable_clone": "pass"
+    }
+  ]
+}
