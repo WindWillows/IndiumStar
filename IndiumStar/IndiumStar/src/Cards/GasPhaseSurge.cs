@@ -93,7 +93,7 @@ public sealed class GasPhaseSurge : ApplicationCard
         return Task.CompletedTask;
     }
 
-    /// <summary>晶逆：获得保留（这张牌自带保留，所以是确保它留下）。</summary>
+    /// <summary>晶逆：使本战斗实例获得保留；不会将已经打出的牌立刻移回手牌。</summary>
     protected override Task CrystalReversal(
         PlayerChoiceContext choiceContext,
         CardPlay cardPlay,
@@ -139,7 +139,8 @@ public sealed class GasPhaseSurge : ApplicationCard
         IReadOnlyList<Creature> participants,
         ICombatState combatState)
     {
-        if (side != Owner.Creature.Side)
+        if (side != Owner.Creature.Side || !participants.Contains(Owner.Creature)
+            || CombatState != combatState || Owner.Creature.CombatState != combatState)
         {
             return;
         }

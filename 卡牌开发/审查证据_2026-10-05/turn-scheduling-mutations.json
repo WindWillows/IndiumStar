@@ -1,0 +1,51 @@
+{
+  "scope": "Compile exact original committed source in ignored output only; production and normal test assembly untouched",
+  "generated_at_utc": "2026-10-05T07:29:38.1272735Z",
+  "variants": [
+    {
+      "variant": "baseline-draw-scheduler",
+      "source": "Powers/ReminiscenceDrawPower.cs",
+      "baseline": "d3b34cf",
+      "source_sha256": "2542D563F0334ADD79C142281DFAAB623ED17A355A2FB77D8B0C9A787D32FFE1",
+      "result": "detected",
+      "exit_code": 1,
+      "failures": [
+        "FAIL 钒永只统计实际抽到牌 available=0 upgraded=False: Turn scheduling assertion failed",
+        "FAIL 钒永只统计实际抽到牌 available=1 upgraded=False: Turn scheduling assertion failed",
+        "FAIL 钒永只统计实际抽到牌 available=5 upgraded=False: Turn scheduling assertion failed",
+        "FAIL 钒永只统计实际抽到牌 available=0 upgraded=True: Turn scheduling assertion failed",
+        "FAIL 钒永只统计实际抽到牌 available=1 upgraded=True: Turn scheduling assertion failed",
+        "FAIL 钒永只统计实际抽到牌 available=5 upgraded=True: Turn scheduling assertion failed",
+        "FAIL 钒永抽牌被阻止不会预约不存在的牌: Turn scheduling assertion failed",
+        "FAIL 钒永同阵营其他玩家结束或开始回合不覆盖本人预约: Turn scheduling assertion failed",
+        "FAIL 钒永重复结束回调不会把预约数清零: Turn scheduling assertion failed",
+        "FAIL 钒永回合末晚抽牌连锁仍计入，下一阵营开始后封存: Turn scheduling assertion failed",
+        "FAIL 钒永在普通结束钩子遍历之后生效仍能预约下回合: Turn scheduling assertion failed",
+        "FAIL 钒永全局回合推进不能替代本人回合推进: Turn scheduling assertion failed",
+        "FAIL 钒永预览修改抽牌数是纯读，不提前消费预约: Turn scheduling assertion failed",
+        "FAIL 钒永本人开始阶段未完成时阵营开始钩子不会提前移除: Turn scheduling assertion failed",
+        "FAIL 钒永零预约也等待本人开始完成，其他玩家开始不清理: Turn scheduling assertion failed",
+        "FAIL 钒永普通开局抽牌不会自动开启下一份统计: Turn scheduling assertion failed",
+        "FAIL 钒永与预约自动打出及抽牌选择暂停组合，不提前消费旧预约: Turn scheduling assertion failed",
+        "FAIL 钒永预约不跨入旧战斗或死亡玩家的开始结算: Turn scheduling assertion failed",
+        "FAIL 钒永计数显示跟随实际抽牌，不把再次施加显示为旧预约加一: Turn scheduling assertion failed",
+        "FAIL 钒永队列克隆后的消费不修改原能力字段: Turn scheduling assertion failed"
+      ]
+    },
+    {
+      "variant": "baseline-gas-turn-filter",
+      "source": "Cards/GasPhaseSurge.cs",
+      "baseline": "d3b34cf",
+      "source_sha256": "F392F7462F91B31C30AAE8B47F31B953053944D0D96782F509DCF30E0916C900",
+      "result": "detected",
+      "exit_code": 1,
+      "failures": [
+        "FAIL 气相涌流他人同阵营开始不重置成长次数: Turn scheduling assertion failed",
+        "FAIL 气相涌流晶抗预约只在本人开始从Discard返回一次: Turn scheduling assertion failed",
+        "FAIL 气相涌流晶抗预约只在本人开始从Draw返回一次: Turn scheduling assertion failed",
+        "FAIL 气相涌流晶抗预约只在本人开始从Exhaust返回一次: Turn scheduling assertion failed",
+        "FAIL 气相涌流拒绝敌方或其他战斗的开始回调: Turn scheduling assertion failed"
+      ]
+    }
+  ]
+}

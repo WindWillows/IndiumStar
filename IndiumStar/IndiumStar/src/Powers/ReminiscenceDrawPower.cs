@@ -5,161 +5,132 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Models;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 
 namespace IndiumStar.Powers;
 
-/// <summary>
-/// 「回忆-钒永」的「本回合每当你抽牌时，下回合开始时抽等量牌」。
-/// </summary>
+/// <summary>本回合从钒永生效后统计实际抽牌，预约本人下一回合的额外抽牌。</summary>
 /// <remarks>
-/// <para>
-/// <b>规则：从「回忆-钒永」结算开始，本回合抽的每一张牌都计入——包括它自己抽的那张。</b>
-/// </para>
-/// <list type="table">
-/// <item><description>打出 1 张钒永 → 下回合多抽 1（它自己抽的那张）</description></item>
-/// <item><description>打出 2 张钒永 → 下回合多抽 2（各抽 1 张）</description></item>
-/// <item><description>钒永 + 一张抽 2 张的卡 → 下回合多抽 3（1 + 2）</description></item>
-/// <item><description>钒永 ×2 + 一张抽 2 张的卡 → 下回合多抽 4（1 + 1 + 2）</description></item>
-/// </list>
-/// <para>
-/// <b>所以累加器必须在抽牌<em>之前</em>就开始计数</b>
-/// （<see cref="Configure" /> 由「回忆-钒永」在 <c>Draw</c> 之前调用）。
-/// </para>
-/// <para>
-/// <b>为什么自己数而不用历史：</b>之前试过数 <c>CombatHistory</c>，
-/// 需要先在历史里找到"这张牌的出牌记录"再往后数，而下标查找很容易被
-/// "同一回合打出第二张"破坏。改成在能力自己身上累加后，就没有这类依赖了。
-/// </para>
-/// <para>
-/// <b>为什么 <see cref="SetAmount" /> 只在回合结束时调用一次：</b>
-/// 同一回合打出多张「回忆-钒永」时，<c>PowerCmd.Apply</c> 走的是叠加分支
-/// （<c>PowerCmd.cs:88</c> 的 <c>ModifyAmount</c>），<strong>两次共用一个实例</strong>。
-/// 所以计数必须累加、不能覆盖；而 <c>Amount</c> 在回合结束时才写一次，
-/// 避免第二次 <c>SetAmount</c> 把第一次的结果冲掉。
-/// </para>
-/// <para>
-/// <b>为什么不用原版 <c>DrawCardsNextTurnPower</c>：</b>它靠 <c>AmountOnTurnStart</c>
-/// 判断"这张能力是不是本回合开始时就存在"，所以只能"本回合施加、下回合生效"。
-/// 而这里要<strong>回合结束时</strong>才确定抽几张（要统计整个回合），
-/// 那时再挂它就已经晚了（<c>AmountOnTurnStart</c> 是 0，不生效）。
-/// 所以自己写一个，<c>ModifyHandDraw</c> 直接读 <c>Amount</c>。
-/// </para>
-/// <para>
-/// 图标暂时借用原版「力量」的能力图标。
-/// </para>
+/// 保留既有的同回合多份共用统计器口径；多份是否独立累加另列设计问题。
+/// 待兑现数量与本回合的新统计分开，BeforeHandDraw自动打出的新钒永不会被旧预约清理。
+/// 不用AfterSideTurnStart兑现：多人开始回合遇到选牌暂停时，该钩子可能早于本人抽牌完成。
+/// 正数预约在真正的AfterModifyingHandDraw消费；零预约在本人的AfterPlayerTurnStart清理。
 /// </remarks>
 [RegisterPower]
 public sealed class ReminiscenceDrawPower : ModPowerTemplate
 {
-    /// <summary>是否已经开始统计。</summary>
     private bool _counting;
-
-    /// <summary>从开始统计到现在，本回合抽了几张牌。</summary>
+    private int _countingTurn;
     private int _drawnThisTurn;
-
-    /// <summary>统计结果，下回合抽牌时用掉。</summary>
     private int _carriedDraws;
-
-    /// <summary>是否有等待兑现的预约。预约数量可以是 0，所以不能用 _carriedDraws 判断。</summary>
+    private int _settlementTurn;
     private bool _pendingSettlement;
+    private ICombatState? _combatState;
 
     public override PowerType Type => PowerType.Buff;
-
     public override PowerStackType StackType => PowerStackType.Counter;
-
     public override PowerAssetProfile AssetProfile => ContentAssetProfiles.Power("strength_power");
 
-    /// <summary>
-    /// 开始统计。由「回忆-钒永」在抽牌<strong>之前</strong>调用。
-    /// </summary>
-    /// <remarks>
-    /// 反复调用是安全的：同一回合打出第二张时只是继续累加，不会把已经数到的清掉。
-    /// </remarks>
+    /// <summary>必须在自身抽牌之前配置；同一本人回合内重复施加不清空累计。</summary>
     public void Configure(CardPlay cardPlay)
     {
+        if (Owner.Player is not { PlayerCombatState: { } state } player
+            || cardPlay.Player != player || Owner.CombatState is not { } combat)
+            throw new InvalidOperationException("Vanadium draw tracking requires its player's active combat play.");
+        if (_combatState != combat)
+        {
+            _drawnThisTurn = 0;
+            _carriedDraws = 0;
+            _pendingSettlement = false;
+            _counting = false;
+            _combatState = combat;
+        }
+        if (!_counting || _countingTurn != state.TurnNumber) _drawnThisTurn = 0;
+        _countingTurn = state.TurnNumber;
         _counting = true;
+        // Apply的层数只是创建能力的哨兵；不能把施加次数显示为预约抽牌数。
+        SetAmount(_pendingSettlement ? _carriedDraws : _drawnThisTurn, silent: true);
     }
 
-    /// <summary>每抽到一张牌就 +1（含「回忆-钒永」自己抽的那张）。</summary>
-    public override Task AfterCardDrawn(
-        PlayerChoiceContext choiceContext,
-        CardModel card,
-        bool fromHandDraw)
+    public override Task AfterCardDrawn(PlayerChoiceContext context,
+        MegaCrit.Sts2.Core.Models.CardModel card, bool fromHandDraw)
     {
-        if (_counting && card.Owner.Creature == base.Owner)
+        if (_counting && card.Owner.Creature == Owner && card.CombatState == _combatState
+            && Owner.CombatState == _combatState && Owner.Player?.PlayerCombatState?.TurnNumber == _countingTurn)
         {
             _drawnThisTurn++;
+            // End钩子后的伤害/抽牌连锁仍属于当前回合，直到下一次SideTurnStart才封存。
+            if (_pendingSettlement && _settlementTurn == _countingTurn + 1)
+            {
+                _carriedDraws = _drawnThisTurn;
+                SetAmount(_carriedDraws, silent: true);
+            }
+            else if (!_pendingSettlement)
+            {
+                SetAmount(_drawnThisTurn, silent: true);
+            }
         }
-
         return Task.CompletedTask;
     }
 
-    /// <summary>
-    /// 自己的回合结束时：把"本回合抽了几张"存起来，供下回合抽牌时使用。
-    /// </summary>
-    /// <remarks>
-    /// <para>
-    /// 统计结果存在自己的字段 <c>_carriedDraws</c> 里，<strong>不用 <c>Amount</c></strong>。
-    /// 原因是同一回合打出两张时两次施加共用一个实例，若用 <c>Amount</c> 当输入就会互相覆盖。
-    /// </para>
-    /// <para>
-    /// 回合结束必须关闭统计（<c>_counting = false</c>），否则下一回合的普通抽牌
-    /// 会被错误计入。预约用 <c>_pendingSettlement</c> 标记而不是抽牌数，
-    /// 这样本回合一张都没抽到时（预约 0 张），下回合开始也能正常结束本次预约。
-    /// </para>
-    /// <para>
-    /// <c>Amount</c> 只作显示：回合结束时把实际预约数量写进去，
-    /// 卡面提示的「下回合开始时抽 {Amount} 张牌」才和真实结算一致。
-    /// </para>
-    /// </remarks>
-    public override Task AfterSideTurnEnd(
-        PlayerChoiceContext choiceContext,
-        CombatSide side,
-        IEnumerable<Creature> participants)
+    public override Task BeforeSideTurnStart(PlayerChoiceContext context, CombatSide side,
+        IReadOnlyList<Creature> participants, ICombatState combat)
     {
-        if (side != base.Owner.Side)
+        if (!_counting || Owner.CombatState != _combatState || combat != _combatState) return Task.CompletedTask;
+        // 正常End已预约；也覆盖在End遍历中途才新加的钒永。此后敌方或他人的额外回合不计入。
+        if ((_pendingSettlement && _countingTurn < _settlementTurn)
+            || Owner.Player?.PlayerCombatState?.TurnNumber > _countingTurn || !participants.Contains(Owner))
         {
+            QueueCountedTurn();
+            _counting = false;
+            _drawnThisTurn = 0;
+        }
+        return Task.CompletedTask;
+    }
+
+    public override Task AfterSideTurnEnd(PlayerChoiceContext context,
+        CombatSide side, IEnumerable<Creature> participants)
+    {
+        if (!_counting || side != Owner.Side || !participants.Contains(Owner)
+            || Owner.CombatState != _combatState || Owner.Player?.PlayerCombatState?.TurnNumber != _countingTurn)
             return Task.CompletedTask;
-        }
-
-        _carriedDraws = _drawnThisTurn;
-        _drawnThisTurn = 0;
-        _counting = false;
-        _pendingSettlement = true;
-
-        // 显示用：让提示数量等于实际预约数量（可能是 0）。
-        SetAmount(_carriedDraws, silent: true);
-
+        QueueCountedTurn();
         return Task.CompletedTask;
     }
 
-    /// <summary>下回合抽牌时生效。</summary>
-    public override decimal ModifyHandDraw(Player player, decimal count)
+    private void QueueCountedTurn()
     {
-        if (player != base.Owner.Player || _carriedDraws <= 0)
-        {
-            return count;
-        }
-
-        return count + _carriedDraws;
+        _settlementTurn = checked(_countingTurn + 1);
+        _carriedDraws = _drawnThisTurn;
+        _pendingSettlement = true;
+        SetAmount(_carriedDraws, silent: true);
     }
 
-    /// <summary>
-    /// 兑现回合开始时结束本次预约——无论预约数量是否为 0。
-    /// 用 <c>_pendingSettlement</c> 判断，不能拿 <c>Amount</c> 或 <c>_carriedDraws</c> 当判据。
-    /// </summary>
-    public override async Task AfterSideTurnStart(
-        CombatSide side,
-        IReadOnlyList<Creature> participants,
-        ICombatState combatState)
+    public override decimal ModifyHandDraw(Player player, decimal count) =>
+        player.Creature == Owner && SettlementIsDue ? count + _carriedDraws : count;
+
+    public override Task AfterModifyingHandDraw() =>
+        SettlementIsDue && _carriedDraws > 0 ? SettlePreviousTurn() : Task.CompletedTask;
+
+    public override Task AfterPlayerTurnStart(PlayerChoiceContext context, Player player) =>
+        player.Creature == Owner && SettlementIsDue ? SettlePreviousTurn() : Task.CompletedTask;
+
+    private bool SettlementIsDue => _pendingSettlement && Owner.CombatState == _combatState
+        && Owner.IsAlive && !CombatManager.Instance.IsOverOrEnding
+        && Owner.Player?.PlayerCombatState?.TurnNumber >= _settlementTurn;
+
+    private async Task SettlePreviousTurn()
     {
-        if (participants.Contains(base.Owner) && _pendingSettlement)
+        // 先消费旧预约。重入或重复回调不能消费下一份统计。
+        _pendingSettlement = false;
+        _carriedDraws = 0;
+        if (_counting && _countingTurn == Owner.Player?.PlayerCombatState?.TurnNumber)
         {
-            _pendingSettlement = false;
-            _carriedDraws = 0;
+            SetAmount(_drawnThisTurn, silent: true);
+        }
+        else if (Owner.GetPower<ReminiscenceDrawPower>() == this)
+        {
             await PowerCmd.Remove(this);
         }
     }

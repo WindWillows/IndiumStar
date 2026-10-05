@@ -1,6 +1,6 @@
 {
   "scope": "Actual game DLL managed TestMode: model constructors/upgrades/MutableClone/Harmony; keyword definitions seeded without registry startup; no live combat, UI, CreateClone card-scope path, or save test",
-  "generated_at_utc": "2026-10-05T06:51:02.3616319Z",
+  "generated_at_utc": "2026-10-05T07:32:10.0870813Z",
   "passed": 64,
   "macro_independence": "pass",
   "co_u_clone_marks": "pass",

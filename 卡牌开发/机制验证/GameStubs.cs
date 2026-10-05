@@ -31,12 +31,21 @@ namespace MegaCrit.Sts2.Core.Models
         public virtual Task AfterCardDrawn(MegaCrit.Sts2.Core.GameActions.Multiplayer.PlayerChoiceContext context,
             CardModel card, bool fromHandDraw) => Task.CompletedTask;
         public virtual Task AfterApplied(MegaCrit.Sts2.Core.Entities.Creatures.Creature? applier, CardModel? source) => Task.CompletedTask;
+        public virtual decimal ModifyHandDraw(MegaCrit.Sts2.Core.Entities.Players.Player player, decimal count) => count;
+        public virtual Task AfterModifyingHandDraw() => Task.CompletedTask;
+        public virtual Task AfterPlayerTurnStart(MegaCrit.Sts2.Core.GameActions.Multiplayer.PlayerChoiceContext context,
+            MegaCrit.Sts2.Core.Entities.Players.Player player) => Task.CompletedTask;
+        public virtual Task AfterFlush(MegaCrit.Sts2.Core.GameActions.Multiplayer.PlayerChoiceContext context,
+            MegaCrit.Sts2.Core.Entities.Players.Player player, IReadOnlyCollection<CardModel> flushed,
+            IReadOnlyCollection<CardModel> retained) => Task.CompletedTask;
         public virtual bool ShouldPlay(CardModel card, MegaCrit.Sts2.Core.Entities.Cards.AutoPlayType type) => true;
     }
 
     public abstract class CardModel : AbstractModel
     {
         private MegaCrit.Sts2.Core.Localization.DynamicVars.DynamicVarSet? _dynamicVars;
+        private HashSet<MegaCrit.Sts2.Core.Entities.Cards.CardKeyword> _addedKeywords = [];
+        public IEnumerable<MegaCrit.Sts2.Core.Entities.Cards.CardKeyword> Keywords => CanonicalKeywords.Concat(_addedKeywords).Distinct();
         public MegaCrit.Sts2.Core.Entities.Players.Player Owner { get; set; } = null!;
         public MegaCrit.Sts2.Core.Combat.ICombatState? CombatState { get; set; }
         public CardModel? DeckVersion { get; set; }
@@ -58,13 +67,13 @@ namespace MegaCrit.Sts2.Core.Models
         public virtual bool HasTurnEndInHandEffect => false;
         protected virtual Task OnTurnEndInHand(MegaCrit.Sts2.Core.GameActions.Multiplayer.PlayerChoiceContext context) => Task.CompletedTask;
         public void GiveSingleTurnRetain() { }
-        public void AddKeyword(MegaCrit.Sts2.Core.Entities.Cards.CardKeyword keyword) { }
+        public void AddKeyword(MegaCrit.Sts2.Core.Entities.Cards.CardKeyword keyword) => _addedKeywords.Add(keyword);
         protected virtual void OnUpgrade() { }
         public void Upgrade() { IsUpgraded = true; OnUpgrade(); }
         public CardModel Clone() => (CardModel)MutableClone();
         public CardModel CreateClone() {
             var clone = Clone(); clone.DeckVersion = null; clone.Pile = null;
-            clone._dynamicVars = DynamicVars.Clone(); return clone;
+            clone._dynamicVars = DynamicVars.Clone(); clone._addedKeywords = new(_addedKeywords); return clone;
         }
         protected virtual void AddExtraArgsToDescription(MegaCrit.Sts2.Core.Localization.LocString description) { }
         protected abstract Task OnPlay(
@@ -82,7 +91,7 @@ namespace MegaCrit.Sts2.Core.Models
         {
             var combatState = CombatState!;
             var manager = MegaCrit.Sts2.Core.Combat.CombatManager.Instance;
-            var resultPile = CanonicalKeywords.Contains(MegaCrit.Sts2.Core.Entities.Cards.CardKeyword.Exhaust)
+            var resultPile = Keywords.Contains(MegaCrit.Sts2.Core.Entities.Cards.CardKeyword.Exhaust)
                 ? MegaCrit.Sts2.Core.Entities.Cards.PileType.Exhaust : MegaCrit.Sts2.Core.Entities.Cards.PileType.Discard;
             Pile?.Cards.Remove(this); Owner.PlayerCombatState!.Hand.Cards.Remove(this);
             Pile = Owner.PlayerCombatState.PlayPile; Pile.Cards.Add(this);
@@ -341,7 +350,7 @@ namespace MegaCrit.Sts2.Core.Commands
         }
         public static async Task<IEnumerable<MegaCrit.Sts2.Core.Models.CardModel>> Draw(
             MegaCrit.Sts2.Core.GameActions.Multiplayer.PlayerChoiceContext context, decimal count,
-            MegaCrit.Sts2.Core.Entities.Players.Player owner) {
+            MegaCrit.Sts2.Core.Entities.Players.Player owner, bool fromHandDraw = false) {
             DrawCount += (int)count;
             var drawn = new List<MegaCrit.Sts2.Core.Models.CardModel>();
             if (DrawBlocked) return drawn;
@@ -351,7 +360,7 @@ namespace MegaCrit.Sts2.Core.Commands
                 var card = state.DrawPile.Cards[0]; state.DrawPile.Cards.RemoveAt(0);
                 state.Hand.Cards.Add(card); card.Pile = state.Hand; drawn.Add(card);
                 foreach (var listener in card.CombatState!.IterateHookListeners().ToArray())
-                    await listener.AfterCardDrawn(context, card, false);
+                    await listener.AfterCardDrawn(context, card, fromHandDraw);
             }
             return drawn;
         }

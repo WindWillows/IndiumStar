@@ -1,8 +1,8 @@
 {
-  "scope": "Official Godot SDK Release compilation; real source with command/history stubs and actual Harmony on struct async state machine; native model probes, actual native replay patch installation/metadata and PCK roundtrip; no deployment/live combat",
+  "scope": "Official Godot SDK Release, 311 real-source regressions with command/history stubs and actual Harmony; TaskCompletionSource callback pause simulation; 64 native model probes and native replay patch/metadata; PCK roundtrip; no deployment or live engine/combat/UI/save/multiplayer execution",
   "source_document_sha256": "85920BC38DF934ABA98B755D7181B375134859692DB6B65FE36436ACBD9A2438",
-  "baseline": "336bf0c",
-  "mechanism_cases": 275,
+  "baseline": "d3b34cf",
+  "mechanism_cases": 311,
   "native_model_cases": 64,
   "production_sources": 116,
   "release_errors": 0,
@@ -11,8 +11,8 @@
   "artifacts": [
     {
       "name": "IndiumStar.dll",
-      "length": 190464,
-      "sha256": "AE2CFF5413F0DC0FA8E34BE51E46C221DED11EFB80655E4A354B33C6300B3942"
+      "length": 192512,
+      "sha256": "4D3E269DB740FD0CFBD19C2326F41568061375CC9DB3082F287A6BD7BA63F567"
     },
     {
       "name": "IndiumStar.pck",
@@ -216,7 +216,7 @@
     },
     {
       "path": "src/Cards/GasPhaseSurge.cs",
-      "sha256": "F392F7462F91B31C30AAE8B47F31B953053944D0D96782F509DCF30E0916C900"
+      "sha256": "98D0EA91F2E1EF3F9659FD91F1E19B03D7C56ADE7D343C10B158F1C8FA97E866"
     },
     {
       "path": "src/Cards/GroupMigration.cs",
@@ -452,7 +452,7 @@
     },
     {
       "path": "src/Powers/ReminiscenceDrawPower.cs",
-      "sha256": "2542D563F0334ADD79C142281DFAAB623ED17A355A2FB77D8B0C9A787D32FFE1"
+      "sha256": "2C5114CBE5D0187597961EF0603DD053CF1D08C02CE6AA81CA6E16AA8F38375B"
     },
     {
       "path": "src/Powers/ReminiscenceHardCalcitePower.cs",
@@ -500,8 +500,7 @@
     "all enemy intent adapters",
     "live conditional replay with enchantments/afflictions and multiplayer pause/resume"
   ],
-  "generated_at_utc": "2026-10-05T06:52:25.875885+00:00",
-  "replay_cases_added": 48,
+  "generated_at_utc": "2026-10-05T07:35:36.242445+00:00",
   "replay_mutation_variants_detected": 3,
   "native_replay_patch": {
     "status": "pass",
@@ -520,5 +519,19 @@
       "name": "0Harmony.dll",
       "sha256": "EF1898322C9F5C86DC1B0758B272A9C440823B4A41CA9A0B82A3AA6B3D206387"
     }
-  ]
+  ],
+  "turn_scheduling_cases_added": 36,
+  "replay_cases_added_in_d3b34cf": 48,
+  "turn_scheduling_original_defects_detected": {
+    "baseline": "d3b34cf",
+    "draw_scheduler_failed_cases": 20,
+    "gas_turn_filter_failed_cases": 5
+  },
+  "matrix": {
+    "registered_cards": 64,
+    "direct_card_sources_linked": 24,
+    "card_sources_still_not_linked": 40,
+    "complete_effect_acceptances": 0,
+    "scope": "traceability/work matrix; named-case matching is not full acceptance"
+  }
 }

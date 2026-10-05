@@ -13,7 +13,7 @@ $outputDir = Join-Path $PSScriptRoot 'output\tests'
 New-Item -ItemType Directory -Path $outputDir -Force | Out-Null
 $usingsPath = Join-Path $outputDir 'TestUsings.cs'
 [System.IO.File]::WriteAllText($usingsPath, "global using System;`nglobal using System.Collections.Generic;`nglobal using System.Linq;`nglobal using System.Threading.Tasks;`n", [System.Text.UTF8Encoding]::new($false))
-$sourcePaths = @('Cards\ApplicationCard.cs', 'Cards\CrystalFlow.cs', 'Cards\ApplicationTh.cs', 'Mechanics\CrystalReplayRules.cs', 'Patches\CrystalReplaySeriesPatch.cs', 'Cards\ApplicationRules.cs', 'Cards\CrystalCoin.cs', 'Cards\CrystallizationCard.cs',
+$sourcePaths = @('Cards\ApplicationCard.cs', 'Cards\ReminiscenceVanadiumEternal.cs', 'Powers\ReminiscenceDrawPower.cs', 'Cards\GasPhaseSurge.cs', 'Cards\CrystalFlow.cs', 'Cards\ApplicationTh.cs', 'Mechanics\CrystalReplayRules.cs', 'Patches\CrystalReplaySeriesPatch.cs', 'Cards\ApplicationRules.cs', 'Cards\CrystalCoin.cs', 'Cards\CrystallizationCard.cs',
     'Cards\Crystallization.cs', 'Cards\CrystallizationRules.cs', 'Cards\ICardFamilies.cs',
     'Mechanics\CrystalBranch.cs', 'Mechanics\CrystalBranchRules.cs', 'Mechanics\ExtensionRules.cs',
     'Mechanics\IndiumStarKeywords.cs',
@@ -34,7 +34,7 @@ $sourcePaths = @('Cards\ApplicationCard.cs', 'Cards\CrystalFlow.cs', 'Cards\Appl
     ForEach-Object { Join-Path (Join-Path $ProjectDir 'src') $_ }
 $sourcePaths += @($usingsPath, (Join-Path $PSScriptRoot 'GameStubs.cs'), (Join-Path $PSScriptRoot 'NewCardStubs.cs'),
     (Join-Path $PSScriptRoot 'NewCardTests.cs'), (Join-Path $PSScriptRoot 'SemanticAuditTests.cs'),
-    (Join-Path $PSScriptRoot 'MechanismTests.cs'), (Join-Path $PSScriptRoot 'UpdatedSpecificationTests.cs'), (Join-Path $PSScriptRoot 'DeferredReleaseTests.cs'), (Join-Path $PSScriptRoot 'CrystalReplayTests.cs'))
+    (Join-Path $PSScriptRoot 'MechanismTests.cs'), (Join-Path $PSScriptRoot 'UpdatedSpecificationTests.cs'), (Join-Path $PSScriptRoot 'DeferredReleaseTests.cs'), (Join-Path $PSScriptRoot 'CrystalReplayTests.cs'), (Join-Path $PSScriptRoot 'TurnSchedulingTests.cs'))
 $arguments = @('/nostdlib+', '/target:exe', '/optimize+', '/langversion:13.0', '/nullable:enable', '/utf8output',
     ('/out:"' + (Join-Path $outputDir 'MechanismTests.dll') + '"'))
 $arguments += Get-ChildItem -LiteralPath (Join-Path $refDir.FullName 'ref\net9.0') -Filter '*.dll' |

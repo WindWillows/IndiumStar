@@ -276,4 +276,40 @@ PASS 本体循环契约不匹配时补丁拒绝静默降级
 PASS 双语文本只给晶流添加重放分支限制，保持Th的文档语义
 SentryGodotInitializer: Sentry GDExtension not loaded in this process; skipping. If you see this in a running game (not during project export or IDE script analysis), check Godot's log for extension load failures.
 PASS 重放测试资源与伤害属性枚举契约匹配实际游戏
-275/275 passed; scope: real mod source, command/history stubs, real Harmony patching and game API contract.
+PASS 钒永只统计实际抽到牌 available=0 upgraded=False
+PASS 钒永只统计实际抽到牌 available=1 upgraded=False
+PASS 钒永只统计实际抽到牌 available=5 upgraded=False
+PASS 钒永只统计实际抽到牌 available=0 upgraded=True
+PASS 钒永只统计实际抽到牌 available=1 upgraded=True
+PASS 钒永只统计实际抽到牌 available=5 upgraded=True
+PASS 钒永抽牌被阻止不会预约不存在的牌
+PASS 钒永满手不把抽牌指令请求数当作实际抽牌数
+PASS 钒永生效之前的抽牌不计入，此后包括自身和其他来源
+PASS 钒永同回合多份仍采用已记录的共用统计器口径
+PASS 钒永生成和入手牌不计为抽取，其他玩家抽取也不计入
+PASS 钒永同阵营其他玩家结束或开始回合不覆盖本人预约
+PASS 钒永重复结束回调不会把预约数清零
+PASS 钒永回合末晚抽牌连锁仍计入，下一阵营开始后封存
+PASS 钒永在普通结束钩子遍历之后生效仍能预约下回合
+PASS 钒永全局回合推进不能替代本人回合推进
+PASS 钒永预览修改抽牌数是纯读，不提前消费预约
+PASS 钒永本人开始阶段未完成时阵营开始钩子不会提前移除
+PASS 钒永零预约也等待本人开始完成，其他玩家开始不清理
+PASS 钒永下回合抽牌前再次生效，旧预约消费保留新统计
+PASS 钒永普通开局抽牌不会自动开启下一份统计
+PASS 钒永旧预约为零时的新统计不会被本人开始回调移除
+PASS 钒永与预约自动打出及抽牌选择暂停组合，不提前消费旧预约
+PASS 钒永预约不跨入旧战斗或死亡玩家的开始结算
+PASS 钒永计数显示跟随实际抽牌，不把再次施加显示为旧预约加一
+PASS 钒永队列克隆后的消费不修改原能力字段
+PASS 气相涌流实际保留才成长且每本人回合一次 upgraded=False
+PASS 气相涌流实际保留才成长且每本人回合一次 upgraded=True
+PASS 气相涌流他人同阵营开始不重置成长次数
+PASS 气相涌流晶抗预约只在本人开始从Discard返回一次
+PASS 气相涌流晶抗预约只在本人开始从Draw返回一次
+PASS 气相涌流晶抗预约只在本人开始从Exhaust返回一次
+PASS 气相涌流拒绝敌方或其他战斗的开始回调
+PASS 气相涌流晶逆获得战斗内保留而不是自带保留
+PASS 气相涌流成长克隆继承数值但不写回牌组或共享动态变量
+PASS 新增回合钩子与当前游戏DLL契约一致
+311/311 passed; scope: real mod source, command/history stubs, real Harmony patching and game API contract.

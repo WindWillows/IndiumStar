@@ -2770,5 +2770,10 @@
       "expected": "基础效果结束后能量为0，触发晶逆。",
       "source": "已确认规则的直接推论"
     }
+  ],
+  "status": "historical_baseline_do_not_use_for_current_specification",
+  "superseded_by": [
+    "规格更新_2026-10-05.json",
+    "审查证据_2026-10-05/逐牌验收矩阵.json"
   ]
 }

@@ -590,6 +590,7 @@ SemanticAuditTests.Register(tests);
 UpdatedSpecificationTests.Register(tests, args);
 DeferredReleaseTests.Register(tests, args);
 CrystalReplayTests.Register(tests, args);
+TurnSchedulingTests.Register(tests, args);
 int failed = 0;
 foreach (var test in tests) {
     try { await test.Run(); Console.WriteLine("PASS " + test.Name); }
