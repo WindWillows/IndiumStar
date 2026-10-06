@@ -1,5 +1,5 @@
 param([string]$ProjectDir = (Join-Path $PSScriptRoot '..\..\IndiumStar\IndiumStar'),
-    [string]$GameDir = $env:STS2_DIR)
+    [string]$GameDir = $env:STS2_DIR, [string]$Focus = '')
 $ErrorActionPreference = 'Stop'
 if (!$GameDir) { throw '请用 -GameDir 或 STS2_DIR 指定游戏根目录。' }
 $ProjectDir = (Resolve-Path -LiteralPath $ProjectDir).Path
@@ -38,6 +38,9 @@ $sourcePaths += (Join-Path $PSScriptRoot 'RuleDecisionTests.cs')
 $sourcePaths += (Join-Path $PSScriptRoot 'DerivedNeutronTests.cs')
 $sourcePaths += (Join-Path $PSScriptRoot 'CrystalPunishmentTests.cs')
 $sourcePaths += (Join-Path $PSScriptRoot 'CrystalPunishmentStubs.cs')
+$sourcePaths += @('Cards\Tunneling.cs', 'Cards\CrystalMarrow.cs', 'Powers\TunnelingPower.cs', 'Powers\CrystalMarrowPower.cs') |
+    ForEach-Object { Join-Path (Join-Path $ProjectDir 'src') $_ }
+$sourcePaths += (Join-Path $PSScriptRoot 'RemainingXCardTests.cs')
 $arguments = @('/nostdlib+', '/target:exe', '/optimize+', '/langversion:13.0', '/nullable:enable', '/utf8output',
     ('/out:"' + (Join-Path $outputDir 'MechanismTests.dll') + '"'))
 $arguments += Get-ChildItem -LiteralPath (Join-Path $refDir.FullName 'ref\net9.0') -Filter '*.dll' |
@@ -54,7 +57,7 @@ $dotnetExe = Join-Path $dotnetRoot 'dotnet.exe'
 if ($LASTEXITCODE -ne 0) { throw "测试源码编译失败：$LASTEXITCODE" }
 [System.IO.File]::WriteAllText((Join-Path $outputDir 'MechanismTests.runtimeconfig.json'),
     '{"runtimeOptions":{"tfm":"net9.0","framework":{"name":"Microsoft.NETCore.App","version":"9.0.0"}}}', [System.Text.UTF8Encoding]::new($false))
-& $dotnetExe (Join-Path $outputDir 'MechanismTests.dll') $GameDir $ProjectDir | Tee-Object -FilePath (Join-Path $outputDir 'test-results.txt')
+& $dotnetExe (Join-Path $outputDir 'MechanismTests.dll') $GameDir $ProjectDir $Focus | Tee-Object -FilePath (Join-Path $outputDir 'test-results.txt')
 if ($LASTEXITCODE -ne 0) { throw "机制测试失败：$LASTEXITCODE" }
 
 # 迁移完整性检查：已有牌的声明不能漏掉实际分支，也不能漏掉运用牌族标记。

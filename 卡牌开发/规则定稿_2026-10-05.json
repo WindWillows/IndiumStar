@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "source": "本对话2026-10-05逐项定稿及2026-10-06电子改名/类型调整消息；2026-10-06独立衍生中子及U引用定稿；2026-10-06完成晶罚",
+  "source": "本对话2026-10-05逐项定稿及2026-10-06电子改名/类型调整消息；2026-10-06独立衍生中子及U引用定稿；2026-10-06完成晶罚及剩余卡牌",
   "precedence": "最新用户指令优先于DOCX和旧问题单；DOCX保留原样",
   "document_sha256": "2a25e6905b35511fed4d97c27a55ace5f521f572c78b69cbe7cc595b9117bbf1",
   "card_specification_overrides": {
@@ -32,7 +32,9 @@
     "Aerosol_identifier": "仅修改显示标题，保留DeferredRelease卡牌/能力模型ID；这不能证明旧战斗队列可恢复。",
     "Electron_identifier": "运用-电子保留ApplicationNeutron类及APPLICATION_NEUTRON模型/本地化键，仍为初始攻击；新衍生中子使用DerivedApplicationNeutron独立模型，U生成及晶化U回收引用切换到新模型。",
     "Derived_neutron": "衍生技能Token，不进入初始牌组或普通奖励池；固定当前费用含本地/全局修正，0或1费为候选，X费用和不可打出牌排除。原生自动打出不支付费用、随机目标、遵循ShouldPlay；受阻不另选。嵌套出牌及结束钩子完成后判分支；无候选仍判分支；晶逆由玩家选择弃1张手牌。晶化U沿原定义回收新中子+。费用/X候选与晶化U关联是实施解释。",
-    "CrystalPunishment": "强化晶化手动打出时选择一名敌人，自动打出使用原生随机目标；先执行原效果，再向此次目标施加消亡。重复晶罚的普通/升级层数相加并合并为一次施加；每段重放照常结算。独立原生SavedProperty保存当前晶化附加层数，复制继承并独立，战斗实例不写回DeckVersion，也不占侵蚀/附魔槽。新晶化变体继承CrystallizationCard、重写PlayCrystallizationEffect，自动保留附加消亡流程。选择敌人和累加方式是实施解释。"
+    "CrystalPunishment": "强化晶化手动打出时选择一名敌人，自动打出使用原生随机目标；先执行原效果，再向此次目标施加消亡。重复晶罚的普通/升级层数相加并合并为一次施加；每段重放照常结算。独立原生SavedProperty保存当前晶化附加层数，复制继承并独立，战斗实例不写回DeckVersion，也不占侵蚀/附魔槽。新晶化变体继承CrystallizationCard、重写PlayCrystallizationEffect，自动保留附加消亡流程。选择敌人和累加方式是实施解释。",
+    "Tunneling": "X使用原生捕获值及X修正；升级只增加额外回合的出牌上限1。原生PlayerCmd.EndTurn及ShouldTakeExtraTurn接入本体回合循环。自动打出计入上限，同一系列重放不另计；次数在BeforeCardPlayed首段先消耗，嵌套出牌不能超额。每次施加各预约一个额外回合，保留自己的上限；X=0仍获得回合。此次数口径及连续预约属于实施解释。",
+    "CrystalMarrow": "延拓X及下回合额外抽X（升级X+1）张牌；仍经现有ExtensionRules和原生DrawCardsNextTurnPower。本人下一回合BeforeSideTurnStart激活费用/重放状态。回合中后来进入手牌的卡同样加费；从手牌打出，包括自动打出，使用原生ModifyCardPlayCount增加1次，不占附魔/侵蚀槽，不绕开晶抗/晶逆。其他牌堆直接自动打出不额外重放。固定费牌+1，原生X费用不受固定费用修正，维持X。多份晶髓的延拓/抽牌累计，但同一回合的“具有+1花费及重放1”状态只赋予一次；本回合中新预约保留到下一回合。以上重复施加及X费口径属于实施解释。"
   },
   "deferred_user_items": [
     {
@@ -58,26 +60,25 @@
   ],
   "updated_on": "2026-10-06",
   "document_title_aliases": {},
-  "pending_document_cards": [
-    {
-      "name": "隧穿",
-      "rarity": "稀有",
-      "type": "技能",
-      "status": "未实现"
-    },
-    {
-      "name": "晶髓",
-      "rarity": "稀有",
-      "type": "技能",
-      "status": "未实现"
-    }
-  ],
+  "pending_document_cards": [],
   "implemented_document_updates": [
     {
       "name": "晶罚",
       "class": "CrystalPunishment",
       "date": "2026-10-06",
       "status": "核心实现与回归完成；实机验收未完成"
+    },
+    {
+      "name": "隧穿",
+      "class": "Tunneling",
+      "date": "2026-10-06",
+      "status": "核心实现完成；针对性检查通过；实机验收未完成"
+    },
+    {
+      "name": "晶髓",
+      "class": "CrystalMarrow",
+      "date": "2026-10-06",
+      "status": "核心实现完成；针对性检查通过；实机验收未完成"
     }
   ]
 }

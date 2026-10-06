@@ -46,5 +46,9 @@
   "INDIUM_STAR_POWER_CRYSTAL_HAND_AURA_POWER.title": "晶化手牌光环",
   "INDIUM_STAR_POWER_CRYSTAL_HAND_AURA_POWER.description": "根据手牌中的晶化同步力量和敏捷。",
   "INDIUM_STAR_POWER_DEFERRED_RELEASE_POWER.title": "气溶胶预约",
-  "INDIUM_STAR_POWER_DEFERRED_RELEASE_POWER.description": "下回合开始时，在正常抽牌前自动打出预约的{Amount}张牌。"
+  "INDIUM_STAR_POWER_DEFERRED_RELEASE_POWER.description": "下回合开始时，在正常抽牌前自动打出预约的{Amount}张牌。",
+  "INDIUM_STAR_POWER_TUNNELING_POWER.title": "隧穿",
+  "INDIUM_STAR_POWER_TUNNELING_POWER.description": "获得额外回合，每个回合的出牌上限由施加时的X决定。自动打出计入上限，同一张牌的重放不另计。",
+  "INDIUM_STAR_POWER_CRYSTAL_MARROW_POWER.title": "晶髓",
+  "INDIUM_STAR_POWER_CRYSTAL_MARROW_POWER.description": "下个本人回合，所有手牌花费+1且重放1次。回合中抽到或生成的手牌同样生效。X费牌维持X费用。"
 }

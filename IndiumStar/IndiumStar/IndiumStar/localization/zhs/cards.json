@@ -139,5 +139,9 @@
   "INDIUM_STAR_CARD_DERIVED_APPLICATION_NEUTRON.title": "运用-中子",
   "INDIUM_STAR_CARD_DERIVED_APPLICATION_NEUTRON.description": "随机打出弃牌堆中1张花费不大于1的牌。\n[gold]晶抗[/gold]：抽1张牌。\n[gold]晶逆[/gold]：弃1张牌。",
   "INDIUM_STAR_CARD_CRYSTAL_PUNISHMENT.title": "晶罚",
-  "INDIUM_STAR_CARD_CRYSTAL_PUNISHMENT.description": "造成{Damage:diff()}点伤害。\n为手牌中所有[gold]晶化[/gold]添加「给予{DoomPower:diff()}层[gold]消亡[/gold]」。"
+  "INDIUM_STAR_CARD_CRYSTAL_PUNISHMENT.description": "造成{Damage:diff()}点伤害。\n为手牌中所有[gold]晶化[/gold]添加「给予{DoomPower:diff()}层[gold]消亡[/gold]」。",
+  "INDIUM_STAR_CARD_TUNNELING.title": "隧穿",
+  "INDIUM_STAR_CARD_TUNNELING.description": "结束当前回合，获得一个额外回合。\n额外回合内，你至多打出X{IfUpgraded:show:+{ExtraCards:diff()}|}张牌。",
+  "INDIUM_STAR_CARD_CRYSTAL_MARROW.title": "晶髓",
+  "INDIUM_STAR_CARD_CRYSTAL_MARROW.description": "[gold]延拓[/gold]X。\n下回合开始时，额外抽X{IfUpgraded:show:+{ExtraDraw:diff()}|}张牌。\n下回合，你的所有手牌花费+1且[gold]重放[/gold]1次。"
 }

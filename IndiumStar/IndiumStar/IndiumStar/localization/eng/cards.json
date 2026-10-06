@@ -139,5 +139,9 @@
   "INDIUM_STAR_CARD_DERIVED_APPLICATION_NEUTRON.title": "Application-Neutron",
   "INDIUM_STAR_CARD_DERIVED_APPLICATION_NEUTRON.description": "Play a random card costing 1 or less from your Discard Pile.\n[gold]Resistance[/gold]: Draw 1 card.\n[gold]Reversal[/gold]: Discard 1 card.",
   "INDIUM_STAR_CARD_CRYSTAL_PUNISHMENT.title": "Crystal Punishment",
-  "INDIUM_STAR_CARD_CRYSTAL_PUNISHMENT.description": "Deal {Damage:diff()} damage.\nAdd \"Apply {DoomPower:diff()} [gold]Doom[/gold]\" to all [gold]Crystallization[/gold] in your hand."
+  "INDIUM_STAR_CARD_CRYSTAL_PUNISHMENT.description": "Deal {Damage:diff()} damage.\nAdd \"Apply {DoomPower:diff()} [gold]Doom[/gold]\" to all [gold]Crystallization[/gold] in your hand.",
+  "INDIUM_STAR_CARD_TUNNELING.title": "Tunneling",
+  "INDIUM_STAR_CARD_TUNNELING.description": "End your turn and take an extra turn.\nYou may play at most X{IfUpgraded:show:+{ExtraCards:diff()}|} cards during that extra turn.",
+  "INDIUM_STAR_CARD_CRYSTAL_MARROW.title": "Crystal Marrow",
+  "INDIUM_STAR_CARD_CRYSTAL_MARROW.description": "Gain X [gold]Extension[/gold].\nDraw X{IfUpgraded:show:+{ExtraDraw:diff()}|} additional cards at the start of your next turn.\nNext turn, all cards in your hand cost 1 more and [gold]Replay[/gold] once."
 }

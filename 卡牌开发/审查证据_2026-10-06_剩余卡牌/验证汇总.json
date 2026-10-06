@@ -1,0 +1,110 @@
+{
+  "batch": "2026-10-06 剩余卡牌",
+  "document_sha256": "2a25e6905b35511fed4d97c27a55ace5f521f572c78b69cbe7cc595b9117bbf1",
+  "scope": "补齐隧穿、晶髓；仅新增16项针对性回归，本批未重跑完整旧回归或突变测试",
+  "defined_cards": 68,
+  "registered_cards": 68,
+  "unimplemented_document_cards": [],
+  "native_models": {
+    "passed": 68,
+    "scope": "Actual game DLL managed TestMode: model constructors/upgrades/MutableClone/Harmony, per-card SavedProperties JSON and conditional description formatting; keyword and serialization-cache readiness seeded without full registry/startup; no live combat, Godot UI, CreateClone card-scope path, full combat save or multiplayer negotiation"
+  },
+  "new_power_state": "pass; native X metadata/upgrade; two powers' independent array clone and SavedProperties JSON -> Fill; no native live turn loop",
+  "focused_mechanism_checks": {
+    "passed": 16,
+    "total": 16,
+    "filter": "X卡：",
+    "scope": "真实模组源码、指令/历史/回合替身和真实Harmony；不等同实际战斗"
+  },
+  "release_build": {
+    "status": "pass",
+    "errors": 0,
+    "warnings": 0,
+    "deploy_mod": false,
+    "dll_sha256": "b2a2a96ecf8f63009768da2d9de0de4bd486b50bb611f14b1f802198f8ec2053"
+  },
+  "localization_pck": {
+    "status": "pass",
+    "roundtrip_json_files": 11,
+    "pck_sha256": "c25525616ad10773b07deec6872ab4bbf807ee3e7de7d40def64f959a96b869c"
+  },
+  "card_counts": [
+    {
+      "rarity": "Basic",
+      "type": "Attack",
+      "count": 2
+    },
+    {
+      "rarity": "Basic",
+      "type": "Skill",
+      "count": 2
+    },
+    {
+      "rarity": "Basic",
+      "type": "Status",
+      "count": 6
+    },
+    {
+      "rarity": "Common",
+      "type": "Attack",
+      "count": 10
+    },
+    {
+      "rarity": "Common",
+      "type": "Skill",
+      "count": 9
+    },
+    {
+      "rarity": "Rare",
+      "type": "Attack",
+      "count": 3
+    },
+    {
+      "rarity": "Rare",
+      "type": "Power",
+      "count": 4
+    },
+    {
+      "rarity": "Rare",
+      "type": "Skill",
+      "count": 4
+    },
+    {
+      "rarity": "Token",
+      "type": "Skill",
+      "count": 1
+    },
+    {
+      "rarity": "Uncommon",
+      "type": "Attack",
+      "count": 10
+    },
+    {
+      "rarity": "Uncommon",
+      "type": "Power",
+      "count": 6
+    },
+    {
+      "rarity": "Uncommon",
+      "type": "Skill",
+      "count": 11
+    }
+  ],
+  "source_sha256": {
+    "IndiumStar/IndiumStar/src/Cards/Tunneling.cs": "7fe9e85e58d5591935759624ad7723e39ee97a02c7c1c017e7802db19f8ff2a5",
+    "IndiumStar/IndiumStar/src/Cards/CrystalMarrow.cs": "60619e59573bb51feaf42a8bbd2aee5d72e40cfafb7f56a001ed0f0ec9a3891f",
+    "IndiumStar/IndiumStar/src/Powers/TunnelingPower.cs": "990d7b0a49be6cafed54936310b13ac7d0b1789bf0e081fc8b6faf5b822ad796",
+    "IndiumStar/IndiumStar/src/Powers/CrystalMarrowPower.cs": "aa91af17160090f5ff7b608870fb421d0e804d92665d897452a5e320983523aa",
+    "IndiumStar/IndiumStar/IndiumStar/localization/zhs/cards.json": "4eed44e9b918135eec6a22d62d9f6ebb1118ef4d017c9c2b733de2d20dcfb218",
+    "IndiumStar/IndiumStar/IndiumStar/localization/zhs/powers.json": "0159972e0067f1c66af23423aff9145e20cbafe9da8c7b648c7b38431ee20c5e",
+    "IndiumStar/IndiumStar/IndiumStar/localization/eng/cards.json": "311f7608815aeef19fdb2e2cdb1d67038694f842666c57051a0fc23b7b886034",
+    "IndiumStar/IndiumStar/IndiumStar/localization/eng/powers.json": "b1b7d0c1ac9dc87d2337061b72fa3d40b39b97b2df3d157791341da17cb6f7c9"
+  },
+  "deferred": [
+    "TD01 实战/完整存档/多人",
+    "TD02 条件重放原版组合",
+    "TD03 气溶胶队列恢复",
+    "TD04 表征力量修改链/外部Amount/预约恢复"
+  ],
+  "complete_live_effect_acceptances": 0
+}

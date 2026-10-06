@@ -27,6 +27,9 @@ namespace MegaCrit.Sts2.Core.Models
             MegaCrit.Sts2.Core.Combat.CombatSide side, IReadOnlyList<MegaCrit.Sts2.Core.Entities.Creatures.Creature> participants,
             MegaCrit.Sts2.Core.Combat.ICombatState combatState) => Task.CompletedTask;
         public virtual bool TryModifyEnergyCostInCombatLate(CardModel card, decimal original, out decimal modified) { modified = original; return false; }
+        public virtual bool TryModifyEnergyCostInCombat(CardModel card, decimal original, out decimal modified) { modified = original; return false; }
+        public virtual bool ShouldTakeExtraTurn(MegaCrit.Sts2.Core.Entities.Players.Player player) => false;
+        public virtual Task AfterTakingExtraTurn(MegaCrit.Sts2.Core.Entities.Players.Player player) => Task.CompletedTask;
         public virtual decimal ModifyBlockMultiplicative(MegaCrit.Sts2.Core.Entities.Creatures.Creature target, decimal block,
             MegaCrit.Sts2.Core.ValueProps.ValueProp props, CardModel? cardSource, MegaCrit.Sts2.Core.Entities.Cards.CardPlay? play) => 1m;
         public virtual Task AfterModifyingBlockAmount(decimal amount, CardModel? cardSource, MegaCrit.Sts2.Core.Entities.Cards.CardPlay? play) => Task.CompletedTask;
@@ -111,8 +114,11 @@ namespace MegaCrit.Sts2.Core.Models
             var manager = MegaCrit.Sts2.Core.Combat.CombatManager.Instance;
             var resultPile = Keywords.Contains(MegaCrit.Sts2.Core.Entities.Cards.CardKeyword.Exhaust)
                 ? MegaCrit.Sts2.Core.Entities.Cards.PileType.Exhaust : MegaCrit.Sts2.Core.Entities.Cards.PileType.Discard;
+            var oldPile = Pile?.Type ?? MegaCrit.Sts2.Core.Entities.Cards.PileType.None;
             Pile?.Cards.Remove(this); Owner.PlayerCombatState!.Hand.Cards.Remove(this);
             Pile = Owner.PlayerCombatState.PlayPile; Pile.Cards.Add(this);
+            foreach (var listener in combatState.IterateHookListeners().ToArray())
+                await listener.AfterCardChangedPiles(this, oldPile, null);
             int playCount = InitialPlayCount;
             foreach (var listener in combatState.IterateHookListeners().ToArray())
                 playCount = listener.ModifyCardPlayCount(this, target, playCount);
@@ -144,6 +150,7 @@ namespace MegaCrit.Sts2.Core.Models
 
     public class PowerModel : AbstractModel
     {
+        protected void AssertMutable() { }
         public MegaCrit.Sts2.Core.Localization.LocString Title { get; } = new();
         private object? _internalData;
         public PowerModel() { _internalData = InitInternalData(); }
@@ -493,6 +500,9 @@ namespace MegaCrit.Sts2.Core.Commands
 
     public static class PlayerCmd
     {
+        public static MegaCrit.Sts2.Core.Entities.Players.Player? LastTurnEnded { get; set; }
+        public static void EndTurn(MegaCrit.Sts2.Core.Entities.Players.Player player, bool canBackOut,
+            Func<Task>? actionDuringEnemyTurn = null) => LastTurnEnded = player;
         public static Func<MegaCrit.Sts2.Core.Entities.Players.Player, decimal, Task>? AfterModifyingEnergyGain { get; set; }
         public static async Task GainEnergy(decimal amount, MegaCrit.Sts2.Core.Entities.Players.Player player) {
             if (amount <= 0 || MegaCrit.Sts2.Core.Combat.CombatManager.Instance.IsOverOrEnding) return;

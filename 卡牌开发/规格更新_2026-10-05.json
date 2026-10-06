@@ -87,27 +87,26 @@
   },
   "remaining_audit_scope": "全卡池逐牌语义、时序和边界核查；卡牌全部完成前不转入遗物实现",
   "previous_source_sha256": "85920bc38df934aba98b755d7181b375134859692db6b65fe36436acbd9a2438",
-  "latest_document_review": "2026-10-06：已核对新版DOCX；晶罚、隧穿、晶髓新增但尚未实现，正文已有电子/反演定稿。本文件旧卡记录属历史规格，当前规则以规则定稿文件为准。",
-  "pending_document_cards": [
-    {
-      "name": "隧穿",
-      "rarity": "稀有",
-      "type": "技能",
-      "status": "未实现"
-    },
-    {
-      "name": "晶髓",
-      "rarity": "稀有",
-      "type": "技能",
-      "status": "未实现"
-    }
-  ],
+  "latest_document_review": "2026-10-06：晶罚、隧穿、晶髓均已有核心实现，当前68张定义全部注册；16项两张X牌针对性检查、68真实模型及Release构建通过。本文件旧卡记录属历史规格，当前规则以规则定稿文件为准。完整实机、存档和多人门槛保留。",
+  "pending_document_cards": [],
   "implemented_document_updates": [
     {
       "name": "晶罚",
       "class": "CrystalPunishment",
       "date": "2026-10-06",
       "status": "核心实现与回归完成；实机验收未完成"
+    },
+    {
+      "name": "隧穿",
+      "class": "Tunneling",
+      "date": "2026-10-06",
+      "status": "核心实现完成；针对性检查通过；实机验收未完成"
+    },
+    {
+      "name": "晶髓",
+      "class": "CrystalMarrow",
+      "date": "2026-10-06",
+      "status": "核心实现完成；针对性检查通过；实机验收未完成"
     }
   ]
 }

@@ -1,0 +1,17 @@
+PASS X卡：隧穿捕获X、升级与消耗 x=0 upgraded=False
+PASS X卡：晶髓捕获X、延拓与额外抽牌 x=0 upgraded=False
+PASS X卡：隧穿捕获X、升级与消耗 x=0 upgraded=True
+PASS X卡：晶髓捕获X、延拓与额外抽牌 x=0 upgraded=True
+PASS X卡：隧穿捕获X、升级与消耗 x=2 upgraded=False
+PASS X卡：晶髓捕获X、延拓与额外抽牌 x=2 upgraded=False
+PASS X卡：隧穿捕获X、升级与消耗 x=2 upgraded=True
+PASS X卡：晶髓捕获X、延拓与额外抽牌 x=2 upgraded=True
+PASS X卡：两张X牌采用X修正而非结算后能量
+PASS X卡：隧穿在效果前计数，自动首段计入而重放不另计
+PASS X卡：隧穿连续预约保持各回合独立上限，非本人回合不清除
+PASS X卡：晶髓只加费于本回合本人可打出的固定费手牌
+PASS X卡：晶髓重放采用原生系列，手牌自动打出适用，弃牌堆直接打出不适用
+PASS X卡：晶髓与实际晶逆条件重放相加，没有重复预约异常
+PASS X卡：晶髓本回合新预约留到下一回合，重复赋予只给予重放1
+PASS X卡：晶髓预约不会在其他玩家的额外回合提前生效
+16/16 passed; scope: real mod source, command/history stubs, real Harmony patching and game API contract.

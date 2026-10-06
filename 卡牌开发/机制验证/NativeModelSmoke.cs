@@ -30,11 +30,12 @@ var cardTypes = typeof(MacroDendrite).Assembly.GetTypes().Where(t =>
     typeof(CardModel).IsAssignableFrom(t) && !t.IsAbstract &&
     t.CustomAttributes.Any(a => a.AttributeType.Name == "RegisterCardAttribute"))
     .OrderBy(t => t.Name).ToArray();
-ModelDb.Init(cardTypes);
+var newPowerTypes = new[] { typeof(TunnelingPower), typeof(CrystalMarrowPower) };
+ModelDb.Init(cardTypes.Concat(newPowerTypes).ToArray());
 // 全局Init会调用Godot日志器；此托管探针仅调用实际属性扫描并设置缓存就绪标志。
 // 不测试真实初始化、模组加载、网络ID协商或完整战斗存档。
 var propertyCacheType = typeof(MegaCrit.Sts2.Core.Multiplayer.Serialization.ModelIdSerializationCache);
-foreach (Type cardType in cardTypes)
+foreach (Type cardType in cardTypes.Concat(newPowerTypes))
     MegaCrit.Sts2.Core.Multiplayer.Serialization.ModelIdSerializationCache.CacheSavedPropertiesForTypeDebug(cardType);
 propertyCacheType.GetField("_initialized", BindingFlags.Static | BindingFlags.NonPublic)!.SetValue(null, true);
 var harmony = new Harmony("IndiumStar.NativeModelSmoke");
@@ -93,6 +94,16 @@ foreach (Type type in cardTypes)
         || canonical.DynamicVars.Damage.BaseValue != 9 || copy.DynamicVars.Damage.BaseValue != 9
         || canonical.DynamicVars["DoomPower"].BaseValue != 3 || copy.DynamicVars["DoomPower"].BaseValue != 4))
         throw new Exception("Native Crystal Punishment upgrade contract failed");
+    if (type == typeof(Tunneling) && (!canonical.EnergyCost.CostsX || !copy.EnergyCost.CostsX
+        || canonical.Type != CardType.Skill || canonical.Rarity != CardRarity.Rare
+        || !canonical.Keywords.Contains(CardKeyword.Exhaust)
+        || canonical.DynamicVars["ExtraCards"].IntValue != 0 || copy.DynamicVars["ExtraCards"].IntValue != 1))
+        throw new Exception("Native Tunneling X/upgrade contract failed");
+    if (type == typeof(CrystalMarrow) && (!canonical.EnergyCost.CostsX || !copy.EnergyCost.CostsX
+        || canonical.Type != CardType.Skill || canonical.Rarity != CardRarity.Rare
+        || canonical is not IExtensionCard || canonical.Keywords.Contains(CardKeyword.Exhaust)
+        || canonical.DynamicVars["ExtraDraw"].IntValue != 0 || copy.DynamicVars["ExtraDraw"].IntValue != 1))
+        throw new Exception("Native Crystal Marrow X/upgrade contract failed");
     if (mutable is CrystallizationCard crystal) {
         crystal.AddCrystalDoom(3); crystal.AddCrystalDoom(4);
         var crystalCopy = (CrystallizationCard)crystal.MutableClone();
@@ -183,11 +194,36 @@ CrystalReplayRules.Apply(macro, replayPlay, ref nativeSeriesCount);
 CrystalReplayRules.Apply(macro, replayPlay, ref nativeSeriesCount);
 if (nativeSeriesCount != 3 || replayPlay.PlayCount != 3 || replayPlay.IsLastInSeries)
     throw new Exception("Native CardPlay init setter / replay consumption failed");
+// Check only the new powers' scalar/array persistence, independently of a full combat save.
+var tunnelState = (TunnelingPower)ModelDb.Power<TunnelingPower>().ToMutable();
+tunnelState.PendingLimits = [0, 3]; tunnelState.ActiveTurn = 7;
+tunnelState.CardLimit = 4; tunnelState.CardsPlayed = 2;
+var tunnelCopy = (TunnelingPower)tunnelState.MutableClone();
+tunnelCopy.PendingLimits[0] = 9;
+if (tunnelState.PendingLimits[0] != 0) throw new Exception("Native Tunneling queue clone aliases");
+var savedTunnel = SavedProperties.From(tunnelState)!;
+var restoredTunnel = (TunnelingPower)ModelDb.Power<TunnelingPower>().ToMutable();
+JsonSerializer.Deserialize<SavedProperties>(JsonSerializer.Serialize(savedTunnel,
+    new JsonSerializerOptions { IncludeFields = true }), new JsonSerializerOptions { IncludeFields = true })!.Fill(restoredTunnel);
+if (!restoredTunnel.PendingLimits.SequenceEqual(new[] { 0, 3 }) || restoredTunnel.ActiveTurn != 7
+    || restoredTunnel.CardLimit != 4 || restoredTunnel.CardsPlayed != 2)
+    throw new Exception("Native Tunneling state JSON roundtrip failed");
+var marrowState = (CrystalMarrowPower)ModelDb.Power<CrystalMarrowPower>().ToMutable();
+marrowState.PendingTurns = [8, 9]; marrowState.ActiveTurn = 7;
+var marrowCopy = (CrystalMarrowPower)marrowState.MutableClone();
+marrowCopy.PendingTurns[0] = 99;
+if (marrowState.PendingTurns[0] != 8) throw new Exception("Native Marrow queue clone aliases");
+var restoredMarrow = (CrystalMarrowPower)ModelDb.Power<CrystalMarrowPower>().ToMutable();
+JsonSerializer.Deserialize<SavedProperties>(JsonSerializer.Serialize(SavedProperties.From(marrowState),
+    new JsonSerializerOptions { IncludeFields = true }), new JsonSerializerOptions { IncludeFields = true })!.Fill(restoredMarrow);
+if (!restoredMarrow.PendingTurns.SequenceEqual(new[] { 8, 9 }) || restoredMarrow.ActiveTurn != 7)
+    throw new Exception("Native Crystal Marrow state JSON roundtrip failed");
 harmony.UnpatchAll(harmony.Id);
 Console.WriteLine($"PASS native model smoke: {passed} registrations/upgrades/deep clones; macro independence; Co/U Harmony marks; native replay transpiler and CardPlay metadata");
 File.WriteAllText(args[0], JsonSerializer.Serialize(new {
     scope = "Actual game DLL managed TestMode: model constructors/upgrades/MutableClone/Harmony, per-card SavedProperties JSON and conditional description formatting; keyword and serialization-cache readiness seeded without full registry/startup; no live combat, Godot UI, CreateClone card-scope path, full combat save or multiplayer negotiation",
     generated_at_utc = DateTime.UtcNow, passed, macro_independence = "pass", co_u_clone_marks = "pass",
+    remaining_x_cards = "pass; native X metadata/upgrade; two powers' independent array clone and SavedProperties JSON -> Fill; no native live turn loop",
     coin_decay_clone = "pass; actual SavedAttachedState and patched MutableClone; no save roundtrip",
     derived_neutron_cost_filter = "pass; actual local cost modifiers, increased/reduced current cost, Unplayable and X exclusion; global combat hooks not invoked",
     crystal_doom_state = "pass; all 6 crystal variants inherit SavedProperty; actual SavedProperties -> JSON -> Fill; target change, canonical isolation and independent MutableClone; no full combat/run save",

@@ -46,5 +46,9 @@
   "INDIUM_STAR_POWER_CRYSTAL_HAND_AURA_POWER.title": "Crystallization Hand Aura",
   "INDIUM_STAR_POWER_CRYSTAL_HAND_AURA_POWER.description": "Synchronizes Strength and Dexterity granted by Crystallizations in hand.",
   "INDIUM_STAR_POWER_DEFERRED_RELEASE_POWER.title": "Aerosol Schedule",
-  "INDIUM_STAR_POWER_DEFERRED_RELEASE_POWER.description": "At the start of your next turn, automatically play {Amount} scheduled cards before drawing your hand."
+  "INDIUM_STAR_POWER_DEFERRED_RELEASE_POWER.description": "At the start of your next turn, automatically play {Amount} scheduled cards before drawing your hand.",
+  "INDIUM_STAR_POWER_TUNNELING_POWER.title": "Tunneling",
+  "INDIUM_STAR_POWER_TUNNELING_POWER.description": "Take extra turns with the card limits set by each cast's X. Automatic plays count; replays within a card series do not.",
+  "INDIUM_STAR_POWER_CRYSTAL_MARROW_POWER.title": "Crystal Marrow",
+  "INDIUM_STAR_POWER_CRYSTAL_MARROW_POWER.description": "Next own turn, hand cards cost 1 more and Replay once, including cards drawn or created that turn. X-cost cards keep their X cost."
 }
