@@ -594,6 +594,7 @@ NewCardTests.Register(tests, args);
 SemanticAuditTests.Register(tests);
 UpdatedSpecificationTests.Register(tests, args);
 DerivedNeutronTests.Register(tests, args);
+CrystalPunishmentTests.Register(tests, args);
 DeferredReleaseTests.Register(tests, args);
 CrystalReplayTests.Register(tests, args);
 TurnSchedulingTests.Register(tests, args);

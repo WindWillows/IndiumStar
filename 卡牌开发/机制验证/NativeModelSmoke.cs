@@ -1,5 +1,5 @@
 // 在托管测试模式下直接运行游戏DLL的模型注册、升级、深克隆与Harmony补丁。
-// 不启动游戏循环，不调用UI、伤害指令或存档；不能代替实机战斗验证。
+// 不启动游戏循环，不调用UI或伤害指令；只检查单卡属性JSON恢复，不能代替完整战斗存档。
 using System.Reflection;
 using System.Reflection.Emit;
 using IndiumStar.Mechanics;
@@ -11,6 +11,7 @@ using IndiumStar.Powers;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Extensions;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Saves.Runs;
 using MegaCrit.Sts2.Core.TestSupport;
 using STS2RitsuLib.Utils;
 using STS2RitsuLib.Keywords;
@@ -30,6 +31,12 @@ var cardTypes = typeof(MacroDendrite).Assembly.GetTypes().Where(t =>
     t.CustomAttributes.Any(a => a.AttributeType.Name == "RegisterCardAttribute"))
     .OrderBy(t => t.Name).ToArray();
 ModelDb.Init(cardTypes);
+// 全局Init会调用Godot日志器；此托管探针仅调用实际属性扫描并设置缓存就绪标志。
+// 不测试真实初始化、模组加载、网络ID协商或完整战斗存档。
+var propertyCacheType = typeof(MegaCrit.Sts2.Core.Multiplayer.Serialization.ModelIdSerializationCache);
+foreach (Type cardType in cardTypes)
+    MegaCrit.Sts2.Core.Multiplayer.Serialization.ModelIdSerializationCache.CacheSavedPropertiesForTypeDebug(cardType);
+propertyCacheType.GetField("_initialized", BindingFlags.Static | BindingFlags.NonPublic)!.SetValue(null, true);
 var harmony = new Harmony("IndiumStar.NativeModelSmoke");
 harmony.CreateClassProcessor(typeof(CrystallizeMarkClonePatch)).Patch();
 var replayTarget = CrystalReplaySeriesPatch.TargetMethod();
@@ -79,11 +86,60 @@ foreach (Type type in cardTypes)
         || canonical.Keywords.Contains(CardKeyword.Exhaust) || canonical.Keywords.Contains(CardKeyword.Retain)
         || type.CustomAttributes.Any(a => a.AttributeType.Name == "RegisterCharacterStarterCardAttribute")))
         throw new Exception("Native derived Neutron metadata/upgrade contract failed");
+    if (type == typeof(CrystalPunishment) && (canonical.Type != CardType.Attack
+        || canonical.Rarity != CardRarity.Rare || canonical.TargetType != TargetType.AnyEnemy
+        || canonical.EnergyCost.GetWithModifiers(CostModifiers.All) != 1
+        || copy.EnergyCost.GetWithModifiers(CostModifiers.All) != 1
+        || canonical.DynamicVars.Damage.BaseValue != 9 || copy.DynamicVars.Damage.BaseValue != 9
+        || canonical.DynamicVars["DoomPower"].BaseValue != 3 || copy.DynamicVars["DoomPower"].BaseValue != 4))
+        throw new Exception("Native Crystal Punishment upgrade contract failed");
+    if (mutable is CrystallizationCard crystal) {
+        crystal.AddCrystalDoom(3); crystal.AddCrystalDoom(4);
+        var crystalCopy = (CrystallizationCard)crystal.MutableClone();
+        crystalCopy.AddCrystalDoom(4);
+        if (crystal.CrystalDoomAmount != 7 || crystalCopy.CrystalDoomAmount != 11
+            || crystal.TargetType != TargetType.AnyEnemy || canonical.TargetType != TargetType.Self
+            || ((CrystallizationCard)canonical).CrystalDoomAmount != 0)
+            throw new Exception("Native Crystal Doom clone/canonical isolation failed: " + type.Name);
+        var properties = SavedProperties.From(crystal)!;
+        if (properties.ints?.SingleOrDefault(p => p.name == nameof(CrystallizationCard.CrystalDoomAmount)).value != 7)
+            throw new Exception("Native inherited Crystal Doom SavedProperty missing: " + type.Name);
+        var jsonOptions = new JsonSerializerOptions { IncludeFields = true };
+        var savedJson = JsonSerializer.Serialize(properties, jsonOptions);
+        var restoredProperties = JsonSerializer.Deserialize<SavedProperties>(savedJson, jsonOptions)!;
+        var restored = (CrystallizationCard)canonical.ToMutable();
+        restoredProperties.Fill(restored);
+        if (restored.CrystalDoomAmount != 7 || restored.TargetType != TargetType.AnyEnemy)
+            throw new Exception("Native Crystal Doom JSON property roundtrip failed: " + type.Name);
+    }
     rows.Add(new { type = type.Name, id = canonical.Id.Entry, upgraded, mutable_clone = "pass",
         card_type = canonical.Type.ToString(), rarity = canonical.Rarity.ToString() });
     passed++;
 }
 var macro = (MacroDendrite)ModelDb.GetById<CardModel>(ModelDb.GetId(typeof(MacroDendrite))).MutableClone();
+var formatter = new SmartFormat.SmartFormatter();
+formatter.AddExtensions(new SmartFormat.Extensions.DictionarySource(), new SmartFormat.Extensions.DefaultSource());
+formatter.AddExtensions(new SmartFormat.Extensions.ConditionalFormatter(), new SmartFormat.Extensions.DefaultFormatter());
+int doomDescriptions = 0;
+foreach (string language in new[] { "eng", "zhs" }) {
+    using var localization = JsonDocument.Parse(File.ReadAllText(Path.Combine(args[1], "IndiumStar", "localization", language, "cards.json")));
+    foreach (Type crystalType in cardTypes.Where(t => typeof(CrystallizationCard).IsAssignableFrom(t))) {
+        string description = localization.RootElement.GetProperty("INDIUM_STAR_CARD_" + ModelDb.GetId(crystalType).Entry + ".description").GetString()!;
+        string suffix = description[description.IndexOf("{CrystalDoomActive:cond:", StringComparison.Ordinal)..];
+        foreach (bool active in new[] { false, true }) {
+            var crystal = (CrystallizationCard)ModelDb.GetById<CardModel>(ModelDb.GetId(crystalType)).ToMutable();
+            if (active) crystal.AddCrystalDoom(7);
+            var argsForDescription = new MegaCrit.Sts2.Core.Localization.LocString("cards", "probe");
+            typeof(CrystallizationCard).GetMethod("AddExtraArgsToDescription", BindingFlags.Instance | BindingFlags.NonPublic)!
+                .Invoke(crystal, new object[] { argsForDescription });
+            var vars = argsForDescription.Variables.ToDictionary(p => p.Key, p => p.Value);
+            string text = formatter.Format(suffix, vars);
+            if (active ? !text.Contains("7") || !text.Contains(language == "eng" ? "Doom" : "消亡") : text != "")
+                throw new Exception("Native crystal conditional description failed: " + crystalType.Name + " / " + language);
+        }
+        doomDescriptions++;
+    }
+}
 var neutronFilter = typeof(DerivedApplicationNeutron).GetMethod("CanAutoPlayFromDiscard",
     BindingFlags.Static | BindingFlags.NonPublic)!;
 bool Eligible(CardModel card) => (bool)neutronFilter.Invoke(null, new object[] { card })!;
@@ -130,10 +186,12 @@ if (nativeSeriesCount != 3 || replayPlay.PlayCount != 3 || replayPlay.IsLastInSe
 harmony.UnpatchAll(harmony.Id);
 Console.WriteLine($"PASS native model smoke: {passed} registrations/upgrades/deep clones; macro independence; Co/U Harmony marks; native replay transpiler and CardPlay metadata");
 File.WriteAllText(args[0], JsonSerializer.Serialize(new {
-    scope = "Actual game DLL managed TestMode: model constructors/upgrades/MutableClone/Harmony; keyword definitions seeded without registry startup; no live combat, UI, CreateClone card-scope path, or save test",
+    scope = "Actual game DLL managed TestMode: model constructors/upgrades/MutableClone/Harmony, per-card SavedProperties JSON and conditional description formatting; keyword and serialization-cache readiness seeded without full registry/startup; no live combat, Godot UI, CreateClone card-scope path, full combat save or multiplayer negotiation",
     generated_at_utc = DateTime.UtcNow, passed, macro_independence = "pass", co_u_clone_marks = "pass",
     coin_decay_clone = "pass; actual SavedAttachedState and patched MutableClone; no save roundtrip",
     derived_neutron_cost_filter = "pass; actual local cost modifiers, increased/reduced current cost, Unplayable and X exclusion; global combat hooks not invoked",
+    crystal_doom_state = "pass; all 6 crystal variants inherit SavedProperty; actual SavedProperties -> JSON -> Fill; target change, canonical isolation and independent MutableClone; no full combat/run save",
+    crystal_doom_descriptions = new { passed = doomDescriptions, scope = "actual card AddExtraArgsToDescription and game SmartFormat ConditionalFormatter, 6 variants x 2 languages, inactive hidden / active numeric text; no Godot card UI" },
     replay_patch = new { status = "pass", target = replayTarget.DeclaringType!.FullName,
         state_machine_is_value_type = replayTarget.DeclaringType.IsValueType,
         injection = "one Apply call before main ExecutionFinished, native loop field by reference",

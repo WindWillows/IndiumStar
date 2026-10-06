@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "source": "本对话2026-10-05逐项定稿及2026-10-06电子改名/类型调整消息；2026-10-06独立衍生中子及U引用定稿",
+  "source": "本对话2026-10-05逐项定稿及2026-10-06电子改名/类型调整消息；2026-10-06独立衍生中子及U引用定稿；2026-10-06完成晶罚",
   "precedence": "最新用户指令优先于DOCX和旧问题单；DOCX保留原样",
   "document_sha256": "2a25e6905b35511fed4d97c27a55ace5f521f572c78b69cbe7cc595b9117bbf1",
   "card_specification_overrides": {
@@ -23,14 +23,16 @@
     "ReminiscenceVanadiumEternal": "效果不叠加；共用实际抽牌统计器，重复施加不清空累计。",
     "CrystalCoin": "复制继承复制时的衰减；之后原件与复制各自继续衰减。",
     "Analyze": "同类型的多个独立能力实例只算一种，隐藏能力仍排除。",
-    "PrimordialPierce": "同类型的多个独立负面能力实例只算一种；保留原版Rend的当前Debuff类型和ITemporaryPower排除条件。"
+    "PrimordialPierce": "同类型的多个独立负面能力实例只算一种；保留原版Rend的当前Debuff类型和ITemporaryPower排除条件。",
+    "CrystalPunishment": "1费稀有攻击，固定9点基础伤害；伤害及其钩子结束后为本人手中所有现有晶化添加3层消亡效果，升级4层，伤害不升级。保留各晶化原效果、保留/消耗/手动额度。"
   },
   "implementation_interpretations": {
     "Inversion_history": "本人本场战斗已完成的IExtensionCard系列，每个系列只计首段；自动打出计入，重放不另计。当前反演尚未完成，不自计；此前反演可计入。基础伤害结算后读取历史，结束战斗/本人死亡则停止后续指令。",
     "Phosphorus_mixed_upgrades": "普通版和升级版混用时，各份保留自己的模式，并按实际施加顺序消耗额度。本回合新增份数立即增加可用额度，每次本人新回合恢复总额度。此为已向用户说明的实施解释，不标为用户逐字规定。",
     "Aerosol_identifier": "仅修改显示标题，保留DeferredRelease卡牌/能力模型ID；这不能证明旧战斗队列可恢复。",
     "Electron_identifier": "运用-电子保留ApplicationNeutron类及APPLICATION_NEUTRON模型/本地化键，仍为初始攻击；新衍生中子使用DerivedApplicationNeutron独立模型，U生成及晶化U回收引用切换到新模型。",
-    "Derived_neutron": "衍生技能Token，不进入初始牌组或普通奖励池；固定当前费用含本地/全局修正，0或1费为候选，X费用和不可打出牌排除。原生自动打出不支付费用、随机目标、遵循ShouldPlay；受阻不另选。嵌套出牌及结束钩子完成后判分支；无候选仍判分支；晶逆由玩家选择弃1张手牌。晶化U沿原定义回收新中子+。费用/X候选与晶化U关联是实施解释。"
+    "Derived_neutron": "衍生技能Token，不进入初始牌组或普通奖励池；固定当前费用含本地/全局修正，0或1费为候选，X费用和不可打出牌排除。原生自动打出不支付费用、随机目标、遵循ShouldPlay；受阻不另选。嵌套出牌及结束钩子完成后判分支；无候选仍判分支；晶逆由玩家选择弃1张手牌。晶化U沿原定义回收新中子+。费用/X候选与晶化U关联是实施解释。",
+    "CrystalPunishment": "强化晶化手动打出时选择一名敌人，自动打出使用原生随机目标；先执行原效果，再向此次目标施加消亡。重复晶罚的普通/升级层数相加并合并为一次施加；每段重放照常结算。独立原生SavedProperty保存当前晶化附加层数，复制继承并独立，战斗实例不写回DeckVersion，也不占侵蚀/附魔槽。新晶化变体继承CrystallizationCard、重写PlayCrystallizationEffect，自动保留附加消亡流程。选择敌人和累加方式是实施解释。"
   },
   "deferred_user_items": [
     {
@@ -58,12 +60,6 @@
   "document_title_aliases": {},
   "pending_document_cards": [
     {
-      "name": "晶罚",
-      "rarity": "稀有",
-      "type": "攻击",
-      "status": "未实现"
-    },
-    {
       "name": "隧穿",
       "rarity": "稀有",
       "type": "技能",
@@ -74,6 +70,14 @@
       "rarity": "稀有",
       "type": "技能",
       "status": "未实现"
+    }
+  ],
+  "implemented_document_updates": [
+    {
+      "name": "晶罚",
+      "class": "CrystalPunishment",
+      "date": "2026-10-06",
+      "status": "核心实现与回归完成；实机验收未完成"
     }
   ]
 }

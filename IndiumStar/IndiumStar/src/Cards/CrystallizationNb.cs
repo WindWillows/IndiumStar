@@ -22,7 +22,7 @@ public sealed class CrystallizationNb : CrystallizationCard
     public override CardAssetProfile AssetProfile => new(
         PortraitPath: "res://images/packed/card_portraits/ironclad/defend_ironclad.png");
 
-    protected override async Task<CardModel?> PlayEffect(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    protected override async Task<CardModel?> PlayCrystallizationEffect(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await PowerCmd.Apply<VigorPower>(
             choiceContext,

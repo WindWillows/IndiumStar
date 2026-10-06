@@ -90,12 +90,6 @@
   "latest_document_review": "2026-10-06：已核对新版DOCX；晶罚、隧穿、晶髓新增但尚未实现，正文已有电子/反演定稿。本文件旧卡记录属历史规格，当前规则以规则定稿文件为准。",
   "pending_document_cards": [
     {
-      "name": "晶罚",
-      "rarity": "稀有",
-      "type": "攻击",
-      "status": "未实现"
-    },
-    {
       "name": "隧穿",
       "rarity": "稀有",
       "type": "技能",
@@ -106,6 +100,14 @@
       "rarity": "稀有",
       "type": "技能",
       "status": "未实现"
+    }
+  ],
+  "implemented_document_updates": [
+    {
+      "name": "晶罚",
+      "class": "CrystalPunishment",
+      "date": "2026-10-06",
+      "status": "核心实现与回归完成；实机验收未完成"
     }
   ]
 }

@@ -48,6 +48,10 @@ namespace MegaCrit.Sts2.Core.Models
 
     public abstract class CardModel : AbstractModel
     {
+        protected MegaCrit.Sts2.Core.Entities.Cards.TargetType CanonicalTargetType;
+        public virtual MegaCrit.Sts2.Core.Entities.Cards.TargetType TargetType => CanonicalTargetType;
+        protected void AssertMutable() { }
+        protected virtual IEnumerable<MegaCrit.Sts2.Core.HoverTips.IHoverTip> ExtraHoverTips => [];
         private MegaCrit.Sts2.Core.Localization.DynamicVars.DynamicVarSet? _dynamicVars;
         private HashSet<MegaCrit.Sts2.Core.Entities.Cards.CardKeyword> _addedKeywords = [];
         private HashSet<MegaCrit.Sts2.Core.Entities.Cards.CardKeyword> _removedKeywords = [];
@@ -199,6 +203,7 @@ namespace MegaCrit.Sts2.Core.Models.Powers
     public class VulnerablePower : MegaCrit.Sts2.Core.Models.PowerModel { public override MegaCrit.Sts2.Core.Entities.Powers.PowerType Type => MegaCrit.Sts2.Core.Entities.Powers.PowerType.Debuff; }
     public class FrailPower : MegaCrit.Sts2.Core.Models.PowerModel { public override MegaCrit.Sts2.Core.Entities.Powers.PowerType Type => MegaCrit.Sts2.Core.Entities.Powers.PowerType.Debuff; }
     public class PoisonPower : MegaCrit.Sts2.Core.Models.PowerModel { public override MegaCrit.Sts2.Core.Entities.Powers.PowerType Type => MegaCrit.Sts2.Core.Entities.Powers.PowerType.Debuff; }
+    public class DoomPower : MegaCrit.Sts2.Core.Models.PowerModel { public override MegaCrit.Sts2.Core.Entities.Powers.PowerType Type => MegaCrit.Sts2.Core.Entities.Powers.PowerType.Debuff; }
     public abstract class TemporaryDexterityPower : MegaCrit.Sts2.Core.Models.PowerModel, MegaCrit.Sts2.Core.Entities.Powers.ITemporaryPower {
         public abstract MegaCrit.Sts2.Core.Models.AbstractModel OriginModel { get; }
         protected virtual bool IsPositive => true;
@@ -513,10 +518,12 @@ namespace STS2RitsuLib.Scaffolding.Content
     public record CardAssetProfile(string PortraitPath);
     public abstract class ModCardTemplate : MegaCrit.Sts2.Core.Models.CardModel
     {
+        protected virtual IEnumerable<MegaCrit.Sts2.Core.HoverTips.IHoverTip> AdditionalHoverTips => [];
+        protected sealed override IEnumerable<MegaCrit.Sts2.Core.HoverTips.IHoverTip> ExtraHoverTips => AdditionalHoverTips;
         public int BaseCost { get; }
         protected ModCardTemplate(int cost, MegaCrit.Sts2.Core.Entities.Cards.CardType type,
             MegaCrit.Sts2.Core.Entities.Cards.CardRarity rarity, MegaCrit.Sts2.Core.Entities.Cards.TargetType target)
-        { BaseCost = cost; Type = type; EnergyCost.Value = cost; }
+        { BaseCost = cost; Type = type; EnergyCost.Value = cost; CanonicalTargetType = target; }
     }
     public record PowerAssetProfile(string Path);
     public abstract class ModPowerTemplate : MegaCrit.Sts2.Core.Models.PowerModel { }
@@ -724,8 +731,11 @@ namespace MegaCrit.Sts2.Core.Commands
         {
             if (MegaCrit.Sts2.Core.Combat.CombatManager.Instance.IsOverOrEnding || !card.Owner.Creature.IsAlive) return;
             var state = card.CombatState!;
+            if (card.TargetType == MegaCrit.Sts2.Core.Entities.Cards.TargetType.AnyEnemy && target == null)
+                target = state.HittableEnemies.FirstOrDefault(); // 不模拟本体随机目标RNG。
             bool allowed = ShouldAutoPlay(card) && state.IterateHookListeners().All(model =>
                 model.ShouldPlay(card, MegaCrit.Sts2.Core.Entities.Cards.AutoPlayType.Default));
+            if (card.TargetType == MegaCrit.Sts2.Core.Entities.Cards.TargetType.AnyEnemy && target == null) allowed = false;
             card.Owner.PlayerCombatState!.Hand.Cards.Remove(card); card.Pile?.Cards.Remove(card);
             card.Pile = new() { Type = MegaCrit.Sts2.Core.Entities.Cards.PileType.Play };
             if (!allowed) {

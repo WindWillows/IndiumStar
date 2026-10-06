@@ -28,7 +28,7 @@ $sourcePaths = @('Cards\Analyze.cs', 'Cards\BondingEster.cs', 'Cards\BondingImid
     'Patches\CrystallizeMarkClonePatch.cs', 'Powers\ApplicationCoPower.cs', 'Powers\ApplicationUCrystallizePower.cs',
     'Powers\FreeApplicationPower.cs', 'Powers\ApplicationCaBlockPower.cs', 'Cards\ApplicationCa.cs',
     'Cards\ReminiscenceTinDoubt.cs', 'Powers\ReminiscenceTinDoubtPower.cs', 'Powers\TinDoubtTemporaryPowers.cs',
-    'Cards\ShatterCrystalRain.cs', 'Cards\CrystallizationU.cs', 'Cards\ApplicationNeutron.cs', 'Cards\DerivedApplicationNeutron.cs',
+    'Cards\ShatterCrystalRain.cs', 'Cards\CrystallizationU.cs', 'Cards\ApplicationNeutron.cs', 'Cards\DerivedApplicationNeutron.cs', 'Cards\CrystalPunishment.cs',
     'Powers\LoseWeakAtTurnEndPower.cs', 'Powers\LoseVulnerableAtTurnStartPower.cs') |
     ForEach-Object { Join-Path (Join-Path $ProjectDir 'src') $_ }
 $sourcePaths += @($usingsPath, (Join-Path $PSScriptRoot 'GameStubs.cs'), (Join-Path $PSScriptRoot 'NewCardStubs.cs'),
@@ -36,6 +36,8 @@ $sourcePaths += @($usingsPath, (Join-Path $PSScriptRoot 'GameStubs.cs'), (Join-P
     (Join-Path $PSScriptRoot 'MechanismTests.cs'), (Join-Path $PSScriptRoot 'UpdatedSpecificationTests.cs'), (Join-Path $PSScriptRoot 'DeferredReleaseTests.cs'), (Join-Path $PSScriptRoot 'CrystalReplayTests.cs'), (Join-Path $PSScriptRoot 'TurnSchedulingTests.cs'), (Join-Path $PSScriptRoot 'ApplicationEffectTests.cs'), (Join-Path $PSScriptRoot 'RemainingCardStubs.cs'), (Join-Path $PSScriptRoot 'RemainingCardEffectTests.cs'))
 $sourcePaths += (Join-Path $PSScriptRoot 'RuleDecisionTests.cs')
 $sourcePaths += (Join-Path $PSScriptRoot 'DerivedNeutronTests.cs')
+$sourcePaths += (Join-Path $PSScriptRoot 'CrystalPunishmentTests.cs')
+$sourcePaths += (Join-Path $PSScriptRoot 'CrystalPunishmentStubs.cs')
 $arguments = @('/nostdlib+', '/target:exe', '/optimize+', '/langversion:13.0', '/nullable:enable', '/utf8output',
     ('/out:"' + (Join-Path $outputDir 'MechanismTests.dll') + '"'))
 $arguments += Get-ChildItem -LiteralPath (Join-Path $refDir.FullName 'ref\net9.0') -Filter '*.dll' |
