@@ -1,0 +1,71 @@
+{
+  "baseline_revision": "1f643f122c5f663b65bf12090a2b29864396580f",
+  "document_sha256": "9e7f15d71b0865d4950210f28930dd696856548f16ae6e2c9b73f9f40c9bb423",
+  "added_cards": [
+    "渊河 / AbyssalRiver",
+    "辰海 / StellarSea"
+  ],
+  "card_pool": {
+    "registered": 70,
+    "main": 63,
+    "attack": 27,
+    "skill": 26,
+    "power": 10,
+    "derived": 7
+  },
+  "focused_checks": {
+    "passed": 19,
+    "total": 19,
+    "scope": "真实模组源码＋指令/历史替身；不包含完整实机战斗"
+  },
+  "native_models": {
+    "passed": 70,
+    "scope": "真实游戏DLL的注册/升级/独立克隆及探针断言；完整范围见native-model-smoke.json"
+  },
+  "stellar_sea_restore": {
+    "result": "pass",
+    "upgrade_level": 5,
+    "damage": 20,
+    "cost": 1,
+    "scope": "实际CardModel.ToSerializable -> FromSerializable；非JSON、完整运行存档或战后钩子实机执行"
+  },
+  "release_build": {
+    "result": "pass",
+    "errors": 0,
+    "warnings": 0,
+    "export_pck": false,
+    "deploy_mod": false
+  },
+  "native_pck_roundtrip": {
+    "result": "pass",
+    "json_files": 11
+  },
+  "document_qa": {
+    "result": "pass",
+    "pages": 4,
+    "renderer": "Word16.0只读导出PDF + bundled Poppler PNG",
+    "fallback_reason": "canonical render_docx.py缺少soffice.exe",
+    "all_pages_visually_checked": true
+  },
+  "full_old_regression_rerun": false,
+  "complete_live_effect_acceptances": 0,
+  "deferred_items": [
+    "TD01",
+    "TD02",
+    "TD03",
+    "TD04"
+  ],
+  "source_hashes": {
+    "IndiumStar/IndiumStar/src/Cards/AbyssalRiver.cs": "62ff36eba40c1cc1c3777cf60c122f8b6b20e85eb87c10fd17d28125ac6868ff",
+    "IndiumStar/IndiumStar/src/Cards/StellarSea.cs": "75c0eb6572cdcab5e15d9fd5101360cf774b945053924a062a1d9d805072ce87",
+    "卡牌开发/机制验证/RiverSeaTests.cs": "bf4aee2dfb9a3b59c34389566726dcd473c3941a68f21bae16dafcf1544c8687",
+    "卡牌开发/机制验证/NativeModelSmoke.cs": "209893475fca463d5e0e543eda32612e6c2a64f989d12b4ebcc70aa13851ec87",
+    "IndiumStar/IndiumStar/IndiumStar/localization/zhs/cards.json": "47738d2c53971b311dbd3493495e03ddf5bb726bfb07e10a1e9e8a1ba1a0e7b0",
+    "IndiumStar/IndiumStar/IndiumStar/localization/eng/cards.json": "842d10e400c896eac6fced92138c2c05348b804c42becf4663d70de76a9e6e04"
+  },
+  "artifact_hashes": {
+    "IndiumStar.dll": "136eef120bbefd2f731b83d5e8f6e28244042046ffda392ca6ac30b1f9bbde80",
+    "IndiumStar.pck": "133a003e4fa48e35dd56f8a41f3974f4ca707bd1188c24c0068098c71f972f62",
+    "IndiumStar.json": "60c8a8866234b7aaaf97787c8afb86075f05e328cfcf9a92e069f4891950fe75"
+  }
+}

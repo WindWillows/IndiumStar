@@ -143,5 +143,9 @@
   "INDIUM_STAR_CARD_TUNNELING.title": "Tunneling",
   "INDIUM_STAR_CARD_TUNNELING.description": "End your turn and take an extra turn.\nYou may play at most X{IfUpgraded:show:+{ExtraCards:diff()}|} cards during that extra turn.",
   "INDIUM_STAR_CARD_CRYSTAL_MARROW.title": "Crystal Marrow",
-  "INDIUM_STAR_CARD_CRYSTAL_MARROW.description": "Gain X{IfUpgraded:show:+{ExtraDraw:diff()}|} [gold]Extension[/gold].\nDraw X{IfUpgraded:show:+{ExtraDraw:diff()}|} additional cards at the start of your next turn.\nNext turn, all cards in your hand cost 1 more and [gold]Replay[/gold] once."
+  "INDIUM_STAR_CARD_CRYSTAL_MARROW.description": "Gain X{IfUpgraded:show:+{ExtraDraw:diff()}|} [gold]Extension[/gold].\nDraw X{IfUpgraded:show:+{ExtraDraw:diff()}|} additional cards at the start of your next turn.\nNext turn, all cards in your hand cost 1 more and [gold]Replay[/gold] once.",
+  "INDIUM_STAR_CARD_ABYSSAL_RIVER.title": "Abyssal River",
+  "INDIUM_STAR_CARD_ABYSSAL_RIVER.description": "Deal {Damage:diff()} damage.\nWhenever you play a [gold]Crystallization[/gold], return this card to your hand.",
+  "INDIUM_STAR_CARD_STELLAR_SEA.title": "Stellar Sea",
+  "INDIUM_STAR_CARD_STELLAR_SEA.description": "Deal {Damage:diff()} damage.\nCan be upgraded any number of times. Each upgrade adds 2 damage.\nAt the end of each combat, if this card was played more times than its current upgrade level, upgrade it."
 }

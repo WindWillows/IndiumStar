@@ -1,0 +1,23 @@
+{
+  "added_blocks": [
+    [
+      "渊河",
+      "0c 稀有 攻击",
+      "造成7点伤害。",
+      "每当你打出晶化时，将此牌返回你的手牌。"
+    ],
+    [
+      "辰海",
+      "1c 稀有 攻击",
+      "造成10（+2）点伤害。",
+      "可以无限升级。",
+      "每场战斗结束时，若此牌打出次数大于其当前升级次数，升级此牌。"
+    ]
+  ],
+  "inventory_changes": [
+    "稀有卡10→12",
+    "稀有攻击3→5"
+  ],
+  "existing_paragraphs_preserved_except_inventory": true,
+  "other_zip_members_byte_identical": true
+}

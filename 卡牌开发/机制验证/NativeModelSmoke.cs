@@ -56,7 +56,7 @@ foreach (Type type in cardTypes)
 {
     CardModel canonical = ModelDb.GetById<CardModel>(ModelDb.GetId(type));
     CardModel mutable = canonical.ToMutable();
-    bool upgraded = mutable.Type != CardType.Status;
+    bool upgraded = mutable.Type != CardType.Status && mutable.IsUpgradable;
     if (upgraded) { mutable.UpgradeInternal(); mutable.FinalizeUpgradeInternal(); }
     var copy = (CardModel)mutable.MutableClone();
     if (!copy.IsMutable || ReferenceEquals(copy.DynamicVars, mutable.DynamicVars)
@@ -113,6 +113,20 @@ foreach (Type type in cardTypes)
     if (type == typeof(ShatterCrystalRain) && (canonical.DynamicVars.Damage.BaseValue != 2
         || copy.DynamicVars.Damage.BaseValue != 2 || canonical.DynamicVars.Repeat.IntValue != 3 || copy.DynamicVars.Repeat.IntValue != 4))
         throw new Exception("Native Shatter Crystal Rain damage/repeat failed");
+    if (type == typeof(AbyssalRiver) && (canonical.DynamicVars.Damage.BaseValue != 7
+        || canonical.MaxUpgradeLevel != 0 || mutable.IsUpgradable || copy.IsUpgraded
+        || canonical.EnergyCost.GetWithModifiers(CostModifiers.All) != 0 || canonical.Rarity != CardRarity.Rare || canonical.Type != CardType.Attack))
+        throw new Exception("Native Abyssal River metadata failed");
+    if (type == typeof(StellarSea)) {
+        for (int i = 1; i < 5; i++) { mutable.UpgradeInternal(); mutable.FinalizeUpgradeInternal(); }
+        var save = mutable.ToSerializable();
+        var restored = CardModel.FromSerializable(save);
+        if (canonical.MaxUpgradeLevel != int.MaxValue || canonical.DynamicVars.Damage.BaseValue != 10
+            || mutable.CurrentUpgradeLevel != 5 || mutable.DynamicVars.Damage.BaseValue != 20
+            || restored.CurrentUpgradeLevel != 5 || restored.DynamicVars.Damage.BaseValue != 20
+            || restored.EnergyCost.GetWithModifiers(CostModifiers.All) != 1)
+            throw new Exception("Native Stellar Sea repeated upgrade / SerializableCard restoration failed");
+    }
     if (mutable is CrystallizationCard crystal) {
         crystal.AddCrystalDoom(3); crystal.AddCrystalDoom(4);
         var crystalCopy = (CrystallizationCard)crystal.MutableClone();

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "source_file": "晶塔世界角色.docx",
-  "source_sha256": "4c8ff3177eebc1e7d5e3e53a777d857d286fe2f1dcd72510580ba3374a1747b6",
+  "source_sha256": "9e7f15d71b0865d4950210f28930dd696856548f16ae6e2c9b73f9f40c9bb423",
   "baseline_revision": "7a43d89",
   "precedence": "用户当前更新的DOCX覆盖此前同名卡牌规格；此前明确给出的分影连气和邻基参与继续保留。",
   "cards": [
@@ -86,8 +86,8 @@
     "display_title": "[待命名]技能"
   },
   "remaining_audit_scope": "全卡池逐牌语义、时序和边界核查；卡牌全部完成前不转入遗物实现",
-  "previous_source_sha256": "2a25e6905b35511fed4d97c27a55ace5f521f572c78b69cbe7cc595b9117bbf1",
-  "latest_document_review": "2026-10-06：本次最新DOCX同步9张卡牌的数值、关键词及生效顺序；衍生中子和气溶胶已进入文档且原实现匹配。68张均已实现，旧cards列表保留为历史；当前规格以latest_document_sync和规则定稿文件为准。实机、完整存档和多人门槛保留。",
+  "previous_source_sha256": "4c8ff3177eebc1e7d5e3e53a777d857d286fe2f1dcd72510580ba3374a1747b6",
+  "latest_document_review": "2026-10-06追加渊河、辰海，正文稀有攻击与数量同步；当前70张定义已有核心实现。本文件此前cards和latest_document_sync保留为历史，最新新增规格见latest_additions。实机、完整存档和多人门槛保留。",
   "pending_document_cards": [],
   "implemented_document_updates": [
     {
@@ -158,5 +158,30 @@
         "specification": "3c 稀有 能力；晶化3；每张手牌晶化提供1点力量和1点敏捷；升级保留。"
       }
     ]
+  },
+  "latest_additions": {
+    "date": "2026-10-06",
+    "cards": [
+      {
+        "name": "渊河",
+        "class": "AbyssalRiver",
+        "cost": 0,
+        "rarity": "稀有",
+        "type": "攻击",
+        "damage": 7,
+        "effect": "每当本人打出晶化，将此牌返回手牌。"
+      },
+      {
+        "name": "辰海",
+        "class": "StellarSea",
+        "cost": 1,
+        "rarity": "稀有",
+        "type": "攻击",
+        "damage": 10,
+        "upgrade_damage_per_level": 2,
+        "effect": "可以无限升级；每场战斗结束，出牌次数大于当前升级次数则升级一次。"
+      }
+    ],
+    "baseline_revision": "1f643f1"
   }
 }

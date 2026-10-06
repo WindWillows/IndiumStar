@@ -42,6 +42,9 @@ $sourcePaths += @('Cards\Tunneling.cs', 'Cards\CrystalMarrow.cs', 'Powers\Tunnel
     ForEach-Object { Join-Path (Join-Path $ProjectDir 'src') $_ }
 $sourcePaths += (Join-Path $PSScriptRoot 'RemainingXCardTests.cs')
 $sourcePaths += (Join-Path $PSScriptRoot 'DocumentSyncTests.cs')
+$sourcePaths += @('Cards\AbyssalRiver.cs', 'Cards\StellarSea.cs') |
+    ForEach-Object { Join-Path (Join-Path $ProjectDir 'src') $_ }
+$sourcePaths += (Join-Path $PSScriptRoot 'RiverSeaTests.cs')
 $arguments = @('/nostdlib+', '/target:exe', '/optimize+', '/langversion:13.0', '/nullable:enable', '/utf8output',
     ('/out:"' + (Join-Path $outputDir 'MechanismTests.dll') + '"'))
 $arguments += Get-ChildItem -LiteralPath (Join-Path $refDir.FullName 'ref\net9.0') -Filter '*.dll' |

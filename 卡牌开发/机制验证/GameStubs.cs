@@ -20,6 +20,10 @@ namespace MegaCrit.Sts2.Core.Models
             MegaCrit.Sts2.Core.ValueProps.ValueProp props, MegaCrit.Sts2.Core.Entities.Creatures.Creature target, CardModel? source) => Task.CompletedTask;
         public virtual Task AfterCardPlayed(MegaCrit.Sts2.Core.GameActions.Multiplayer.PlayerChoiceContext context,
             MegaCrit.Sts2.Core.Entities.Cards.CardPlay play) => Task.CompletedTask;
+        public virtual Task AfterCardPlayedLate(MegaCrit.Sts2.Core.GameActions.Multiplayer.PlayerChoiceContext context,
+            MegaCrit.Sts2.Core.Entities.Cards.CardPlay play) => Task.CompletedTask;
+        public virtual Task BeforeCombatStart() => Task.CompletedTask;
+        public virtual Task AfterCombatEnd(MegaCrit.Sts2.Core.Rooms.CombatRoom room) => Task.CompletedTask;
         public virtual Task BeforeCardPlayed(MegaCrit.Sts2.Core.Entities.Cards.CardPlay play) => Task.CompletedTask;
         public virtual Task BeforeSideTurnEnd(MegaCrit.Sts2.Core.GameActions.Multiplayer.PlayerChoiceContext context,
             MegaCrit.Sts2.Core.Combat.CombatSide side, IEnumerable<MegaCrit.Sts2.Core.Entities.Creatures.Creature> participants) => Task.CompletedTask;
@@ -68,7 +72,10 @@ namespace MegaCrit.Sts2.Core.Models
         public string Title { get; set; } = "";
         public MegaCrit.Sts2.Core.Entities.Cards.CardType Type { get; protected set; }
         public MegaCrit.Sts2.Core.Entities.Cards.CardPile? Pile { get; set; }
-        public bool IsUpgraded { get; private set; }
+        public int CurrentUpgradeLevel { get; private set; }
+        public virtual int MaxUpgradeLevel => 1;
+        public bool IsUpgradable => CurrentUpgradeLevel < MaxUpgradeLevel;
+        public bool IsUpgraded => CurrentUpgradeLevel > 0;
         public bool IsDupe { get; set; }
         public AfflictionModel? Affliction { get; set; }
         public virtual bool GainsBlock => false;
@@ -90,7 +97,10 @@ namespace MegaCrit.Sts2.Core.Models
         public void AddKeyword(MegaCrit.Sts2.Core.Entities.Cards.CardKeyword keyword) => _addedKeywords.Add(keyword);
         public void RemoveKeyword(MegaCrit.Sts2.Core.Entities.Cards.CardKeyword keyword) => _removedKeywords.Add(keyword);
         protected virtual void OnUpgrade() { }
-        public void Upgrade() { IsUpgraded = true; OnUpgrade(); }
+        public void Upgrade() {
+            if (!IsUpgradable) throw new InvalidOperationException("Maximum upgrade level reached");
+            CurrentUpgradeLevel++; OnUpgrade();
+        }
         public CardModel Clone() => (CardModel)MutableClone();
         public CardModel CreateClone() {
             var clone = Clone(); clone.DeckVersion = null; clone.Pile = null;
@@ -139,6 +149,8 @@ namespace MegaCrit.Sts2.Core.Models
                 manager.History.CardPlaysFinished.Add(new(combatState, combatState.Turn, cardPlay));
                 if (!manager.IsOverOrEnding)
                     foreach (var listener in combatState.IterateHookListeners().ToArray()) await listener.AfterCardPlayed(choiceContext, cardPlay);
+                if (!manager.IsOverOrEnding)
+                    foreach (var listener in combatState.IterateHookListeners().ToArray()) await listener.AfterCardPlayedLate(choiceContext, cardPlay);
                 if (!Owner.Creature.IsAlive) return;
             }
             if (Pile?.Type == MegaCrit.Sts2.Core.Entities.Cards.PileType.Play)
@@ -735,7 +747,8 @@ namespace MegaCrit.Sts2.Core.Commands
         }
         public static Func<MegaCrit.Sts2.Core.Models.CardModel, bool> ShouldAutoPlay { get; set; } = _ => true;
         public static void ApplySingleTurnRetain(MegaCrit.Sts2.Core.Models.CardModel card) => card.GiveSingleTurnRetain();
-        public static void Upgrade(MegaCrit.Sts2.Core.Models.CardModel card, MegaCrit.Sts2.Core.Nodes.CommonUi.CardPreviewStyle style) => card.Upgrade();
+        public static void Upgrade(MegaCrit.Sts2.Core.Models.CardModel card, MegaCrit.Sts2.Core.Nodes.CommonUi.CardPreviewStyle style)
+        { if (card.IsUpgradable) card.Upgrade(); }
         public static Task Afflict<T>(MegaCrit.Sts2.Core.Models.CardModel card, decimal amount)
             where T : MegaCrit.Sts2.Core.Models.AfflictionModel, new() { card.Affliction = new T(); return Task.CompletedTask; }
         // 固定目标变化，不模拟随机牌池/UI/存档；保留原牌所在堆与位置。

@@ -1,0 +1,20 @@
+PASS 渊河辰海：渊河普通或自动晶化从Draw唤回且不重复入手 auto=False
+PASS 渊河辰海：渊河普通或自动晶化从Draw唤回且不重复入手 auto=True
+PASS 渊河辰海：渊河普通或自动晶化从Discard唤回且不重复入手 auto=False
+PASS 渊河辰海：渊河普通或自动晶化从Discard唤回且不重复入手 auto=True
+PASS 渊河辰海：渊河普通或自动晶化从Exhaust唤回且不重复入手 auto=False
+PASS 渊河辰海：渊河普通或自动晶化从Exhaust唤回且不重复入手 auto=True
+PASS 渊河辰海：渊河普通或自动晶化从Play唤回且不重复入手 auto=False
+PASS 渊河辰海：渊河普通或自动晶化从Play唤回且不重复入手 auto=True
+PASS 渊河辰海：渊河排除他人、非晶化、异战斗及结束状态
+PASS 渊河辰海：渊河满手沿原生Add溢出，不复制或移除卡牌
+PASS 渊河辰海：渊河自身攻击的晶化连锁唤回后，最终不再丢入弃牌堆
+PASS 渊河辰海：辰海严格大于升级等级才永久升级一次 level=0 plays=0
+PASS 渊河辰海：辰海严格大于升级等级才永久升级一次 level=0 plays=1
+PASS 渊河辰海：辰海严格大于升级等级才永久升级一次 level=2 plays=2
+PASS 渊河辰海：辰海严格大于升级等级才永久升级一次 level=2 plays=3
+PASS 渊河辰海：辰海自动和重放计入完成历史，原件与副本回调不重复升级
+PASS 渊河辰海：辰海独立原件、战斗复制、未完成和他人出牌不混计
+PASS 渊河辰海：辰海每场计数重置且新战斗可再次升级
+PASS 渊河辰海：辰海多次升级累加2伤害、保持1费和独立克隆
+19/19 passed; scope: real mod source, command/history stubs, real Harmony patching and game API contract.

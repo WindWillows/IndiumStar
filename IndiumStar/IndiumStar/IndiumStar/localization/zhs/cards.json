@@ -143,5 +143,9 @@
   "INDIUM_STAR_CARD_TUNNELING.title": "隧穿",
   "INDIUM_STAR_CARD_TUNNELING.description": "结束当前回合，获得一个额外回合。\n额外回合内，你至多打出X{IfUpgraded:show:+{ExtraCards:diff()}|}张牌。",
   "INDIUM_STAR_CARD_CRYSTAL_MARROW.title": "晶髓",
-  "INDIUM_STAR_CARD_CRYSTAL_MARROW.description": "[gold]延拓[/gold]X{IfUpgraded:show:+{ExtraDraw:diff()}|}。\n下回合开始时，额外抽X{IfUpgraded:show:+{ExtraDraw:diff()}|}张牌。\n下回合，你的所有手牌花费+1且[gold]重放[/gold]1次。"
+  "INDIUM_STAR_CARD_CRYSTAL_MARROW.description": "[gold]延拓[/gold]X{IfUpgraded:show:+{ExtraDraw:diff()}|}。\n下回合开始时，额外抽X{IfUpgraded:show:+{ExtraDraw:diff()}|}张牌。\n下回合，你的所有手牌花费+1且[gold]重放[/gold]1次。",
+  "INDIUM_STAR_CARD_ABYSSAL_RIVER.title": "渊河",
+  "INDIUM_STAR_CARD_ABYSSAL_RIVER.description": "造成{Damage:diff()}点伤害。\n每当你打出[gold]晶化[/gold]时，将此牌返回你的手牌。",
+  "INDIUM_STAR_CARD_STELLAR_SEA.title": "辰海",
+  "INDIUM_STAR_CARD_STELLAR_SEA.description": "造成{Damage:diff()}点伤害。\n可以无限升级，每次升级伤害+2。\n每场战斗结束时，若此牌打出次数大于其当前升级次数，升级此牌。"
 }

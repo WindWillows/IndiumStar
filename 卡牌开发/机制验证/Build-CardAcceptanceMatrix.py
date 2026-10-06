@@ -111,7 +111,8 @@ for row in records:
     row["localized_description"] = localization[key + ".description"]
     row["card_source_linked_by_regression"] = "Cards/" + cls + ".cs" in linked_sources
     aliases = [row["title"]] + short_names.get(cls, [])
-    row["named_case_evidence"] = [name for name in passed_cases if any(name.removeprefix("文档同步：").startswith(alias) for alias in aliases)]
+    row["named_case_evidence"] = [name for name in passed_cases if any(
+        name.removeprefix("文档同步：").removeprefix("渊河辰海：").startswith(alias) for alias in aliases)]
     row["model_probe"] = native["mutable_clone"] + "；仅构造、升级、MutableClone；非实机效果"
     row["effect_acceptance"] = ("本批部分源码检查；尚未完整验收" if row["named_case_evidence"]
         else "本批未重跑；历史回归见前批记录，完整验收未完成") if row["card_source_linked_by_regression"] else "需要补齐直接卡牌效果回归；相关命名用例不自动证明整牌效果"
