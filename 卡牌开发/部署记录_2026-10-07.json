@@ -1,0 +1,19 @@
+{
+  "deployed_at_beijing": "2026-10-07 02:16:46 +08:00",
+  "revision": "d6f36fb776945e329e8f23d391fe612271097e8f",
+  "target": "D:\\Program Files (x86)\\Steam\\steamapps\\common\\Slay the Spire 2\\mods\\IndiumStar",
+  "backup_relative_path": "卡牌开发\\修改备份\\部署_2026-10-07_021646",
+  "file_count": 13,
+  "artifact_hashes": {
+    "IndiumStar.dll": "136eef120bbefd2f731b83d5e8f6e28244042046ffda392ca6ac30b1f9bbde80",
+    "IndiumStar.pck": "133a003e4fa48e35dd56f8a41f3974f4ca707bd1188c24c0068098c71f972f62",
+    "IndiumStar.json": "60c8a8866234b7aaaf97787c8afb86075f05e328cfcf9a92e069f4891950fe75"
+  },
+  "all_deployed_files_sha256_matched": true,
+  "dependency_version": "0.6.2",
+  "indiumstar_enabled": true,
+  "unrelated_settings_preserved": true,
+  "game_launched": false,
+  "additional_regressions_run": false,
+  "live_combat_verified": false
+}
