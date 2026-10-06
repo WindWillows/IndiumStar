@@ -29,7 +29,9 @@ public sealed class ShadowChainBreath : ModCardTemplate
     }
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {
-        int count = PileType.Hand.GetPile(Owner).Cards.OfType<ShadowChainBreath>().Count();
+        // 本体在OnPlay前把正在打出的牌移入Play；本牌仍计一段，且不能重复计数。
+        int count = 1 + PileType.Hand.GetPile(Owner).Cards
+            .OfType<ShadowChainBreath>().Count(card => card != this);
         for (int i = 0; i < count; i++)
         {
             await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, play);

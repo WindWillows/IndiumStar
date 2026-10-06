@@ -92,12 +92,12 @@ public static class NewCardTests
         });
         foreach (int remaining in new[] { 0, 1, 3 }) foreach (bool upgraded in new[] { false, true }) {
             int count = remaining; bool up = upgraded;
-            Test($"分影连气按剩余手牌分次获得格挡 count={count} upgraded={up}", async () => {
+            Test($"分影连气包括自身分次获得格挡 count={count} upgraded={up}", async () => {
                 var r = new Rig(); var card = r.Crystal<ShadowChainBreath>(); if (up) card.Upgrade(); Put(r, card, PileType.Hand);
                 for (int i = 0; i < count; i++) Put(r, r.Crystal<ShadowChainBreath>(), PileType.Hand);
                 await PowerCmd.Apply<DexterityPower>(r.Choice, r.Player.Creature, 2, r.Player.Creature, null);
                 await Play(r, card);
-                Check(CreatureCmd.BlockGains.Count == count && r.Player.Creature.Block == count * (up ? 6 : 5));
+                Check(CreatureCmd.BlockGains.Count == count + 1 && r.Player.Creature.Block == (count + 1) * (up ? 6 : 5));
                 Check(card.CanonicalKeywords.Contains(CardKeyword.Exhaust));
             });
         }

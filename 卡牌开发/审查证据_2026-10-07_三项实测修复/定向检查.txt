@@ -1,0 +1,17 @@
+PASS 实测修复 分影连气本体离手后包含自身 remaining=0 upgraded=False
+PASS 实测修复 分影连气本体离手后包含自身 remaining=0 upgraded=True
+PASS 实测修复 分影连气本体离手后包含自身 remaining=2 upgraded=False
+PASS 实测修复 分影连气本体离手后包含自身 remaining=2 upgraded=True
+PASS 实测修复 分影连气直接结算仍在手牌时自身只计一次
+PASS 实测修复 晶罚全部晶化变体施加消亡粉末能力而非灾厄 upgraded=False
+PASS 实测修复 晶罚全部晶化变体施加消亡粉末能力而非灾厄 upgraded=True
+PASS 实测修复 电子重复虚弱仅持续本人本回合且保留其他来源 baseline=0
+PASS 实测修复 电子重复易伤覆盖敌方行动但不进入下一回合或双扣 baseline=0
+PASS 实测修复 电子重复虚弱仅持续本人本回合且保留其他来源 baseline=3
+PASS 实测修复 电子重复易伤覆盖敌方行动但不进入下一回合或双扣 baseline=3
+PASS 实测修复 电子负面受阻不产生倒扣额度
+PASS 实测修复 电子负面提前减层后不误删既有层数
+PASS 实测修复 电子负面被完全清除后不会误删外部新实例
+PASS 实测修复 电子他人回合不能清除本人的虚弱
+PASS 实测修复 电子特殊跳回合的开始兜底不清除同回合新效果
+16/16 passed; scope: real mod source, command/history stubs, real Harmony patching and game API contract.

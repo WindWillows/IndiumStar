@@ -1,0 +1,48 @@
+{
+  "version": "0.1.2",
+  "generated_at_beijing": "2026-10-07 03:54:27 +08:00",
+  "base_revision": "0794b05abf1fcb8d11b57ca87fbde4015a6e7a08",
+  "artifact_source": "working tree of this bugfix; final commit contains source and these hashes",
+  "release_build": {
+    "status": "pass",
+    "warnings": 0,
+    "errors": 0
+  },
+  "focused_checks": {
+    "status": "pass",
+    "passed": 16,
+    "total": 16,
+    "scope": "real source, command/history stubs, real Harmony; no live combat"
+  },
+  "native_models": {
+    "scope": "installed game DLL managed TestMode; no full combat/run save",
+    "electron_marker_saved_properties": 2,
+    "status": "pass",
+    "starter_relic": 1,
+    "cards": 70,
+    "demise_potion_il_contract": "pass"
+  },
+  "pck": {
+    "status": "pass",
+    "json_files": 13,
+    "scope": "Godot native pack and readback"
+  },
+  "artifact_hashes": {
+    "IndiumStar.dll": "8f0b5083f3dc45037bff51d0c6d5e241a2ce9320e2c62369cded90fac3f1c905",
+    "IndiumStar.pck": "a4b6464a8f6cf4a435fe2960ed8e96df371b94e96b330d15af2636d2108a7c39",
+    "IndiumStar.json": "61663ba6bb3c7df87767577a0b2f47b4002b5d0943a777f624781e9ee4d04925"
+  },
+  "game_version": "0.111.0",
+  "live_combat_verified": false,
+  "game_launched_this_batch": false,
+  "full_old_regressions_run": false,
+  "deployment": {
+    "status": "deployed",
+    "game_closed": true,
+    "version": "0.1.2",
+    "file_count": 15,
+    "all_files_sha256_matched": true,
+    "backup_relative_path": "卡牌开发\\修改备份\\部署_2026-10-07_035430",
+    "game_launched": false
+  }
+}

@@ -19,7 +19,7 @@ public abstract class CrystallizationCard : ApplicationCard, ICrystallizationCar
 {
     private int _crystalDoomAmount;
 
-    /// <summary>当前晶化的附加消亡层数；原生属性存档及深克隆保留，战斗实例不会写回牌组。</summary>
+    /// <summary>消亡粉末对应的消亡层数；保留旧属性名以兼容存档，实际施加DemisePower。</summary>
     [SavedProperty]
     public int CrystalDoomAmount
     {
@@ -35,7 +35,7 @@ public abstract class CrystallizationCard : ApplicationCard, ICrystallizationCar
     public override TargetType TargetType => CrystalDoomAmount > 0 ? TargetType.AnyEnemy : base.TargetType;
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips => CrystalDoomAmount > 0
-        ? base.AdditionalHoverTips.Append(HoverTipFactory.FromPower<DoomPower>()) : base.AdditionalHoverTips;
+        ? base.AdditionalHoverTips.Append(HoverTipFactory.FromPower<DemisePower>()) : base.AdditionalHoverTips;
 
     protected override void AddExtraArgsToDescription(LocString description)
     {
@@ -61,12 +61,12 @@ public abstract class CrystallizationCard : ApplicationCard, ICrystallizationCar
     /// <summary>每段先执行晶化原效果，再执行附加消亡；自动打出和重放沿用同一入口。</summary>
     protected sealed override async Task<CardModel?> PlayEffect(PlayerChoiceContext context, CardPlay play)
     {
-        int doom = CrystalDoomAmount;
+        int demise = CrystalDoomAmount;
         var result = await PlayCrystallizationEffect(context, play);
-        if (doom > 0 && play.Target is { IsAlive: true } target && target.Side != Owner.Creature.Side
+        if (demise > 0 && play.Target is { IsAlive: true } target && target.Side != Owner.Creature.Side
             && target.CombatState == CombatState && Owner.Creature.IsAlive
             && !CombatManager.Instance.IsOverOrEnding)
-            await PowerCmd.Apply<DoomPower>(context, target, doom, Owner.Creature, this);
+            await PowerCmd.Apply<DemisePower>(context, target, demise, Owner.Creature, this);
         return result;
     }
 

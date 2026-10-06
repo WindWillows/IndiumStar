@@ -12,6 +12,9 @@ using IndiumStar.Relics;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Extensions;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.Models.Potions;
+using System.Runtime.CompilerServices;
 using MegaCrit.Sts2.Core.Saves.Runs;
 using MegaCrit.Sts2.Core.TestSupport;
 using STS2RitsuLib.Utils;
@@ -31,7 +34,7 @@ var cardTypes = typeof(MacroDendrite).Assembly.GetTypes().Where(t =>
     typeof(CardModel).IsAssignableFrom(t) && !t.IsAbstract &&
     t.CustomAttributes.Any(a => a.AttributeType.Name == "RegisterCardAttribute"))
     .OrderBy(t => t.Name).ToArray();
-var newPowerTypes = new[] { typeof(TunnelingPower), typeof(CrystalMarrowPower), typeof(DefectiveCrystalCell) };
+var newPowerTypes = new[] { typeof(TunnelingPower), typeof(CrystalMarrowPower), typeof(DefectiveCrystalCell), typeof(LoseWeakAtTurnEndPower), typeof(LoseVulnerableAtTurnStartPower) };
 ModelDb.Init(cardTypes.Concat(newPowerTypes).ToArray());
 // 全局Init会调用Godot日志器；此托管探针仅调用实际属性扫描并设置缓存就绪标志。
 // 不测试真实初始化、模组加载、网络ID协商或完整战斗存档。
@@ -94,7 +97,7 @@ foreach (Type type in cardTypes)
         || canonical.EnergyCost.GetWithModifiers(CostModifiers.All) != 1
         || copy.EnergyCost.GetWithModifiers(CostModifiers.All) != 1
         || canonical.DynamicVars.Damage.BaseValue != 9 || copy.DynamicVars.Damage.BaseValue != 9
-        || canonical.DynamicVars["DoomPower"].BaseValue != 3 || copy.DynamicVars["DoomPower"].BaseValue != 4))
+        || canonical.DynamicVars["DemisePower"].BaseValue != 3 || copy.DynamicVars["DemisePower"].BaseValue != 4))
         throw new Exception("Native Crystal Punishment upgrade contract failed");
     if (type == typeof(Tunneling) && (!canonical.EnergyCost.CostsX || !copy.EnergyCost.CostsX
         || canonical.Type != CardType.Skill || canonical.Rarity != CardRarity.Rare
@@ -169,7 +172,7 @@ foreach (string language in new[] { "eng", "zhs" }) {
                 .Invoke(crystal, new object[] { argsForDescription });
             var vars = argsForDescription.Variables.ToDictionary(p => p.Key, p => p.Value);
             string text = formatter.Format(suffix, vars);
-            if (active ? !text.Contains("7") || !text.Contains(language == "eng" ? "Doom" : "消亡") : text != "")
+            if (active ? !text.Contains("7") || !text.Contains(language == "eng" ? "Demise" : "消亡") : text != "")
                 throw new Exception("Native crystal conditional description failed: " + crystalType.Name + " / " + language);
         }
         doomDescriptions++;
@@ -259,7 +262,38 @@ await cellRestored.BeforeCombatStart();
 if (cellRestored.TriggeredThisCombat) throw new Exception("Native starter relic reset failed");
 harmony.UnpatchAll(harmony.Id);
 Console.WriteLine($"PASS native model smoke: {passed} registrations/upgrades/deep clones; macro independence; Co/U Harmony marks; native replay transpiler and CardPlay metadata");
+// 使用安装中的真实DLL核对消亡粉末与晶罚引用的是同一个原生能力。
+var potionUse = typeof(PowderedDemise).GetMethod("OnUse", BindingFlags.NonPublic | BindingFlags.Instance)!;
+var potionMachine = potionUse.GetCustomAttribute<AsyncStateMachineAttribute>()!.StateMachineType;
+var potionInstructions = PatchProcessor.GetOriginalInstructions(potionMachine.GetMethod("MoveNext", BindingFlags.NonPublic | BindingFlags.Instance)!);
+if (!potionInstructions.Any(i => i.operand is MethodInfo method
+    && method.DeclaringType == typeof(MegaCrit.Sts2.Core.Commands.PowerCmd) && method.Name == "Apply"
+    && method.IsGenericMethod && method.GetGenericArguments().SequenceEqual(new[] { typeof(DemisePower) })))
+    throw new Exception("Installed PowderedDemise does not apply DemisePower");
+var demiseEnd = typeof(DemisePower).GetMethod("AfterSideTurnEnd")!;
+var demiseMachine = demiseEnd.GetCustomAttribute<AsyncStateMachineAttribute>()!.StateMachineType;
+var demiseInstructions = PatchProcessor.GetOriginalInstructions(demiseMachine.GetMethod("MoveNext", BindingFlags.NonPublic | BindingFlags.Instance)!);
+if (!demiseInstructions.Any(i => i.operand is MethodInfo method
+    && method.DeclaringType == typeof(MegaCrit.Sts2.Core.Commands.CreatureCmd) && method.Name == "Damage")
+    || !demiseInstructions.Any(i => i.Calls(typeof(PowerModel).GetProperty("Amount")!.GetMethod!)))
+    throw new Exception("Installed DemisePower end-turn amount damage contract failed");
+foreach (Type expiryType in new[] { typeof(LoseWeakAtTurnEndPower), typeof(LoseVulnerableAtTurnStartPower) }) {
+    var canonicalExpiry = ModelDb.GetById<PowerModel>(ModelDb.GetId(expiryType));
+    var expiry = (PowerModel)canonicalExpiry.ToMutable();
+    var temporary = expiryType.GetProperty("TemporaryAmount")!;
+    var turn = expiryType.GetProperty("AppliedTurn")!;
+    temporary.SetValue(expiry, 2); turn.SetValue(expiry, 7);
+    var restored = (PowerModel)canonicalExpiry.ToMutable();
+    JsonSerializer.Deserialize<SavedProperties>(JsonSerializer.Serialize(SavedProperties.From(expiry),
+        new JsonSerializerOptions { IncludeFields = true }), new JsonSerializerOptions { IncludeFields = true })!.Fill(restored);
+    if ((int)temporary.GetValue(restored)! != 2 || (int)turn.GetValue(restored)! != 7
+        || (int)temporary.GetValue(canonicalExpiry)! != 0 || expiry.IsVisible
+        || expiry.Type != MegaCrit.Sts2.Core.Entities.Powers.PowerType.Buff)
+        throw new Exception("Native electron expiry persistence/hidden marker contract failed: " + expiryType.Name);
+}
 File.WriteAllText(args[0], JsonSerializer.Serialize(new {
+    demise_contract = "pass; installed PowderedDemise async IL applies DemisePower; DemisePower enemy end-turn IL calls CreatureCmd.Damage with power.Amount; no live damage command",
+    electron_expiry_state = "pass; both hidden Buff markers preserve inherited TemporaryAmount/AppliedTurn through native SavedProperties JSON -> Fill; no full combat save",
     scope = "Actual game DLL managed TestMode: model constructors/upgrades/MutableClone/Harmony, per-card SavedProperties JSON and conditional description formatting; keyword and serialization-cache readiness seeded without full registry/startup; no live combat, Godot UI, CreateClone card-scope path, full combat save or multiplayer negotiation",
     generated_at_utc = DateTime.UtcNow, passed, macro_independence = "pass", co_u_clone_marks = "pass",
     starter_relic = "pass; DefectiveCrystalCell: starter metadata, Energy=1, independent clone, SavedProperties JSON -> Fill and new combat reset; no full run save",

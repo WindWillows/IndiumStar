@@ -1,8 +1,8 @@
 {
   "INDIUM_STAR_POWER_LOSE_WEAK_AT_TURN_END_POWER.title": "晶抗·虚弱消退",
-  "INDIUM_STAR_POWER_LOSE_WEAK_AT_TURN_END_POWER.description": "在本回合结束时，失去1层[gold]虚弱[/gold]。",
+  "INDIUM_STAR_POWER_LOSE_WEAK_AT_TURN_END_POWER.description": "本回合结束时，仅移除运用-电子新增的[gold]虚弱[/gold]层数。",
   "INDIUM_STAR_POWER_LOSE_VULNERABLE_AT_TURN_START_POWER.title": "晶逆·易伤消退",
-  "INDIUM_STAR_POWER_LOSE_VULNERABLE_AT_TURN_START_POWER.description": "在下个回合开始时，失去1层[gold]易伤[/gold]。",
+  "INDIUM_STAR_POWER_LOSE_VULNERABLE_AT_TURN_START_POWER.description": "敌方行动结束时，仅移除运用-电子新增的[gold]易伤[/gold]层数。",
   "INDIUM_STAR_POWER_ONLY_ATTACKS_THIS_TURN_POWER.title": "待发·只许攻击",
   "INDIUM_STAR_POWER_ONLY_ATTACKS_THIS_TURN_POWER.description": "本回合只能打出攻击牌。",
   "INDIUM_STAR_POWER_CHARACTERIZATION_STRENGTH_POWER.title": "表征·下回合力量",

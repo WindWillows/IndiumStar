@@ -18,8 +18,8 @@ public sealed class CrystalPunishment : ModCardTemplate
 {
     public CrystalPunishment() : base(1, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy) { }
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-    [new DamageVar(9m, ValueProp.Move), new PowerVar<DoomPower>(3m)];
-    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [HoverTipFactory.FromPower<DoomPower>()];
+    [new DamageVar(9m, ValueProp.Move), new PowerVar<DemisePower>(3m)];
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [HoverTipFactory.FromPower<DemisePower>()];
     public override CardAssetProfile AssetProfile => new(
         PortraitPath: "res://images/packed/card_portraits/ironclad/strike_ironclad.png");
 
@@ -31,8 +31,8 @@ public sealed class CrystalPunishment : ModCardTemplate
         if (CombatManager.Instance.IsOverOrEnding || !Owner.Creature.IsAlive) return;
         // 在伤害及其钩子返回后取手牌；不写牌组原件，不覆盖侵蚀或附魔。
         foreach (var crystal in PileType.Hand.GetPile(Owner).Cards.OfType<CrystallizationCard>().ToArray())
-            crystal.AddCrystalDoom(DynamicVars["DoomPower"].IntValue);
+            crystal.AddCrystalDoom(DynamicVars["DemisePower"].IntValue);
     }
 
-    protected override void OnUpgrade() => DynamicVars["DoomPower"].UpgradeValueBy(1m);
+    protected override void OnUpgrade() => DynamicVars["DemisePower"].UpgradeValueBy(1m);
 }

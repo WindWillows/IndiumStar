@@ -37,7 +37,7 @@ public static class SemanticAuditTests {
         }
         foreach (int energy in new[] { 0, 1 }) {
             int e = energy;
-            Test($"电子重复施加只使用原版状态，无隐藏清除器 energy={e}", async () => {
+            Test($"电子重复施加记录本牌临时层数 energy={e}", async () => {
                 var r = new Rig(energy: e); var card = r.Crystal<ApplicationNeutron>();
                 var target = new Creature { CombatState = r.State };
                 await PowerCmd.Apply<WeakPower>(r.Choice, r.Player.Creature, 3, null, null);
@@ -46,7 +46,9 @@ public static class SemanticAuditTests {
                 await card.Play(r.Choice, new() { Card = card, Target = target });
                 Check(r.Player.Creature.GetPowerAmount<WeakPower>() == (e == 1 ? 5 : 3));
                 Check(r.Player.Creature.GetPowerAmount<VulnerablePower>() == (e == 0 ? 5 : 3));
-                Check(!r.Player.Creature.Powers.Any(p => p.GetType().Name.StartsWith("Lose")));
+                Check(e == 1
+                    ? r.Player.Creature.GetPower<LoseWeakAtTurnEndPower>()?.TemporaryAmount == 2
+                    : r.Player.Creature.GetPower<LoseVulnerableAtTurnStartPower>()?.TemporaryAmount == 2);
             });
         }
         Test("反演重做后不执行敌人意图或推进敌人的RNG", async () => {

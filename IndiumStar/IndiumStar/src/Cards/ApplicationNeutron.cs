@@ -1,4 +1,5 @@
 using IndiumStar.Mechanics;
+using IndiumStar.Powers;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -65,43 +66,33 @@ public sealed class ApplicationNeutron : ApplicationCard, IApplicationCard
     }
 
     /// <summary>
-    /// 晶抗：自己获得原版1层虚弱，持续与衰减均遵循原版规则。
+    /// 晶抗：自己获得本回合的1层虚弱。
     /// </summary>
     /// <remarks>
-    /// 文档没有额外的提前清除规则；不创建隐藏清除器，避免抵扣既有状态或重复衰减。
+    /// 回收标记只记录本牌真正施加的层数，既有虚弱保持原生规则。
     /// </remarks>
     protected override async Task CrystalResistance(
         PlayerChoiceContext choiceContext,
         CardPlay cardPlay,
         CardModel? playResult)
     {
-        await PowerCmd.Apply<WeakPower>(
-            choiceContext,
-            Owner.Creature,
-            DynamicVars.Weak.BaseValue,
-            Owner.Creature,
-            this);
-
+        await ElectronDebuffExpiryPower<WeakPower>.ApplyFromCard<LoseWeakAtTurnEndPower>(
+            choiceContext, this, DynamicVars.Weak.BaseValue);
     }
 
     /// <summary>
-    /// 晶逆：自己获得原版1层易伤，持续与衰减均遵循原版规则。
+    /// 晶逆：自己获得1层易伤，覆盖敌方行动，在下一本人回合前结束。
     /// </summary>
     /// <remarks>
-    /// 原版易伤会自行衰减；不在下一回合额外扣减既有易伤。
+    /// 在原生衰减前回收本牌新增层数，避免重复抵扣既有易伤。
     /// </remarks>
     protected override async Task CrystalReversal(
         PlayerChoiceContext choiceContext,
         CardPlay cardPlay,
         CardModel? playResult)
     {
-        await PowerCmd.Apply<VulnerablePower>(
-            choiceContext,
-            Owner.Creature,
-            DynamicVars.Vulnerable.BaseValue,
-            Owner.Creature,
-            this);
-
+        await ElectronDebuffExpiryPower<VulnerablePower>.ApplyFromCard<LoseVulnerableAtTurnStartPower>(
+            choiceContext, this, DynamicVars.Vulnerable.BaseValue);
     }
 
     /// <summary>

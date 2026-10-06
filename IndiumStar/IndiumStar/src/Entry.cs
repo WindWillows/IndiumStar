@@ -17,7 +17,7 @@ public static class Entry
     /// <summary>必须与 <c>IndiumStar.json</c> 的 <c>id</c> 完全一致，也决定了本地化文件夹名。</summary>
     public const string ModId = "IndiumStar";
 
-    public const string Version = "0.1.1";
+    public const string Version = "0.1.2";
 
     public static readonly Logger Logger = RitsuLibFramework.CreateLogger(ModId);
 

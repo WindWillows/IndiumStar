@@ -40,7 +40,7 @@ public static class CrystalPunishmentTests
                     neutron = r.Crystal<DerivedApplicationNeutron>(); neutron.Upgrade(); Put(r, neutron, PileType.Exhaust);
                 }
                 await crystal.OnPlayWrapper(r.Choice, target);
-                Check(target.GetPowerAmount<DoomPower>() == (up ? 4 : 3) && r.Player.Creature.GetPowerAmount<DoomPower>() == 0);
+                Check(target.GetPowerAmount<DemisePower>() == (up ? 4 : 3) && r.Player.Creature.GetPowerAmount<DemisePower>() == 0);
                 Check(PowerCmd.LastSource == crystal && PowerCmd.LastApplier == r.Player.Creature);
                 if (type == typeof(CrystallizationMg)) Check(r.Player.Creature.Block == 4);
                 if (type == typeof(CrystallizationNb)) Check(r.Player.Creature.GetPowerAmount<VigorPower>() == 3);
@@ -76,7 +76,7 @@ public static class CrystalPunishmentTests
             Check(copy.CrystalDoomAmount == 11 && crystal.CrystalDoomAmount == 7);
             Check(r.Crystal<Crystallization>().CrystalDoomAmount == 0);
             await crystal.OnPlayWrapper(r.Choice, target);
-            Check(target.GetPowerAmount<DoomPower>() == 7);
+            Check(target.GetPowerAmount<DemisePower>() == 7);
         });
         foreach (bool automatic in new[] { false, true }) {
             bool auto = automatic;
@@ -84,7 +84,7 @@ public static class CrystalPunishmentTests
                 var r = new Rig(); var target = Enemy(r); var crystal = r.Crystal<Crystallization>();
                 crystal.AddCrystalDoom(3); crystal.InitialPlayCount = 2; Put(r, crystal);
                 if (auto) await CardCmd.AutoPlay(r.Choice, crystal, null); else await crystal.OnPlayWrapper(r.Choice, target);
-                Check(target.GetPowerAmount<DoomPower>() == 6 && PowerCmd.ApplyCount == 2);
+                Check(target.GetPowerAmount<DemisePower>() == 6 && PowerCmd.ApplyCount == 2);
                 var next = r.Crystal<Crystallization>();
                 Check(CrystallizationRules.HasPlayedCrystallizationThisTurn(next) == !auto);
             });
@@ -92,13 +92,13 @@ public static class CrystalPunishmentTests
         Test("晶罚强化晶化被消耗不会触发消亡", async () => {
             var r = new Rig(); var target = Enemy(r); var crystal = r.Crystal<Crystallization>(); crystal.AddCrystalDoom(3); Put(r, crystal);
             await CardCmd.Exhaust(r.Choice, crystal);
-            Check(crystal.Pile?.Type == PileType.Exhaust && target.GetPowerAmount<DoomPower>() == 0);
+            Check(crystal.Pile?.Type == PileType.Exhaust && target.GetPowerAmount<DemisePower>() == 0);
         });
         Test("晶罚强化晶化被禁止自动打出不会施加消亡", async () => {
             var r = new Rig(); var target = Enemy(r); var crystal = r.Crystal<Crystallization>(); crystal.AddCrystalDoom(3); Put(r, crystal);
             CardCmd.ShouldAutoPlay = _ => false;
             await CardCmd.AutoPlay(r.Choice, crystal, null);
-            Check(target.GetPowerAmount<DoomPower>() == 0 && PowerCmd.ApplyCount == 0);
+            Check(target.GetPowerAmount<DemisePower>() == 0 && PowerCmd.ApplyCount == 0);
         });
         foreach (int endMode in new[] { 0, 1 }) {
             int mode = endMode;

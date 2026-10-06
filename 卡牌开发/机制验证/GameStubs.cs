@@ -170,6 +170,7 @@ namespace MegaCrit.Sts2.Core.Models
         protected T GetInternalData<T>() => (T)_internalData!;
         public MegaCrit.Sts2.Core.Entities.Creatures.Creature Owner { get; set; } = null!;
         public int Amount { get; set; }
+        public bool SkipNextDurationTick { get; set; }
         public virtual int DisplayAmount => Amount;
         protected void InvokeDisplayAmountChanged() { }
         public virtual STS2RitsuLib.Scaffolding.Content.PowerAssetProfile AssetProfile => new("");
@@ -222,6 +223,7 @@ namespace MegaCrit.Sts2.Core.Models.Powers
     public class VulnerablePower : MegaCrit.Sts2.Core.Models.PowerModel { public override MegaCrit.Sts2.Core.Entities.Powers.PowerType Type => MegaCrit.Sts2.Core.Entities.Powers.PowerType.Debuff; }
     public class FrailPower : MegaCrit.Sts2.Core.Models.PowerModel { public override MegaCrit.Sts2.Core.Entities.Powers.PowerType Type => MegaCrit.Sts2.Core.Entities.Powers.PowerType.Debuff; }
     public class PoisonPower : MegaCrit.Sts2.Core.Models.PowerModel { public override MegaCrit.Sts2.Core.Entities.Powers.PowerType Type => MegaCrit.Sts2.Core.Entities.Powers.PowerType.Debuff; }
+    public class DemisePower : MegaCrit.Sts2.Core.Models.PowerModel { public override MegaCrit.Sts2.Core.Entities.Powers.PowerType Type => MegaCrit.Sts2.Core.Entities.Powers.PowerType.Debuff; }
     public class DoomPower : MegaCrit.Sts2.Core.Models.PowerModel { public override MegaCrit.Sts2.Core.Entities.Powers.PowerType Type => MegaCrit.Sts2.Core.Entities.Powers.PowerType.Debuff; }
     public abstract class TemporaryDexterityPower : MegaCrit.Sts2.Core.Models.PowerModel, MegaCrit.Sts2.Core.Entities.Powers.ITemporaryPower {
         public abstract MegaCrit.Sts2.Core.Models.AbstractModel OriginModel { get; }
@@ -504,6 +506,8 @@ namespace MegaCrit.Sts2.Core.Commands
             if (newlyApplied) { await power.BeforeApplied(recipient, amount, applier, source); recipient.Powers.Add(power); }
             power.Amount += (int)amount;
             if (amount == 0) return power;
+            if (newlyApplied && recipient.Side == MegaCrit.Sts2.Core.Combat.CombatSide.Player
+                && power.Type == MegaCrit.Sts2.Core.Entities.Powers.PowerType.Debuff) power.SkipNextDurationTick = true;
             if (newlyApplied) await power.AfterApplied(applier, source);
             if (recipient.CombatState != null) foreach (var listener in recipient.CombatState.IterateHookListeners().ToArray())
                 await listener.AfterPowerAmountChanged(context, power, amount, applier, source);
@@ -512,7 +516,20 @@ namespace MegaCrit.Sts2.Core.Commands
         public static async Task<int> ModifyAmount(MegaCrit.Sts2.Core.GameActions.Multiplayer.PlayerChoiceContext context,
             MegaCrit.Sts2.Core.Models.PowerModel power, decimal amount,
             MegaCrit.Sts2.Core.Entities.Creatures.Creature? applier, MegaCrit.Sts2.Core.Models.CardModel? source)
-        { power.SetAmount(power.Amount + (int)amount); if (power.Amount == 0) await Remove(power); return power.Amount; }
+        {
+            if (power.Owner.CombatState != null) foreach (var listener in power.Owner.CombatState.IterateHookListeners().ToArray())
+                await listener.BeforePowerAmountChanged(power, amount, power.Owner, applier, source);
+            amount = ModifyAmountReceived?.Invoke(power, amount) ?? amount;
+            power.SetAmount(power.Amount + (int)amount);
+            if (power.Owner.CombatState != null && (int)amount != 0)
+                foreach (var listener in power.Owner.CombatState.IterateHookListeners().ToArray())
+                    await listener.AfterPowerAmountChanged(context, power, amount, applier, source);
+            if (power.Amount <= 0 && !power.AllowNegative) await Remove(power);
+            return power.Amount;
+        }
+        public static async Task TickDownDuration(MegaCrit.Sts2.Core.Models.PowerModel power) {
+            if (power.SkipNextDurationTick) power.SkipNextDurationTick = false; else await Decrement(power);
+        }
         public static Task<int> Decrement(MegaCrit.Sts2.Core.Models.PowerModel power) => ModifyAmount(new(), power, -1, null, null);
         public static Task Remove(MegaCrit.Sts2.Core.Models.PowerModel power)
         {
