@@ -1,0 +1,8 @@
+Exception thrown when calling mod initializer of type IndiumStar.Entry
+HarmonyException: Patching exception in CardModel.<OnPlayWrapper>d__339.MoveNext
+InvalidOperationException: IndiumStar crystal replay is incompatible: native series loop / awaited OnPlay completion contract changed
+at IndiumStar.Patches.CrystalReplaySeriesPatch.Transpiler
+at HarmonyLib.Harmony.PatchAll
+at IndiumStar.Entry.Init
+后续：NCharacterSelectScreen.SelectCharacter -> ArgumentOutOfRangeException
+后续：Player.PopulateStartingDeck -> CardModel.ToMutable -> MutableClone -> NullReferenceException

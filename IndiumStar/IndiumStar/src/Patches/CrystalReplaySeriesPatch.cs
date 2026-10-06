@@ -25,6 +25,8 @@ public static class CrystalReplaySeriesPatch
     }
 
     [HarmonyTranspiler]
+    // 先读取本体IL，再让其他模组包装OnPlay/结束通知。否则精确契约会误读被替换的调用。
+    [HarmonyPriority(Priority.First)]
     public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions,
         MethodBase __originalMethod)
     {

@@ -1,0 +1,9 @@
+PASS 启动修复：重放补丁兼容第三方OnPlay包装且保留两段原生系列
+PASS 启动修复：缺陷晶胞实际获得延拓只奖励一次
+PASS 启动修复：缺陷晶胞跨回合不重置，新战斗重置
+PASS 启动修复：缺陷晶胞零、受阻或负层数不消费资格
+PASS 启动修复：缺陷晶胞排除他人、其他能力、死亡及战斗结束
+PASS 启动修复：缺陷晶胞能量钩子嵌套获得延拓不会再次奖励
+PASS 启动修复：缺陷晶胞磷语转换仅实际延拓触发 upgrade=False
+PASS 启动修复：缺陷晶胞磷语转换仅实际延拓触发 upgrade=True
+8/8 passed; scope: real mod source, command/history stubs, real Harmony patching and game API contract.

@@ -12,6 +12,7 @@
 
     <AssemblyName>IndiumStar</AssemblyName>
     <RootNamespace>IndiumStar</RootNamespace>
+    <Version>0.1.1</Version>
 
     <ModId>IndiumStar</ModId>
 

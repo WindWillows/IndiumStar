@@ -1,0 +1,12 @@
+{
+  "status": "pass",
+  "scope": "一次真实游戏headless启动：当前已启用模组组合、铟星0.1.1初始化、初始遗物注册及ModelId缓存；不包含选角色/完整跑局",
+  "confirmations": [
+    "[INFO] [IndiumStar] IndiumStar mod 0.1.1 initialized.",
+    "[INFO] Finished mod initialization for '铟星 IndiumStar' (IndiumStar).",
+    "[INFO] [IndiumStar] [Content] Registered relic: DefectiveCrystalCell (id=INDIUM_STAR_RELIC_DEFECTIVE_CRYSTAL_CELL) -> IndiumStarRelicPool",
+    "[INFO] [IndiumStar] [Content] Registered starter relic: DefectiveCrystalCell (id=INDIUM_STAR_RELIC_DEFECTIVE_CRYSTAL_CELL) x1 -> IndiumStarCharacter",
+    "[INFO] ModelIdSerializationCache initialized. Categories: 28 Entries: 1780 Epochs: 57 Properties: 54 Hash: 910455482"
+  ],
+  "full_run_tested": false
+}

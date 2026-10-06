@@ -1,5 +1,7 @@
 # 铟星 IndiumStar —— 杀戮尖塔2 角色模组
 
+0.1.1已修复启动补丁顺序并部署，初始遗物为缺陷晶胞；当前模组组合的真实headless初始化已通过，选角色跑局、实战、完整存档及多人仍待验收。详情见工作区`卡牌开发/启动修复与初始遗物_2026-10-07.md`。
+
 《杀戮尖塔2》(Slay the Spire 2) 铟星角色模组。当前70张卡牌均有核心实现（63主卡、7衍生）；最新追加渊河、辰海，代码与Word同步，必要检查见工作区`卡牌开发/渊河辰海实现记录_2026-10-06.md`，实机、完整存档和多人验收仍在待办。
 
 ## 这个模组做了什么
@@ -10,8 +12,8 @@
 | 初始牌组 | 4 张**打击** + 4 张**防御** + 1 张**运用-In** + 1 张**运用-电子**（共 10 张；电子1费，11/15伤害） |
 | 打击 | 1 费，造成 6 点伤害；火堆锻造（升级）后改为 9 点 |
 | 防御 | 1 费，获得 5 点格挡；火堆锻造（升级）后改为 8 点 |
-| 初始遗物 | 暂时借用原版**铁甲战士**的初始遗物：**燃烧之血**（BurningBlood） |
-| 卡池 / 遗物池 / 药水池 | 各自独立，遗物池与药水池为空 |
+| 初始遗物 | **缺陷晶胞**：每场战斗第一次实际获得延拓时，获得1点能量 |
+| 卡池 / 遗物池 / 药水池 | 各自独立，遗物池含缺陷晶胞，药水池为空 |
 | 美术资源 | 暂无自制资源，全部回退到原版铁甲战士的资源 |
 
 ## 角色机制
@@ -753,7 +755,7 @@ IndiumStar/
 ├─ export_presets.cfg                  # 导出预设
 ├─ local.props.template                # 本机游戏路径模板（复制成 local.props 使用）
 ├─ src/
-│  ├─ Entry.cs                         # [ModInitializer] 入口：注册程序集 + 初始遗物
+│  ├─ Entry.cs                         # [ModInitializer] 入口：关键字、补丁和程序集注册
 │  ├─ Characters/
 │  │  └─ IndiumStarCharacter.cs        # [RegisterCharacter] 角色本体
 │  ├─ CardPools/
@@ -857,12 +859,12 @@ IndiumStar\
 启动游戏 → 新游戏 → 角色选择界面应该出现「铟星」。
 进去之后检查：
 
-- 初始牌组是 4 打击 + 4 防御 + 1 运用-In + 1 运用-中子
-- 初始遗物是「燃烧之血」
+- 初始牌组是 4 打击 + 4 防御 + 1 运用-In + 1 运用-电子
+- 初始遗物是「缺陷晶胞」；每场战斗第一次实际获得延拓时获得1点能量
 - 在火堆选「锻造」升级打击 → 显示 9 点伤害；升级防御 → 显示 8 点格挡
-- 升级运用-In → 卡面多出「保留」；升级运用-中子 → 伤害 10 变 14
-- 打出运用-中子（能量不为 0）→ 造成伤害 + **自己**获得 1 层虚弱，**本回合结束时消失**
-- 打出运用-中子（能量为 0）→ 造成伤害 + **自己**获得 1 层易伤，**下回合开始时消失**
+- 升级运用-In → 卡面多出「保留」；升级运用-电子 → 伤害11变15，仍为1费
+- 打出运用-电子（结算后能量不为0）→ 自己获得1层虚弱，按原版持续规则衰减
+- 打出运用-电子（结算后能量为0）→ 自己获得1层易伤，按原版持续规则衰减
 - 能力栏里**不应该**出现「晶抗·虚弱消退」「晶逆·易伤消退」这两个隐藏效果
 - 打出运用-In → 手牌多出一张「晶化」，且出现「下回合能量」状态
 - 打出「晶化」→ 本回合再想打第二张时会变成打不出（每回合限一张）
@@ -885,7 +887,7 @@ IndiumStar\
 | 「晶化」牌每回合能直接打出几张 | `CrystallizationRules.MaxPerTurn`（默认 1） |
 | 晶化（Mg）加入几张 | `ApplicationMg.CanonicalVars`（`CardsVar(2)`） |
 | 初始牌组张数 | 两个卡类上的 `[RegisterCharacterStarterCard(typeof(IndiumStarCharacter), N, Order = ...)]` |
-| 换成别的原版初始遗物 | `Entry.cs` 里把 `BurningBlood` 换成 `RingOfTheSnake`（静默猎手）/ `CrackedCore`（故障机器人）/ `DivineRight`（储君）/ `BoundPhylactery`（缚骨者） |
+| 初始遗物与效果 | `src/Relics/DefectiveCrystalCell.cs`；`RegisterCharacterStarterRelic`声明初始遗物，双语`relics.json`定义名称和描述 |
 | 卡图 | 两个卡类的 `AssetProfile` 里的 `PortraitPath`，指向 `res://IndiumStar/images/cards/xxx.png` |
 | 角色立绘 / 选择界面 / 地图标记 / 音效 | `IndiumStarCharacter.AssetProfile`，用 `CharacterAssetProfiles.Merge(CharacterAssetProfiles.Ironclad(), new(...))` 覆盖 |
 | 角色主题色 | `IndiumStarCharacter.NameColor` / `MapDrawingColor`、`IndiumStarCardPool.DeckEntryCardColor` |

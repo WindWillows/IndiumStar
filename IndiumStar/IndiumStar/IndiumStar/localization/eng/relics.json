@@ -1,0 +1,5 @@
+{
+  "INDIUM_STAR_RELIC_DEFECTIVE_CRYSTAL_CELL.title": "Defective Crystal Cell",
+  "INDIUM_STAR_RELIC_DEFECTIVE_CRYSTAL_CELL.description": "The first time you gain [gold]Extension[/gold] each combat, gain {Energy:energyIcons()}.",
+  "INDIUM_STAR_RELIC_DEFECTIVE_CRYSTAL_CELL.flavor": "An imperfection in the lattice leaves room for energy."
+}

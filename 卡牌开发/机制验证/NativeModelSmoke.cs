@@ -8,6 +8,7 @@ using HarmonyLib;
 using IndiumStar.Cards;
 using IndiumStar.Patches;
 using IndiumStar.Powers;
+using IndiumStar.Relics;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Extensions;
 using MegaCrit.Sts2.Core.Models;
@@ -30,7 +31,7 @@ var cardTypes = typeof(MacroDendrite).Assembly.GetTypes().Where(t =>
     typeof(CardModel).IsAssignableFrom(t) && !t.IsAbstract &&
     t.CustomAttributes.Any(a => a.AttributeType.Name == "RegisterCardAttribute"))
     .OrderBy(t => t.Name).ToArray();
-var newPowerTypes = new[] { typeof(TunnelingPower), typeof(CrystalMarrowPower) };
+var newPowerTypes = new[] { typeof(TunnelingPower), typeof(CrystalMarrowPower), typeof(DefectiveCrystalCell) };
 ModelDb.Init(cardTypes.Concat(newPowerTypes).ToArray());
 // 全局Init会调用Godot日志器；此托管探针仅调用实际属性扫描并设置缓存就绪标志。
 // 不测试真实初始化、模组加载、网络ID协商或完整战斗存档。
@@ -241,11 +242,27 @@ JsonSerializer.Deserialize<SavedProperties>(JsonSerializer.Serialize(SavedProper
     new JsonSerializerOptions { IncludeFields = true }), new JsonSerializerOptions { IncludeFields = true })!.Fill(restoredMarrow);
 if (!restoredMarrow.PendingTurns.SequenceEqual(new[] { 8, 9 }) || restoredMarrow.ActiveTurn != 7)
     throw new Exception("Native Crystal Marrow state JSON roundtrip failed");
+var relicCanonical = ModelDb.GetById<RelicModel>(ModelDb.GetId(typeof(DefectiveCrystalCell)));
+var cell = (DefectiveCrystalCell)relicCanonical.ToMutable();
+cell.TriggeredThisCombat = true;
+var cellCopy = (DefectiveCrystalCell)cell.MutableClone();
+var cellRestored = (DefectiveCrystalCell)relicCanonical.ToMutable();
+JsonSerializer.Deserialize<SavedProperties>(JsonSerializer.Serialize(SavedProperties.From(cell),
+    new JsonSerializerOptions { IncludeFields = true }), new JsonSerializerOptions { IncludeFields = true })!.Fill(cellRestored);
+if (!cellRestored.TriggeredThisCombat || !cellCopy.TriggeredThisCombat
+    || ((DefectiveCrystalCell)relicCanonical).TriggeredThisCombat || cell.DynamicVars.Energy.BaseValue != 1
+    || cell.Rarity != MegaCrit.Sts2.Core.Entities.Relics.RelicRarity.Starter)
+    throw new Exception("Native Defective Crystal Cell state/metadata failed");
+cellCopy.TriggeredThisCombat = false;
+if (!cell.TriggeredThisCombat) throw new Exception("Native starter relic clone shared flag");
+await cellRestored.BeforeCombatStart();
+if (cellRestored.TriggeredThisCombat) throw new Exception("Native starter relic reset failed");
 harmony.UnpatchAll(harmony.Id);
 Console.WriteLine($"PASS native model smoke: {passed} registrations/upgrades/deep clones; macro independence; Co/U Harmony marks; native replay transpiler and CardPlay metadata");
 File.WriteAllText(args[0], JsonSerializer.Serialize(new {
     scope = "Actual game DLL managed TestMode: model constructors/upgrades/MutableClone/Harmony, per-card SavedProperties JSON and conditional description formatting; keyword and serialization-cache readiness seeded without full registry/startup; no live combat, Godot UI, CreateClone card-scope path, full combat save or multiplayer negotiation",
     generated_at_utc = DateTime.UtcNow, passed, macro_independence = "pass", co_u_clone_marks = "pass",
+    starter_relic = "pass; DefectiveCrystalCell: starter metadata, Energy=1, independent clone, SavedProperties JSON -> Fill and new combat reset; no full run save",
     remaining_x_cards = "pass; native X metadata/upgrade; two powers' independent array clone and SavedProperties JSON -> Fill; no native live turn loop",
     coin_decay_clone = "pass; actual SavedAttachedState and patched MutableClone; no save roundtrip",
     derived_neutron_cost_filter = "pass; actual local cost modifiers, increased/reduced current cost, Unplayable and X exclusion; global combat hooks not invoked",

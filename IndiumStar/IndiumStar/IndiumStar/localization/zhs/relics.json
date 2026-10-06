@@ -1,0 +1,5 @@
+{
+  "INDIUM_STAR_RELIC_DEFECTIVE_CRYSTAL_CELL.title": "缺陷晶胞",
+  "INDIUM_STAR_RELIC_DEFECTIVE_CRYSTAL_CELL.description": "每场战斗，你第一次获得[gold]延拓[/gold]时，获得{Energy:energyIcons()}。",
+  "INDIUM_STAR_RELIC_DEFECTIVE_CRYSTAL_CELL.flavor": "晶格的缺陷，留下了能量。"
+}

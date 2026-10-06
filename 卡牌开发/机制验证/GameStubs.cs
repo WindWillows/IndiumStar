@@ -560,7 +560,10 @@ namespace STS2RitsuLib.Scaffolding.Content
     }
     public record PowerAssetProfile(string Path);
     public abstract class ModPowerTemplate : MegaCrit.Sts2.Core.Models.PowerModel { }
-    public static class ContentAssetProfiles { public static PowerAssetProfile Power(string path) => new(path); }
+    public static class ContentAssetProfiles {
+        public static PowerAssetProfile Power(string path) => new(path);
+        public static RelicAssetProfile Relic(string path) => new(path);
+    }
 }
 
 namespace MegaCrit.Sts2.Core.Localization

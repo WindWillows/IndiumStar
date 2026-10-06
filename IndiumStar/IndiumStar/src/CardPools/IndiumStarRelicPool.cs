@@ -5,7 +5,7 @@ using STS2RitsuLib.Scaffolding.Content;
 namespace IndiumStar.CardPools;
 
 /// <summary>
-/// 铟星的遗物池。目前是空的（初始遗物借用原版遗物），
+/// 铟星的遗物池。初始遗物为缺陷晶胞，
 /// 以后写自己的遗物时加上 <c>[RegisterRelic(typeof(IndiumStarRelicPool))]</c> 即可。
 /// </summary>
 [RegisterSharedRelicPool]

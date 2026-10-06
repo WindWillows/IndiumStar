@@ -1,0 +1,30 @@
+{
+  "deployed_at_beijing": "2026-10-07 02:38:29 +08:00",
+  "target": "D:\\Program Files (x86)\\Steam\\steamapps\\common\\Slay the Spire 2\\mods\\IndiumStar",
+  "backup_relative_path": "卡牌开发\\修改备份\\部署_2026-10-07_023829",
+  "file_count": 15,
+  "artifact_hashes": {
+    "IndiumStar.dll": "e07bccb12a23c4b6ab35ab3ef8cfd13bd15591dcec68b60d380c7055cb575e0a",
+    "IndiumStar.pck": "576150043159bcc79cfc7ce3fbec9265cfe327d907541700b89a041a975f8487",
+    "IndiumStar.json": "b2f4db59fad77a364b151aa2e51d203beb2fd0cf20a5f9f99967e0c32df3c06b"
+  },
+  "all_deployed_files_sha256_matched": true,
+  "dependency_version": "0.6.2",
+  "indiumstar_enabled": true,
+  "unrelated_settings_preserved": true,
+  "game_launched": true,
+  "additional_regressions_run": true,
+  "live_combat_verified": false,
+  "source_revision_base": "32c2e4811c456f5f18d66e410bac2a744bc4e650",
+  "source_working_tree_changed": true,
+  "mod_version": "0.1.1",
+  "focused_regression_cases": 8,
+  "source_hashes": {
+    "IndiumStar/IndiumStar/src/Entry.cs": "a8bc77294357f0922282668e475f0ed0ad35667ee98725f3d4e753b6a296c5a5",
+    "IndiumStar/IndiumStar/src/Patches/CrystalReplaySeriesPatch.cs": "85e882c5ae3bc7e17c273598342ca5e5bf9c015a2cc202d639c13c03cca14717",
+    "IndiumStar/IndiumStar/src/Relics/DefectiveCrystalCell.cs": "b3fe4bb3323e82c9e32013cf31eb89be0b26c6203a88a0b3cf6594e811bd6070",
+    "卡牌开发/机制验证/StartupRelicTests.cs": "512b53defa69d4695965830c669f96be92026766e2f8acfb706516fb1f4e7d02"
+  },
+  "startup_check": "一次真实游戏headless启动：当前已启用模组组合、铟星0.1.1初始化、初始遗物注册及ModelId缓存；不包含选角色/完整跑局",
+  "startup_initialized": true
+}

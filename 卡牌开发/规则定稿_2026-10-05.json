@@ -188,5 +188,13 @@
       }
     ],
     "baseline_revision": "1f643f1"
+  },
+  "starter_relic": {
+    "name": "缺陷晶胞",
+    "class": "DefectiveCrystalCell",
+    "source": "晶塔世界角色.docx初始遗物段",
+    "specification": "每场战斗，你第一次获得延拓时，获得1c。",
+    "implementation": "实际正向获得共享EnergyNextTurnPower才触发；普通磷语完全替换不触发，升级磷语同时获得延拓则触发；SavedProperty保存每场已触发标记。",
+    "status": "0.1.1实现、部署、定向检查与真实启动注册通过；完整实战/存档/多人未验收"
   }
 }
