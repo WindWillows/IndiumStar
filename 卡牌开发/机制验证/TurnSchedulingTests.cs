@@ -32,7 +32,8 @@ public static class TurnSchedulingTests
             bool up = upgraded; int count = available;
             Test($"钒永只统计实际抽到牌 available={count} upgraded={up}", async () => {
                 var r = new Rig(); Fill(r, count); var power = await Play(r, up); await End(r, power);
-                int actual = Math.Min(count, up ? 2 : 1); Check(power.Amount == actual);
+                int actual = 0; Check(power.Amount == actual);
+                Check(r.Player.PlayerCombatState!.Hand.Cards.Count == Math.Min(count, up ? 2 : 1));
                 Check(power.ModifyHandDraw(r.Player, 5) == 5); // 尚未到本人下一回合。
                 await Begin(r, power); Check(power.ModifyHandDraw(r.Player, 5) == 5 + actual);
                 if (actual > 0) await power.AfterModifyingHandDraw();
@@ -51,22 +52,22 @@ public static class TurnSchedulingTests
             var r = new Rig(); Fill(r, 3); for (int i = 0; i < 10; i++) Put(r, r.Crystal<TestAttack>(), PileType.Hand);
             var power = await Play(r, true); await End(r, power); Check(power.Amount == 0);
         });
-        Test("钒永生效之前的抽牌不计入，此后包括自身和其他来源", async () => {
+        Test("钒永首次自身和生效前抽牌不计入，只统计生效后来源", async () => {
             var r = new Rig(); Fill(r, 10); await CardPileCmd.Draw(r.Choice, 2, r.Player);
             var power = await Play(r); await CardPileCmd.Draw(r.Choice, 3, r.Player); await End(r, power);
-            Check(power.Amount == 4); await Begin(r, power); Check(power.ModifyHandDraw(r.Player, 5) == 9);
+            Check(power.Amount == 3); await Begin(r, power); Check(power.ModifyHandDraw(r.Player, 5) == 8);
         });
         Test("钒永多份效果不叠加，每张实际抽取仅计一次", async () => {
             var r = new Rig(); Fill(r, 9); var power = await Play(r); Check(await Play(r) == power);
-            await CardPileCmd.Draw(r.Choice, 2, r.Player); await End(r, power); Check(power.Amount == 4);
-            await Begin(r, power); Check(power.ModifyHandDraw(r.Player, 5) == 9);
+            await CardPileCmd.Draw(r.Choice, 2, r.Player); await End(r, power); Check(power.Amount == 3);
+            await Begin(r, power); Check(power.ModifyHandDraw(r.Player, 5) == 8);
             Check(r.Player.Creature.Powers.OfType<ReminiscenceDrawPower>().Count() == 1);
         });
         Test("钒永生成和入手牌不计为抽取，其他玩家抽取也不计入", async () => {
             var r = new Rig(); Fill(r, 6); var power = await Play(r);
             var generated = r.Crystal<TestAttack>(); await CardPileCmd.AddGeneratedCardToCombat(generated, PileType.Hand, r.Player);
             var other = new Player(); var foreign = r.Crystal<TestAttack>(); foreign.Owner = other;
-            await power.AfterCardDrawn(r.Choice, foreign, false); await End(r, power); Check(power.Amount == 1);
+            await power.AfterCardDrawn(r.Choice, foreign, false); await End(r, power); Check(power.Amount == 0);
         });
         Test("钒永同阵营其他玩家结束或开始回合不覆盖本人预约", async () => {
             var r = new Rig(); Fill(r, 8); var power = await Play(r); var other = new Player();
@@ -75,38 +76,38 @@ public static class TurnSchedulingTests
             await power.AfterSideTurnEnd(r.Choice, CombatSide.Player, new[] { other.Creature });
             await power.BeforeSideTurnStart(r.Choice, CombatSide.Player, new[] { other.Creature }, r.State);
             await power.AfterSideTurnStart(CombatSide.Player, new[] { other.Creature }, r.State);
-            Check(power.Amount == 3 && r.Player.Creature.GetPower<ReminiscenceDrawPower>() == power);
-            await Begin(r, power); Check(power.ModifyHandDraw(r.Player, 5) == 8 && power.ModifyHandDraw(other, 5) == 5);
+            Check(power.Amount == 2 && r.Player.Creature.GetPower<ReminiscenceDrawPower>() == power);
+            await Begin(r, power); Check(power.ModifyHandDraw(r.Player, 5) == 7 && power.ModifyHandDraw(other, 5) == 5);
         });
         Test("钒永重复结束回调不会把预约数清零", async () => {
             var r = new Rig(); Fill(r, 8); var power = await Play(r); await CardPileCmd.Draw(r.Choice, 2, r.Player);
-            await End(r, power); await End(r, power); Check(power.Amount == 3);
+            await End(r, power); await End(r, power); Check(power.Amount == 2);
         });
         Test("钒永回合末晚抽牌连锁仍计入，下一阵营开始后封存", async () => {
             var r = new Rig(); Fill(r, 9); var power = await Play(r); await End(r, power);
-            await CardPileCmd.Draw(r.Choice, 2, r.Player); Check(power.Amount == 3);
+            await CardPileCmd.Draw(r.Choice, 2, r.Player); Check(power.Amount == 2);
             await power.BeforeSideTurnStart(r.Choice, CombatSide.Enemy, new[] { Enemy(r) }, r.State);
             await CardPileCmd.Draw(r.Choice, 1, r.Player); await Begin(r, power);
-            Check(power.ModifyHandDraw(r.Player, 5) == 8);
+            Check(power.ModifyHandDraw(r.Player, 5) == 7);
         });
         Test("钒永在普通结束钩子遍历之后生效仍能预约下回合", async () => {
-            var r = new Rig(); Fill(r, 8); var power = await Play(r);
+            var r = new Rig(); Fill(r, 8); var power = await Play(r); await CardPileCmd.Draw(r.Choice, 1, r.Player);
             // 新能力未收到已过去的End遍历，下一侧开始时必须封存。
             await power.BeforeSideTurnStart(r.Choice, CombatSide.Enemy, new[] { Enemy(r) }, r.State);
             await Begin(r, power); Check(power.ModifyHandDraw(r.Player, 5) == 6);
         });
         Test("钒永全局回合推进不能替代本人回合推进", async () => {
-            var r = new Rig(); Fill(r, 6); var power = await Play(r); await End(r, power); r.State.Turn = 100;
+            var r = new Rig(); Fill(r, 6); var power = await Play(r); await CardPileCmd.Draw(r.Choice, 1, r.Player); await End(r, power); r.State.Turn = 100;
             Check(power.ModifyHandDraw(r.Player, 5) == 5); await Begin(r, power); Check(power.ModifyHandDraw(r.Player, 5) == 6);
         });
         Test("钒永预览修改抽牌数是纯读，不提前消费预约", async () => {
-            var r = new Rig(); Fill(r, 6); var power = await Play(r); await End(r, power); await Begin(r, power);
+            var r = new Rig(); Fill(r, 6); var power = await Play(r); await CardPileCmd.Draw(r.Choice, 1, r.Player); await End(r, power); await Begin(r, power);
             Check(power.ModifyHandDraw(r.Player, 5) == 6 && power.ModifyHandDraw(r.Player, 5) == 6);
             Check(r.Player.Creature.GetPower<ReminiscenceDrawPower>() == power);
             await power.AfterModifyingHandDraw(); Check(power.ModifyHandDraw(r.Player, 5) == 5);
         });
         Test("钒永本人开始阶段未完成时阵营开始钩子不会提前移除", async () => {
-            var r = new Rig(); Fill(r, 8); var power = await Play(r); await End(r, power); await Begin(r, power);
+            var r = new Rig(); Fill(r, 8); var power = await Play(r); await CardPileCmd.Draw(r.Choice, 1, r.Player); await End(r, power); await Begin(r, power);
             await power.AfterSideTurnStart(CombatSide.Player, new[] { r.Player.Creature }, r.State);
             Check(r.Player.Creature.GetPower<ReminiscenceDrawPower>() == power && power.ModifyHandDraw(r.Player, 5) == 6);
         });
@@ -117,26 +118,26 @@ public static class TurnSchedulingTests
             await power.AfterPlayerTurnStart(r.Choice, r.Player); Check(r.Player.Creature.GetPower<ReminiscenceDrawPower>() == null);
         });
         Test("钒永下回合抽牌前再次生效，旧预约消费保留新统计", async () => {
-            var r = new Rig(); Fill(r, 15); var power = await Play(r); await End(r, power); await Begin(r, power);
+            var r = new Rig(); Fill(r, 15); var power = await Play(r); await CardPileCmd.Draw(r.Choice, 1, r.Player); await End(r, power); await Begin(r, power);
             Check(await Play(r) == power); decimal draw = power.ModifyHandDraw(r.Player, 5); Check(draw == 6);
             await power.AfterModifyingHandDraw(); Check(r.Player.Creature.GetPower<ReminiscenceDrawPower>() == power);
             await CardPileCmd.Draw(r.Choice, draw, r.Player, fromHandDraw: true);
             await power.AfterPlayerTurnStart(r.Choice, r.Player); await End(r, power);
-            Check(power.Amount == 7); await Begin(r, power); Check(power.ModifyHandDraw(r.Player, 5) == 12);
+            Check(power.Amount == 6); await Begin(r, power); Check(power.ModifyHandDraw(r.Player, 5) == 11);
         });
         Test("钒永普通开局抽牌不会自动开启下一份统计", async () => {
-            var r = new Rig(); Fill(r, 15); var power = await Play(r); await End(r, power); await Begin(r, power);
+            var r = new Rig(); Fill(r, 15); var power = await Play(r); await CardPileCmd.Draw(r.Choice, 1, r.Player); await End(r, power); await Begin(r, power);
             decimal draw = power.ModifyHandDraw(r.Player, 5); await power.AfterModifyingHandDraw();
             await CardPileCmd.Draw(r.Choice, draw, r.Player, true); await power.AfterPlayerTurnStart(r.Choice, r.Player);
             Check(r.Player.Creature.GetPower<ReminiscenceDrawPower>() == null && power.ModifyHandDraw(r.Player, 5) == 5);
         });
         Test("钒永旧预约为零时的新统计不会被本人开始回调移除", async () => {
             var r = new Rig(); var power = await Play(r); await End(r, power); await Begin(r, power); Fill(r, 8);
-            Check(await Play(r) == power); await power.AfterPlayerTurnStart(r.Choice, r.Player); await End(r, power);
+            Check(await Play(r) == power); await CardPileCmd.Draw(r.Choice, 1, r.Player); await power.AfterPlayerTurnStart(r.Choice, r.Player); await End(r, power);
             Check(power.Amount == 1 && r.Player.Creature.GetPower<ReminiscenceDrawPower>() == power);
         });
         Test("钒永与预约自动打出及抽牌选择暂停组合，不提前消费旧预约", async () => {
-            var r = new Rig(); Fill(r, 15); var power = await Play(r); await End(r, power);
+            var r = new Rig(); Fill(r, 15); var power = await Play(r); await CardPileCmd.Draw(r.Choice, 1, r.Player); await End(r, power);
             var card = r.Crystal<ReminiscenceVanadiumEternal>(); Put(r, card, PileType.Exhaust);
             var deferred = await PowerCmd.Apply<DeferredReleasePower>(r.Choice, r.Player.Creature, 1, null, null);
             deferred.Schedule(card, 2, r.State); await Begin(r, power);
@@ -148,10 +149,10 @@ public static class TurnSchedulingTests
             pause.Resume.SetResult(); await pending; r.State.Listeners.Remove(pause);
             decimal count = power.ModifyHandDraw(r.Player, 5); await power.AfterModifyingHandDraw();
             await CardPileCmd.Draw(r.Choice, count, r.Player, true); await power.AfterPlayerTurnStart(r.Choice, r.Player);
-            await End(r, power); Check(power.Amount == 7 && card.Pile?.Type == PileType.Discard);
+            await End(r, power); Check(power.Amount == 6 && card.Pile?.Type == PileType.Discard);
         });
         Test("钒永预约不跨入旧战斗或死亡玩家的开始结算", async () => {
-            var r = new Rig(); Fill(r, 8); var power = await Play(r); await End(r, power); await Begin(r, power);
+            var r = new Rig(); Fill(r, 8); var power = await Play(r); await CardPileCmd.Draw(r.Choice, 1, r.Player); await End(r, power); await Begin(r, power);
             r.Player.Creature.IsAlive = false; Check(power.ModifyHandDraw(r.Player, 5) == 5);
             r.Player.Creature.IsAlive = true; var newCombat = new FakeCombat(); r.Player.Creature.CombatState = newCombat;
             Check(power.ModifyHandDraw(r.Player, 5) == 5); await power.AfterPlayerTurnStart(r.Choice, r.Player);
@@ -159,12 +160,12 @@ public static class TurnSchedulingTests
         });
         Test("钒永计数显示跟随实际抽牌，不把再次施加显示为旧预约加一", async () => {
             var r = new Rig(); Fill(r, 15); var power = await Play(r); await CardPileCmd.Draw(r.Choice, 2, r.Player);
-            Check(power.Amount == 3); await End(r, power); await Begin(r, power); Check(await Play(r) == power);
-            Check(power.Amount == 3); await power.AfterModifyingHandDraw(); Check(power.Amount == 1);
-            await CardPileCmd.Draw(r.Choice, 1, r.Player); Check(power.Amount == 2);
+            Check(power.Amount == 2); await End(r, power); await Begin(r, power); Check(await Play(r) == power);
+            Check(power.Amount == 2); await power.AfterModifyingHandDraw(); Check(power.Amount == 0);
+            await CardPileCmd.Draw(r.Choice, 1, r.Player); Check(power.Amount == 1);
         });
         Test("钒永队列克隆后的消费不修改原能力字段", async () => {
-            var r = new Rig(); Fill(r, 8); var power = await Play(r); await End(r, power); await Begin(r, power);
+            var r = new Rig(); Fill(r, 8); var power = await Play(r); await CardPileCmd.Draw(r.Choice, 1, r.Player); await End(r, power); await Begin(r, power);
             var copy = (ReminiscenceDrawPower)power.ToMutable(); await copy.AfterModifyingHandDraw();
             Check(copy.ModifyHandDraw(r.Player, 5) == 5 && power.ModifyHandDraw(r.Player, 5) == 6);
         });

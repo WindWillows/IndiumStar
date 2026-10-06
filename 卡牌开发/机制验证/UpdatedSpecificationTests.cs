@@ -58,7 +58,7 @@ public static class UpdatedSpecificationTests
                 for (int i = 0; i < n; i++) Put(r, r.Crystal<CrystalA>(), PileType.Hand);
                 if (n > 0) await PowerCmd.Apply<EnergyNextTurnPower>(r.Choice, r.Player.Creature, n, null, null);
                 await card.Play(r.Choice, new() { Card = card });
-                int expected = (up ? 15 : 12) + n * (e == 0 ? (up ? 8 : 6) : (up ? 6 : 4));
+                int expected = (up ? 15 : 12) + n * (e == 0 ? (up ? 7 : 5) : (up ? 5 : 3));
                 Check(r.Player.Creature.Block == expected);
                 Check(CreatureCmd.BlockGains.Count == (n == 0 ? 1 : 2));
                 Check(r.Player.Creature.GetPowerAmount<EnergyNextTurnPower>() == n);
@@ -75,7 +75,7 @@ public static class UpdatedSpecificationTests
             var other = new MegaCrit.Sts2.Core.Entities.Players.Player();
             other.PlayerCombatState!.Hand.Cards.Add(new CrystalA { Owner = other, CombatState = r.State });
             await card.Play(r.Choice, new() { Card = card });
-            Check(CreatureCmd.BlockGains.SequenceEqual(new[] { 12, 8 }));
+            Check(CreatureCmd.BlockGains.SequenceEqual(new[] { 12, 6 }));
         });
         Test("键合三键以基础格挡钩子之后的能量与晶化数量结算", async () =>
         {
@@ -87,7 +87,7 @@ public static class UpdatedSpecificationTests
                 return Task.CompletedTask;
             };
             await card.Play(r.Choice, new() { Card = card });
-            Check(CreatureCmd.BlockGains.SequenceEqual(new[] { 12, 4 }));
+            Check(CreatureCmd.BlockGains.SequenceEqual(new[] { 12, 3 }));
         });
         Test("键合三键基础格挡钩子耗尽能量后选择晶逆", async () =>
         {
@@ -96,7 +96,7 @@ public static class UpdatedSpecificationTests
             await PowerCmd.Apply<EnergyNextTurnPower>(r.Choice, r.Player.Creature, 2, null, null);
             CreatureCmd.AfterBlockGained = (_, _, _) => { r.Energy = 0; return Task.CompletedTask; };
             await card.Play(r.Choice, new() { Card = card });
-            Check(CreatureCmd.BlockGains.SequenceEqual(new[] { 12, 12 }));
+            Check(CreatureCmd.BlockGains.SequenceEqual(new[] { 12, 10 }));
         });
         Test("键合三键量子点先晶抗后晶逆并保留分支开始前的资源变化", async () =>
         {
@@ -114,7 +114,7 @@ public static class UpdatedSpecificationTests
                 }
             };
             await card.Play(r.Choice, new() { Card = card });
-            Check(CreatureCmd.BlockGains.SequenceEqual(new[] { 12, 4, 12 }));
+            Check(CreatureCmd.BlockGains.SequenceEqual(new[] { 12, 3, 10 }));
         });
         Test("键合三键基础和追加格挡分别走敏捷及Ca额度", async () =>
         {
@@ -123,7 +123,7 @@ public static class UpdatedSpecificationTests
             await PowerCmd.Apply<DexterityPower>(r.Choice, r.Player.Creature, 2, null, null);
             await PowerCmd.Apply<ApplicationCaBlockPower>(r.Choice, r.Player.Creature, 1, null, null);
             await card.Play(r.Choice, new() { Card = card });
-            Check(CreatureCmd.BlockGains.SequenceEqual(new[] { 28, 10 }));
+            Check(CreatureCmd.BlockGains.SequenceEqual(new[] { 28, 8 }));
             Check(r.Player.Creature.GetPower<ApplicationCaBlockPower>() == null);
         });
         Test("键合三键负敏捷和战斗结束不生成无效格挡", async () =>

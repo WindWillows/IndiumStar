@@ -12,7 +12,7 @@ using IndiumStar.CardPools;
 namespace IndiumStar.Cards;
 
 /// <summary>
-/// 晶币：获得 18 金币（升级 24）。此牌在本场游戏中给予的金币永久 -3。虚无。
+/// 晶币：获得 18 金币（升级 24）。此牌在本场游戏中给予的金币永久-3，收益归零时移出永久牌组。虚无，消耗。
 /// </summary>
 /// <remarks>
 /// <para>
@@ -77,7 +77,7 @@ public sealed class CrystalCoin : ModCardTemplate
     ];
 
     /// <summary>虚无：回合结束时若在手中就被消耗掉。</summary>
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Ethereal];
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Ethereal, CardKeyword.Exhaust];
 
     public override CardAssetProfile AssetProfile => new(
         PortraitPath: "res://images/packed/card_portraits/ironclad/defend_ironclad.png");
@@ -134,6 +134,12 @@ public sealed class CrystalCoin : ModCardTemplate
         {
             await PlayerCmd.GainGold(gold, Owner);
         }
+
+        // 最后一次给予递减前的金币，递减后的收益归零时移出永久牌组。
+        // 独立战斗复制没有DeckVersion，只消耗自身，不能移除来源牌。
+        CrystalCoin persistent = PersistentSelf;
+        if (CurrentGold == 0m && persistent.Pile?.Type == PileType.Deck)
+            await CardPileCmd.RemoveFromDeck(persistent);
     }
 
     protected override void OnUpgrade()

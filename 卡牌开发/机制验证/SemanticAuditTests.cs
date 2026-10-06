@@ -21,7 +21,7 @@ public static class SemanticAuditTests {
                 await PowerCmd.Apply<VigorPower>(r.Choice, r.Player.Creature, 4, null, null);
                 var target = new Creature { CombatState = r.State };
                 await CardCmd.AutoPlay(r.Choice, card, target);
-                Check(DamageCmd.Attacks.Single().Damage == (up ? 14 : 10) && card.EnergyCost.Value == (up ? 0 : 1));
+                Check(DamageCmd.Attacks.Single().Damage == (up ? 15 : 11) && card.EnergyCost.Value == 1);
                 Check(card.Type == CardType.Attack && card.CreateClone().Type == CardType.Attack
                     && r.Player.Creature.GetPowerAmount<VigorPower>() == 2 && card.Pile?.Type == PileType.Discard);
                 Check(r.Player.Creature.GetPowerAmount<WeakPower>() == 1 && r.Player.Creature.GetPowerAmount<VulnerablePower>() == 0);
@@ -112,7 +112,7 @@ public static class SemanticAuditTests {
                 var first = new Creature { CombatState = r.State }; var other = new Creature { CombatState = r.State };
                 r.State.CreatureList.AddRange([first, other]);
                 await card.Play(r.Choice, new() { Card = card, Target = first });
-                Check(DamageCmd.Attacks.Count == 2 && DamageCmd.Attacks.All(a => a.Damage == 3 && a.Hits == (up ? 4 : 3)));
+                Check(DamageCmd.Attacks.Count == 2 && DamageCmd.Attacks.All(a => a.Damage == 2 && a.Hits == (up ? 4 : 3)));
             });
         }
         Test("崩碎之歌不把失败消耗计入伤害段数", async () => {

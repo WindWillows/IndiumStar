@@ -32,7 +32,7 @@ public sealed class ReminiscenceDrawPower : ModPowerTemplate
     public override PowerStackType StackType => PowerStackType.Counter;
     public override PowerAssetProfile AssetProfile => ContentAssetProfiles.Power("strength_power");
 
-    /// <summary>必须在自身抽牌之前配置；同一本人回合内重复施加不清空累计。</summary>
+    /// <summary>本牌抽牌结束后配置；同一本人回合内重复施加不清空累计。</summary>
     public void Configure(CardPlay cardPlay)
     {
         if (Owner.Player is not { PlayerCombatState: { } state } player

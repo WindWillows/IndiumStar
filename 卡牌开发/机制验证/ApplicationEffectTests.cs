@@ -174,16 +174,19 @@ public static class ApplicationEffectTests
                 Check(r.Player.PlayerCombatState.Hand.Cards.OfType<Crystallization>().Count() == 1 && attack.Pile?.Type == PileType.Hand && curse.Pile?.Type == PileType.Hand);
                 Check(statuses.Count(c => c.Pile == null) == (up ? 2 : 1));
             });
-            Test($"运用-Cu伤害之后生效，累计余数及升级阈值 upgraded={up}", async () =>
+            Test($"运用-Cu伤害之前生效，累计余数及升级阈值 upgraded={up}", async () =>
             {
                 var r = new Rig(); var card = r.Crystal<ApplicationCu>(); if (up) card.Upgrade(); var enemy = Enemy(r);
-                DamageCmd.AfterAttackExecuted = _ => { Check(enemy.GetPower<ApplicationCuPower>() == null); return Task.CompletedTask; };
+                DamageCmd.AfterAttackExecuted = async _ => {
+                    var active = enemy.GetPower<ApplicationCuPower>(); Check(active != null);
+                    await Hit(r, active!, enemy, 13);
+                };
                 await Play(r, card, enemy); var power = enemy.GetPower<ApplicationCuPower>()!;
-                Check(DamageCmd.Attacks.Single().Damage == 13 && enemy.GetPowerAmount<PoisonPower>() == 0);
+                Check(DamageCmd.Attacks.Single().Damage == 13 && enemy.GetPowerAmount<PoisonPower>() == (up ? 4 : 2));
                 await Hit(r, power, enemy, 4); await Hit(r, power, enemy, 4); await Hit(r, power, enemy, 4);
-                Check(enemy.GetPowerAmount<PoisonPower>() == (up ? 4 : 2));
+                Check(enemy.GetPowerAmount<PoisonPower>() == (up ? 8 : 6));
                 Check(PowerCmd.LastApplier == r.Player.Creature, "Poison must be attributed to Cu's player");
-                await Hit(r, power, enemy, up ? 6 : 7); Check(enemy.GetPowerAmount<PoisonPower>() == (up ? 6 : 4));
+                await Hit(r, power, enemy, up ? 6 : 7); Check(enemy.GetPowerAmount<PoisonPower>() == (up ? 10 : 8));
             });
             Test($"运用-Cu首次施加后的连锁攻击立即使用当前配置 upgraded={up}", async () =>
             {

@@ -11,7 +11,7 @@ using IndiumStar.Powers;
 namespace IndiumStar.Cards;
 
 /// <summary>
-/// 密铺形态：晶化 3。所有晶化牌具有「在手中时，你具有 2 点力量和 2 点敏捷」。
+/// 密铺形态：晶化 3。所有晶化牌具有「在手中时，你具有 1点力量和 1点敏捷」。
 /// <para>升级后：获得保留。</para>
 /// </summary>
 /// <remarks>

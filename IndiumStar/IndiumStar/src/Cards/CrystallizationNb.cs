@@ -10,13 +10,13 @@ using IndiumStar.CardPools;
 
 namespace IndiumStar.Cards;
 
-/// <summary>晶化Nb：继承晶化的公共属性和额度；打出获得4层活力。</summary>
+/// <summary>晶化Nb：继承晶化的公共属性和额度；打出获得3层活力。</summary>
 [RegisterCard(typeof(IndiumStarCardPool))]
 public sealed class CrystallizationNb : CrystallizationCard
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new PowerVar<VigorPower>(4m),
+        new PowerVar<VigorPower>(3m),
     ];
 
     public override CardAssetProfile AssetProfile => new(

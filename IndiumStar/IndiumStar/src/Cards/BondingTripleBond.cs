@@ -21,8 +21,8 @@ public sealed class BondingTripleBond : ApplicationCard
     public override CardAssetProfile AssetProfile => new(
         PortraitPath: "res://images/packed/card_portraits/ironclad/defend_ironclad.png");
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new BlockVar(12m, ValueProp.Move), new DynamicVar("CrystalBlock", 4m),
-         new DynamicVar("ExtensionBlock", 6m)];
+        [new BlockVar(12m, ValueProp.Move), new DynamicVar("CrystalBlock", 3m),
+         new DynamicVar("ExtensionBlock", 5m)];
 
     protected override async Task<CardModel?> PlayEffect(PlayerChoiceContext context, CardPlay play)
     {
@@ -32,7 +32,7 @@ public sealed class BondingTripleBond : ApplicationCard
 
     protected override async Task CrystalResistance(PlayerChoiceContext context, CardPlay play, CardModel? result)
     {
-        // 沿用现有晶化数量的手牌口径；文档未指明牌堆范围，另记规则问题单。
+        // 晶化数量按已定稿规则只统计手牌。
         int count = CrystallizationRules.CountCrystallizationInHand(this);
         if (count > 0)
             await CreatureCmd.GainBlock(Owner.Creature, count * DynamicVars["CrystalBlock"].BaseValue,

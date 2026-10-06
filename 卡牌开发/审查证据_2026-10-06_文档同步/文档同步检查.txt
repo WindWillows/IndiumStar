@@ -1,0 +1,26 @@
+PASS 文档同步：电子1费、11/15伤害与分支 upgraded=False
+PASS 文档同步：碎晶雨所有段2伤害，晶抗只按手牌追加 upgraded=False
+PASS 文档同步：碎晶雨晶逆其他敌人保持2伤害多段 upgraded=False
+PASS 文档同步：Cu先挂中毒累计器，自身13伤害计入并保留余数 upgraded=False
+PASS 文档同步：晶币最后3金币后移出原件，当前战斗牌消耗 upgraded=False
+PASS 文档同步：晶币独立复制归零不移除来源，原件继续衰减 upgraded=False
+PASS 文档同步：钒永先抽牌，自身首次抽取不预约 upgraded=False
+PASS 文档同步：钒永已有统计器仍统计再次打出的抽牌，不叠加或清空 upgraded=False
+PASS 文档同步：三键基础格挡与3/5、5/7分支系数 upgraded=False energy=0
+PASS 文档同步：三键基础格挡与3/5、5/7分支系数 upgraded=False energy=1
+PASS 文档同步：晶髓升级同时增加延拓和抽牌，并消耗 upgraded=False
+PASS 文档同步：密铺每张手牌晶化1力1敏，与Hs光环独立 upgraded=False
+PASS 文档同步：电子1费、11/15伤害与分支 upgraded=True
+PASS 文档同步：碎晶雨所有段2伤害，晶抗只按手牌追加 upgraded=True
+PASS 文档同步：碎晶雨晶逆其他敌人保持2伤害多段 upgraded=True
+PASS 文档同步：Cu先挂中毒累计器，自身13伤害计入并保留余数 upgraded=True
+PASS 文档同步：晶币最后3金币后移出原件，当前战斗牌消耗 upgraded=True
+PASS 文档同步：晶币独立复制归零不移除来源，原件继续衰减 upgraded=True
+PASS 文档同步：钒永先抽牌，自身首次抽取不预约 upgraded=True
+PASS 文档同步：钒永已有统计器仍统计再次打出的抽牌，不叠加或清空 upgraded=True
+PASS 文档同步：三键基础格挡与3/5、5/7分支系数 upgraded=True energy=0
+PASS 文档同步：三键基础格挡与3/5、5/7分支系数 upgraded=True energy=1
+PASS 文档同步：晶髓升级同时增加延拓和抽牌，并消耗 upgraded=True
+PASS 文档同步：密铺每张手牌晶化1力1敏，与Hs光环独立 upgraded=True
+PASS 文档同步：晶化Nb给予3活力并保留公共晶化属性
+25/25 passed; scope: real mod source, command/history stubs, real Harmony patching and game API contract.

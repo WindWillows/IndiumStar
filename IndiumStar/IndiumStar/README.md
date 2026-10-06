@@ -1,13 +1,13 @@
 # 铟星 IndiumStar —— 杀戮尖塔2 角色模组
 
-一个最小可用的《杀戮尖塔 2》(Slay the Spire 2) 角色模组示例，用来演示「加一个角色」需要哪些东西。
+《杀戮尖塔2》(Slay the Spire 2) 铟星角色模组。当前68张卡牌均有核心实现；最新文档同步和必要检查见工作区`卡牌开发/文档同步记录_2026-10-06.md`，实机、完整存档和多人验收仍在待办。
 
 ## 这个模组做了什么
 
 | 项目 | 内容 |
 | --- | --- |
 | 角色 | 铟星 IndiumStar，75 点初始生命，99 金币 |
-| 初始牌组 | 4 张**打击** + 4 张**防御** + 1 张**运用-In** + 1 张**运用-中子**（共 10 张） |
+| 初始牌组 | 4 张**打击** + 4 张**防御** + 1 张**运用-In** + 1 张**运用-电子**（共 10 张；电子1费，11/15伤害） |
 | 打击 | 1 费，造成 6 点伤害；火堆锻造（升级）后改为 9 点 |
 | 防御 | 1 费，获得 5 点格挡；火堆锻造（升级）后改为 8 点 |
 | 初始遗物 | 暂时借用原版**铁甲战士**的初始遗物：**燃烧之血**（BurningBlood） |
@@ -28,7 +28,7 @@
 ### 晶化与每回合额度
 
 新晶化继承 `CrystallizationCard`，自动获得0费状态牌、保留、消耗和公共手动额度。
-普通、Mg、Hs、Pb已经迁移，Pb继续额外带虚无。变体可以覆写关键字和基础效果。
+普通、Mg、Nb、Hs、Pb、U已经迁移，Pb继续额外带虚无。变体可以覆写关键字和基础效果。
 牌族身份使用 `ICrystallizationCard`，改名与切换语言不影响身份。
 
 所有晶化共用每玩家每回合1次手动额度。历史统计限定本回合、对应玩家、
@@ -53,7 +53,7 @@ await CrystallizationRules.AddToHand<CrystallizationMg>(choiceContext, Owner, Co
 分支或监听者随后改变能量不会重新选择。特殊规则可选择双分支，固定先晶抗后晶逆。
 
 新牌须用 `AvailableCrystalBranches` 显式声明 `None / Resistance / Reversal / Both`，
-并实现相应方法。当前有19张带分支的牌。主效果返回的 `CardModel?`
+并实现相应方法。当前有21张带分支的牌。主效果返回的 `CardModel?`
 继续传递给分支，避免用卡牌实例字段保存本次选牌结果。
 
 当前战斗中的模型可实现 `ICrystalBranchModifier` 修改分支选择，或实现
@@ -64,34 +64,13 @@ await CrystallizationRules.AddToHand<CrystallizationMg>(choiceContext, Owner, Co
 ### 运用牌族
 
 `ApplicationCard` 是通用效果基类，不代表运用牌族。
-运用牌须额外实现 `IApplicationCard`；已有15张运用牌全部标记，包括不继承该基类的运用-Co。
+运用牌须额外实现 `IApplicationCard`；已有16张运用牌全部标记（含衍生中子），包括不继承该基类的运用-Co。
 `ApplicationRules.IsApplicationCard` 使用此标记，溯源猛击的免费效果不再依赖卡名。
 
-### 隐藏效果（控制负面能力的持续时长）
+### 负面能力与临时出牌限制
 
-原版的虚弱/易伤在**敌人回合结束时**才递减（见 `WeakPower.AfterSideTurnEnd`、`VulnerablePower.AfterSideTurnEnd`，
-都只在 `CombatSide.Enemy` 时递减）。这对「给自己上负面效果」的牌来说太长了，
-所以用两个**隐藏能力**把时长压到指定的窗口：
-
-| 隐藏能力 | 触发时机 | 作用 |
-| --- | --- | --- |
-| `LoseWeakAtTurnEndPower` | `AfterSideTurnEnd`（自己回合结束） | 失去 1 层虚弱 |
-| `LoseVulnerableAtTurnStartPower` | `BeforeSideTurnStart`（自己回合开始） | 失去 1 层易伤 |
-| `OnlyAttacksThisTurnPower` | `AfterSideTurnEnd`（自己回合结束） | 本回合只能打出攻击牌 |
-
-用法是在给自己上负面能力的同时，额外挂一个对应的隐藏能力：
-
-```csharp
-await PowerCmd.Apply<WeakPower>(choiceContext, Owner.Creature, 1m, Owner.Creature, this);
-await PowerCmd.Apply<LoseWeakAtTurnEndPower>(choiceContext, Owner.Creature, 1m, Owner.Creature, this);
-```
-
-**为什么要覆写 `IsVisibleInternal => false`**：`PowerStackType.Single` 只让**层数数字**不显示，
-能力本身仍然会出现在能力栏里。真正隐藏必须覆写 `IsVisibleInternal`
-（`PowerModel.cs:167` 默认返回 `true`）。
-
-> 隐藏能力也必须有本地化键（`powers.json` 里的 `.title` / `.description`），
-> 否则游戏读标题时会抛 `LocException`。
+运用-电子的自身虚弱/易伤使用原版持续与衰减，不额外挂提前清除能力。
+`OnlyAttacksThisTurnPower`在本人回合结束移除，限制本回合只能打出攻击牌。
 
 ### 禁止出牌：`ShouldPlay` 钩子
 

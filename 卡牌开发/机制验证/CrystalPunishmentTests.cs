@@ -43,7 +43,7 @@ public static class CrystalPunishmentTests
                 Check(target.GetPowerAmount<DoomPower>() == (up ? 4 : 3) && r.Player.Creature.GetPowerAmount<DoomPower>() == 0);
                 Check(PowerCmd.LastSource == crystal && PowerCmd.LastApplier == r.Player.Creature);
                 if (type == typeof(CrystallizationMg)) Check(r.Player.Creature.Block == 4);
-                if (type == typeof(CrystallizationNb)) Check(r.Player.Creature.GetPowerAmount<VigorPower>() == 4);
+                if (type == typeof(CrystallizationNb)) Check(r.Player.Creature.GetPowerAmount<VigorPower>() == 3);
                 if (neutron != null) Check(neutron.Pile?.Type == PileType.Hand && neutron.Keywords.Contains(CardKeyword.Exhaust));
                 Check(crystal.Pile?.Type == PileType.Exhaust);
             });

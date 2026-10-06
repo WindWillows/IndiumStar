@@ -17,6 +17,7 @@ namespace IndiumStar.Cards;
 public sealed class CrystalMarrow : ApplicationCard, IExtensionCard
 {
     protected override bool HasEnergyCostX => true;
+    public override IEnumerable<CardKeyword> CanonicalKeywords => base.CanonicalKeywords.Concat([CardKeyword.Exhaust]);
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DynamicVar("ExtraDraw", 0m)];
     public override CardAssetProfile AssetProfile => new(
         PortraitPath: "res://images/packed/card_portraits/ironclad/defend_ironclad.png");
@@ -28,7 +29,8 @@ public sealed class CrystalMarrow : ApplicationCard, IExtensionCard
         int x = ResolveEnergyXValue();
         int draw = checked(x + DynamicVars["ExtraDraw"].IntValue);
         int dueTurn = checked(Owner.PlayerCombatState!.TurnNumber + 1);
-        await ExtensionRules.Gain(choiceContext, Owner, x, this);
+        // 升级同时增加延拓和下回合抽牌各1。
+        await ExtensionRules.Gain(choiceContext, Owner, draw, this);
         if (draw > 0)
             await PowerCmd.Apply<DrawCardsNextTurnPower>(choiceContext, Owner.Creature, draw, Owner.Creature, this);
         CrystalMarrowPower? power = await PowerCmd.Apply<CrystalMarrowPower>(

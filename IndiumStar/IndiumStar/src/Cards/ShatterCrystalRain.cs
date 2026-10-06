@@ -15,15 +15,13 @@ using IndiumStar.CardPools;
 namespace IndiumStar.Cards;
 
 /// <summary>
-/// 碎晶雨：造成 3 点伤害 3 次。
-/// <para>晶抗（结算后能量不为 0）：手牌中每有一张「晶化」，就再造成 3 点伤害一次。</para>
+/// 碎晶雨：造成2点伤害3次（升级4次）。
+/// <para>晶抗（结算后能量不为 0）：手牌中每有一张「晶化」，就再造成2点伤害一次。</para>
 /// <para>晶逆（结算后能量为 0）：对其他敌人造成等量伤害。</para>
 /// </summary>
 /// <remarks>
 /// <para>
-/// 升级后：基础段数 3 → 4（每段仍是 3 点），晶抗追加段每段 3 → 4。
-/// 基础每段伤害不随升级变化，所以基础段（<c>Damage</c>）和晶抗追加段
-/// （<c>CrystalDamage</c>）是两个独立的变量。
+/// 所有伤害段共用2点伤害，升级只增加基础段数。
 /// </para>
 /// <para>
 /// <b>三个效果各自负责自己的段数，不要混用：</b>
@@ -62,11 +60,9 @@ public sealed class ShatterCrystalRain : ApplicationCard
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         // 基础段每段伤害（升级不变）。
-        new DamageVar(3m, ValueProp.Move),
+        new DamageVar(2m, ValueProp.Move),
         // 基础段数。
         new RepeatVar(3),
-        // 晶抗追加段每段伤害。
-        new DamageVar("CrystalDamage", 3m, ValueProp.Move),
     ];
 
     public override CardAssetProfile AssetProfile => new(
@@ -119,7 +115,7 @@ public sealed class ShatterCrystalRain : ApplicationCard
             return;
         }
 
-        await DamageCmd.Attack(DynamicVars["CrystalDamage"].BaseValue)
+        await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .WithHitCount(extraHits)
             .FromCard(this, cardPlay)
             .Targeting(cardPlay.Target)
@@ -164,8 +160,7 @@ public sealed class ShatterCrystalRain : ApplicationCard
 
     protected override void OnUpgrade()
     {
-        // 基础每段伤害不变；段数 3 → 4，晶抗追加段每段 3 → 4。
+        // 所有伤害段保持2点，基础段数3→4。
         DynamicVars.Repeat.UpgradeValueBy(1m);
-        DynamicVars["CrystalDamage"].UpgradeValueBy(1m);
     }
 }

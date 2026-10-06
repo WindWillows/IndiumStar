@@ -11,7 +11,7 @@ using IndiumStar.Powers;
 namespace IndiumStar.Cards;
 
 /// <summary>
-/// 回忆-钒永：本回合每当你抽牌时，下回合开始时抽等量牌。抽 1 张牌（升级 2）。
+/// 回忆-钒永：先抽1张牌（升级2），再统计后续抽牌以预约下回合等量抽牌。
 /// </summary>
 /// <remarks>
 /// <para>
@@ -21,8 +21,7 @@ namespace IndiumStar.Cards;
 /// 只能"本回合施加、下回合生效"，做不到回合结束才结算）。
 /// </para>
 /// <para>
-/// 顺序很关键：<strong>先挂能力，再抽牌</strong>——否则这张牌自己抽的那几张
-/// 不会被统计进去，而规格说的正是"本回合每当你抽牌时"。
+/// 先抽牌再挂能力：首次施加不统计自身抽牌；已有统计器时照常统计，且不重置。
 /// </para>
 /// <para>
 /// 这张牌没有晶抗/晶逆——按规格它没写。
@@ -50,7 +49,9 @@ public sealed class ReminiscenceVanadiumEternal : ModCardTemplate
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        // 先挂统计能力。
+        await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.IntValue, Owner);
+
+        // 自身抽牌结束后才开始统计，重复施加保留已有累计。
         // 初始层数必须是 1（不能是 0）：PowerCmd.Apply 在 amount == 0 时直接 return
         // （PowerCmd.cs:107），能力根本不会被创建。
         ReminiscenceDrawPower? power = await PowerCmd.Apply<ReminiscenceDrawPower>(
@@ -60,14 +61,7 @@ public sealed class ReminiscenceVanadiumEternal : ModCardTemplate
             Owner.Creature,
             this);
 
-        // 统计起点放在抽牌**之前**：它自己抽的那张也要计入。
-        //   打出 1 张   → 下回合多抽 1（自己抽的那张）
-        //   打出 2 张   → 下回合多抽 2
-        //   钒永 + 抽2张 → 下回合多抽 3
-        // 所以能力必须在 Draw 之前就开始数。
         power?.Configure(cardPlay);
-
-        await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.IntValue, Owner);
     }
 
     protected override void OnUpgrade()

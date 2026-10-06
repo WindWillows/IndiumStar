@@ -13,7 +13,7 @@ using IndiumStar.Powers;
 namespace IndiumStar.Cards;
 
 /// <summary>
-/// 运用-Cu：造成 13 点伤害。本回合，这名敌人每受到 7 点攻击伤害，获得 2 层中毒。
+/// 运用-Cu：本回合，目标每受到7点攻击伤害获得2层中毒；随后造成13点伤害。
 /// <para>升级后：伤害不变，触发阈值 7 → 6。</para>
 /// </summary>
 /// <remarks>
@@ -23,9 +23,7 @@ namespace IndiumStar.Cards;
 /// 每够一整份就施加一次中毒，余数保留。
 /// </para>
 /// <para>
-/// 伤害先打、再挂能力：这样这次的 13 点伤害本身<strong>不会</strong>被自己触发的中毒计入
-/// （能力是在伤害结算之后才挂上去的）。如果你想让它连自己这次的伤害也算进去，
-/// 把 <c>PowerCmd.Apply</c> 挪到伤害前面即可。
+/// 先施加能力再造成伤害，本牌自身的13点攻击伤害计入累计。
 /// </para>
 /// <para>
 /// 卡图暂时借用原版铁甲战士的「打击」卡图。
@@ -56,14 +54,7 @@ public sealed class ApplicationCu : ApplicationCard, IApplicationCard
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
 
-        // 先造成伤害。
-        await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
-            .FromCard(this, cardPlay)
-            .Targeting(cardPlay.Target)
-            .WithHitFx("vfx/vfx_attack_slash")
-            .Execute(choiceContext);
-
-        // 再挂上「每累计 N 点伤害就中毒」的能力。
+        // 先挂上「每累计 N 点伤害就中毒」的能力。
         // 能力在BeforeApplied/BeforePowerAmountChanged读取本牌阈值，先配置后进入施加连锁。
         // 同时传入施加方，能力在它的回合结束时清除（而不是挂载对象的回合）。
         // 持续时长由能力自己清理（自定义能力不会自动减层）。
@@ -73,6 +64,13 @@ public sealed class ApplicationCu : ApplicationCard, IApplicationCard
             1m,
             Owner.Creature,
             this);
+
+        // 本牌的攻击也计入已施加的累计器。
+        await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
+            .FromCard(this, cardPlay)
+            .Targeting(cardPlay.Target)
+            .WithHitFx("vfx/vfx_attack_slash")
+            .Execute(choiceContext);
 
         return null;
     }

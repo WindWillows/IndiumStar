@@ -1,0 +1,97 @@
+{
+  "baseline_revision": "fff84e32a44e52d86ba14ef954f3780fbea3d7bf",
+  "document_sha256": "4c8ff3177eebc1e7d5e3e53a777d857d286fe2f1dcd72510580ba3374a1747b6",
+  "changed_cards": [
+    {
+      "class": "ApplicationNeutron",
+      "name": "运用-电子",
+      "specification": "1c 初始 攻击；造成11（15）点伤害，升级不减费。"
+    },
+    {
+      "class": "ShatterCrystalRain",
+      "name": "碎晶雨",
+      "specification": "1c 普通 攻击；造成2点伤害3（4）次；晶抗按每张手牌晶化追加一次相同伤害；晶逆对其他敌人造成等量伤害。"
+    },
+    {
+      "class": "ApplicationCu",
+      "name": "运用-Cu",
+      "specification": "2c 罕见 攻击；先施加本回合每受到7（6）点攻击伤害中毒2的效果，再造成13点伤害。"
+    },
+    {
+      "class": "CrystalCoin",
+      "name": "晶币",
+      "specification": "1c 罕见 技能；获得18（24）金币，永久-3；收益归零时移出永久牌组；虚无，消耗。"
+    },
+    {
+      "class": "ReminiscenceVanadiumEternal",
+      "name": "回忆-钒永",
+      "specification": "1c 罕见 技能；先抽1（2）张牌，再使本回合后续抽牌在下回合开始时抽等量牌。"
+    },
+    {
+      "class": "BondingTripleBond",
+      "name": "键合-三键",
+      "specification": "2c 罕见 技能；格挡12（15）；晶抗每张手牌晶化格挡3（5）；晶逆每层延拓格挡5（7）。"
+    },
+    {
+      "class": "CrystallizationNb",
+      "name": "晶化Nb",
+      "specification": "0c 衍生 状态；获得3层活力，保留，消耗；共用晶化手动额度。"
+    },
+    {
+      "class": "CrystalMarrow",
+      "name": "晶髓",
+      "specification": "Xc 稀有 技能；延拓X（X+1），下回合额外抽X（X+1）张牌；下回合所有手牌花费+1且重放1次；消耗。"
+    },
+    {
+      "class": "TilingForm",
+      "name": "密铺形态",
+      "specification": "3c 稀有 能力；晶化3；每张手牌晶化提供1点力量和1点敏捷；升级保留。"
+    }
+  ],
+  "focused_checks": {
+    "passed": 25,
+    "total": 25,
+    "scope": "本批变化的真实模组源码＋指令/历史替身；没有完整实机战斗"
+  },
+  "native_models": {
+    "passed": 68,
+    "scope": "本机游戏DLL的模型构造、升级、克隆和字段/词条；详见原生探针JSON"
+  },
+  "release_build": {
+    "result": "pass",
+    "errors": 0,
+    "warnings": 0,
+    "export_pck": false,
+    "deploy_mod": false
+  },
+  "native_pck_roundtrip": {
+    "result": "pass",
+    "json_files": 11
+  },
+  "full_old_regression_rerun": false,
+  "complete_live_effect_acceptances": 0,
+  "deferred_items": [
+    "TD01",
+    "TD02",
+    "TD03",
+    "TD04"
+  ],
+  "source_hashes": {
+    "IndiumStar/IndiumStar/src/Cards/ApplicationNeutron.cs": "4a3d46763156414a706734c9413fe48e3154103b3df74b37cd0378b7b214eb87",
+    "IndiumStar/IndiumStar/src/Cards/ShatterCrystalRain.cs": "fd3c1bf20f6d0a6f6531cb739d6c560bc4489101ea96de1dc89677dd23b5c63d",
+    "IndiumStar/IndiumStar/src/Cards/ApplicationCu.cs": "18a4a68ba422fff64253b1fcaf26bfcded19028c480894b79584744aa8e21ff2",
+    "IndiumStar/IndiumStar/src/Cards/CrystalCoin.cs": "6fc73c6cb9e6a44b2e06b3d5125f851ecc3e6cf54f708a14865a9aaeed9ab2f7",
+    "IndiumStar/IndiumStar/src/Cards/ReminiscenceVanadiumEternal.cs": "6a1a59d306764dc6c30eff21f7337cd2a2c6a91089206f423e6f2e80ff1e8f0a",
+    "IndiumStar/IndiumStar/src/Cards/BondingTripleBond.cs": "b763077e1955ebc5e842d2f4b758cd3335391669447a912a2c52afcde1e09e48",
+    "IndiumStar/IndiumStar/src/Cards/CrystallizationNb.cs": "02f712a856791961e72fc8a696aa427d48253800bc40d50640cae19736af038d",
+    "IndiumStar/IndiumStar/src/Cards/CrystalMarrow.cs": "150226c82407a8d7bf2f0d3ab6ff043a0f37ecb169da89c298d793fa08365293",
+    "IndiumStar/IndiumStar/src/Cards/TilingForm.cs": "8394b716a85ac364def2ae73a801bcfbc208b9747d5534ae60667e597a66f466",
+    "IndiumStar/IndiumStar/src/Powers/CrystalHandAuraPower.cs": "6f54f21dd250951f7a1a0e1f6a946786f031e5734adf20f9bd07e07e8c8d4f38",
+    "IndiumStar/IndiumStar/src/Powers/ReminiscenceDrawPower.cs": "68227022398ab8399b9d1ec4acd593c25751c2ccf78e996732c28cb2721fdde5"
+  },
+  "artifact_hashes": {
+    "IndiumStar.dll": "c3a1e2131973629335410273d5a8749f65930e1d843264c5bca886ea2ce9b3ae",
+    "IndiumStar.pck": "902b120c7acff246f2190af46c5aa93aed8ef124be87b4d804334dd38cd3a156",
+    "IndiumStar.json": "60c8a8866234b7aaaf97787c8afb86075f05e328cfcf9a92e069f4891950fe75"
+  }
+}

@@ -60,7 +60,7 @@ public sealed class CrystalHandAuraPower : ModPowerTemplate
         var hand = PileType.Hand.GetPile(Owner.Player).Cards;
         int hsStrength = hand.OfType<CrystallizationHs>().Count();
         int tiling = Owner.GetPower<TilingFormPower>() != null
-            ? 2 * hand.Count(CrystallizationRules.IsCrystallizationCard) : 0;
+            ? hand.Count(CrystallizationRules.IsCrystallizationCard) : 0;
 
         foreach (Creature recipient in state.Creatures.Concat(_contributions.Keys).Distinct().ToList())
         {

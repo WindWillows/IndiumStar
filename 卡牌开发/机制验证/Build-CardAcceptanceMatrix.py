@@ -39,15 +39,16 @@ external = {
     "ShadowChainBreath": "用户增补：0c罕见技能；抽取时复制加入手牌；手牌中每张分影连气分别获得3（4）格挡；消耗。",
     "NeighboringGroupParticipation": "用户增补：0c罕见技能；抽1张；能力再抽2，技能获3（5）格挡，攻击获3（4）临时力量。",
     "Crystallization": "用户通则：普通无额外效果晶化，0c状态、保留、消耗；同一玩家每回合共用1次手动额度，自动打出不计次数。",
-    "DerivedApplicationNeutron": decisions["card_specification_overrides"]["DerivedApplicationNeutron"],
 }
 short_names = {
     "ApplicationCo": ["Co标记"], "ApplicationU": ["U标记"], "ApplicationCa": ["Ca两份"],
     "ApplicationNb": ["Nb"], "ReminiscencePollutionH": ["污染H"],
-    "ReminiscenceVanadiumEternal": ["钒永"], "BondingTripleBond": ["键合三键"],
+    "ReminiscenceVanadiumEternal": ["钒永"], "BondingTripleBond": ["键合三键", "三键"],
     "DeferredRelease": ["未命名技能", "预约"], "ApplicationTh": ["运用Th"],
     "ReminiscenceTinDoubt": ["锡疑"], "ReminiscencePhosphorus": ["磷语"],
     "ApplicationNeutron": ["电子"],
+    "ApplicationCu": ["Cu"],
+    "TilingForm": ["密铺"],
 }
 anchors = []
 records = []
@@ -60,11 +61,6 @@ for native in model_probe["cards"]:
               "source_file": "IndiumStar/IndiumStar/src/Cards/" + cls + ".cs"}
     if cls in external:
         record.update(specification_source="用户确认的通则/增补消息", specification_text=external[cls])
-    elif cls == "DeferredRelease":
-        raw = "1c 普通 技能\n（保留）消耗1张牌。下个回合开始时，将其打出。"
-        pos = body.find(raw)
-        if pos < 0: raise ValueError("未命名技能文档锚点缺失")
-        anchors.append((pos, cls)); record["document_anchor"] = pos
     else:
         prefix = r"\*" if cls.startswith("Crystallization") else ""
         document_title = decisions.get("document_title_aliases", {}).get(cls, title)
@@ -98,7 +94,7 @@ for row in records:
     row["global_user_rules"] = decisions["global_rules"]
     if cls in decisions["card_specification_overrides"]:
         row["document_specification_text"] = row["specification_text"]
-        row.update(specification_source="最新用户定稿消息；优先于DOCX正文",
+        row.update(specification_source="当前用户定稿；与本次DOCX更新同步，优先于旧规格",
                    specification_text=decisions["card_specification_overrides"][cls])
     if cls in decisions["card_rule_overrides"]:
         row["latest_user_rule"] = decisions["card_rule_overrides"][cls]
@@ -115,9 +111,10 @@ for row in records:
     row["localized_description"] = localization[key + ".description"]
     row["card_source_linked_by_regression"] = "Cards/" + cls + ".cs" in linked_sources
     aliases = [row["title"]] + short_names.get(cls, [])
-    row["named_case_evidence"] = [name for name in passed_cases if any(name.startswith(alias) for alias in aliases)]
+    row["named_case_evidence"] = [name for name in passed_cases if any(name.removeprefix("文档同步：").startswith(alias) for alias in aliases)]
     row["model_probe"] = native["mutable_clone"] + "；仅构造、升级、MutableClone；非实机效果"
-    row["effect_acceptance"] = "部分源码回归；尚未完整验收" if row["card_source_linked_by_regression"] and row["named_case_evidence"] else "需要补齐直接卡牌效果回归；相关命名用例不自动证明整牌效果"
+    row["effect_acceptance"] = ("本批部分源码检查；尚未完整验收" if row["named_case_evidence"]
+        else "本批未重跑；历史回归见前批记录，完整验收未完成") if row["card_source_linked_by_regression"] else "需要补齐直接卡牌效果回归；相关命名用例不自动证明整牌效果"
     row["live_combat"] = "未验证"
     row["save_and_multiplayer"] = "未验证"
     row["required_audit"] = [

@@ -295,6 +295,7 @@ namespace MegaCrit.Sts2.Core.Entities.Players
         public PlayerCombatState? PlayerCombatState { get; set; } = new();
         public MegaCrit.Sts2.Core.Entities.Creatures.Creature Creature { get; } = new();
         public FakeRunState RunState { get; } = new();
+        public MegaCrit.Sts2.Core.Entities.Cards.CardPile Deck { get; } = new() { Type = MegaCrit.Sts2.Core.Entities.Cards.PileType.Deck };
     }
 
     public class FakeRunState { public FakeRng Rng { get; } = new(); }
@@ -322,11 +323,11 @@ namespace MegaCrit.Sts2.Core.Entities.Cards
     public enum CostModifiers { All }
     public enum CardTag { Strike, Defend }
     public enum CardPreviewMode { Normal }
-    public enum PileType { Hand, Play, Exhaust, Discard, None, Draw }
+    public enum PileType { Hand, Play, Exhaust, Discard, None, Draw, Deck }
     public enum CardPilePosition { Top, Bottom }
     public struct CardPileAddResult { public bool success; public PileType targetPile; }
     public enum AutoPlayType { Default }
-    public class CardPile { public PileType Type { get; set; } = PileType.Hand; public bool IsCombatPile => Type != PileType.None; public List<MegaCrit.Sts2.Core.Models.CardModel> Cards { get; } = []; }
+    public class CardPile { public PileType Type { get; set; } = PileType.Hand; public bool IsCombatPile => Type is not (PileType.None or PileType.Deck); public List<MegaCrit.Sts2.Core.Models.CardModel> Cards { get; } = []; }
     public static class PileExtensions
     {
         public static CardPile GetPile(this PileType type, MegaCrit.Sts2.Core.Entities.Players.Player player) =>
@@ -335,6 +336,7 @@ namespace MegaCrit.Sts2.Core.Entities.Cards
                 PileType.Draw => player.PlayerCombatState!.DrawPile,
                 PileType.Discard => player.PlayerCombatState!.DiscardPile,
                 PileType.Exhaust => player.PlayerCombatState!.ExhaustPile,
+                PileType.Deck => player.Deck,
                 _ => player.PlayerCombatState!.Hand
             };
     }
@@ -412,6 +414,15 @@ namespace MegaCrit.Sts2.Core.Commands
 {
     public static class CardPileCmd
     {
+        // Native CardPileCmd removes only permanent-deck cards; combat copies remain in combat.
+        public static Task RemoveFromDeck(MegaCrit.Sts2.Core.Models.CardModel card, bool showPreview = true)
+        {
+            if (card.Pile?.Type != MegaCrit.Sts2.Core.Entities.Cards.PileType.Deck)
+                throw new InvalidOperationException("You cannot remove a card that is not in the deck.");
+            card.Pile.Cards.Remove(card);
+            card.Pile = null;
+            return Task.CompletedTask;
+        }
         public static int DrawCount { get; set; }
         public static int HandCapacity { get; set; } = 10;
         public static bool DrawBlocked { get; set; }

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "source_file": "晶塔世界角色.docx",
-  "source_sha256": "2a25e6905b35511fed4d97c27a55ace5f521f572c78b69cbe7cc595b9117bbf1",
+  "source_sha256": "4c8ff3177eebc1e7d5e3e53a777d857d286fe2f1dcd72510580ba3374a1747b6",
   "baseline_revision": "7a43d89",
   "precedence": "用户当前更新的DOCX覆盖此前同名卡牌规格；此前明确给出的分影连气和邻基参与继续保留。",
   "cards": [
@@ -86,8 +86,8 @@
     "display_title": "[待命名]技能"
   },
   "remaining_audit_scope": "全卡池逐牌语义、时序和边界核查；卡牌全部完成前不转入遗物实现",
-  "previous_source_sha256": "85920bc38df934aba98b755d7181b375134859692db6b65fe36436acbd9a2438",
-  "latest_document_review": "2026-10-06：晶罚、隧穿、晶髓均已有核心实现，当前68张定义全部注册；16项两张X牌针对性检查、68真实模型及Release构建通过。本文件旧卡记录属历史规格，当前规则以规则定稿文件为准。完整实机、存档和多人门槛保留。",
+  "previous_source_sha256": "2a25e6905b35511fed4d97c27a55ace5f521f572c78b69cbe7cc595b9117bbf1",
+  "latest_document_review": "2026-10-06：本次最新DOCX同步9张卡牌的数值、关键词及生效顺序；衍生中子和气溶胶已进入文档且原实现匹配。68张均已实现，旧cards列表保留为历史；当前规格以latest_document_sync和规则定稿文件为准。实机、完整存档和多人门槛保留。",
   "pending_document_cards": [],
   "implemented_document_updates": [
     {
@@ -108,5 +108,55 @@
       "date": "2026-10-06",
       "status": "核心实现完成；针对性检查通过；实机验收未完成"
     }
-  ]
+  ],
+  "latest_document_sync": {
+    "base_revision": "fff84e3",
+    "cards": [
+      {
+        "class": "ApplicationNeutron",
+        "name": "运用-电子",
+        "specification": "1c 初始 攻击；造成11（15）点伤害，升级不减费。"
+      },
+      {
+        "class": "ShatterCrystalRain",
+        "name": "碎晶雨",
+        "specification": "1c 普通 攻击；造成2点伤害3（4）次；晶抗按每张手牌晶化追加一次相同伤害；晶逆对其他敌人造成等量伤害。"
+      },
+      {
+        "class": "ApplicationCu",
+        "name": "运用-Cu",
+        "specification": "2c 罕见 攻击；先施加本回合每受到7（6）点攻击伤害中毒2的效果，再造成13点伤害。"
+      },
+      {
+        "class": "CrystalCoin",
+        "name": "晶币",
+        "specification": "1c 罕见 技能；获得18（24）金币，永久-3；收益归零时移出永久牌组；虚无，消耗。"
+      },
+      {
+        "class": "ReminiscenceVanadiumEternal",
+        "name": "回忆-钒永",
+        "specification": "1c 罕见 技能；先抽1（2）张牌，再使本回合后续抽牌在下回合开始时抽等量牌。"
+      },
+      {
+        "class": "BondingTripleBond",
+        "name": "键合-三键",
+        "specification": "2c 罕见 技能；格挡12（15）；晶抗每张手牌晶化格挡3（5）；晶逆每层延拓格挡5（7）。"
+      },
+      {
+        "class": "CrystallizationNb",
+        "name": "晶化Nb",
+        "specification": "0c 衍生 状态；获得3层活力，保留，消耗；共用晶化手动额度。"
+      },
+      {
+        "class": "CrystalMarrow",
+        "name": "晶髓",
+        "specification": "Xc 稀有 技能；延拓X（X+1），下回合额外抽X（X+1）张牌；下回合所有手牌花费+1且重放1次；消耗。"
+      },
+      {
+        "class": "TilingForm",
+        "name": "密铺形态",
+        "specification": "3c 稀有 能力；晶化3；每张手牌晶化提供1点力量和1点敏捷；升级保留。"
+      }
+    ]
+  }
 }

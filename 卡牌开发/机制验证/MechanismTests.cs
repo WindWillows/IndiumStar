@@ -466,13 +466,13 @@ Test("污染H忽略晶逆和其他玩家的晶抗", async () => {
     await power.AfterCrystalBranchTriggered(r.Choice, new(foreign, null, null, 1, CrystalBranch.Both), CrystalBranch.Resistance);
     Check(power.Progress == 0);
 });
-Test("Nb与崩碎之歌加的自动晶化Nb组合保留2活力", async () => {
+Test("Nb与崩碎之歌加的自动晶化Nb组合保留1活力", async () => {
     var r = new Rig(); var nb = new ApplicationNbPower { Owner = r.Player.Creature, Amount = 1 }; r.Player.Creature.Powers.Add(nb);
     var song = new ShatterSong { Owner = r.Player, CombatState = r.State }; song.Upgrade();
     var crystal = r.Crystal<CrystallizationNb>(); r.Player.PlayerCombatState!.Hand.Cards.Add(crystal);
     var play = new CardPlay { Card = song, Target = new() };
     await song.Play(r.Choice, play); await nb.AfterCardPlayed(r.Choice, play);
-    Check(r.Player.Creature.GetPowerAmount<VigorPower>() == 2); Check(DamageCmd.HitCounts.SequenceEqual(new[] { 1 }));
+    Check(r.Player.Creature.GetPowerAmount<VigorPower>() == 1); Check(DamageCmd.HitCounts.SequenceEqual(new[] { 1 }));
 });
 Test("Nb保留同张牌后续伤害段的活力并清理原版攻击缓存", async () => {
     var r = new Rig(); var nb = new ApplicationNbPower { Owner = r.Player.Creature }; r.Player.Creature.Powers.Add(nb);
@@ -535,7 +535,7 @@ Test("密铺形态真实力量敏捷随晶化离手变化且不会重复叠加",
     var crystal = r.Crystal<CrystalA>(); await CardPileCmd.AddGeneratedCardToCombat(crystal, PileType.Hand, r.Player);
     var controller = r.Player.Creature.GetPower<CrystalHandAuraPower>()!;
     await controller.Sync(); await controller.Sync();
-    Check(r.Player.Creature.GetPowerAmount<StrengthPower>() == 2 && r.Player.Creature.GetPowerAmount<DexterityPower>() == 2);
+    Check(r.Player.Creature.GetPowerAmount<StrengthPower>() == 1 && r.Player.Creature.GetPowerAmount<DexterityPower>() == 1);
     r.Player.PlayerCombatState!.Hand.Cards.Clear(); await controller.Sync();
     Check(r.Player.Creature.GetPowerAmount<StrengthPower>() == 0 && r.Player.Creature.GetPowerAmount<DexterityPower>() == 0);
 });
@@ -543,7 +543,7 @@ Test("Hs与密铺形态相加并覆盖后加入战斗的敌人", async () => {
     var r = new Rig(); await PowerCmd.Apply<TilingFormPower>(r.Choice, r.Player.Creature, 1, r.Player.Creature, null);
     await CardPileCmd.AddGeneratedCardToCombat(r.Crystal<CrystallizationHs>(), PileType.Hand, r.Player);
     var controller = r.Player.Creature.GetPower<CrystalHandAuraPower>()!;
-    Check(r.Player.Creature.GetPowerAmount<StrengthPower>() == 3 && r.Player.Creature.GetPowerAmount<DexterityPower>() == 2);
+    Check(r.Player.Creature.GetPowerAmount<StrengthPower>() == 2 && r.Player.Creature.GetPowerAmount<DexterityPower>() == 1);
     var enemy = new MegaCrit.Sts2.Core.Entities.Creatures.Creature { CombatState = r.State }; r.State.CreatureList.Add(enemy);
     await controller.AfterCreatureAddedToCombat(enemy); Check(enemy.GetPowerAmount<StrengthPower>() == 1);
 });
@@ -602,6 +602,7 @@ ApplicationEffectTests.Register(tests, args);
 RemainingCardEffectTests.Register(tests, args);
 RuleDecisionTests.Register(tests, args);
 RemainingXCardTests.Register(tests);
+DocumentSyncTests.Register(tests);
 if (args.Length >= 3 && !string.IsNullOrWhiteSpace(args[2]))
     tests = tests.Where(t => t.Name.Contains(args[2], StringComparison.Ordinal)).ToList();
 if (tests.Count == 0) throw new Exception("No tests matched the requested focus");

@@ -315,8 +315,8 @@ public static class RemainingCardEffectTests
                     for (int i = 0; i < n; i++) Put(r, Probe(r)); Put(r, r.Crystal<Crystallization>(), PileType.Exhaust);
                     await Play(r, c); int handCrystals = Math.Min(3, 10 - n);
                     Check(r.Player.Creature.GetPower<TilingFormPower>() != null && r.Player.PlayerCombatState!.AllCards.OfType<Crystallization>().Count() == 4
-                        && r.Player.Creature.GetPowerAmount<StrengthPower>() == 2 * handCrystals
-                        && r.Player.Creature.GetPowerAmount<DexterityPower>() == 2 * handCrystals && c.Keywords.Contains(CardKeyword.Retain) == up);
+                        && r.Player.Creature.GetPowerAmount<StrengthPower>() == handCrystals
+                        && r.Player.Creature.GetPowerAmount<DexterityPower>() == handCrystals && c.Keywords.Contains(CardKeyword.Retain) == up);
                 });
             }
             foreach (int energy in new[] { 0, 1 }) foreach (bool both in new[] { false, true })

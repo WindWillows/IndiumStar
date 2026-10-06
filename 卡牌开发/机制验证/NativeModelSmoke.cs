@@ -64,9 +64,9 @@ foreach (Type type in cardTypes)
         || copy.IsUpgraded != mutable.IsUpgraded || copy.DeckVersion != null)
         throw new Exception("Native clone contract failed: " + type.Name);
     if (type == typeof(BondingTripleBond)
-        && (canonical.DynamicVars.Block.BaseValue != 12 || canonical.DynamicVars["CrystalBlock"].BaseValue != 4
-            || canonical.DynamicVars["ExtensionBlock"].BaseValue != 6 || copy.DynamicVars.Block.BaseValue != 15
-            || copy.DynamicVars["CrystalBlock"].BaseValue != 6 || copy.DynamicVars["ExtensionBlock"].BaseValue != 8))
+        && (canonical.DynamicVars.Block.BaseValue != 12 || canonical.DynamicVars["CrystalBlock"].BaseValue != 3
+            || canonical.DynamicVars["ExtensionBlock"].BaseValue != 5 || copy.DynamicVars.Block.BaseValue != 15
+            || copy.DynamicVars["CrystalBlock"].BaseValue != 5 || copy.DynamicVars["ExtensionBlock"].BaseValue != 7))
         throw new Exception("Native updated triple-bond specification failed");
     if (type == typeof(Inversion) && (canonical.DynamicVars.Damage.BaseValue != 7 || copy.DynamicVars.Damage.BaseValue != 7
         || !canonical.Keywords.Contains(CardKeyword.Exhaust) || !copy.Keywords.Contains(CardKeyword.Retain)
@@ -78,7 +78,8 @@ foreach (Type type in cardTypes)
         throw new Exception("Native deferred release upgrade keyword failed");
     if (type == typeof(ApplicationNeutron) && (canonical.Type != CardType.Attack || copy.Type != CardType.Attack
         || canonical.Rarity != CardRarity.Basic || canonical.Id.Entry != "APPLICATION_NEUTRON"
-        || canonical.DynamicVars.Damage.BaseValue != 10 || copy.DynamicVars.Damage.BaseValue != 14))
+        || canonical.DynamicVars.Damage.BaseValue != 11 || copy.DynamicVars.Damage.BaseValue != 15
+        || canonical.EnergyCost.GetWithModifiers(CostModifiers.All) != 1 || copy.EnergyCost.GetWithModifiers(CostModifiers.All) != 1))
         throw new Exception("Native renamed Electron type, stable ID or damage contract failed");
     if (type == typeof(DerivedApplicationNeutron) && (canonical.Type != CardType.Skill
         || canonical.Rarity != CardRarity.Token || canonical.Id.Entry != "DERIVED_APPLICATION_NEUTRON"
@@ -101,9 +102,17 @@ foreach (Type type in cardTypes)
         throw new Exception("Native Tunneling X/upgrade contract failed");
     if (type == typeof(CrystalMarrow) && (!canonical.EnergyCost.CostsX || !copy.EnergyCost.CostsX
         || canonical.Type != CardType.Skill || canonical.Rarity != CardRarity.Rare
-        || canonical is not IExtensionCard || canonical.Keywords.Contains(CardKeyword.Exhaust)
+        || canonical is not IExtensionCard || !canonical.Keywords.Contains(CardKeyword.Exhaust) || !copy.Keywords.Contains(CardKeyword.Exhaust)
         || canonical.DynamicVars["ExtraDraw"].IntValue != 0 || copy.DynamicVars["ExtraDraw"].IntValue != 1))
         throw new Exception("Native Crystal Marrow X/upgrade contract failed");
+    if (type == typeof(CrystalCoin) && (!canonical.Keywords.Contains(CardKeyword.Ethereal)
+        || !canonical.Keywords.Contains(CardKeyword.Exhaust) || !copy.Keywords.Contains(CardKeyword.Exhaust)))
+        throw new Exception("Native Crystal Coin keywords failed");
+    if (type == typeof(CrystallizationNb) && canonical.DynamicVars["VigorPower"].BaseValue != 3)
+        throw new Exception("Native Crystallization Nb Vigor failed");
+    if (type == typeof(ShatterCrystalRain) && (canonical.DynamicVars.Damage.BaseValue != 2
+        || copy.DynamicVars.Damage.BaseValue != 2 || canonical.DynamicVars.Repeat.IntValue != 3 || copy.DynamicVars.Repeat.IntValue != 4))
+        throw new Exception("Native Shatter Crystal Rain damage/repeat failed");
     if (mutable is CrystallizationCard crystal) {
         crystal.AddCrystalDoom(3); crystal.AddCrystalDoom(4);
         var crystalCopy = (CrystallizationCard)crystal.MutableClone();

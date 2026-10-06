@@ -45,11 +45,11 @@ public static class RemainingXCardTests
                 var r = new Rig(energy: 0); var card = r.Crystal<CrystalMarrow>(); if (up) card.Upgrade();
                 card.EnergyCost.CapturedXValue = x; Put(r, card);
                 await card.OnPlayWrapper(r.Choice);
-                Check(r.Player.Creature.GetPowerAmount<EnergyNextTurnPower>() == x
+                Check(r.Player.Creature.GetPowerAmount<EnergyNextTurnPower>() == x + (up ? 1 : 0)
                     && r.Player.Creature.GetPowerAmount<DrawCardsNextTurnPower>() == x + (up ? 1 : 0));
                 var power = r.Player.Creature.GetPower<CrystalMarrowPower>()!;
                 Check(power.PendingTurns.SequenceEqual(new[] { r.Player.PlayerCombatState!.TurnNumber + 1 })
-                    && power.ActiveTurn == -1 && card.Pile?.Type == PileType.Discard);
+                    && power.ActiveTurn == -1 && card.Pile?.Type == PileType.Exhaust);
             });
         }
         Test("两张X牌采用X修正而非结算后能量", async () => {
