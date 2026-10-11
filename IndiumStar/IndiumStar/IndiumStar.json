@@ -3,7 +3,7 @@
   "name": "铟星 IndiumStar",
   "author": "you",
   "description": "《杀戮尖塔2》铟星角色模组，72张卡牌，初始遗物缺陷晶胞。",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "min_game_version": "0.111.0",
   "has_pck": true,
   "has_dll": true,
