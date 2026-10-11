@@ -51,6 +51,7 @@ namespace MegaCrit.Sts2.Core.Models
             MegaCrit.Sts2.Core.Entities.Players.Player player, IReadOnlyCollection<CardModel> flushed,
             IReadOnlyCollection<CardModel> retained) => Task.CompletedTask;
         public virtual bool ShouldPlay(CardModel card, MegaCrit.Sts2.Core.Entities.Cards.AutoPlayType type) => true;
+        public virtual bool TryModifyKeywordsInCombat(CardModel card, ISet<MegaCrit.Sts2.Core.Entities.Cards.CardKeyword> keywords) => false;
     }
 
     public abstract class CardModel : AbstractModel
@@ -62,7 +63,16 @@ namespace MegaCrit.Sts2.Core.Models
         private MegaCrit.Sts2.Core.Localization.DynamicVars.DynamicVarSet? _dynamicVars;
         private HashSet<MegaCrit.Sts2.Core.Entities.Cards.CardKeyword> _addedKeywords = [];
         private HashSet<MegaCrit.Sts2.Core.Entities.Cards.CardKeyword> _removedKeywords = [];
-        public IEnumerable<MegaCrit.Sts2.Core.Entities.Cards.CardKeyword> Keywords => CanonicalKeywords.Concat(_addedKeywords).Except(_removedKeywords).Distinct();
+        public IEnumerable<MegaCrit.Sts2.Core.Entities.Cards.CardKeyword> Keywords
+        {
+            get
+            {
+                var keywords = CanonicalKeywords.Concat(_addedKeywords).Except(_removedKeywords).ToHashSet();
+                if (CombatState != null)
+                    foreach (var listener in CombatState.IterateHookListeners()) listener.TryModifyKeywordsInCombat(this, keywords);
+                return keywords;
+            }
+        }
         public TestModelId Id => new(GetType().Name);
         protected virtual HashSet<MegaCrit.Sts2.Core.Entities.Cards.CardTag> CanonicalTags => [];
         public IEnumerable<MegaCrit.Sts2.Core.Entities.Cards.CardTag> Tags => CanonicalTags;
@@ -78,7 +88,10 @@ namespace MegaCrit.Sts2.Core.Models
         public bool IsUpgraded => CurrentUpgradeLevel > 0;
         public bool IsDupe { get; set; }
         public AfflictionModel? Affliction { get; set; }
+        public EnchantmentModel? Enchantment { get; set; }
         public virtual bool GainsBlock => false;
+        public virtual bool CanBeGeneratedInCombat => true;
+        public virtual CardPoolModel Pool => new();
         public TestEnergyCost EnergyCost { get; } = new();
         protected virtual bool HasEnergyCostX => false;
         public int ResolveEnergyXValue() => HasEnergyCostX ? EnergyCost.CapturedXValue + EnergyCost.XModifier : throw new InvalidOperationException();
@@ -200,6 +213,7 @@ namespace MegaCrit.Sts2.Core.Models
     {
         public static T Power<T>() where T : PowerModel => Activator.CreateInstance<T>();
         public static T Card<T>() where T : CardModel => Activator.CreateInstance<T>();
+        public static T CardPool<T>() where T : CardPoolModel, new() => new();
     }
     public class TestEnergyCost {
         public int Value { get; set; }
@@ -210,7 +224,15 @@ namespace MegaCrit.Sts2.Core.Models
         public void UpgradeBy(int amount) => Value += amount;
         public void AddThisCombat(int amount) => Value = Math.Max(0, Value + amount);
     }
-    public class AfflictionModel : AbstractModel { }
+    public class CardPoolModel : AbstractModel { }
+    public class AfflictionModel : AbstractModel
+    {
+        public MegaCrit.Sts2.Core.Localization.LocString? DynamicExtraCardText { get; set; }
+    }
+    public class EnchantmentModel : AbstractModel
+    {
+        public MegaCrit.Sts2.Core.Localization.LocString? DynamicExtraCardText { get; set; }
+    }
 }
 
 namespace MegaCrit.Sts2.Core.Models.Powers
@@ -726,7 +748,7 @@ namespace STS2RitsuLib.Interop.AutoRegistration
     public class RegisterCharacterStarterCardAttribute(Type character, int count) : Attribute { public int Order { get; set; } }
 }
 
-namespace IndiumStar.CardPools { public class IndiumStarCardPool { } }
+namespace IndiumStar.CardPools { public class IndiumStarCardPool : MegaCrit.Sts2.Core.Models.CardPoolModel { } }
 namespace IndiumStar.Characters { public class IndiumStarCharacter { } }
 namespace IndiumStar.Afflictions {
     public class CrystallizeAffliction : MegaCrit.Sts2.Core.Models.AfflictionModel { }

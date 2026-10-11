@@ -606,6 +606,7 @@ DocumentSyncTests.Register(tests);
 RiverSeaTests.Register(tests);
 StartupRelicTests.Register(tests);
 LiveBugfixTests.Register(tests);
+LatestDocumentTests.Register(tests);
 if (args.Length >= 3 && !string.IsNullOrWhiteSpace(args[2]))
     tests = tests.Where(t => t.Name.Contains(args[2], StringComparison.Ordinal)).ToList();
 if (tests.Count == 0) throw new Exception("No tests matched the requested focus");

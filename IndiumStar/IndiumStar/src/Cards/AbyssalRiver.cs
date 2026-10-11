@@ -15,9 +15,7 @@ namespace IndiumStar.Cards;
 public sealed class AbyssalRiver : ModCardTemplate
 {
     public AbyssalRiver() : base(0, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy) { }
-    // 未指定升级效果，不生成没有效果变化的升级版本。
-    public override int MaxUpgradeLevel => 0;
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(7m, ValueProp.Move)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(5m, ValueProp.Move)];
     public override CardAssetProfile AssetProfile => new(
         PortraitPath: "res://images/packed/card_portraits/ironclad/strike_ironclad.png");
 
@@ -27,6 +25,8 @@ public sealed class AbyssalRiver : ModCardTemplate
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, play)
             .Targeting(play.Target).WithHitFx("vfx/vfx_attack_slash").Execute(context);
     }
+
+    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(2m);
 
     public override async Task AfterCardPlayedLate(PlayerChoiceContext context, CardPlay play)
     {

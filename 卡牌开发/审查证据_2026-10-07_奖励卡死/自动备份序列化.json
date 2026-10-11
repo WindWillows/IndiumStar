@@ -1,0 +1,593 @@
+{
+  "demise_contract": "pass; installed PowderedDemise async IL applies DemisePower; DemisePower enemy end-turn IL calls CreatureCmd.Damage with power.Amount; no live damage command",
+  "electron_expiry_state": "pass; both hidden Buff markers preserve inherited TemporaryAmount/AppliedTurn through native SavedProperties JSON -\u003E Fill; no full combat save",
+  "scope": "Actual game DLL managed TestMode: model constructors/upgrades/MutableClone/Harmony, per-card SavedProperties JSON and conditional description formatting; keyword and serialization-cache readiness seeded without full registry/startup; no live combat, Godot UI, CreateClone card-scope path, full combat save or multiplayer negotiation",
+  "generated_at_utc": "2026-10-07T09:35:17.0925823Z",
+  "passed": 70,
+  "macro_independence": "pass",
+  "co_u_clone_marks": "pass",
+  "starter_relic": "pass; DefectiveCrystalCell: starter metadata, Energy=1, independent clone, SavedProperties JSON -\u003E Fill and new combat reset; no full run save",
+  "remaining_x_cards": "pass; native X metadata/upgrade; two powers\u0027 independent array clone and SavedProperties JSON -\u003E Fill; no native live turn loop",
+  "coin_decay_clone": "pass; native per-CrystalCoin SavedProperty, independent MutableClone, SavedProperties JSON -\u003E Fill and actual packet Serialize; no counter on vanilla Strike or other card; old coin counter migrated by patched FromSerializable",
+  "legacy_coin_save_repair": {
+    "original_properties_rejected": 17,
+    "cleaned_properties_serialized": 17,
+    "scope": "actual SavedProperties.Serialize from copied user run; no complete CombatReplay.WriteReplay or live reward UI"
+  },
+  "derived_neutron_cost_filter": "pass; actual local cost modifiers, increased/reduced current cost, Unplayable and X exclusion; global combat hooks not invoked",
+  "crystal_doom_state": "pass; all 6 crystal variants inherit SavedProperty; actual SavedProperties -\u003E JSON -\u003E Fill; target change, canonical isolation and independent MutableClone; no full combat/run save",
+  "crystal_doom_descriptions": {
+    "passed": 12,
+    "scope": "actual card AddExtraArgsToDescription and game SmartFormat ConditionalFormatter, 6 variants x 2 languages, inactive hidden / active numeric text; no Godot card UI"
+  },
+  "replay_patch": {
+    "status": "pass",
+    "target": "MegaCrit.Sts2.Core.Models.CardModel\u002B\u003COnPlayWrapper\u003Ed__339",
+    "state_machine_is_value_type": true,
+    "injection": "one Apply call before main ExecutionFinished, native loop field by reference",
+    "native_card_play_setter_and_idempotent_consumption": "pass",
+    "scope": "actual Harmony patch application and helper metadata; no live OnPlayWrapper combat invocation"
+  },
+  "cards": [
+    {
+      "type": "AbyssalRiver",
+      "id": "ABYSSAL_RIVER",
+      "upgraded": false,
+      "mutable_clone": "pass",
+      "card_type": "Attack",
+      "rarity": "Rare"
+    },
+    {
+      "type": "Analyze",
+      "id": "ANALYZE",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Skill",
+      "rarity": "Uncommon"
+    },
+    {
+      "type": "ApplicationAs",
+      "id": "APPLICATION_AS",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Attack",
+      "rarity": "Common"
+    },
+    {
+      "type": "ApplicationCa",
+      "id": "APPLICATION_CA",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Skill",
+      "rarity": "Uncommon"
+    },
+    {
+      "type": "ApplicationCo",
+      "id": "APPLICATION_CO",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Skill",
+      "rarity": "Uncommon"
+    },
+    {
+      "type": "ApplicationCu",
+      "id": "APPLICATION_CU",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Attack",
+      "rarity": "Uncommon"
+    },
+    {
+      "type": "ApplicationF",
+      "id": "APPLICATION_F",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Attack",
+      "rarity": "Common"
+    },
+    {
+      "type": "ApplicationH",
+      "id": "APPLICATION_H",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Skill",
+      "rarity": "Uncommon"
+    },
+    {
+      "type": "ApplicationHs",
+      "id": "APPLICATION_HS",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Skill",
+      "rarity": "Common"
+    },
+    {
+      "type": "ApplicationIn",
+      "id": "APPLICATION_IN",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Skill",
+      "rarity": "Basic"
+    },
+    {
+      "type": "ApplicationMg",
+      "id": "APPLICATION_MG",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Attack",
+      "rarity": "Common"
+    },
+    {
+      "type": "ApplicationNb",
+      "id": "APPLICATION_NB",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Power",
+      "rarity": "Uncommon"
+    },
+    {
+      "type": "ApplicationNeutron",
+      "id": "APPLICATION_NEUTRON",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Attack",
+      "rarity": "Basic"
+    },
+    {
+      "type": "ApplicationPb",
+      "id": "APPLICATION_PB",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Attack",
+      "rarity": "Uncommon"
+    },
+    {
+      "type": "ApplicationTh",
+      "id": "APPLICATION_TH",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Attack",
+      "rarity": "Uncommon"
+    },
+    {
+      "type": "ApplicationU",
+      "id": "APPLICATION_U",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Skill",
+      "rarity": "Rare"
+    },
+    {
+      "type": "ApplicationZn",
+      "id": "APPLICATION_ZN",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Skill",
+      "rarity": "Common"
+    },
+    {
+      "type": "BondingEster",
+      "id": "BONDING_ESTER",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Skill",
+      "rarity": "Common"
+    },
+    {
+      "type": "BondingImidogen",
+      "id": "BONDING_IMIDOGEN",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Skill",
+      "rarity": "Common"
+    },
+    {
+      "type": "BondingNitro",
+      "id": "BONDING_NITRO",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Attack",
+      "rarity": "Common"
+    },
+    {
+      "type": "BondingTripleBond",
+      "id": "BONDING_TRIPLE_BOND",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Skill",
+      "rarity": "Uncommon"
+    },
+    {
+      "type": "Characterization",
+      "id": "CHARACTERIZATION",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Skill",
+      "rarity": "Common"
+    },
+    {
+      "type": "Collapse",
+      "id": "COLLAPSE",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Attack",
+      "rarity": "Uncommon"
+    },
+    {
+      "type": "ConformationBlow",
+      "id": "CONFORMATION_BLOW",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Attack",
+      "rarity": "Uncommon"
+    },
+    {
+      "type": "CrystalClusterGun",
+      "id": "CRYSTAL_CLUSTER_GUN",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Attack",
+      "rarity": "Uncommon"
+    },
+    {
+      "type": "CrystalCoin",
+      "id": "CRYSTAL_COIN",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Skill",
+      "rarity": "Uncommon"
+    },
+    {
+      "type": "CrystalFlow",
+      "id": "CRYSTAL_FLOW",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Skill",
+      "rarity": "Common"
+    },
+    {
+      "type": "Crystallization",
+      "id": "CRYSTALLIZATION",
+      "upgraded": false,
+      "mutable_clone": "pass",
+      "card_type": "Status",
+      "rarity": "Basic"
+    },
+    {
+      "type": "CrystallizationHs",
+      "id": "CRYSTALLIZATION_HS",
+      "upgraded": false,
+      "mutable_clone": "pass",
+      "card_type": "Status",
+      "rarity": "Basic"
+    },
+    {
+      "type": "CrystallizationMg",
+      "id": "CRYSTALLIZATION_MG",
+      "upgraded": false,
+      "mutable_clone": "pass",
+      "card_type": "Status",
+      "rarity": "Basic"
+    },
+    {
+      "type": "CrystallizationNb",
+      "id": "CRYSTALLIZATION_NB",
+      "upgraded": false,
+      "mutable_clone": "pass",
+      "card_type": "Status",
+      "rarity": "Basic"
+    },
+    {
+      "type": "CrystallizationPb",
+      "id": "CRYSTALLIZATION_PB",
+      "upgraded": false,
+      "mutable_clone": "pass",
+      "card_type": "Status",
+      "rarity": "Basic"
+    },
+    {
+      "type": "CrystallizationU",
+      "id": "CRYSTALLIZATION_U",
+      "upgraded": false,
+      "mutable_clone": "pass",
+      "card_type": "Status",
+      "rarity": "Basic"
+    },
+    {
+      "type": "CrystalMarrow",
+      "id": "CRYSTAL_MARROW",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Skill",
+      "rarity": "Rare"
+    },
+    {
+      "type": "CrystalPunishment",
+      "id": "CRYSTAL_PUNISHMENT",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Attack",
+      "rarity": "Rare"
+    },
+    {
+      "type": "Cyclization",
+      "id": "CYCLIZATION",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Skill",
+      "rarity": "Uncommon"
+    },
+    {
+      "type": "DefendIndiumStar",
+      "id": "DEFEND_INDIUM_STAR",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Skill",
+      "rarity": "Basic"
+    },
+    {
+      "type": "DeferredRelease",
+      "id": "DEFERRED_RELEASE",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Skill",
+      "rarity": "Common"
+    },
+    {
+      "type": "DerivedApplicationNeutron",
+      "id": "DERIVED_APPLICATION_NEUTRON",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Skill",
+      "rarity": "Token"
+    },
+    {
+      "type": "ExploitAdvantage",
+      "id": "EXPLOIT_ADVANTAGE",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Attack",
+      "rarity": "Common"
+    },
+    {
+      "type": "ExtensionSpread",
+      "id": "EXTENSION_SPREAD",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Power",
+      "rarity": "Uncommon"
+    },
+    {
+      "type": "GasPhaseSurge",
+      "id": "GAS_PHASE_SURGE",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Attack",
+      "rarity": "Uncommon"
+    },
+    {
+      "type": "GroupMigration",
+      "id": "GROUP_MIGRATION",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Skill",
+      "rarity": "Uncommon"
+    },
+    {
+      "type": "Inversion",
+      "id": "INVERSION",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Attack",
+      "rarity": "Rare"
+    },
+    {
+      "type": "MacroDendrite",
+      "id": "MACRO_DENDRITE",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Attack",
+      "rarity": "Uncommon"
+    },
+    {
+      "type": "NeighboringGroupParticipation",
+      "id": "NEIGHBORING_GROUP_PARTICIPATION",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Skill",
+      "rarity": "Uncommon"
+    },
+    {
+      "type": "OrigionStrike",
+      "id": "ORIGION_STRIKE",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Attack",
+      "rarity": "Uncommon"
+    },
+    {
+      "type": "Primed",
+      "id": "PRIMED",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Skill",
+      "rarity": "Common"
+    },
+    {
+      "type": "PrimordialPierce",
+      "id": "PRIMORDIAL_PIERCE",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Attack",
+      "rarity": "Common"
+    },
+    {
+      "type": "QuantumDot",
+      "id": "QUANTUM_DOT",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Power",
+      "rarity": "Uncommon"
+    },
+    {
+      "type": "Reiteration",
+      "id": "REITERATION",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Skill",
+      "rarity": "Rare"
+    },
+    {
+      "type": "ReminiscenceHardCalcite",
+      "id": "REMINISCENCE_HARD_CALCITE",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Power",
+      "rarity": "Uncommon"
+    },
+    {
+      "type": "ReminiscencePhosphorus",
+      "id": "REMINISCENCE_PHOSPHORUS",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Power",
+      "rarity": "Rare"
+    },
+    {
+      "type": "ReminiscencePollutionH",
+      "id": "REMINISCENCE_POLLUTION_H",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Power",
+      "rarity": "Uncommon"
+    },
+    {
+      "type": "ReminiscencePollutionO",
+      "id": "REMINISCENCE_POLLUTION_O",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Power",
+      "rarity": "Uncommon"
+    },
+    {
+      "type": "ReminiscenceTinDoubt",
+      "id": "REMINISCENCE_TIN_DOUBT",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Power",
+      "rarity": "Rare"
+    },
+    {
+      "type": "ReminiscenceVanadiumEternal",
+      "id": "REMINISCENCE_VANADIUM_ETERNAL",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Skill",
+      "rarity": "Uncommon"
+    },
+    {
+      "type": "RustEdge",
+      "id": "RUST_EDGE",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Attack",
+      "rarity": "Common"
+    },
+    {
+      "type": "Segregation",
+      "id": "SEGREGATION",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Skill",
+      "rarity": "Common"
+    },
+    {
+      "type": "ShadowChainBreath",
+      "id": "SHADOW_CHAIN_BREATH",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Skill",
+      "rarity": "Uncommon"
+    },
+    {
+      "type": "ShatterCrystalRain",
+      "id": "SHATTER_CRYSTAL_RAIN",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Attack",
+      "rarity": "Common"
+    },
+    {
+      "type": "ShatterSong",
+      "id": "SHATTER_SONG",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Attack",
+      "rarity": "Rare"
+    },
+    {
+      "type": "Slash",
+      "id": "SLASH",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Attack",
+      "rarity": "Common"
+    },
+    {
+      "type": "SpinKick",
+      "id": "SPIN_KICK",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Attack",
+      "rarity": "Common"
+    },
+    {
+      "type": "StellarSea",
+      "id": "STELLAR_SEA",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Attack",
+      "rarity": "Rare"
+    },
+    {
+      "type": "StrikeIndiumStar",
+      "id": "STRIKE_INDIUM_STAR",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Attack",
+      "rarity": "Basic"
+    },
+    {
+      "type": "ThermobaricField",
+      "id": "THERMOBARIC_FIELD",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Attack",
+      "rarity": "Uncommon"
+    },
+    {
+      "type": "TilingForm",
+      "id": "TILING_FORM",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Power",
+      "rarity": "Rare"
+    },
+    {
+      "type": "Transmutation",
+      "id": "TRANSMUTATION",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Power",
+      "rarity": "Rare"
+    },
+    {
+      "type": "Tunneling",
+      "id": "TUNNELING",
+      "upgraded": true,
+      "mutable_clone": "pass",
+      "card_type": "Skill",
+      "rarity": "Rare"
+    }
+  ]
+}

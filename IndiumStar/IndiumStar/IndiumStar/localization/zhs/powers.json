@@ -1,8 +1,8 @@
 {
   "INDIUM_STAR_POWER_LOSE_WEAK_AT_TURN_END_POWER.title": "晶抗·虚弱消退",
-  "INDIUM_STAR_POWER_LOSE_WEAK_AT_TURN_END_POWER.description": "本回合结束时，仅移除运用-电子新增的[gold]虚弱[/gold]层数。",
+  "INDIUM_STAR_POWER_LOSE_WEAK_AT_TURN_END_POWER.description": "本回合结束时，仅移除近身斩新增的[gold]虚弱[/gold]层数。",
   "INDIUM_STAR_POWER_LOSE_VULNERABLE_AT_TURN_START_POWER.title": "晶逆·易伤消退",
-  "INDIUM_STAR_POWER_LOSE_VULNERABLE_AT_TURN_START_POWER.description": "敌方行动结束时，仅移除运用-电子新增的[gold]易伤[/gold]层数。",
+  "INDIUM_STAR_POWER_LOSE_VULNERABLE_AT_TURN_START_POWER.description": "敌方行动结束时，仅移除近身斩新增的[gold]易伤[/gold]层数。",
   "INDIUM_STAR_POWER_ONLY_ATTACKS_THIS_TURN_POWER.title": "待发·只许攻击",
   "INDIUM_STAR_POWER_ONLY_ATTACKS_THIS_TURN_POWER.description": "本回合只能打出攻击牌。",
   "INDIUM_STAR_POWER_CHARACTERIZATION_STRENGTH_POWER.title": "表征·下回合力量",
@@ -50,5 +50,7 @@
   "INDIUM_STAR_POWER_TUNNELING_POWER.title": "隧穿",
   "INDIUM_STAR_POWER_TUNNELING_POWER.description": "获得额外回合，每个回合的出牌上限由施加时的X决定。自动打出计入上限，同一张牌的重放不另计。",
   "INDIUM_STAR_POWER_CRYSTAL_MARROW_POWER.title": "晶髓",
-  "INDIUM_STAR_POWER_CRYSTAL_MARROW_POWER.description": "下个本人回合，所有手牌花费+1且重放1次。回合中抽到或生成的手牌同样生效。X费牌维持X费用。"
+  "INDIUM_STAR_POWER_CRYSTAL_MARROW_POWER.description": "下个本人回合，所有手牌花费+1且重放1次。回合中抽到或生成的手牌同样生效。X费牌维持X费用。",
+  "INDIUM_STAR_POWER_PROLIFERATION_POWER.title": "滋生",
+  "INDIUM_STAR_POWER_PROLIFERATION_POWER.description": "抽到状态牌时，抽{Amount}张牌。\n你的晶化失去[gold]保留[/gold]。"
 }

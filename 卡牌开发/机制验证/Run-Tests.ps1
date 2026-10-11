@@ -1,4 +1,4 @@
-param([string]$ProjectDir = (Join-Path $PSScriptRoot '..\..\IndiumStar\IndiumStar'),
+﻿param([string]$ProjectDir = (Join-Path $PSScriptRoot '..\..\IndiumStar\IndiumStar'),
     [string]$GameDir = $env:STS2_DIR, [string]$Focus = '')
 $ErrorActionPreference = 'Stop'
 if (!$GameDir) { throw '请用 -GameDir 或 STS2_DIR 指定游戏根目录。' }
@@ -48,6 +48,10 @@ $sourcePaths += (Join-Path $PSScriptRoot 'RiverSeaTests.cs')
 $sourcePaths += (Join-Path (Join-Path $ProjectDir 'src') 'Relics\DefectiveCrystalCell.cs')
 $sourcePaths += (Join-Path $PSScriptRoot 'StartupRelicTests.cs')
 $sourcePaths += (Join-Path $PSScriptRoot 'LiveBugfixTests.cs')
+$sourcePaths += @('Cards\SeekingStrike.cs', 'Cards\BondingAnhydride.cs', 'Cards\Proliferation.cs',
+    'Powers\ProliferationPower.cs', 'Mechanics\AddedCardTextRules.cs') |
+    ForEach-Object { Join-Path (Join-Path $ProjectDir 'src') $_ }
+$sourcePaths += (Join-Path $PSScriptRoot 'LatestDocumentTests.cs')
 $arguments = @('/nostdlib+', '/target:exe', '/optimize+', '/langversion:13.0', '/nullable:enable', '/utf8output',
     ('/out:"' + (Join-Path $outputDir 'MechanismTests.dll') + '"'))
 $arguments += Get-ChildItem -LiteralPath (Join-Path $refDir.FullName 'ref\net9.0') -Filter '*.dll' |

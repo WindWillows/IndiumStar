@@ -1,0 +1,10 @@
+PASS 最新文档：寻迹打击伤害及抽牌附加，复制独立 upgraded=False
+PASS 最新文档：寻迹打击伤害及抽牌附加，复制独立 upgraded=True
+PASS 最新文档：寻迹打击没有晶化仍造成伤害，结束战斗不追加效果
+PASS 最新文档：酸酐只打附加文字，涵盖抽弃消耗堆，自动晶化不占额度
+PASS 最新文档：酸酐空手仍打出既有文字牌，不拉永久牌组
+PASS 最新文档：酸酐识别附魔及Co/U标记，不把普通升级数值或费用当附加文字
+PASS 最新文档：附加延拓按出牌时记录，后来加文字不追溯；反演和锡疑识别
+PASS 最新文档：滋生状态抽牌链及叠加，生成牌不触发；取消既有未来晶化保留且隔离他人
+PASS 最新文档：渊河5/7升级、滋生固有升级、酸酐未定义升级及辰海退出奖励稀有度
+9/9 passed; scope: real mod source, command/history stubs, real Harmony patching and game API contract.

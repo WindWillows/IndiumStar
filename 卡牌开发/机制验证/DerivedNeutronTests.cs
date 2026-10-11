@@ -1,4 +1,4 @@
-using IndiumStar.Cards;
+﻿using IndiumStar.Cards;
 using IndiumStar.Powers;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
@@ -129,11 +129,11 @@ public static class DerivedNeutronTests
                 Check(root.GetProperty("INDIUM_STAR_CARD_DERIVED_APPLICATION_NEUTRON.title").GetString()
                     == (lang == "zhs" ? "运用-中子" : "Application-Neutron"));
                 Check(root.GetProperty("INDIUM_STAR_CARD_APPLICATION_NEUTRON.title").GetString()
-                    == (lang == "zhs" ? "运用-电子" : "Application-Electron"));
+                    == (lang == "zhs" ? "近身斩" : "Melee Slash"));
                 foreach (string key in new[] { "APPLICATION_U", "CRYSTALLIZATION_U" }) {
                     string description = root.GetProperty("INDIUM_STAR_CARD_" + key + ".description").GetString()!;
                     Check(description.Contains(lang == "zhs" ? "运用-中子+" : "Application-Neutron+")
-                        && !description.Contains(lang == "zhs" ? "运用-电子" : "Application-Electron"));
+                        && !description.Contains(lang == "zhs" ? "近身斩" : "Melee Slash"));
                 }
             }
             return Task.CompletedTask;

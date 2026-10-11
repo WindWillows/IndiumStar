@@ -66,7 +66,7 @@ public sealed class ReminiscenceTinDoubt : ModCardTemplate
         if (Pile?.IsCombatPile != true
             || cardPlay.Card.Owner != Owner
             || !cardPlay.IsFirstInSeries
-            || cardPlay.Card is not IExtensionCard)
+            || !IndiumStar.Mechanics.ExtensionRules.IsExtensionPlay(cardPlay))
         {
             return Task.CompletedTask;
         }

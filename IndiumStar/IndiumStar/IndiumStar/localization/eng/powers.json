@@ -1,8 +1,8 @@
 {
   "INDIUM_STAR_POWER_LOSE_WEAK_AT_TURN_END_POWER.title": "Resistance: Weak Fades",
-  "INDIUM_STAR_POWER_LOSE_WEAK_AT_TURN_END_POWER.description": "At the end of your turn, remove only the [gold]Weak[/gold] stacks added by Application - Electron.",
+  "INDIUM_STAR_POWER_LOSE_WEAK_AT_TURN_END_POWER.description": "At the end of your turn, remove only the [gold]Weak[/gold] stacks added by Melee Slash.",
   "INDIUM_STAR_POWER_LOSE_VULNERABLE_AT_TURN_START_POWER.title": "Reversal: Vulnerable Fades",
-  "INDIUM_STAR_POWER_LOSE_VULNERABLE_AT_TURN_START_POWER.description": "After enemy actions, remove only the [gold]Vulnerable[/gold] stacks added by Application - Electron.",
+  "INDIUM_STAR_POWER_LOSE_VULNERABLE_AT_TURN_START_POWER.description": "After enemy actions, remove only the [gold]Vulnerable[/gold] stacks added by Melee Slash.",
   "INDIUM_STAR_POWER_ONLY_ATTACKS_THIS_TURN_POWER.title": "Primed: Attacks Only",
   "INDIUM_STAR_POWER_ONLY_ATTACKS_THIS_TURN_POWER.description": "You can only play Attack cards this turn.",
   "INDIUM_STAR_POWER_CHARACTERIZATION_STRENGTH_POWER.title": "Characterization: Strength Next Turn",
@@ -50,5 +50,7 @@
   "INDIUM_STAR_POWER_TUNNELING_POWER.title": "Tunneling",
   "INDIUM_STAR_POWER_TUNNELING_POWER.description": "Take extra turns with the card limits set by each cast's X. Automatic plays count; replays within a card series do not.",
   "INDIUM_STAR_POWER_CRYSTAL_MARROW_POWER.title": "Crystal Marrow",
-  "INDIUM_STAR_POWER_CRYSTAL_MARROW_POWER.description": "Next own turn, hand cards cost 1 more and Replay once, including cards drawn or created that turn. X-cost cards keep their X cost."
+  "INDIUM_STAR_POWER_CRYSTAL_MARROW_POWER.description": "Next own turn, hand cards cost 1 more and Replay once, including cards drawn or created that turn. X-cost cards keep their X cost.",
+  "INDIUM_STAR_POWER_PROLIFERATION_POWER.title": "Proliferation",
+  "INDIUM_STAR_POWER_PROLIFERATION_POWER.description": "Whenever you draw a Status, draw {Amount} cards.\nYour Crystallizations lose [gold]Retain[/gold]."
 }

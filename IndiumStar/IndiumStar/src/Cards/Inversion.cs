@@ -29,7 +29,7 @@ public sealed class Inversion : ModCardTemplate, IExtensionCard
         // 本次反演尚未进入Finished历史；此前打出的反演可以计入。重放不重复计数。
         int played = CombatManager.Instance.History.CardPlaysFinished.Count(entry =>
             entry.CardPlay.Player == Owner && entry.CardPlay.IsFirstInSeries
-            && entry.CardPlay.Card is IExtensionCard);
+            && ExtensionRules.IsExtensionPlay(entry.CardPlay));
         await ExtensionRules.Gain(context, Owner, played, this);
     }
     protected override void OnUpgrade() => AddKeyword(CardKeyword.Retain);

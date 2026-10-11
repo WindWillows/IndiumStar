@@ -1,0 +1,606 @@
+{
+  "version": "0.1.4",
+  "source_document": "晶塔世界角色.docx",
+  "source_sha256": "49f4c3608a12ea9733c4e0edb9a1e396c4d7f3af555b4c6429a2ce40fd6b297c",
+  "git_baseline": "3bea399",
+  "game": "v0.111.0 (41cef1ea)",
+  "registered_card_models": 73,
+  "active_card_definitions": 72,
+  "main_cards": 65,
+  "derived_cards": 7,
+  "legacy_models": [
+    "StellarSea"
+  ],
+  "checks": {
+    "release_build": "pass: 0 warnings, 0 errors",
+    "targeted_source_effect_checks": "9/9 pass; native command/history/selection fixtures",
+    "native_models": "73 constructors/upgrades/clones pass; old model pool exclusion, SavedProperties JSON->Fill, native coin packet serialize",
+    "pck": "13 JSON roundtrips pass",
+    "live_combat": "not performed",
+    "deployment": "not performed in this task"
+  },
+  "confirmed_rules": {
+    "acid_anhydride": "only added text; numerical or cost changes excluded",
+    "application_h": "keep existing effects; ignore extra Retain/return lines"
+  },
+  "source_hashes": [
+    {
+      "path": "IndiumStar/IndiumStar/src/Afflictions/CrystallizeAffliction.cs",
+      "sha256": "c1fa6da734a5eab1f3b359903548c884ea3707cff85f62290bbf1bbecb9979be"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Afflictions/CrystallizeUAffliction.cs",
+      "sha256": "476cbf38d2054ac444224aff442827ac102cd3991490e1cc5805b94d1de3ff80"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/CardPools/IndiumStarCardPool.cs",
+      "sha256": "0561463fa57c4ff56c3e906a47203c7bfeec6471425a9f2b691c0760c819decf"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/CardPools/IndiumStarPotionPool.cs",
+      "sha256": "6f9db101ea32416f513689be6d25e6c264b01a6dcf5a0891619a579586515bb9"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/CardPools/IndiumStarRelicPool.cs",
+      "sha256": "c83db7b4ccc679371e2c73cb81fe2961fcc9d61d4914df9743b57127d2e92144"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/AbyssalRiver.cs",
+      "sha256": "d5141f579736c7a22888f947d1afb468c4e3bbdecaef5790869bfc6289449ead"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/Analyze.cs",
+      "sha256": "45bbd09b32a8b161a05bcd770dbca5810f6c4e603114bc345e88b3b1e899c838"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/ApplicationAs.cs",
+      "sha256": "5ecc9953d642c995c3b0e62db5891d74ac2f2770a1809b7d251dac13eb98dfd9"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/ApplicationCa.cs",
+      "sha256": "611c946f948e47b353a1a7df12ca8b5e2db2c7245cf8604f9b90e79d45230452"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/ApplicationCard.cs",
+      "sha256": "42b82ad3bf9bfdad43d35d866168475ee44ea4cba2e8888b76bad731d06b941e"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/ApplicationCo.cs",
+      "sha256": "a1cc68d6721591df2d9215909153711e90a206b2a47c526c42dbb7f54ca9f55b"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/ApplicationCu.cs",
+      "sha256": "18a4a68ba422fff64253b1fcaf26bfcded19028c480894b79584744aa8e21ff2"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/ApplicationEffectKeys.cs",
+      "sha256": "4373c10f2f20dc41e1342e679b3f8b21b529f4e3f2904b7754423417de84c085"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/ApplicationF.cs",
+      "sha256": "7f1b1679004349e07930c9e544b1db969d3dfc9fbb016338fd99b49c1dd58cb3"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/ApplicationH.cs",
+      "sha256": "1ed32465c5f452cbcc633ae01c6ce47352fa3488570dd87b81408eeecc3cdef1"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/ApplicationHs.cs",
+      "sha256": "f80e48be0474582fdb65f2bcf4cc1e20e4b6a36ff8f887f5e773f27586df047d"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/ApplicationIn.cs",
+      "sha256": "7fbebced217d68a11117f2e47221bf9d57dc3aba67d8fceb5ddfb61a1902c18d"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/ApplicationMg.cs",
+      "sha256": "91f85f9b12edfd28e2d454d447ebf840a1f074ea0f0e73eaad442e170e989eb5"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/ApplicationNb.cs",
+      "sha256": "c2cc14e594ac23cfb9daea889480ef085711e80ecabcfcdca0107efd3a8b7b4b"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/ApplicationNeutron.cs",
+      "sha256": "49ac032af6a5845ee1f68305a01d92a38e57ec21609961cd413055e9c2e3f315"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/ApplicationPb.cs",
+      "sha256": "4f3b3c2bc9488e74ba6e89a2ffc360fde449f1b256e8d02840d6eedf89cc123a"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/ApplicationRules.cs",
+      "sha256": "d4609e833dfc9faa28b2fea76eeee8e285683c169795372c370644487a0ba3b2"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/ApplicationTh.cs",
+      "sha256": "7fcaf7dd739b2cce05db75af05b9bbf054492c8987d0bba03c165e8f05ee3ffb"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/ApplicationU.cs",
+      "sha256": "ef0ee3e61e7ee72e765a3a011c9a325882556aa303694ce34277a3b0bbc26daf"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/ApplicationZn.cs",
+      "sha256": "6f5495f6d6a807010eff1ec1fac25c61d3bb8b423e0f24a8b490a3b53ab16016"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/BondingAnhydride.cs",
+      "sha256": "a46b915ca7afbf8a1baaf120a32e2ad60c2f715b2edd25b256f9463cd4220eb3"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/BondingEster.cs",
+      "sha256": "8d9d627ad7413f03e89df269fa009e99381d986b551f23e29e9ae8cfc67b35ed"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/BondingImidogen.cs",
+      "sha256": "5e708923da60885556fab2f3fa1e3e41dd4897682399a50d189f16c6f1a438ce"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/BondingNitro.cs",
+      "sha256": "b1f8c64bf2bca3d54669fa73488b25b95f45f0162c2fb29ddf14039aa9de3e4f"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/BondingTripleBond.cs",
+      "sha256": "b763077e1955ebc5e842d2f4b758cd3335391669447a912a2c52afcde1e09e48"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/Characterization.cs",
+      "sha256": "9366e9815e3d87953afb3e306ebd5f6686faf9e95d621b04f3e90e78836e3667"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/Collapse.cs",
+      "sha256": "5795bee34226f00929f68e60bc57f3ff46fe1de222f4f6e0e2eec09e07ddf434"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/ConformationBlow.cs",
+      "sha256": "d6907226936827cdcaab061887689bfc4e26893be88d292ee1fefedff868515a"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/CrystalClusterGun.cs",
+      "sha256": "a5df6f7e7bb244cc0034966c278ae730e193e425eecadc937d9511bd5d347499"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/CrystalCoin.cs",
+      "sha256": "2a77ff60e8d513f315c9bfd48049652840673b89db0a01b2cc224a9a7e169192"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/CrystalFlow.cs",
+      "sha256": "faa56e492bf6b7d1c74ade7c6155e7bc346a548400935c83558c403dcdb95ad3"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/Crystallization.cs",
+      "sha256": "7551e3eea513a8eaed385d2513cc7e5f2cb4286b75a16d034735f2280fff976c"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/CrystallizationCard.cs",
+      "sha256": "566bcb6bd41ae671c273ab6821ba526bad3b378427ab6399e4ece7145036cccc"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/CrystallizationHs.cs",
+      "sha256": "8de9ed245ed6b6431f40fae5532ec9f9e819ad1cab8d85a29b57131e1f14c383"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/CrystallizationMg.cs",
+      "sha256": "5c4b68db41f22e889775812b2a4a85f39c7de0859246aaf2ed820cc3cf590618"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/CrystallizationNb.cs",
+      "sha256": "02f712a856791961e72fc8a696aa427d48253800bc40d50640cae19736af038d"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/CrystallizationPb.cs",
+      "sha256": "47a17c1ecf46c093a592272537b04ba0050aa85a98eb91e5db0c42361bb95049"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/CrystallizationRules.cs",
+      "sha256": "8dc12e8eaf53f70c80424c4bf7a0e63bc48ac0346bd852a12dbb1dcc49660c5c"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/CrystallizationU.cs",
+      "sha256": "1f1dbc2855145d7996d57e311e222f7d2ea42db38795880259149d014d2487e8"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/CrystalMarrow.cs",
+      "sha256": "150226c82407a8d7bf2f0d3ab6ff043a0f37ecb169da89c298d793fa08365293"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/CrystalPunishment.cs",
+      "sha256": "a968d76368d44ba7256ac5c028efb5a478b2cd61fff4619de36be15a417c49b5"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/Cyclization.cs",
+      "sha256": "70679d275cc60e0ba23e287662ec1a578bcc38468e6ba946e02d08f938bd2c8a"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/DefendIndiumStar.cs",
+      "sha256": "32666e26e4e1cf0df6c00cf29a1d3c40538e44761ab3b64762a39508f042c4b3"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/DeferredRelease.cs",
+      "sha256": "c981487dd4bca6d8e0755f6408a7a0109edcc373dafc8b47527dc67e0d67f444"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/DerivedApplicationNeutron.cs",
+      "sha256": "c29ac57be5d31e331567a8bc7a7acca86ea8965b0ae9c82fb923c7d7b267027c"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/ExploitAdvantage.cs",
+      "sha256": "ab20935986972e666e66b10a86df1a041ef0e234484dc2c3cad559f0c89cc6fd"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/ExtensionSpread.cs",
+      "sha256": "94fe50ff6a1c6a146691fa87547576422ac0a9230cd8b60d95f6a54771213eaf"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/GasPhaseSurge.cs",
+      "sha256": "98d0ea91f2e1ef3f9659fd91f1e19b03d7c56ade7d343c10b158f1c8fa97e866"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/GroupMigration.cs",
+      "sha256": "ecd1bdf14ccb525b1d8775145c775e44392cbc1075b46cab023e3d65eb87cf0e"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/ICardFamilies.cs",
+      "sha256": "8c2a3a1369f922c3cf2bc094787ee71c9293455b2535dcd0d2003bd0fa100363"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/Inversion.cs",
+      "sha256": "246ab10b2aae27cee63f32e228a9144ebfa3783983f43dd318451575c5e2cd42"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/MacroDendrite.cs",
+      "sha256": "dc40a566ac133abe6404ad1d4e2f2fccb6f3d68c377238e043aabea48ea2dc8a"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/NeighboringGroupParticipation.cs",
+      "sha256": "9a1daa5ed9a1dc3f4e0626aa815a2ee4f49ad1205aea48d86182bf7a7827add1"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/OrigionStrike.cs",
+      "sha256": "1b74de8b5ddbeaab08a097a0c431e2f184791a27d454dea39d5492bfa2829309"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/Primed.cs",
+      "sha256": "6f46ebdd33683be94ca2206634fda2848a950809401e4bdd95d4809226908c23"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/PrimordialPierce.cs",
+      "sha256": "b43289ba71f186863ae06879b75e59ee960ebdbfeee17b68cc9ea3f934cfafcd"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/Proliferation.cs",
+      "sha256": "c11c87a519c4a2737038c4c207f91abbaf1f4a2fba02a599cf1c886cbbbc3a91"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/QuantumDot.cs",
+      "sha256": "3606e450c9be105c4130ce69dbca53aadc95c134dfd2f3d3f5a7ae3aae220f78"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/Reiteration.cs",
+      "sha256": "196530e4431a67f8c39eb44f995f1d9764f584c1cc6b108d83fdd52f786ee370"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/ReminiscenceHardCalcite.cs",
+      "sha256": "cf3d2202d68848a8df1f2c09b7f7dd2bb6deef93cd2071ef8281655f34fa9b82"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/ReminiscencePhosphorus.cs",
+      "sha256": "158d9157fb50c0df9580def37372bb2c7035067929d99a4447f9d619ce5a137d"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/ReminiscencePollutionH.cs",
+      "sha256": "cb6005c128eb15ea16fca2f27cd9f1c63c8611a4ab813612d546b3f92337e45a"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/ReminiscencePollutionO.cs",
+      "sha256": "efe4b4491c96dd2870f9cb8679913980cd45473e62e6461e816c54631697aa38"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/ReminiscenceTinDoubt.cs",
+      "sha256": "a0ea27b43ee41984ab9de8ea93991a93f8193a7397c4f85e191b7a2c647f4660"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/ReminiscenceVanadiumEternal.cs",
+      "sha256": "6a1a59d306764dc6c30eff21f7337cd2a2c6a91089206f423e6f2e80ff1e8f0a"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/RustEdge.cs",
+      "sha256": "0c1c530418fb6593b267ee41bc5b866c180132159230f250aa1c0f069831c052"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/SeekingStrike.cs",
+      "sha256": "64bb42c977f4595b3d544e9a3063be91197e10236bf9d547d24a59dd38f1418a"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/Segregation.cs",
+      "sha256": "34311ca5c6614e136d44e0d2299d2a2a34dc3ae0766baf96f9e27f47b34b27e2"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/ShadowChainBreath.cs",
+      "sha256": "f36bdb997fa0aba3781722bcfac356b26449d65a7e19764cd11b4dce7bdc08a4"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/ShatterCrystalRain.cs",
+      "sha256": "fd3c1bf20f6d0a6f6531cb739d6c560bc4489101ea96de1dc89677dd23b5c63d"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/ShatterSong.cs",
+      "sha256": "323367dfed9ca5a144e193419dd5467915f951db2cd328aef7a59158b907361c"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/Slash.cs",
+      "sha256": "3f5afd3412365ed93cf97db274f481a82d528623f35b106c72a9ceb8b35c3374"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/SpinKick.cs",
+      "sha256": "f97286e357f0fc0fe2965321aa533dbc66b10879e4f615eea190baae832b32dd"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/StellarSea.cs",
+      "sha256": "cd79fead4005f58b7aca0b62972b5ab8fce21769dfc5789b52e9d418b74f2975"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/StrikeIndiumStar.cs",
+      "sha256": "c47d1310210ae911f6ca8f7ead60c4022965dfbc4dff262aa9a9eb7dc0e839eb"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/ThermobaricField.cs",
+      "sha256": "5102320def991c76849ccc1ef7fd384c0ba9060055ecddad7aa76b308c22f96b"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/TilingForm.cs",
+      "sha256": "8394b716a85ac364def2ae73a801bcfbc208b9747d5534ae60667e597a66f466"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/Transmutation.cs",
+      "sha256": "73885eea9a84b0497e46729c2f5ade1d17243dce99901e093f51e91cff979a59"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Cards/Tunneling.cs",
+      "sha256": "7fe9e85e58d5591935759624ad7723e39ee97a02c7c1c017e7802db19f8ff2a5"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Characters/IndiumStarCharacter.cs",
+      "sha256": "2e3dbb4859189fdbd7f6005a41d1f4d6d0ade7770cbcf9a913e93dc6d440c8c7"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Entry.cs",
+      "sha256": "ea2e79af5ce71004acaf1d457caf9b5b0c2c2264d208517ca679a8c7e527fb61"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Mechanics/AddedCardTextRules.cs",
+      "sha256": "48cd644a24e1e1a24b2210e7709a8e5dca504ee976746c2231538cad9aafc1c3"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Mechanics/CrystalBranch.cs",
+      "sha256": "caeb101dd64c47e67dd07ab5408499df4d9f0f7e0152116e18162fb8a24922d0"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Mechanics/CrystalBranchRules.cs",
+      "sha256": "8dc56b9b6cfde983845d4eacfca41416f236c69e64dda88a001bebd3af02775d"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Mechanics/CrystalReplayRules.cs",
+      "sha256": "1a0f39dbf7caec132d5ebae09aeaedd5435f0c76bab799f3eef8313f883157f8"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Mechanics/ExtensionRules.cs",
+      "sha256": "5fb20cd2b3ed23a7122f651e45d648b33d72be9adff6f9ac04908d04d9f5af30"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Mechanics/IndiumStarKeywords.cs",
+      "sha256": "2f8837118e0686634d793e4d4f85bc8bc9192bef791b9a8644c221949e81b3e6"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Patches/CrystalCoinSaveCompatibilityPatch.cs",
+      "sha256": "895808fd281ab3a2955e6326fca5244cc55e77e62f8291f87888f800dbd23ab9"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Patches/CrystallizeMarkClonePatch.cs",
+      "sha256": "5b9bad0d95b6a2bc40f5cc66e54ba01e328193c1f0c8986564e899d6f3cd43d9"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Patches/CrystalReplaySeriesPatch.cs",
+      "sha256": "85e882c5ae3bc7e17c273598342ca5e5bf9c015a2cc202d639c13c03cca14717"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Patches/VigorRetentionPatch.cs",
+      "sha256": "2055ca4fe03b0f5bfcae4b80fb74b244d563c47365670347754dc25801026e16"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Powers/ApplicationCaBlockPower.cs",
+      "sha256": "338e121d3d673c1ccd1bc7b0363583720d94b39205f9239652dd2254fe88fbda"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Powers/ApplicationCoPower.cs",
+      "sha256": "b65fa5646bacb9653e2473c653123e86faefbe98112ec0ab72f69a6b810b990d"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Powers/ApplicationCuPower.cs",
+      "sha256": "0f8244cdf963442da5edf852e4aa84f6a012feb25f2ee8b8d74c7a9488f090f6"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Powers/ApplicationHsStrengthDownPower.cs",
+      "sha256": "f8160ce254d9f80749a637e585deb3babc4a3b1fc47ba2ecb89445689dd13ed4"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Powers/ApplicationNbPower.cs",
+      "sha256": "5957c984dbbd3a39194402af4b3706ac520563f90965fe4cd4b425f28b790778"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Powers/ApplicationUCrystallizePower.cs",
+      "sha256": "d808d34aa2d6b375491e6898e817184701e2c1e61960b0619697416bed08c915"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Powers/BondingImidogenDexterityPower.cs",
+      "sha256": "badb6a7d462e5d336830be802f9b7dfc11788d8ac0f7abfa24558be59b0fa618"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Powers/CharacterizationStrengthPower.cs",
+      "sha256": "ead1baf8170677471b3ed18a12e6321ab089b395d881eae02c7e255662046dbf"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Powers/CrystalHandAuraPower.cs",
+      "sha256": "6f54f21dd250951f7a1a0e1f6a946786f031e5734adf20f9bd07e07e8c8d4f38"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Powers/CrystalMarrowPower.cs",
+      "sha256": "aa91af17160090f5ff7b608870fb421d0e804d92665d897452a5e320983523aa"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Powers/DeferredReleasePower.cs",
+      "sha256": "521753e80989d5d6d0438aa6c6dbaf88ecd4b5594bc1733724adde02eb650ae4"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Powers/ElectronDebuffExpiryPower.cs",
+      "sha256": "e6016394f927c5fa24463a811b3a4eed4da25b5868a4372af1ca2b2ec88685e7"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Powers/ExtensionSpreadPower.cs",
+      "sha256": "0e3e20a4c5793caf60c60739ba5c0efed06fc0b8113f070898584a2fb55f5bdb"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Powers/FreeApplicationPower.cs",
+      "sha256": "6b4313ccc1aa1ebfc49f505eee9383f32717c3f8f91cff26a6b5a403b98545a2"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Powers/LoseVulnerableAtTurnStartPower.cs",
+      "sha256": "87574103306a1c3ed9174e987c1b8714a3cc8b76f978ad9d7b5bf5b02d76cfb5"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Powers/LoseWeakAtTurnEndPower.cs",
+      "sha256": "41033bd7c091263dbe6f7d2394c60bac72e872e9accee99b1c24d98ccbfe1845"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Powers/NeighboringGroupStrengthPower.cs",
+      "sha256": "b0767e87435e13b75b3bb99862a864d65bc5ef56911652a508eeccc4e5f69140"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Powers/OnlyAttacksThisTurnPower.cs",
+      "sha256": "ea7daa0654006bd05552d84be0563666dae75166cb7ffa8832c7d6d405d684ff"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Powers/ProliferationPower.cs",
+      "sha256": "466ce7bf1a515500266f70828c14cc796083364392cb2f1b26723fd86b346cd0"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Powers/QuantumDotPower.cs",
+      "sha256": "9c92d82bcb4d4cd0ecb69cef30cc6fa7097873bc17c78dfdefdf5535367f7a06"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Powers/ReiterationPower.cs",
+      "sha256": "02be16609d7f0659cfd5683463703dc219918f05c8928aad50c6ec0748cbb293"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Powers/ReminiscenceDrawPower.cs",
+      "sha256": "68227022398ab8399b9d1ec4acd593c25751c2ccf78e996732c28cb2721fdde5"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Powers/ReminiscenceHardCalcitePower.cs",
+      "sha256": "2fc5a4718dd130d5eb03fb5a7a78b89c518cbd3d503c401167dd3ab119082f77"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Powers/ReminiscencePhosphorusPower.cs",
+      "sha256": "b3185bab2913bd435e28d2da3f3d98c70ccc27ca623f1105708a98eb0d80e694"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Powers/ReminiscencePollutionHPower.cs",
+      "sha256": "54200bbab57fa5c6d07d1db467ea550f934558aec63e271bd6e70f1366ee3f46"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Powers/ReminiscencePollutionOPower.cs",
+      "sha256": "952c1a8cc3aaf0618c65a6014fd6e42b4d0505462cfa18b965d89636445df152"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Powers/ReminiscenceTinDoubtPower.cs",
+      "sha256": "2252c3810a36695028cb0c29de615d4f5a9e56ff67a2f908572dbbadb8d0e817"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Powers/ThermobaricFieldStrengthPower.cs",
+      "sha256": "f1bf12a2a14c67890a5ae172f4b60fb482adf4c487f3dcfef70e0145542dae08"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Powers/TilingFormPower.cs",
+      "sha256": "216e9d4355c6d3be5d21dfbd44939821ce24c4dc6322415d053abe4e6cadbeb6"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Powers/TinDoubtTemporaryPowers.cs",
+      "sha256": "231125cebb74428d6f8e22de3ca33c5f9893606de9d953e363ef4d8c5828e769"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Powers/TransmutationPower.cs",
+      "sha256": "ee1c70bce9c3418cf021e014874114f25fae2f352e9111146f189eb3c8d46550"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Powers/TunnelingPower.cs",
+      "sha256": "990d7b0a49be6cafed54936310b13ac7d0b1789bf0e081fc8b6faf5b822ad796"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/src/Relics/DefectiveCrystalCell.cs",
+      "sha256": "b3fe4bb3323e82c9e32013cf31eb89be0b26c6203a88a0b3cf6594e811bd6070"
+    }
+  ],
+  "staging_files": [
+    {
+      "path": "IndiumStar/IndiumStar/build/staging/IndiumStar/localization/eng/afflictions.json",
+      "sha256": "81db0b815947cba337e89bad676de1470e7cc955d9b08228bb35989cac994435"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/build/staging/IndiumStar/localization/eng/card_keywords.json",
+      "sha256": "60559dd6b43312d58e037bafae7248d33df3dc3120b63cba367426b417640b58"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/build/staging/IndiumStar/localization/eng/cards.json",
+      "sha256": "5b80c54ab3a2bec84971850c5b2562f2e6332d1a13b274cf59b71c14869d5fd6"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/build/staging/IndiumStar/localization/eng/characters.json",
+      "sha256": "e33cfc59de28f2bf0b193e7e40154b241d9a2208b3168138d531fe98e396af89"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/build/staging/IndiumStar/localization/eng/powers.json",
+      "sha256": "32582611484e8bc57ae6766be4597483f3ae51962f91740ace85817768fe8f27"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/build/staging/IndiumStar/localization/eng/relics.json",
+      "sha256": "79a2ae23da9c788bd747bf57b8084672c6928d115333906d3eba796a61adab4f"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/build/staging/IndiumStar/localization/zhs/afflictions.json",
+      "sha256": "f90ed672428a5dffe823f03446b38204fe690fabc5efe39213a93430c69b0275"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/build/staging/IndiumStar/localization/zhs/card_keywords.json",
+      "sha256": "8d278f55db021fc7ddc82fea3a8222e20251ae6da3007f43d4c78b74b4a0cff5"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/build/staging/IndiumStar/localization/zhs/cards.json",
+      "sha256": "1bbb9ba0cc6488ccf7cc70cd49e9fc6a146646a3ce637bc99b394504bfd0d64e"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/build/staging/IndiumStar/localization/zhs/characters.json",
+      "sha256": "730d25d4175794f89563b2c20c318f7e275650b68aa3548ea94c52f149e9a585"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/build/staging/IndiumStar/localization/zhs/powers.json",
+      "sha256": "fa672fe779a3d3871f442931bf29ef3adf2fb442086a5b43dea2097d0ca7ce50"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/build/staging/IndiumStar/localization/zhs/relics.json",
+      "sha256": "7c75cee12352dfb7a1056dd0aaf029bd6e77b0aed77319889bccd382cfffa14e"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/build/staging/IndiumStar.dll",
+      "sha256": "9cde7a6c403196e972ebec3c982af805a299e4649408e56718d47c57bb86d3f3"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/build/staging/IndiumStar.json",
+      "sha256": "3ba926ab6657185ef61c8b0f97e2aeef10f061fa3d7f80e9b1124627dd7037b4"
+    },
+    {
+      "path": "IndiumStar/IndiumStar/build/staging/IndiumStar.pck",
+      "sha256": "d81664564c2940e4fbaee1ad35a3602637c3cb4a34d49b895fb30babf7d4f059"
+    }
+  ]
+}

@@ -12,13 +12,17 @@ using STS2RitsuLib.Scaffolding.Content;
 
 namespace IndiumStar.Cards;
 
-/// <summary>辰海：每级升级增加2伤害；战后按本牌实际完成的出牌数永久升级一次。</summary>
+/// <summary>旧版辰海：仅保留旧存档模型；Token稀有度排除正常奖励和商店，不再属于当前设计卡池。</summary>
 [RegisterCard(typeof(IndiumStarCardPool))]
 public sealed class StellarSea : ModCardTemplate
 {
+    public override bool CanBeGeneratedInCombat => false;
+    public override MegaCrit.Sts2.Core.Models.CardPoolModel Pool =>
+        MegaCrit.Sts2.Core.Models.ModelDb.CardPool<IndiumStarCardPool>();
+
     private bool _settled;
 
-    public StellarSea() : base(1, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy) { }
+    public StellarSea() : base(1, CardType.Attack, CardRarity.Token, TargetType.AnyEnemy) { }
     public override int MaxUpgradeLevel => int.MaxValue;
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(10m, ValueProp.Move)];
     public override CardAssetProfile AssetProfile => new(

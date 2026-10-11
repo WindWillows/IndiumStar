@@ -1,4 +1,4 @@
-param([string]$ProjectDir = (Join-Path $PSScriptRoot '..\..\IndiumStar\IndiumStar'))
+﻿param([string]$ProjectDir = (Join-Path $PSScriptRoot '..\..\IndiumStar\IndiumStar'))
 $ErrorActionPreference = 'Stop'
 $ProjectDir = (Resolve-Path -LiteralPath $ProjectDir).Path
 $outputDir = Join-Path $PSScriptRoot 'output\export-failure'

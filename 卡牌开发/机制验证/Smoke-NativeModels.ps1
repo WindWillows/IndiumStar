@@ -1,5 +1,6 @@
-param([Parameter(Mandatory=$true)][string]$GameDir,
-    [string]$ModDir = (Join-Path $PSScriptRoot '..\..\IndiumStar\IndiumStar\build\staging'))
+﻿param([Parameter(Mandatory=$true)][string]$GameDir,
+    [string]$ModDir = (Join-Path $PSScriptRoot '..\..\IndiumStar\IndiumStar\build\staging'),
+    [string]$LegacySave = '', [string]$CleanedSave = '')
 $ErrorActionPreference = 'Stop'
 $gameData = Join-Path $GameDir 'data_sts2_windows_x86_64'
 $outputDir = Join-Path $PSScriptRoot 'output\native-models'
@@ -24,5 +25,10 @@ Get-ChildItem $gameData -Filter '*.dll' | ForEach-Object { Copy-Item -LiteralPat
 Get-ChildItem $ritsuDir -Filter 'STS2-RitsuLib*.dll' | ForEach-Object { Copy-Item -LiteralPath $_.FullName -Destination $outputDir -Force }
 Copy-Item -LiteralPath (Join-Path $modDir 'IndiumStar.dll') -Destination $outputDir -Force
 [IO.File]::WriteAllText((Join-Path $outputDir 'NativeModelSmoke.runtimeconfig.json'), '{"runtimeOptions":{"tfm":"net9.0","framework":{"name":"Microsoft.NETCore.App","version":"9.0.0"}}}')
-& 'C:\Program Files\dotnet\dotnet.exe' (Join-Path $outputDir 'NativeModelSmoke.dll') (Join-Path $outputDir 'native-model-smoke.json') $ModDir | Tee-Object (Join-Path $outputDir 'smoke-log.txt')
+$nativeArgs = @((Join-Path $outputDir 'NativeModelSmoke.dll'), (Join-Path $outputDir 'native-model-smoke.json'), $ModDir)
+if ($LegacySave -or $CleanedSave) {
+    if (!$LegacySave -or !$CleanedSave) { throw 'LegacySave and CleanedSave must be supplied together' }
+    $nativeArgs += @((Resolve-Path -LiteralPath $LegacySave).Path, (Resolve-Path -LiteralPath $CleanedSave).Path)
+}
+& 'C:\Program Files\dotnet\dotnet.exe' $nativeArgs | Tee-Object (Join-Path $outputDir 'smoke-log.txt')
 if ($LASTEXITCODE) { throw 'Native model smoke failed' }

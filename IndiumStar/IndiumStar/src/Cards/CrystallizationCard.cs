@@ -8,6 +8,7 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Saves.Runs;
+using MegaCrit.Sts2.Core.Nodes.Cards;
 
 namespace IndiumStar.Cards;
 
@@ -18,6 +19,44 @@ namespace IndiumStar.Cards;
 public abstract class CrystallizationCard : ApplicationCard, ICrystallizationCard
 {
     private int _crystalDoomAmount;
+    private int _crystalDrawAmount;
+    private int _crystalExtensionAmount;
+
+    [SavedProperty]
+    public int CrystalDrawAmount
+    {
+        get => _crystalDrawAmount;
+        set { AssertMutable(); _crystalDrawAmount = Math.Max(0, value); }
+    }
+
+    [SavedProperty]
+    public int CrystalExtensionAmount
+    {
+        get => _crystalExtensionAmount;
+        set
+        {
+            AssertMutable();
+            _crystalExtensionAmount = Math.Max(0, value);
+            if (_crystalExtensionAmount > 0) AddKeyword(IndiumStarKeywords.ExtensionKeyword);
+            else RemoveKeyword(IndiumStarKeywords.ExtensionKeyword);
+        }
+    }
+
+    public void AddCrystalDraw(int amount)
+    {
+        if (amount <= 0) return;
+        CrystalDrawAmount = (int)Math.Min(int.MaxValue, (long)CrystalDrawAmount + amount);
+        RefreshAddedText();
+    }
+
+    public void AddCrystalExtension(int amount)
+    {
+        if (amount <= 0) return;
+        CrystalExtensionAmount = (int)Math.Min(int.MaxValue, (long)CrystalExtensionAmount + amount);
+        RefreshAddedText();
+    }
+
+    public bool HasAddedEffectText => CrystalDoomAmount > 0 || CrystalDrawAmount > 0 || CrystalExtensionAmount > 0;
 
     /// <summary>消亡粉末对应的消亡层数；保留旧属性名以兼容存档，实际施加DemisePower。</summary>
     [SavedProperty]
@@ -29,7 +68,15 @@ public abstract class CrystallizationCard : ApplicationCard, ICrystallizationCar
 
     public void AddCrystalDoom(int amount)
     {
-        if (amount > 0) CrystalDoomAmount = (int)Math.Min(int.MaxValue, (long)CrystalDoomAmount + amount);
+        if (amount <= 0) return;
+        CrystalDoomAmount = (int)Math.Min(int.MaxValue, (long)CrystalDoomAmount + amount);
+        RefreshAddedText();
+    }
+
+    private void RefreshAddedText()
+    {
+        var pile = Pile?.Type ?? PileType.None;
+        NCard.FindOnTable(this, pile)?.UpdateVisuals(pile, CardPreviewMode.Normal);
     }
 
     public override TargetType TargetType => CrystalDoomAmount > 0 ? TargetType.AnyEnemy : base.TargetType;
@@ -42,6 +89,10 @@ public abstract class CrystallizationCard : ApplicationCard, ICrystallizationCar
         base.AddExtraArgsToDescription(description);
         description.Add("CrystalDoomActive", CrystalDoomAmount > 0);
         description.Add("CrystalDoomAmount", CrystalDoomAmount);
+        description.Add("CrystalDrawActive", CrystalDrawAmount > 0);
+        description.Add("CrystalDrawAmount", CrystalDrawAmount);
+        description.Add("CrystalExtensionActive", CrystalExtensionAmount > 0);
+        description.Add("CrystalExtensionAmount", CrystalExtensionAmount);
     }
 
     protected CrystallizationCard()
@@ -62,11 +113,20 @@ public abstract class CrystallizationCard : ApplicationCard, ICrystallizationCar
     protected sealed override async Task<CardModel?> PlayEffect(PlayerChoiceContext context, CardPlay play)
     {
         int demise = CrystalDoomAmount;
+        int draw = CrystalDrawAmount;
+        int extension = CrystalExtensionAmount;
+        ExtensionRules.RecordAddedExtension(play, extension > 0);
         var result = await PlayCrystallizationEffect(context, play);
         if (demise > 0 && play.Target is { IsAlive: true } target && target.Side != Owner.Creature.Side
             && target.CombatState == CombatState && Owner.Creature.IsAlive
             && !CombatManager.Instance.IsOverOrEnding)
             await PowerCmd.Apply<DemisePower>(context, target, demise, Owner.Creature, this);
+        if (Owner.Creature.IsAlive && !CombatManager.Instance.IsOverOrEnding)
+        {
+            if (draw > 0) await CardPileCmd.Draw(context, draw, Owner);
+            if (extension > 0 && Owner.Creature.IsAlive && !CombatManager.Instance.IsOverOrEnding)
+                await ExtensionRules.Gain(context, Owner, extension, this);
+        }
         return result;
     }
 

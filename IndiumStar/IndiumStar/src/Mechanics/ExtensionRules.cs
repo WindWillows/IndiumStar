@@ -1,5 +1,8 @@
 using System.Linq;
 using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
+using IndiumStar.Cards;
+using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -23,6 +26,18 @@ public interface IExtensionGainInterceptor
 /// </summary>
 public static class ExtensionRules
 {
+    private sealed class ExtensionPlayTag { }
+    private static readonly ConditionalWeakTable<CardPlay, ExtensionPlayTag> AddedExtensionPlays = new();
+
+    // 对本次出牌拍快照：后来给同一张晶化加文字，不会追溯改变此前的出牌历史。
+    public static void RecordAddedExtension(CardPlay play, bool hasExtension)
+    {
+        if (hasExtension) AddedExtensionPlays.GetValue(play, _ => new ExtensionPlayTag());
+    }
+
+    public static bool IsExtensionPlay(CardPlay play) =>
+        play.Card is IExtensionCard || AddedExtensionPlays.TryGetValue(play, out _);
+
     public static int GetAmount(Player player) => player.Creature.GetPowerAmount<EnergyNextTurnPower>();
 
     public static async Task Gain(

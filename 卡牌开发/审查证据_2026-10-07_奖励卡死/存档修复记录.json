@@ -1,0 +1,25 @@
+{
+  "status": "repaired",
+  "repaired_at_beijing": "2026-10-07 17:37:08 +08:00",
+  "files": [
+    {
+      "file": "current_run.save",
+      "original_sha256": "12c3b0ce99755adec37ef20a33a088ca51d784efdc5d826917229df52a105029",
+      "cleaned_sha256": "71641ed3cb322524c25570f493a632233b4158e48af1bd10ad2c50da1f9dc23b",
+      "removed_zero_fields": 17,
+      "backup_relative_path": "卡牌开发\\修改备份\\奖励卡死_2026-10-07\\退出后_173515\\current_run.save"
+    },
+    {
+      "file": "current_run.save.backup",
+      "original_sha256": "c0d452472278298950d9e5f84d879f657fee36a750cc28a2a60d51a0d6da8715",
+      "cleaned_sha256": "d2161cb3b8fd53c703b631e29faf579c38439354290d77201356c71b525d5da5",
+      "removed_zero_fields": 17,
+      "backup_relative_path": "卡牌开发\\修改备份\\奖励卡死_2026-10-07\\退出后_173515\\current_run.save.backup"
+    }
+  ],
+  "other_json_values_preserved": true,
+  "mod_settings_changed": false,
+  "game_launched": false,
+  "live_reward_ui_verified": false,
+  "native_packet_scope": "each file: 17 original properties rejected; 17 cleaned card properties serialized"
+}

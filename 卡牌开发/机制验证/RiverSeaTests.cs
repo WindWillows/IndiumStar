@@ -31,7 +31,7 @@ public static class RiverSeaTests
                 var crystal = r.Crystal<Crystallization>(); var play = new CardPlay { Card = crystal, IsAutoPlay = auto };
                 await river.AfterCardPlayedLate(r.Choice, play); await river.AfterCardPlayedLate(r.Choice, play);
                 Check(river.Pile?.Type == PileType.Hand && r.Player.PlayerCombatState!.Hand.Cards.Count(c => c == river) == 1
-                    && river.EnergyCost.Value == 0 && !river.IsUpgradable);
+                    && river.EnergyCost.Value == 0 && river.IsUpgradable && river.DynamicVars.Damage.BaseValue == 5);
             });
         }
         Test("渊河排除他人、非晶化、异战斗及结束状态", async () => {

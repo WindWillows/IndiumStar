@@ -1,0 +1,6 @@
+Microsoft(R) Visual C# 编译器 版本 4.14.0-3.26064.1 (450493a9)
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+warning CS1701: 假定“0Harmony”使用的程序集引用“System.Runtime, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a”与“System.Runtime”的标识“System.Runtime, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a”匹配，您可能需要提供运行时策略
+SentryGodotInitializer: Sentry GDExtension not loaded in this process; skipping. If you see this in a running game (not during project export or IDE script analysis), check Godot's log for extension load failures.
+PASS native model smoke: 73 registrations/upgrades/deep clones; macro independence; Co/U Harmony marks; native replay transpiler and CardPlay metadata

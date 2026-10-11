@@ -53,8 +53,11 @@ short_names = {
 anchors = []
 records = []
 native_by_class = {card["type"]: card for card in model_probe["cards"]}
+legacy_classes = {card["class"] for card in decisions.get("legacy_compatibility_cards", [])}
 for native in model_probe["cards"]:
     cls = native["type"]
+    if cls in legacy_classes:
+        continue
     key = "INDIUM_STAR_CARD_" + native["id"]
     title = localization[key + ".title"]
     record = {"class": cls, "title": title, "model_id": key,
@@ -112,7 +115,7 @@ for row in records:
     row["card_source_linked_by_regression"] = "Cards/" + cls + ".cs" in linked_sources
     aliases = [row["title"]] + short_names.get(cls, [])
     row["named_case_evidence"] = [name for name in passed_cases if any(
-        name.removeprefix("文档同步：").removeprefix("渊河辰海：").startswith(alias) for alias in aliases)]
+        name.removeprefix("文档同步：").removeprefix("最新文档：").removeprefix("渊河辰海：").startswith(alias) for alias in aliases)]
     row["model_probe"] = native["mutable_clone"] + "；仅构造、升级、MutableClone；非实机效果"
     row["effect_acceptance"] = ("本批部分源码检查；尚未完整验收" if row["named_case_evidence"]
         else "本批未重跑；历史回归见前批记录，完整验收未完成") if row["card_source_linked_by_regression"] else "需要补齐直接卡牌效果回归；相关命名用例不自动证明整牌效果"
@@ -136,10 +139,11 @@ report = {
     "total_defined_cards": len(records) + len(pending_cards),
     "direct_card_sources_linked": sum(row["card_source_linked_by_regression"] for row in records),
     "complete_effect_acceptances": 0,
+    "legacy_compatibility_cards": [row for row in model_probe["cards"] if row["type"] in legacy_classes],
 }
 registered_source_count = sum(bool(re.search(r"\[RegisterCard\(", p.read_text(encoding="utf-8")))
     for p in (PROJECT / "src/Cards").glob("*.cs"))
-if report["total"] != registered_source_count or len({row["class"] for row in records}) != report["total"]:
+if report["total"] + len(legacy_classes) != registered_source_count or len({row["class"] for row in records}) != report["total"]:
     raise ValueError("卡池身份数量异常；模型证据必须对应当前源码")
 (EVIDENCE / "逐牌验收矩阵.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 lines = ["# 当前卡池逐牌验收矩阵", "", f"文档SHA256：`{report['document_sha256']}`。注册卡牌{report['total']}张，另有{len(pending_cards)}张文档卡牌未实现；当前来源代码回归{report['regression_cases']}项；直接链接卡牌源码{report['direct_card_sources_linked']}张。完整效果验收仍为0，不能用模型检查替代。", "", "此表是工作矩阵：JSON保留各牌原文、观察到的源码元数据、卡面、命名用例与待验证边界。名字匹配仅定位相关测试，不自动判定整牌功能通过。", "", "| 卡牌 | 类 | 直接源码 | 命名相关用例 | 效果验收 | 实机/同步 |", "| --- | --- | --- | --- | --- | --- |"]

@@ -5,6 +5,12 @@
 
 ## 晶化
 
+0.1.4：附加文字通过晶化自身的`CrystalDoomAmount`（实际消亡）、`CrystalDrawAmount`、`CrystalExtensionAmount`保存，重复赋予叠加，克隆独立。不得使用全CardModel默认SavedAttachedState保存这些字段。每段先原效果，再消亡、抽牌、延拓；使用同一原生自动打出/重放入口。附加延拓在此次CardPlay上记录快照，由`ExtensionRules.IsExtensionPlay`统一供反演、锡疑读取，后来修改文字不追溯旧历史。完整战斗存档恢复历史快照及多人仍待专项验收。
+
+键合-酸酐按用户确认只处理附加效果文字，由`AddedCardTextRules`识别晶化三个附加字段、Co/U标记及有额外文字的本体侵蚀/附魔。先赋予延拓，再快照本人手/抽/弃/消耗堆，每张至多尝试一次；不把费用、伤害/段数、普通升级、单独关键词改变或循环状态切换当作附加文字。自动晶化不占手动额度。
+
+滋生在`AfterCardDrawn`处理状态抽牌，每层额外抽1张；用`TryModifyKeywordsInCombat`移除本人的晶化Retain，既有/未来/复制晶化统一生效，不修改永久牌组或其他玩家的牌。移入/生成手牌不触发额外抽牌，外部一次性保留沿本体规则。
+
 新增晶化应继承 `CrystallizationCard`，并照常使用 `RegisterCard` 注册。
 公共基类提供0费、状态牌、保留、消耗，以及所有变体共用的手动额度。
 需要增加关键字时覆写 `CanonicalKeywords`；需要额外手动条件时覆写
@@ -189,5 +195,5 @@ Harmony补丁安装使用游戏实际的 `0Harmony.dll`；API契约测试只加�
 本轮不补全新卡。新增能力重复施加的完整叠加规则、完整Godot/PCK构建与实机交互仍需单独验收。
 
 后续已完成：表征的延迟力量区分已发放与待发放（审查报告 F02），晶币的永久递减
-改用 RitsuLib `SavedAttachedState<CardModel, int>` 随牌组原件进存档（F03）。
+现改用晶币专属的原生`[SavedProperty] CrystalCoinPlaysThisRun`随牌组原件进存档；此前F03的`SavedAttachedState<CardModel, int>`方案会给其他卡牌写入零值字段，0.1.3已替换。旧晶币计数在恢复前迁移，原版卡牌的零值残留在写回放前清理。持久化状态必须限定到具体模型，不能挂到全部CardModel；除JSON恢复外还需核对原生PacketWriter序列化。
 `Run-Tests.ps1` 已加入这两项的回归测试。

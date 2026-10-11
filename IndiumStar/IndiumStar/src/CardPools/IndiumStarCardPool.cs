@@ -1,4 +1,6 @@
 using Godot;
+using IndiumStar.Cards;
+using MegaCrit.Sts2.Core.Models;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 
@@ -16,6 +18,9 @@ namespace IndiumStar.CardPools;
 [RegisterSharedCardPool]
 public sealed class IndiumStarCardPool : TypeListCardPoolModel
 {
+    // 模型仍注册到ModelDb供旧存档读取，但不进入奖励、商店、变化或随机生成的候选池。
+    public override IEnumerable<CardModel> AllCards => base.AllCards.Where(card => card is not StellarSea);
+
     /// <summary>卡图路径里会用到的池标识（不是显示名）。</summary>
     public override string Title => "indiumstar";
 

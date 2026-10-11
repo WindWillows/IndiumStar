@@ -1,0 +1,13 @@
+PASS 晶币跨战斗递减写回牌组原件
+PASS 晶币收益下限为0
+PASS 晶币升级抬高基础值且不清除递减
+PASS 多张晶币各自独立递减
+PASS 晶币复制继承已衰减收益，后续各自递减 upgraded=False
+PASS 晶币复制继承已衰减收益，后续各自递减 upgraded=True
+PASS 晶币从牌组战斗克隆复制时读取原件衰减，复制后独立
+PASS 晶币衰减到零再复制和升级仍继承次数
+PASS 文档同步：晶币最后3金币后移出原件，当前战斗牌消耗 upgraded=False
+PASS 文档同步：晶币独立复制归零不移除来源，原件继续衰减 upgraded=False
+PASS 文档同步：晶币最后3金币后移出原件，当前战斗牌消耗 upgraded=True
+PASS 文档同步：晶币独立复制归零不移除来源，原件继续衰减 upgraded=True
+12/12 passed; scope: real mod source, command/history stubs, real Harmony patching and game API contract.

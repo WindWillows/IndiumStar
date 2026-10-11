@@ -1,4 +1,4 @@
-param(
+﻿param(
     [string]$ProjectDir = (Join-Path $PSScriptRoot '..\..\IndiumStar\IndiumStar'),
     [string]$PackageCache = (Join-Path $env:USERPROFILE '.nuget\packages')
 )

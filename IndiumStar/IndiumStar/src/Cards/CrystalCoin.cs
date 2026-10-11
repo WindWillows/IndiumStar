@@ -6,7 +6,7 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
-using STS2RitsuLib.Utils;
+using MegaCrit.Sts2.Core.Saves.Runs;
 using IndiumStar.CardPools;
 
 namespace IndiumStar.Cards;
@@ -17,9 +17,9 @@ namespace IndiumStar.Cards;
 /// <remarks>
 /// <para>
 /// <b>「永久」是本场游戏（整个 run），并且要跨过保存/读档。</b>
-/// 计数存在 RitsuLib 的 <see cref="SavedAttachedState{TKey,TValue}" /> 里：
-/// 它挂在模型对象上，并通过 RitsuLib 对本体 <c>SavedProperties</c> 序列化的补丁
-/// 随牌组原件一起写入跑局存档，读档后恢复。普通实例字段不走存档，
+/// 计数使用本牌的原生 <see cref="SavedPropertyAttribute" />：
+/// 仅随晶币模型写入跑局存档，读档后恢复，不给其他卡牌添加存档属性。
+/// 普通实例字段不走存档，
 /// 只靠写回 <c>DeckVersion</c> 无法抗住保存退出。
 /// </para>
 /// <para>
@@ -50,8 +50,14 @@ public sealed class CrystalCoin : ModCardTemplate
     /// <summary>
     /// 每张牌在本场游戏里已经打出过几次。随牌组原件的 <c>SavedProperties</c> 进存档。
     /// </summary>
-    private static readonly SavedAttachedState<CardModel, int> PlaysThisRunState =
-        new("crystal_coin_plays_this_run", () => 0);
+    private int _playsThisRun;
+
+    [SavedProperty]
+    public int CrystalCoinPlaysThisRun
+    {
+        get => PersistentSelf._playsThisRun;
+        set { AssertMutable(); _playsThisRun = Math.Max(0, value); }
+    }
 
     /// <summary>牌组原件：战斗中打在克隆体上时解析到 <c>DeckVersion</c>，否则就是自己。</summary>
     private CrystalCoin PersistentSelf => DeckVersion is CrystalCoin deckVersion ? deckVersion : this;
@@ -59,15 +65,15 @@ public sealed class CrystalCoin : ModCardTemplate
     /// <summary>这张牌在本场游戏里已经打出过几次（跨战斗、跨读档保留）。</summary>
     private int PlaysThisRun
     {
-        get => PlaysThisRunState.GetValueOrDefault(PersistentSelf, 0);
-        set => PlaysThisRunState.Set(PersistentSelf, value);
+        get => PersistentSelf.CrystalCoinPlaysThisRun;
+        set => PersistentSelf.CrystalCoinPlaysThisRun = value;
     }
 
     public static void CopyDecay(CardModel source, CardModel copy)
     {
-        if (source is CrystalCoin coin && copy is CrystalCoin)
+        if (source is CrystalCoin coin && copy is CrystalCoin crystalCopy)
             // MutableClone时DeckVersion尚未被CreateClone清除，直接写复制实例以免改写牌组原件。
-            PlaysThisRunState.Set(copy, coin.PlaysThisRun);
+            crystalCopy.CrystalCoinPlaysThisRun = coin.PlaysThisRun;
     }
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>

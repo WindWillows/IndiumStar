@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "source_file": "晶塔世界角色.docx",
-  "source_sha256": "9e7f15d71b0865d4950210f28930dd696856548f16ae6e2c9b73f9f40c9bb423",
+  "source_sha256": "49f4c3608a12ea9733c4e0edb9a1e396c4d7f3af555b4c6429a2ce40fd6b297c",
   "baseline_revision": "7a43d89",
   "precedence": "用户当前更新的DOCX覆盖此前同名卡牌规格；此前明确给出的分影连气和邻基参与继续保留。",
   "cards": [
@@ -86,8 +86,8 @@
     "display_title": "[待命名]技能"
   },
   "remaining_audit_scope": "全卡池逐牌语义、时序和边界核查；卡牌全部完成前不转入遗物实现",
-  "previous_source_sha256": "4c8ff3177eebc1e7d5e3e53a777d857d286fe2f1dcd72510580ba3374a1747b6",
-  "latest_document_review": "2026-10-06追加渊河、辰海，正文稀有攻击与数量同步；当前70张定义已有核心实现。本文件此前cards和latest_document_sync保留为历史，最新新增规格见latest_additions。实机、完整存档和多人门槛保留。",
+  "previous_source_sha256": "9e7f15d71b0865d4950210f28930dd696856548f16ae6e2c9b73f9f40c9bb423",
+  "latest_document_review": "2026-10-11补齐最新版Word：新增寻迹打击、键合-酸酐、滋生；渊河5/7且可升级；近身斩保留稳定模型ID；辰海退出正常生成，旧模型仅兼容。运用-H按同一文档哈希的既有规则记录忽略末尾附加行。72张当前卡牌（65主卡、7衍生），另1个旧版兼容模型。",
   "pending_document_cards": [],
   "implemented_document_updates": [
     {
@@ -183,5 +183,23 @@
       }
     ],
     "baseline_revision": "1f643f1"
+  },
+  "latest_document_sync_2026_10_11": {
+    "source_sha256": "49f4c3608a12ea9733c4e0edb9a1e396c4d7f3af555b4c6429a2ce40fd6b297c",
+    "version": "0.1.4",
+    "new_cards": [
+      "SeekingStrike",
+      "BondingAnhydride",
+      "Proliferation"
+    ],
+    "changed_cards": [
+      "ApplicationNeutron",
+      "AbyssalRiver"
+    ],
+    "retired_cards": [
+      "StellarSea"
+    ],
+    "added_text_policy": "用户确认只算附加文字",
+    "prior_sections": "cards、latest_document_sync、latest_additions是历史规格，不作为当前覆盖项"
   }
 }

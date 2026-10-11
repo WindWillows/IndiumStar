@@ -55,6 +55,8 @@ public sealed class ApplicationUCrystallizePower : ModPowerTemplate
         if (count > 0) CrystallizeUMarks.Set(copy, count);
     }
 
+    public static bool HasMark(CardModel card) => CrystallizeUMarks.GetValueOrDefault(card, 0) > 0;
+
     public override async Task BeforeCardPlayed(CardPlay cardPlay)
     {
         CardModel card = cardPlay.Card;

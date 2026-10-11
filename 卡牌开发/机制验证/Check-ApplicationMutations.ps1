@@ -1,4 +1,4 @@
-param([Parameter(Mandatory=$true)][string]$GameDir,
+﻿param([Parameter(Mandatory=$true)][string]$GameDir,
     [string]$ProjectDir = (Join-Path $PSScriptRoot '..\..\IndiumStar\IndiumStar'))
 $ErrorActionPreference = 'Stop'
 $ProjectDir = (Resolve-Path -LiteralPath $ProjectDir).Path

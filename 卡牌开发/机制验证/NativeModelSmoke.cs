@@ -4,16 +4,20 @@ using System.Reflection;
 using System.Reflection.Emit;
 using IndiumStar.Mechanics;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using HarmonyLib;
 using IndiumStar.Cards;
 using IndiumStar.Patches;
 using IndiumStar.Powers;
 using IndiumStar.Relics;
+using IndiumStar.CardPools;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Extensions;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Models.Potions;
+using MegaCrit.Sts2.Core.Models.Cards;
+using MegaCrit.Sts2.Core.Multiplayer.Serialization;
 using System.Runtime.CompilerServices;
 using MegaCrit.Sts2.Core.Saves.Runs;
 using MegaCrit.Sts2.Core.TestSupport;
@@ -34,16 +38,27 @@ var cardTypes = typeof(MacroDendrite).Assembly.GetTypes().Where(t =>
     typeof(CardModel).IsAssignableFrom(t) && !t.IsAbstract &&
     t.CustomAttributes.Any(a => a.AttributeType.Name == "RegisterCardAttribute"))
     .OrderBy(t => t.Name).ToArray();
-var newPowerTypes = new[] { typeof(TunnelingPower), typeof(CrystalMarrowPower), typeof(DefectiveCrystalCell), typeof(LoseWeakAtTurnEndPower), typeof(LoseVulnerableAtTurnStartPower) };
-ModelDb.Init(cardTypes.Concat(newPowerTypes).ToArray());
+var newPowerTypes = new[] { typeof(TunnelingPower), typeof(CrystalMarrowPower), typeof(DefectiveCrystalCell), typeof(LoseWeakAtTurnEndPower), typeof(LoseVulnerableAtTurnStartPower), typeof(StrikeIronclad), typeof(ProliferationPower) };
+ModelDb.Init(cardTypes.Concat(newPowerTypes).Append(typeof(IndiumStarCardPool)).ToArray());
+var currentPool = ModelDb.CardPool<IndiumStarCardPool>();
+// 探针未运行Ritsu自动注册器，给实际基类缓存注入完整模型集以检查候选过滤。
+typeof(CardPoolModel).GetField("_allCards", BindingFlags.Instance | BindingFlags.NonPublic)!
+    .SetValue(currentPool, cardTypes.Select(t => ModelDb.GetById<CardModel>(ModelDb.GetId(t))).ToArray());
+if (currentPool.AllCards.Any(card => card is StellarSea) || currentPool.AllCards.Count() != cardTypes.Length - 1
+    || ModelDb.GetById<CardModel>(ModelDb.GetId(typeof(StellarSea))).Pool != currentPool)
+    throw new Exception("Native legacy Stellar Sea pool exclusion or visual pool failed");
 // 全局Init会调用Godot日志器；此托管探针仅调用实际属性扫描并设置缓存就绪标志。
 // 不测试真实初始化、模组加载、网络ID协商或完整战斗存档。
 var propertyCacheType = typeof(MegaCrit.Sts2.Core.Multiplayer.Serialization.ModelIdSerializationCache);
 foreach (Type cardType in cardTypes.Concat(newPowerTypes))
     MegaCrit.Sts2.Core.Multiplayer.Serialization.ModelIdSerializationCache.CacheSavedPropertiesForTypeDebug(cardType);
 propertyCacheType.GetField("_initialized", BindingFlags.Static | BindingFlags.NonPublic)!.SetValue(null, true);
+propertyCacheType.GetProperty(nameof(ModelIdSerializationCache.PropertyIdBitSize))!.SetValue(null,
+    Math.Max(1, (int)Math.Ceiling(Math.Log2(ModelIdSerializationCache.MaxPropertyId + 1))));
 var harmony = new Harmony("IndiumStar.NativeModelSmoke");
 harmony.CreateClassProcessor(typeof(CrystallizeMarkClonePatch)).Patch();
+harmony.CreateClassProcessor(typeof(CrystalCoinRestoreCompatibilityPatch)).Patch();
+harmony.CreateClassProcessor(typeof(CrystalCoinReplayCompatibilityPatch)).Patch();
 var replayTarget = CrystalReplaySeriesPatch.TargetMethod();
 var replayInstructions = CrystalReplaySeriesPatch.Transpiler(PatchProcessor.GetOriginalInstructions(replayTarget), replayTarget).ToArray();
 if (replayInstructions.Count(instruction => instruction.Calls(typeof(CrystalReplayRules).GetMethod(nameof(CrystalReplayRules.Apply))!)) != 1
@@ -117,27 +132,43 @@ foreach (Type type in cardTypes)
     if (type == typeof(ShatterCrystalRain) && (canonical.DynamicVars.Damage.BaseValue != 2
         || copy.DynamicVars.Damage.BaseValue != 2 || canonical.DynamicVars.Repeat.IntValue != 3 || copy.DynamicVars.Repeat.IntValue != 4))
         throw new Exception("Native Shatter Crystal Rain damage/repeat failed");
-    if (type == typeof(AbyssalRiver) && (canonical.DynamicVars.Damage.BaseValue != 7
-        || canonical.MaxUpgradeLevel != 0 || mutable.IsUpgradable || copy.IsUpgraded
+    if (type == typeof(AbyssalRiver) && (canonical.DynamicVars.Damage.BaseValue != 5
+        || copy.DynamicVars.Damage.BaseValue != 7 || !copy.IsUpgraded
         || canonical.EnergyCost.GetWithModifiers(CostModifiers.All) != 0 || canonical.Rarity != CardRarity.Rare || canonical.Type != CardType.Attack))
         throw new Exception("Native Abyssal River metadata failed");
     if (type == typeof(StellarSea)) {
         for (int i = 1; i < 5; i++) { mutable.UpgradeInternal(); mutable.FinalizeUpgradeInternal(); }
         var save = mutable.ToSerializable();
         var restored = CardModel.FromSerializable(save);
-        if (canonical.MaxUpgradeLevel != int.MaxValue || canonical.DynamicVars.Damage.BaseValue != 10
+        if (canonical.CanBeGeneratedInCombat || canonical.Rarity != CardRarity.Token || canonical.MaxUpgradeLevel != int.MaxValue || canonical.DynamicVars.Damage.BaseValue != 10
             || mutable.CurrentUpgradeLevel != 5 || mutable.DynamicVars.Damage.BaseValue != 20
             || restored.CurrentUpgradeLevel != 5 || restored.DynamicVars.Damage.BaseValue != 20
             || restored.EnergyCost.GetWithModifiers(CostModifiers.All) != 1)
             throw new Exception("Native Stellar Sea repeated upgrade / SerializableCard restoration failed");
     }
+    if (type == typeof(SeekingStrike) && (canonical.Type != CardType.Attack || canonical.Rarity != CardRarity.Uncommon
+        || canonical.DynamicVars.Damage.BaseValue != 10 || copy.DynamicVars.Damage.BaseValue != 12
+        || canonical.DynamicVars.Cards.IntValue != 1 || copy.DynamicVars.Cards.IntValue != 2
+        || canonical.EnergyCost.GetWithModifiers(CostModifiers.All) != 1))
+        throw new Exception("Native Seeking Strike specification failed");
+    if (type == typeof(BondingAnhydride) && (canonical.Type != CardType.Skill || canonical.Rarity != CardRarity.Uncommon
+        || canonical.EnergyCost.GetWithModifiers(CostModifiers.All) != 2 || canonical.MaxUpgradeLevel != 0))
+        throw new Exception("Native Bonding Anhydride specification failed");
+    if (type == typeof(Proliferation) && (canonical.Type != CardType.Power || canonical.Rarity != CardRarity.Rare
+        || canonical.EnergyCost.GetWithModifiers(CostModifiers.All) != 0 || canonical.Keywords.Contains(CardKeyword.Innate)
+        || !copy.Keywords.Contains(CardKeyword.Innate)))
+        throw new Exception("Native Proliferation upgrade failed");
     if (mutable is CrystallizationCard crystal) {
         crystal.AddCrystalDoom(3); crystal.AddCrystalDoom(4);
+        crystal.AddCrystalDraw(2); crystal.AddCrystalExtension(1);
         var crystalCopy = (CrystallizationCard)crystal.MutableClone();
         crystalCopy.AddCrystalDoom(4);
+        crystalCopy.AddCrystalDraw(1); crystalCopy.AddCrystalExtension(1);
         if (crystal.CrystalDoomAmount != 7 || crystalCopy.CrystalDoomAmount != 11
             || crystal.TargetType != TargetType.AnyEnemy || canonical.TargetType != TargetType.Self
-            || ((CrystallizationCard)canonical).CrystalDoomAmount != 0)
+            || ((CrystallizationCard)canonical).CrystalDoomAmount != 0
+            || crystalCopy.CrystalDrawAmount != 3 || crystal.CrystalDrawAmount != 2
+            || crystalCopy.CrystalExtensionAmount != 2 || crystal.CrystalExtensionAmount != 1)
             throw new Exception("Native Crystal Doom clone/canonical isolation failed: " + type.Name);
         var properties = SavedProperties.From(crystal)!;
         if (properties.ints?.SingleOrDefault(p => p.name == nameof(CrystallizationCard.CrystalDoomAmount)).value != 7)
@@ -147,11 +178,18 @@ foreach (Type type in cardTypes)
         var restoredProperties = JsonSerializer.Deserialize<SavedProperties>(savedJson, jsonOptions)!;
         var restored = (CrystallizationCard)canonical.ToMutable();
         restoredProperties.Fill(restored);
-        if (restored.CrystalDoomAmount != 7 || restored.TargetType != TargetType.AnyEnemy)
+        if (restored.CrystalDoomAmount != 7 || restored.TargetType != TargetType.AnyEnemy
+            || restored.CrystalDrawAmount != 2 || restored.CrystalExtensionAmount != 1
+            || !restored.Keywords.Contains(IndiumStarKeywords.ExtensionKeyword))
             throw new Exception("Native Crystal Doom JSON property roundtrip failed: " + type.Name);
     }
     rows.Add(new { type = type.Name, id = canonical.Id.Entry, upgraded, mutable_clone = "pass",
-        card_type = canonical.Type.ToString(), rarity = canonical.Rarity.ToString() });
+        card_type = canonical.Type.ToString(), rarity = canonical.Rarity.ToString(),
+        base_cost = canonical.EnergyCost.GetWithModifiers(CostModifiers.All),
+        upgraded_cost = copy.EnergyCost.GetWithModifiers(CostModifiers.All),
+        base_keywords = canonical.Keywords.Select(k => k.ToString()).ToArray(),
+        upgraded_keywords = copy.Keywords.Select(k => k.ToString()).ToArray(),
+        legacy_compatibility = type == typeof(StellarSea) });
     passed++;
 }
 var macro = (MacroDendrite)ModelDb.GetById<CardModel>(ModelDb.GetId(typeof(MacroDendrite))).MutableClone();
@@ -166,13 +204,15 @@ foreach (string language in new[] { "eng", "zhs" }) {
         string suffix = description[description.IndexOf("{CrystalDoomActive:cond:", StringComparison.Ordinal)..];
         foreach (bool active in new[] { false, true }) {
             var crystal = (CrystallizationCard)ModelDb.GetById<CardModel>(ModelDb.GetId(crystalType)).ToMutable();
-            if (active) crystal.AddCrystalDoom(7);
+            if (active) { crystal.AddCrystalDoom(7); crystal.AddCrystalDraw(3); crystal.AddCrystalExtension(2); }
             var argsForDescription = new MegaCrit.Sts2.Core.Localization.LocString("cards", "probe");
             typeof(CrystallizationCard).GetMethod("AddExtraArgsToDescription", BindingFlags.Instance | BindingFlags.NonPublic)!
                 .Invoke(crystal, new object[] { argsForDescription });
             var vars = argsForDescription.Variables.ToDictionary(p => p.Key, p => p.Value);
             string text = formatter.Format(suffix, vars);
-            if (active ? !text.Contains("7") || !text.Contains(language == "eng" ? "Demise" : "消亡") : text != "")
+            if (active ? !text.Contains("7") || !text.Contains(language == "eng" ? "Demise" : "消亡")
+                || !text.Contains(language == "eng" ? "Draw 3" : "抽3")
+                || !text.Contains(language == "eng" ? "Extension" : "延拓") : text != "")
                 throw new Exception("Native crystal conditional description failed: " + crystalType.Name + " / " + language);
         }
         doomDescriptions++;
@@ -198,6 +238,59 @@ var coinCopy = (CrystalCoin)coin.MutableClone();
 if ((int)decay.GetValue(coinCopy)! != 4) throw new Exception("Native coin clone did not inherit decay");
 decay.SetValue(coinCopy, 5);
 if ((int)decay.GetValue(coin)! != 4) throw new Exception("Native coin clone decay not independent");
+var coinRestored = (CrystalCoin)ModelDb.Card<CrystalCoin>().ToMutable();
+JsonSerializer.Deserialize<SavedProperties>(JsonSerializer.Serialize(SavedProperties.From(coin),
+    new JsonSerializerOptions { IncludeFields = true }), new JsonSerializerOptions { IncludeFields = true })!.Fill(coinRestored);
+if (coinRestored.CrystalCoinPlaysThisRun != 4) throw new Exception("Native coin counter JSON restore failed");
+var coinProperties = SavedProperties.From(coin)!;
+coinProperties.Serialize(new PacketWriter { WarnOnGrow = false });
+foreach (var model in new CardModel[] { ModelDb.Card<StrikeIronclad>().ToMutable(), macro }) {
+    var properties = SavedProperties.From(model);
+    if (properties?.ints?.Any(p => p.name == nameof(CrystalCoin.CrystalCoinPlaysThisRun)
+        || p.name == CrystalCoinSaveCompatibility.LegacyProperty) == true)
+        throw new Exception("Coin counter leaked onto another card model");
+}
+var legacyCoin = new SerializableCard { Id = ModelDb.GetId(typeof(CrystalCoin)),
+    Props = new SavedProperties { ints = [new(CrystalCoinSaveCompatibility.LegacyProperty, 4)] } };
+var migratedCoin = (CrystalCoin)CardModel.FromSerializable(legacyCoin);
+if (migratedCoin.CrystalCoinPlaysThisRun != 4
+    || legacyCoin.Props.ints!.Any(p => p.name == CrystalCoinSaveCompatibility.LegacyProperty))
+    throw new Exception("Legacy true coin counter was lost during native FromSerializable");
+var legacyHistory = new SerializableCard { Id = ModelDb.GetId(typeof(StrikeIronclad)),
+    Props = new SavedProperties { ints = [new(CrystalCoinSaveCompatibility.LegacyProperty, 0)] } };
+CrystalCoinReplayCompatibilityPatch.Prefix(legacyHistory);
+legacyHistory.Props.Serialize(new PacketWriter { WarnOnGrow = false });
+if (legacyHistory.Props.ints!.Count != 0) throw new Exception("Legacy vanilla history counter not cleaned");
+int originalSaveRejected = 0, cleanedSaveSerialized = 0;
+if (args.Length >= 4) {
+    IEnumerable<JsonObject> CardProperties(JsonNode? node) {
+        if (node is JsonObject obj) {
+            if (obj["id"] is JsonValue idValue && idValue.TryGetValue<string>(out var id)
+                && id.StartsWith("CARD.") && obj["props"] is JsonObject props)
+                yield return props;
+            foreach (var pair in obj) foreach (var nested in CardProperties(pair.Value)) yield return nested;
+        } else if (node is JsonArray array) {
+            foreach (var child in array) foreach (var nested in CardProperties(child)) yield return nested;
+        }
+    }
+    foreach (var props in CardProperties(JsonNode.Parse(File.ReadAllText(args[2])))) {
+        if (!props.ToJsonString().Contains(CrystalCoinSaveCompatibility.LegacyProperty)) continue;
+        try {
+            JsonSerializer.Deserialize<SavedProperties>(props.ToJsonString(), new JsonSerializerOptions { IncludeFields = true })!
+                .Serialize(new PacketWriter { WarnOnGrow = false });
+            throw new Exception("Original contaminated card properties unexpectedly serialized");
+        } catch (ArgumentException ex) when (ex.Message.Contains(CrystalCoinSaveCompatibility.LegacyProperty)) {
+            originalSaveRejected++;
+        }
+    }
+    foreach (var props in CardProperties(JsonNode.Parse(File.ReadAllText(args[3])))) {
+        JsonSerializer.Deserialize<SavedProperties>(props.ToJsonString(), new JsonSerializerOptions { IncludeFields = true })!
+            .Serialize(new PacketWriter { WarnOnGrow = false });
+        cleanedSaveSerialized++;
+    }
+    if (originalSaveRejected != 17 || cleanedSaveSerialized < 17)
+        throw new Exception("Actual contaminated/cleaned save packet checks did not cover all 17 entries");
+}
 macro.DynamicVars.Damage.BaseValue += 2;
 var macroCopy = (MacroDendrite)macro.MutableClone();
 macroCopy.DynamicVars.Damage.BaseValue++;
@@ -296,11 +389,14 @@ File.WriteAllText(args[0], JsonSerializer.Serialize(new {
     electron_expiry_state = "pass; both hidden Buff markers preserve inherited TemporaryAmount/AppliedTurn through native SavedProperties JSON -> Fill; no full combat save",
     scope = "Actual game DLL managed TestMode: model constructors/upgrades/MutableClone/Harmony, per-card SavedProperties JSON and conditional description formatting; keyword and serialization-cache readiness seeded without full registry/startup; no live combat, Godot UI, CreateClone card-scope path, full combat save or multiplayer negotiation",
     generated_at_utc = DateTime.UtcNow, passed, macro_independence = "pass", co_u_clone_marks = "pass",
+    legacy_stellar_sea = "pass; native pool AllCards excludes legacy model from complete seeded candidate cache; model remains addressable with explicit visual pool, no random combat generation; old SerializableCard restores five upgrades. No full mod startup.",
     starter_relic = "pass; DefectiveCrystalCell: starter metadata, Energy=1, independent clone, SavedProperties JSON -> Fill and new combat reset; no full run save",
     remaining_x_cards = "pass; native X metadata/upgrade; two powers' independent array clone and SavedProperties JSON -> Fill; no native live turn loop",
-    coin_decay_clone = "pass; actual SavedAttachedState and patched MutableClone; no save roundtrip",
+    coin_decay_clone = "pass; native per-CrystalCoin SavedProperty, independent MutableClone, SavedProperties JSON -> Fill and actual packet Serialize; no counter on vanilla Strike or other card; old coin counter migrated by patched FromSerializable",
+    legacy_coin_save_repair = new { original_properties_rejected = originalSaveRejected, cleaned_properties_serialized = cleanedSaveSerialized,
+        scope = "actual SavedProperties.Serialize from copied user run; no complete CombatReplay.WriteReplay or live reward UI" },
     derived_neutron_cost_filter = "pass; actual local cost modifiers, increased/reduced current cost, Unplayable and X exclusion; global combat hooks not invoked",
-    crystal_doom_state = "pass; all 6 crystal variants inherit SavedProperty; actual SavedProperties -> JSON -> Fill; target change, canonical isolation and independent MutableClone; no full combat/run save",
+    crystal_doom_state = "pass; all 6 crystal variants inherit Demise/Draw/Extension SavedProperties; actual SavedProperties -> JSON -> Fill; target change, extension keyword, canonical isolation and independent MutableClone; no full combat/run save",
     crystal_doom_descriptions = new { passed = doomDescriptions, scope = "actual card AddExtraArgsToDescription and game SmartFormat ConditionalFormatter, 6 variants x 2 languages, inactive hidden / active numeric text; no Godot card UI" },
     replay_patch = new { status = "pass", target = replayTarget.DeclaringType!.FullName,
         state_machine_is_value_type = replayTarget.DeclaringType.IsValueType,

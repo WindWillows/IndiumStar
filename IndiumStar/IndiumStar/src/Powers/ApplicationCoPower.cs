@@ -78,6 +78,8 @@ public sealed class ApplicationCoPower : ModPowerTemplate
         if (count > 0) CrystallizeMarks.Set(copy, count);
     }
 
+    public static bool HasMark(CardModel card) => CrystallizeMarks.GetValueOrDefault(card, 0) > 0;
+
     /// <summary>那张牌被打出时，结算「晶化 N」。</summary>
     public override async Task BeforeCardPlayed(CardPlay cardPlay)
     {
